@@ -35,6 +35,14 @@ Progress tracking for every phase and lesson.
 | 08 | Optimization — Gradient Descent Family | ✅ |
 | 09 | Information Theory — Entropy, KL Divergence | ✅ |
 | 10 | Dimensionality Reduction — PCA, t-SNE, UMAP | ✅ |
+| 11 | Singular Value Decomposition | ✅ |
+| 12 | Tensor Operations | ✅ |
+| 13 | Numerical Stability | ✅ |
+| 14 | Norms & Distances | ✅ |
+| 15 | Statistics for ML | ✅ |
+| 16 | Sampling Methods | ✅ |
+| 17 | Linear Systems | ✅ |
+| 18 | Convex Optimization | ✅ |
 
 ## Phase 2: ML Fundamentals — ⬚
 
@@ -350,6 +358,6 @@ Progress tracking for every phase and lesson.
 
 ---
 
-**Total: 20 phases, 210+ lessons | 27 complete**
+**Total: 20 phases, 220+ lessons | 35 complete**
 
 Want to help? Pick any ⬚ lesson and submit a PR. See [CONTRIBUTING.md](CONTRIBUTING.md).

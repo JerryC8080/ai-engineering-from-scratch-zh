@@ -62,7 +62,7 @@ You learn AI. You build real things. You ship tools others can use.
 </table>
 
 <details>
-<summary><strong>Phase 1: Math Foundations</strong> <code>10 lessons</code> &nbsp; <em>The intuition behind every AI algorithm, through code.</em></summary>
+<summary><strong>Phase 1: Math Foundations</strong> <code>18 lessons</code> &nbsp; <em>The intuition behind every AI algorithm, through code.</em></summary>
 
 | # | Lesson | Type | Lang |
 |:---:|--------|:----:|------|
@@ -76,6 +76,14 @@ You learn AI. You build real things. You ship tools others can use.
 | 08 | [Optimization: Gradient Descent Family](phases/01-math-foundations/08-optimization/) | Build | Python |
 | 09 | [Information Theory: Entropy, KL Divergence](phases/01-math-foundations/09-information-theory/) | Learn | Python |
 | 10 | [Dimensionality Reduction: PCA, t-SNE, UMAP](phases/01-math-foundations/10-dimensionality-reduction/) | Build | Python |
+| 11 | [Singular Value Decomposition](phases/01-math-foundations/11-singular-value-decomposition/) | Build | Python, Julia |
+| 12 | [Tensor Operations](phases/01-math-foundations/12-tensor-operations/) | Build | Python |
+| 13 | [Numerical Stability](phases/01-math-foundations/13-numerical-stability/) | Build | Python |
+| 14 | [Norms & Distances](phases/01-math-foundations/14-norms-and-distances/) | Build | Python |
+| 15 | [Statistics for ML](phases/01-math-foundations/15-statistics-for-ml/) | Build | Python |
+| 16 | [Sampling Methods](phases/01-math-foundations/16-sampling-methods/) | Build | Python |
+| 17 | [Linear Systems](phases/01-math-foundations/17-linear-systems/) | Build | Python |
+| 18 | [Convex Optimization](phases/01-math-foundations/18-convex-optimization/) | Build | Python |
 
 </details>
 
