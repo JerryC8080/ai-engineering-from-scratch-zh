@@ -92,19 +92,19 @@ You learn AI. You build real things. You ship tools others can use.
 
 | # | Lesson | Type | Lang |
 |:---:|--------|:----:|------|
-| 01 | What Is Machine Learning: Types & Taxonomy | Learn | -- |
-| 02 | Linear Regression from Scratch | Build | Python |
-| 03 | Logistic Regression & Classification | Build | Python |
-| 04 | Decision Trees & Random Forests | Build | Python |
-| 05 | Support Vector Machines | Build | Python |
-| 06 | K-Nearest Neighbors & Distance Metrics | Build | Python |
-| 07 | Unsupervised Learning -K-Means, DBSCAN | Build | Python |
-| 08 | Feature Engineering & Selection | Build | Python |
-| 09 | Model Evaluation -Metrics, Cross-Validation | Build | Python |
-| 10 | Bias, Variance & the Learning Curve | Learn | Python |
-| 11 | Ensemble Methods: Boosting, Bagging, Stacking | Build | Python |
-| 12 | Hyperparameter Tuning & AutoML | Build | Python |
-| 13 | ML Pipelines & Experiment Tracking | Build | Python |
+| 01 | [What Is Machine Learning](phases/02-ml-fundamentals/01-what-is-machine-learning/) | Learn | -- |
+| 02 | [Linear Regression from Scratch](phases/02-ml-fundamentals/02-linear-regression/) | Build | Python |
+| 03 | [Logistic Regression & Classification](phases/02-ml-fundamentals/03-logistic-regression/) | Build | Python |
+| 04 | [Decision Trees & Random Forests](phases/02-ml-fundamentals/04-decision-trees/) | Build | Python |
+| 05 | [Support Vector Machines](phases/02-ml-fundamentals/05-support-vector-machines/) | Build | Python |
+| 06 | [KNN & Distance Metrics](phases/02-ml-fundamentals/06-knn-and-distances/) | Build | Python |
+| 07 | [Unsupervised Learning: K-Means, DBSCAN](phases/02-ml-fundamentals/07-unsupervised-learning/) | Build | Python |
+| 08 | [Feature Engineering & Selection](phases/02-ml-fundamentals/08-feature-engineering/) | Build | Python |
+| 09 | [Model Evaluation: Metrics, Cross-Validation](phases/02-ml-fundamentals/09-model-evaluation/) | Build | Python |
+| 10 | [Bias, Variance & the Learning Curve](phases/02-ml-fundamentals/10-bias-variance/) | Learn | Python |
+| 11 | [Ensemble Methods: Boosting, Bagging, Stacking](phases/02-ml-fundamentals/11-ensemble-methods/) | Build | Python |
+| 12 | [Hyperparameter Tuning](phases/02-ml-fundamentals/12-hyperparameter-tuning/) | Build | Python |
+| 13 | [ML Pipelines & Experiment Tracking](phases/02-ml-fundamentals/13-ml-pipelines/) | Build | Python |
 
 </details>
 

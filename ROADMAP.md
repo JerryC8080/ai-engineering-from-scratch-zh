@@ -44,23 +44,23 @@ Progress tracking for every phase and lesson.
 | 17 | Linear Systems | ✅ |
 | 18 | Convex Optimization | ✅ |
 
-## Phase 2: ML Fundamentals — ⬚
+## Phase 2: ML Fundamentals — ✅
 
 | # | Lesson | Status |
 |---|--------|--------|
-| 01 | What Is Machine Learning — Types & Taxonomy | ⬚ |
-| 02 | Linear Regression from Scratch | ⬚ |
-| 03 | Logistic Regression & Classification | ⬚ |
-| 04 | Decision Trees & Random Forests | ⬚ |
-| 05 | Support Vector Machines | ⬚ |
-| 06 | K-Nearest Neighbors & Distance Metrics | ⬚ |
-| 07 | Unsupervised Learning — K-Means, DBSCAN | ⬚ |
-| 08 | Feature Engineering & Selection | ⬚ |
-| 09 | Model Evaluation — Metrics, Cross-Validation | ⬚ |
-| 10 | Bias, Variance & the Learning Curve | ⬚ |
-| 11 | Ensemble Methods — Boosting, Bagging, Stacking | ⬚ |
-| 12 | Hyperparameter Tuning & AutoML | ⬚ |
-| 13 | ML Pipelines & Experiment Tracking | ⬚ |
+| 01 | What Is Machine Learning — Types & Taxonomy | ✅ |
+| 02 | Linear Regression from Scratch | ✅ |
+| 03 | Logistic Regression & Classification | ✅ |
+| 04 | Decision Trees & Random Forests | ✅ |
+| 05 | Support Vector Machines | ✅ |
+| 06 | K-Nearest Neighbors & Distance Metrics | ✅ |
+| 07 | Unsupervised Learning — K-Means, DBSCAN | ✅ |
+| 08 | Feature Engineering & Selection | ✅ |
+| 09 | Model Evaluation — Metrics, Cross-Validation | ✅ |
+| 10 | Bias, Variance & the Learning Curve | ✅ |
+| 11 | Ensemble Methods — Boosting, Bagging, Stacking | ✅ |
+| 12 | Hyperparameter Tuning & AutoML | ✅ |
+| 13 | ML Pipelines & Experiment Tracking | ✅ |
 
 ## Phase 3: Deep Learning Core — 🚧
 
@@ -358,6 +358,6 @@ Progress tracking for every phase and lesson.
 
 ---
 
-**Total: 20 phases, 220+ lessons | 35 complete**
+**Total: 20 phases, 220+ lessons | 48 complete**
 
 Want to help? Pick any ⬚ lesson and submit a PR. See [CONTRIBUTING.md](CONTRIBUTING.md).
