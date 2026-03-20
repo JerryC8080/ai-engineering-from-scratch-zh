@@ -353,7 +353,7 @@ if __name__ == "__main__":
     print(f"    Joint entropy H(X,Y):     {joint_entropy(joint_indep):.4f} bits")
     print(f"    Conditional H(Y|X):       {conditional_entropy(joint_indep):.4f} bits")
     print(f"    Mutual information I(X;Y):{mutual_information(joint_indep):.4f} bits")
-    print(f"    When independent: H(Y|X) = H(Y) and I(X;Y) = 0")
+    print("    When independent: H(Y|X) = H(Y) and I(X;Y) = 0")
 
     label_smoothing_demo()
     feature_selection_mi_demo()

@@ -258,9 +258,8 @@ def demo_learning_curves():
                     test_pred = predict_polynomial(x_test, w)
                     train_mse = np.mean((train_pred - y_train) ** 2)
                     test_mse = np.mean((test_pred - y_test) ** 2)
-                    if test_mse < 1000:
-                        train_errors.append(train_mse)
-                        test_errors.append(test_mse)
+                    train_errors.append(train_mse)
+                    test_errors.append(test_mse)
                 except (np.linalg.LinAlgError, ValueError):
                     continue
 

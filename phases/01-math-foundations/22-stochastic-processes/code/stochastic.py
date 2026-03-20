@@ -47,8 +47,11 @@ class MarkovChain:
         eigenvalues, eigenvectors = np.linalg.eig(self.P.T)
         idx = np.argmin(np.abs(eigenvalues - 1.0))
         stationary = np.real(eigenvectors[:, idx])
-        stationary = stationary / stationary.sum()
-        return np.abs(stationary)
+        stationary = np.clip(stationary, 0, None)
+        total = stationary.sum()
+        if total > 0:
+            stationary = stationary / total
+        return stationary
 
     def empirical_distribution(self, states):
         counts = np.zeros(self.n_states)
@@ -69,6 +72,8 @@ def langevin_dynamics(grad_U, x0, dt, temperature, n_steps, seed=None):
 
 
 def metropolis_hastings(target_log_prob, proposal_std, x0, n_samples, seed=None):
+    if n_samples < 1:
+        raise ValueError("n_samples must be at least 1")
     rng = np.random.RandomState(seed)
     x = np.array(x0, dtype=float)
     samples = [x.copy()]
@@ -206,7 +211,7 @@ def demo_metropolis_hastings():
     )
 
     samples_flat = samples[10000:, 0]
-    print(f"\nBimodal target: mixture of N(-3,1) and N(+3,1)")
+    print("\nBimodal target: mixture of N(-3,1) and N(+3,1)")
     print(f"Acceptance rate: {acc_rate:.2%}")
     print(f"Sample mean: {samples_flat.mean():.4f} (expected ~0.0)")
     print(f"Sample std:  {samples_flat.std():.4f}")

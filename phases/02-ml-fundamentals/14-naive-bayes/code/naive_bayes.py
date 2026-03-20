@@ -9,6 +9,8 @@ class MultinomialNB:
         self.feature_log_prob_ = None
 
     def fit(self, X, y):
+        if np.any(X < 0):
+            raise ValueError("MultinomialNB requires non-negative feature values")
         self.classes_ = np.unique(y)
         n_classes = len(self.classes_)
         n_features = X.shape[1]

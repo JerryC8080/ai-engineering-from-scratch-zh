@@ -259,22 +259,29 @@ if __name__ == "__main__":
     print(f"Feature groups: 5 informative, 5 correlated, 10 noise")
     print(f"Target: binary classification (y=1: {np.sum(y)}, y=0: {np.sum(y==0)})")
 
-    mean = X.mean(axis=0)
-    std = X.std(axis=0)
+    n = len(y)
+    split = int(0.8 * n)
+    X_train, X_test = X[:split], X[split:]
+    y_train, y_test = y[:split], y[split:]
+
+    mean = X_train.mean(axis=0)
+    std = X_train.std(axis=0)
     std[std == 0] = 1.0
-    X_scaled = (X - mean) / std
+    X_scaled_train = (X_train - mean) / std
+    X_scaled_test = (X_test - mean) / std
+    X_scaled = np.vstack([X_scaled_train, X_scaled_test])
 
     print("\n" + "-" * 60)
     print("1. VARIANCE THRESHOLD")
     print("-" * 60)
-    var_mask, variances = variance_threshold(X, threshold=0.01)
+    var_mask, variances = variance_threshold(X_train, threshold=0.01)
     print(f"  Threshold: 0.01, surviving: {np.sum(var_mask)} / {len(var_mask)}")
     print_feature_scores(feature_names, variances, "Variances", top_k=10)
 
     print("\n" + "-" * 60)
     print("2. MUTUAL INFORMATION")
     print("-" * 60)
-    mi_scores = mutual_information(X, y, n_bins=10)
+    mi_scores = mutual_information(X_train, y_train, n_bins=10)
     print_feature_scores(feature_names, mi_scores, "MI scores (top 10)", top_k=10)
     mi_selected = np.zeros(len(feature_names), dtype=bool)
     mi_selected[np.argsort(mi_scores)[-5:]] = True
@@ -282,7 +289,7 @@ if __name__ == "__main__":
     print("\n" + "-" * 60)
     print("3. RECURSIVE FEATURE ELIMINATION (RFE)")
     print("-" * 60)
-    rfe_mask, rfe_rankings = rfe(X_scaled, y, n_features_to_select=5, lr=0.1, epochs=200)
+    rfe_mask, rfe_rankings = rfe(X_scaled_train, y_train, n_features_to_select=5, lr=0.1, epochs=200)
     print(f"  Selected: {[feature_names[i] for i in range(len(feature_names)) if rfe_mask[i]]}")
     for idx, rank in sorted(enumerate(rfe_rankings), key=lambda x: x[1]):
         print(f"    Rank {rank:>2}: {feature_names[idx]:<12} [{feature_group(feature_names[idx])}]")
@@ -290,7 +297,7 @@ if __name__ == "__main__":
     print("\n" + "-" * 60)
     print("4. L1 (LASSO) FEATURE SELECTION")
     print("-" * 60)
-    l1_mask, l1_weights = l1_feature_selection(X_scaled, y, alpha=0.05, lr=0.01, epochs=1000)
+    l1_mask, l1_weights = l1_feature_selection(X_scaled_train, y_train, alpha=0.05, lr=0.01, epochs=1000)
     print(f"  Nonzero weights: {np.sum(l1_mask)}")
     print(f"  Selected: {[feature_names[i] for i in range(len(feature_names)) if l1_mask[i]]}")
     print_feature_scores(feature_names, np.abs(l1_weights), "|Weights| (top 10)", top_k=10)
@@ -298,7 +305,7 @@ if __name__ == "__main__":
     print("\n" + "-" * 60)
     print("5. TREE-BASED IMPORTANCE")
     print("-" * 60)
-    tree_imp = tree_importance(X, y, n_trees=100, max_depth=6, seed=42)
+    tree_imp = tree_importance(X_train, y_train, n_trees=100, max_depth=6, seed=42)
     print_feature_scores(feature_names, tree_imp, "Importance (top 10)", top_k=10)
     tree_selected = np.zeros(len(feature_names), dtype=bool)
     tree_selected[np.argsort(tree_imp)[-5:]] = True

@@ -27,6 +27,8 @@ def iqr_detect(X, factor=1.5):
 
 def _c_factor(n):
     if n <= 1:
+        return 0.0
+    if n == 2:
         return 1.0
     h = np.log(n - 1) + 0.5772156649
     return 2.0 * h - (2.0 * (n - 1.0) / n)
@@ -119,8 +121,9 @@ class IsolationForest:
                 avg_path[i] += tree.path_length(X[i])
 
         avg_path /= self.n_estimators
-        c = _c_factor(self.max_samples)
-        scores = 2.0 ** (-avg_path / c)
+        sample_size = min(self.max_samples, self.n_train)
+        c = _c_factor(sample_size)
+        scores = 2.0 ** (-avg_path / c) if c > 0 else np.zeros(n)
 
         return scores
 
@@ -243,7 +246,7 @@ def demo_isolation_forest():
     iso.fit(X)
     scores = iso.anomaly_score(X)
 
-    print(f"Score statistics:")
+    print("Score statistics:")
     print(f"  Normal points: mean={scores[y_true == 0].mean():.4f}, std={scores[y_true == 0].std():.4f}")
     print(f"  Anomaly points: mean={scores[y_true == 1].mean():.4f}, std={scores[y_true == 1].std():.4f}")
     print()

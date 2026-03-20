@@ -77,7 +77,7 @@ In practice, the best systems combine both: unsupervised detection for broad cov
 
 The simplest approach. Compute the mean and standard deviation of each feature. Flag any point more than k standard deviations from the mean.
 
-```
+```text
 z_score = (x - mean) / std
 anomaly if |z_score| > threshold
 ```
@@ -320,7 +320,7 @@ Each demo compares all methods using precision, recall, F1, and Precision@k.
 
 ## Use It
 
-With sklearn:
+With sklearn (using library implementations, not from-scratch):
 
 ```python
 from sklearn.ensemble import IsolationForest

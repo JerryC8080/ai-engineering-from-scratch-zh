@@ -426,7 +426,7 @@ Advantages over frequentist A/B testing:
 |--------|----------------|--------------|
 | Output | p-value | P(B > A) |
 | Interpretation | "How surprising is this data if A=B?" | "How likely is B better than A?" |
-| Early stopping | Inflates false positives | Safe at any point |
+| Early stopping | Inflates false positives | Safe at any point (given a well-chosen prior and correctly specified model) |
 | Prior knowledge | Not used | Encoded as Beta prior |
 | Decision rule | p < 0.05 | P(B > A) > threshold |
 

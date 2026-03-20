@@ -451,13 +451,13 @@ This lesson produces:
 | Connected components | Preprocessing, handling disconnected graphs |
 | PageRank | Node importance ranking, attention initialization |
 
-GNNs deserve special mention. The graph convolution operation in GCN (Kipf & Welling, 2017) is:
+GNNs deserve special mention. The graph convolution operation in GCN (Kipf & Welling, 2017) uses the adjacency matrix with added self-loops, A_hat = A + I:
 
-```
-H^(l+1) = sigma(D^(-1/2) * A * D^(-1/2) * H^(l) * W^(l))
+```text
+H^(l+1) = sigma(D_hat^(-1/2) * A_hat * D_hat^(-1/2) * H^(l) * W^(l))
 ```
 
-This is exactly message passing with symmetric normalization. D^(-1/2) * A * D^(-1/2) is the normalized adjacency matrix. The Laplacian shows up because this normalization is related to L_sym = I - D^(-1/2) * A * D^(-1/2). Understanding the Laplacian means understanding why GCNs work.
+where A_hat = A + I (adjacency plus self-loops) and D_hat is the degree matrix of A_hat. The self-loops ensure each node includes its own features during aggregation. This is exactly message passing with symmetric normalization. D_hat^(-1/2) * A_hat * D_hat^(-1/2) is the normalized adjacency matrix. The Laplacian shows up because this normalization is related to L_sym = I - D^(-1/2) * A * D^(-1/2). Understanding the Laplacian means understanding why GCNs work.
 
 ## Exercises
 

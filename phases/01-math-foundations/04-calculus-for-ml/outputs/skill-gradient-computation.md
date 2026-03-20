@@ -44,7 +44,7 @@ Practical reference for computing gradients of loss functions, activation functi
 | Log-softmax | x_i - log(sum(e^(x_j))) | 1 - softmax(x_i) for the i-th entry | Numerically stable CE |
 | Linear layer | y = Wx + b | dL/dW = dL/dy * x^T, dL/db = dL/dy | Every layer |
 | L2 regularization | lambda * sum(w^2) | 2 * lambda * w | Weight decay |
-| L1 regularization | lambda * sum(|w|) | lambda * sign(w) | Sparsity |
+| L1 regularization | lambda * sum(\|w\|) | lambda * sign(w) | Sparsity |
 
 ## Common mistakes
 

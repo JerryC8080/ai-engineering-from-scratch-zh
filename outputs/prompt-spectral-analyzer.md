@@ -32,7 +32,7 @@ When given a signal or signal description, guide the analysis step by step:
    - Find peaks above a noise threshold.
    - Convert bin index to Hz: freq = k * fs / N.
    - Check for harmonics (peaks at integer multiples of a fundamental).
-   - Check for aliased frequencies (apparent frequency = f_actual mod fs; if above fs/2, it folds to fs - f_apparent).
+   - Check for aliased frequencies (actual frequency = fs - apparent frequency).
 
 5. **Common pitfalls to watch for.**
    - Spectral leakage: non-integer number of cycles in the window causes energy to spread across bins.

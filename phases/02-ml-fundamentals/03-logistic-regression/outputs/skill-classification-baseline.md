@@ -38,7 +38,7 @@ Before trying complex models, establish a baseline with logistic regression. It 
 
 - Binary classification with mostly linear feature relationships
 - You need probability outputs (not just class labels)
-- Interpretability is required (coefficients map directly to feature importance)
+- Interpretability is required (coefficients indicate feature importance direction and relative magnitude after standardization)
 - Training data is small (hundreds to low thousands of samples)
 - You need a fast model for real-time serving (single dot product at inference)
 - Regulatory or compliance requirements demand explainability
@@ -55,7 +55,7 @@ Before trying complex models, establish a baseline with logistic regression. It 
 
 1. **Train/test split** first, before any preprocessing. This prevents data leakage.
 2. **Handle missing values**: median impute numeric, mode impute categorical.
-3. **Encode categoricals**: one-hot for low cardinality (under 10 values), target encoding for higher.
+3. **Encode categoricals**: one-hot for low cardinality (under 10 values), target encoding for higher. Fit target encoding only on training folds (use out-of-fold encoding to prevent leakage).
 4. **Scale numerics**: StandardScaler (zero mean, unit variance). Fit on train, transform both.
 5. **Fit logistic regression** with `C=1.0` (default regularization).
 6. **Evaluate**: confusion matrix, precision, recall, F1. Not just accuracy.

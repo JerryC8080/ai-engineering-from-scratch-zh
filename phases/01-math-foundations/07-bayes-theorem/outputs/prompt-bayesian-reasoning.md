@@ -35,7 +35,7 @@ Use this decision framework for common pitfalls:
 | Base rate neglect | Is P(H) very small (< 0.01)? If so, even strong evidence may not overcome a rare prior. |
 | Confusing P(E given H) with P(H given E) | These are different quantities. A test being 99% accurate does NOT mean a positive result means 99% chance of disease. |
 | Forgetting to expand P(E) | P(E) must account for ALL ways E can occur, including false positives from not-H. |
-| Not updating sequentially | When there are multiple pieces of evidence, use the posterior from step 1 as the prior for step 2. |
+| Not updating sequentially | When there are multiple pieces of evidence, use the posterior from the first update as the prior for the next update. |
 
 For multi-step updates (e.g., two positive tests):
 - First update: P(H|E1) = P(E1|H) * P(H) / P(E1)

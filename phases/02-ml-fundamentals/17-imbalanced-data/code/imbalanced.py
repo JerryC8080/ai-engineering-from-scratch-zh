@@ -30,6 +30,8 @@ def smote(X_minority, k=5, n_synthetic=100, seed=42):
     rng = np.random.RandomState(seed)
     n_samples = len(X_minority)
     k = min(k, n_samples - 1)
+    if k < 1:
+        raise ValueError("SMOTE requires at least 2 minority samples")
     synthetic = []
 
     for _ in range(n_synthetic):
@@ -302,8 +304,14 @@ if __name__ == "__main__":
     print("\n" + "-" * 60)
     print("7. THRESHOLD TUNING (on class-weighted model)")
     print("-" * 60)
-    best_thresh, best_f1 = find_optimal_threshold(y_test, probs_cw, metric="f1")
-    print(f"  Optimal threshold: {best_thresh:.2f} (F1: {best_f1:.4f})")
+    val_split = int(0.75 * len(y_train))
+    X_tr, X_val = X_train[:val_split], X_train[val_split:]
+    y_tr, y_val = y_train[:val_split], y_train[val_split:]
+    val_weights = compute_class_weights(y_tr)
+    w_val, b_val = logistic_regression_weighted(X_tr, y_tr, val_weights, lr=0.1, epochs=300)
+    probs_val = sigmoid(X_val @ w_val + b_val)
+    best_thresh, best_f1 = find_optimal_threshold(y_val, probs_val, metric="f1")
+    print(f"  Optimal threshold: {best_thresh:.2f} (F1 on val: {best_f1:.4f})")
     preds_thresh = (probs_cw >= best_thresh).astype(int)
     metrics_thresh = compute_metrics(y_test, preds_thresh)
     print_confusion_matrix(y_test, preds_thresh, f"Threshold = {best_thresh:.2f}:")

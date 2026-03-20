@@ -43,10 +43,11 @@ def train_test_split(X, y, test_fraction=0.3, seed=42):
     return X[idx[:split]], X[idx[split:]], y[idx[:split]], y[idx[split:]]
 
 
-def random_baseline(y_test, seed=42):
+def random_baseline(y_train, y_test, seed=42):
     rng = np.random.RandomState(seed)
-    classes = np.unique(y_test)
-    preds = rng.choice(classes, size=len(y_test))
+    classes, counts = np.unique(y_train, return_counts=True)
+    probs = counts / counts.sum()
+    preds = rng.choice(classes, size=len(y_test), p=probs)
     return np.mean(preds == y_test)
 
 
@@ -85,7 +86,7 @@ def demo_nearest_centroid():
     print("-" * 50)
     print(f"{'Nearest Centroid':<25} {train_acc:>10.3f} {test_acc:>10.3f}")
 
-    rand_acc = random_baseline(y_test)
+    rand_acc = random_baseline(y_train, y_test)
     print(f"{'Random Baseline':<25} {'--':>10} {rand_acc:>10.3f}")
 
     maj_acc = majority_baseline(y_train, y_test)
@@ -117,7 +118,7 @@ def demo_varying_difficulty():
 
         train_acc = clf.score(X_train, y_train)
         test_acc = clf.score(X_test, y_test)
-        rand_acc = random_baseline(y_test)
+        rand_acc = random_baseline(y_train, y_test)
 
         print(f"{sep:>12.1f} {train_acc:>10.3f} {test_acc:>10.3f} {rand_acc:>10.3f}")
 
@@ -183,7 +184,7 @@ def demo_multiclass():
         print(f"  Class {c}: [{clf.centroids[i][0]:.3f}, {clf.centroids[i][1]:.3f}]")
     print()
     print(f"Test accuracy: {clf.score(X_test, y_test):.3f}")
-    print(f"Random baseline (1/3): {random_baseline(y_test):.3f}")
+    print(f"Random baseline (1/3): {random_baseline(y_train, y_test):.3f}")
 
 
 if __name__ == "__main__":

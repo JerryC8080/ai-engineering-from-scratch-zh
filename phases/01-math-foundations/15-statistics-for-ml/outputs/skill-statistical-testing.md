@@ -22,7 +22,7 @@ How to pick the right test when comparing models, running A/B experiments, or va
 
 ## Decision tree
 
-```
+```text
 Comparing means?
   Two groups?
     Paired (same data splits)? --> Paired t-test (or Wilcoxon signed-rank if non-normal)

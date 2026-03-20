@@ -254,7 +254,7 @@ def demo_kernel_pca():
     outer_range_linear = (X_linear[labels == 1].min(), X_linear[labels == 1].max())
 
     print(f"\n  Data: {n_per_ring} points per ring, 2 concentric circles")
-    print(f"\n  Linear PCA (1 component):")
+    print("\n  Linear PCA (1 component):")
     print(f"    Inner ring range: [{inner_range_linear[0]:.2f}, {inner_range_linear[1]:.2f}]")
     print(f"    Outer ring range: [{outer_range_linear[0]:.2f}, {outer_range_linear[1]:.2f}]")
     overlap = inner_range_linear[1] > outer_range_linear[0] and outer_range_linear[1] > inner_range_linear[0]
@@ -266,11 +266,11 @@ def demo_kernel_pca():
     outer_mean = X_kpca[labels == 1, 0].mean()
     separation = abs(outer_mean - inner_mean)
 
-    print(f"\n  Kernel PCA (RBF, gamma=0.5, 2 components):")
+    print("\n  Kernel PCA (RBF, gamma=0.5, 2 components):")
     print(f"    Inner ring PC1 mean: {inner_mean:.4f}")
     print(f"    Outer ring PC1 mean: {outer_mean:.4f}")
     print(f"    Separation on PC1: {separation:.4f}")
-    print(f"    Kernel PCA separates the circles in the first component")
+    print("    Kernel PCA separates the circles in the first component")
 
     for g in [0.1, 0.5, 1.0, 5.0]:
         X_k = kernel_pca(X_circles, n_components=2, kernel="rbf", gamma=g)
@@ -317,7 +317,7 @@ def demo_reconstruction_error():
 
     print(f"\n  The data is effectively {n_informative}-dimensional.")
     print(f"  After k={n_informative}, reconstruction error drops to near-noise level.")
-    print(f"  Additional components capture only noise variance.")
+    print("  Additional components capture only noise variance.")
     print()
 
 

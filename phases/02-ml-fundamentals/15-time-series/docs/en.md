@@ -249,10 +249,13 @@ This converts a 1D series into a feature matrix where each row has the last `n_l
 
 ```python
 def walk_forward_split(n_samples, n_splits=5, min_train=50):
-    step = (n_samples - min_train) // n_splits
+    assert min_train < n_samples, "min_train must be less than n_samples"
+    step = max(1, (n_samples - min_train) // n_splits)
     for i in range(n_splits):
         train_end = min_train + i * step
         test_end = min(train_end + step, n_samples)
+        if train_end >= n_samples:
+            break
         yield slice(0, train_end), slice(train_end, test_end)
 ```
 

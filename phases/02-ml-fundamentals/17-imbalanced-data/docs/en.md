@@ -442,8 +442,9 @@ w_cw, b_cw = logistic_regression_weighted(
 probs_cw = sigmoid(X_test @ w_cw + b_cw)
 preds_cw = (probs_cw >= 0.5).astype(int)
 
-# Threshold tuning (on class-weighted model)
-best_thresh, best_f1 = find_optimal_threshold(y_test, probs_cw, metric="f1")
+# Threshold tuning (tune on held-out validation set, not test set)
+probs_val = sigmoid(X_val @ w_cw + b_cw)
+best_thresh, best_f1 = find_optimal_threshold(y_val, probs_val, metric="f1")
 preds_thresh = (probs_cw >= best_thresh).astype(int)
 ```
 

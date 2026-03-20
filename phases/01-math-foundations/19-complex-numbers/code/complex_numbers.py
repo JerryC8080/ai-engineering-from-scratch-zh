@@ -1,4 +1,5 @@
 import math
+import os
 
 
 class Complex:
@@ -399,7 +400,9 @@ def demo_positional_encoding():
 
 
 def write_skill_output():
-    output_path = "outputs/skill-complex-arithmetic.md"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_path = os.path.join(script_dir, "outputs", "skill-complex-arithmetic.md")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     try:
         with open(output_path, "w") as f:
             f.write("---\n")

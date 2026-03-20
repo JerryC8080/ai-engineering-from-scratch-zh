@@ -21,7 +21,7 @@ A decision checklist for handling imbalanced classification. Follow this sequenc
 
 ## Step 2: Pick the right metric
 
-Never use accuracy. Choose based on your problem:
+Prefer precision/recall/F1 over accuracy for imbalanced datasets. Choose based on your problem:
 
 | Situation | Primary Metric | Secondary Metric |
 |-----------|---------------|-----------------|

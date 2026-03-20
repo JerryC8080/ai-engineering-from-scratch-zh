@@ -368,7 +368,7 @@ For real work, use numpy's FFT which is backed by highly optimized C libraries.
 ```python
 import numpy as np
 
-signal = np.sin(2 * np.pi * 5 * np.linspace(0, 1, 256))
+signal = np.sin(2 * np.pi * 5 * np.arange(256) / 256)
 spectrum = np.fft.fft(signal)
 freqs = np.fft.fftfreq(256, d=1/256)
 

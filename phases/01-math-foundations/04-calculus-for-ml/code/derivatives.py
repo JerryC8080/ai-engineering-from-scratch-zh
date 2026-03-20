@@ -160,25 +160,25 @@ def demo_hessian():
     print("\nf(x,y) = x^2 - y^2 (saddle function)")
     H = hessian_2d(saddle, 0.0, 0.0)
     e1, e2 = hessian_eigenvalues(H)
-    print(f"  Hessian at (0,0):")
+    print("  Hessian at (0,0):")
     print(f"    [{H[0][0]:6.2f}  {H[0][1]:6.2f}]")
     print(f"    [{H[1][0]:6.2f}  {H[1][1]:6.2f}]")
     print(f"  Eigenvalues: {e1:.2f}, {e2:.2f}")
-    print(f"  Mixed signs --> SADDLE POINT")
+    print("  Mixed signs --> SADDLE POINT")
 
-    print(f"\nf(x,y) = x^2 + y^2 (bowl function)")
+    print("\nf(x,y) = x^2 + y^2 (bowl function)")
     H = hessian_2d(bowl, 0.0, 0.0)
     e1, e2 = hessian_eigenvalues(H)
-    print(f"  Hessian at (0,0):")
+    print("  Hessian at (0,0):")
     print(f"    [{H[0][0]:6.2f}  {H[0][1]:6.2f}]")
     print(f"    [{H[1][0]:6.2f}  {H[1][1]:6.2f}]")
     print(f"  Eigenvalues: {e1:.2f}, {e2:.2f}")
-    print(f"  Both positive --> LOCAL MINIMUM")
+    print("  Both positive --> LOCAL MINIMUM")
 
     def rosenbrock(x, y):
         return (1 - x) ** 2 + 100 * (y - x ** 2) ** 2
 
-    print(f"\nRosenbrock f(x,y) = (1-x)^2 + 100*(y-x^2)^2")
+    print("\nRosenbrock f(x,y) = (1-x)^2 + 100*(y-x^2)^2")
     H = hessian_2d(rosenbrock, 1.0, 1.0)
     e1, e2 = hessian_eigenvalues(H)
     print(f"  Hessian at minimum (1,1):")

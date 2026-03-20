@@ -348,7 +348,7 @@ The GP surrogate gives two things at each candidate point: a predicted score (mu
 
 ### Step 4: Compare All Methods
 
-Run all three methods on the same synthetic objective and compare:
+Run all three methods on the same synthetic objective and compare. This comparison uses a simplified wrapper that calls each optimizer with a direct objective function (no model training), so the API differs from the model-based implementations above:
 
 ```python
 def synthetic_objective(params):
@@ -361,23 +361,42 @@ param_grid = {
     "max_depth": [2, 3, 4, 5, 6, 7, 8],
 }
 
-grid_best, grid_score, grid_history = grid_search(
-    param_grid, objective=synthetic_objective
-)
+grid_best = None
+grid_score = -float("inf")
+grid_history = []
+for combo in itertools.product(*param_grid.values()):
+    params = dict(zip(param_grid.keys(), combo))
+    score = synthetic_objective(params)
+    grid_history.append((params, score))
+    if score > grid_score:
+        grid_score = score
+        grid_best = params
 
 param_dist = {
     "learning_rate": ("log_float", 0.001, 1.0),
     "max_depth": ("int", 2, 8),
 }
 
-rand_best, rand_score, rand_history = random_search(
-    param_dist, objective=synthetic_objective, n_iter=28
-)
+rand_best = None
+rand_score = -float("inf")
+rand_history = []
+rng = np.random.RandomState(42)
+for _ in range(28):
+    params = {k: sample(v, rng) for k, v in param_dist.items()}
+    score = synthetic_objective(params)
+    rand_history.append((params, score))
+    if score > rand_score:
+        rand_score = score
+        rand_best = params
 
 optimizer = SimpleBayesianOptimizer(param_dist, n_initial=5)
-bayes_best, bayes_score, bayes_history = optimizer.optimize(
-    synthetic_objective, n_iter=28
-)
+bayes_history = []
+for _ in range(28):
+    params = optimizer.suggest()
+    score = synthetic_objective(params)
+    optimizer.observe(params, score)
+    bayes_history.append((params, score))
+bayes_score = max(s for _, s in bayes_history)
 
 print(f"{'Method':<20} {'Best Score':>12} {'Evaluations':>12}")
 print("-" * 50)
@@ -443,14 +462,20 @@ def objective(trial):
     model = GradientBoostingRegressor(**params)
     scores = cross_val_score(model, X_train, y_train, cv=3,
                              scoring="neg_mean_squared_error")
-    return -scores.mean()
+    mean_score = -scores.mean()
+
+    trial.report(mean_score, step=0)
+    if trial.should_prune():
+        raise optuna.TrialPruned()
+
+    return mean_score
 
 pruner = optuna.pruners.MedianPruner(n_startup_trials=10, n_warmup_steps=5)
 study = optuna.create_study(direction="minimize", pruner=pruner)
 study.optimize(objective, n_trials=200)
 ```
 
-The `MedianPruner` stops a trial if its intermediate value is worse than the median of all completed trials at the same step. The `n_startup_trials=10` ensures at least 10 trials complete fully before pruning kicks in. This typically saves 40-60% of total compute.
+The `MedianPruner` stops a trial if its intermediate value is worse than the median of all completed trials at the same step. Pruning requires calling `trial.report()` to report intermediate metrics and `trial.should_prune()` to check whether the trial should be stopped. The `n_startup_trials=10` ensures at least 10 trials complete fully before pruning kicks in. This typically saves 40-60% of total compute.
 
 ### sklearn's Built-in Tuners
 

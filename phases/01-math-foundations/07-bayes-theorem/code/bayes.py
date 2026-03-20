@@ -316,6 +316,8 @@ def _beta_sample(alpha, beta_param, rng_module):
 
 
 def _gamma_sample(shape, rng_module):
+    if shape <= 0:
+        raise ValueError("Gamma shape parameter must be positive")
     if shape < 1:
         return _gamma_sample(shape + 1, rng_module) * rng_module.random() ** (1.0 / shape)
 

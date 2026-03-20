@@ -238,6 +238,12 @@ The basic Value class handles addition, multiplication, and relu. A real autogra
     def __sub__(self, other):
         return self + (-other)
 
+    def __radd__(self, other):
+        return self + other
+
+    def __rmul__(self, other):
+        return self * other
+
     def __rsub__(self, other):
         return other + (-self)
 

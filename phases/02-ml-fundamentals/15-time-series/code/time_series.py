@@ -124,6 +124,10 @@ class SimpleAR:
         return self.fit(X, y)
 
     def forecast(self, last_values, n_steps):
+        if len(last_values) < self.n_lags:
+            raise ValueError(
+                f"Need at least {self.n_lags} history points, got {len(last_values)}"
+            )
         history = list(last_values[-self.n_lags:])
         predictions = []
 

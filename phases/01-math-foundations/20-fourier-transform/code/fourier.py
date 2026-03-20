@@ -145,6 +145,8 @@ def convolve_direct(x, h):
 
 
 def convolve_fft(x, h):
+    if len(x) == 0 or len(h) == 0:
+        return []
     N = len(x) + len(h) - 1
     padded_N = 1
     while padded_N < N:

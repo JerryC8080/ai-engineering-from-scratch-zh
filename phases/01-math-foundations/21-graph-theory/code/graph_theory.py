@@ -19,6 +19,9 @@ class Graph:
     def degree(self, node):
         return len(self.adj[node])
 
+    def weighted_degree(self, node):
+        return sum(self.adj[node].values())
+
     def adjacency_matrix(self):
         A = np.zeros((self.n, self.n))
         for u in range(self.n):
@@ -29,7 +32,7 @@ class Graph:
     def degree_matrix(self):
         D = np.zeros((self.n, self.n))
         for i in range(self.n):
-            D[i][i] = self.degree(i)
+            D[i][i] = self.weighted_degree(i)
         return D
 
     def laplacian(self):
@@ -95,6 +98,11 @@ def connected_components(graph):
 
 
 def spectral_clustering(graph, k=2):
+    if graph.n < 2:
+        raise ValueError("spectral_clustering requires at least 2 nodes")
+    if not (2 <= k <= graph.n):
+        raise ValueError(f"k must satisfy 2 <= k <= {graph.n}, got k={k}")
+
     L = graph.laplacian()
     eigenvalues, eigenvectors = np.linalg.eigh(L)
 
@@ -148,11 +156,15 @@ def pagerank(graph, damping=0.85, max_iter=100, tol=1e-6):
 
     for _ in range(max_iter):
         new_scores = np.ones(n) * (1 - damping) / n
+        dangling_sum = 0.0
         for u in range(n):
             out_deg = graph.degree(u)
             if out_deg > 0:
                 for v in graph.neighbors(u):
                     new_scores[v] += damping * scores[u] / out_deg
+            else:
+                dangling_sum += scores[u]
+        new_scores += damping * dangling_sum / n
         if np.abs(new_scores - scores).sum() < tol:
             scores = new_scores
             break

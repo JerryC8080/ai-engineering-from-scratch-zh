@@ -48,7 +48,7 @@ Use this decision framework:
 ## Step 3: Define search spaces by model type
 
 **Random Forest:**
-```
+```text
 n_estimators: [100, 200, 500] (or use early stopping via OOB score)
 max_depth: [None, 10, 20, 30]
 min_samples_split: [2, 5, 10]
@@ -58,7 +58,7 @@ max_features: ["sqrt", "log2", 0.5]
 Priority: max_depth > min_samples_leaf > max_features. n_estimators is rarely the bottleneck (more is generally better).
 
 **XGBoost / LightGBM:**
-```
+```text
 learning_rate: log-uniform [0.005, 0.3]
 n_estimators: use early stopping (set high, e.g., 2000, let it stop)
 max_depth: uniform int [3, 10]
@@ -71,14 +71,14 @@ reg_lambda: log-uniform [1e-4, 10]
 Priority: learning_rate > max_depth > min_child_weight > subsample.
 
 **SVM (RBF kernel):**
-```
+```text
 C: log-uniform [0.01, 1000]
 gamma: log-uniform [0.001, 10]
 ```
 Always search on log scale. Only 2 parameters, so even grid search works (7x7 = 49 combos).
 
 **Neural Network:**
-```
+```text
 learning_rate: log-uniform [1e-5, 1e-2]
 batch_size: [32, 64, 128, 256]
 hidden_layers: [1, 2, 3]
