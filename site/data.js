@@ -1557,9 +1557,10 @@ const PHASES = [
       },
       {
         "name": "Communication Protocols",
-        "status": "planned",
-        "type": "Build",
-        "lang": "TS, Rust"
+        "status": "complete",
+        "type": "Learn",
+        "lang": "TS",
+        "url": "phases/16-multi-agent-and-swarms/03-communication-protocols/"
       },
       {
         "name": "Shared State & Coordination",
