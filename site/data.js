@@ -1560,7 +1560,7 @@ const PHASES = [
         "status": "complete",
         "type": "Learn",
         "lang": "TS",
-        "url": "phases/16-multi-agent-and-swarms/03-communication-protocols/"
+        "url": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/16-multi-agent-and-swarms/03-communication-protocols/"
       },
       {
         "name": "Shared State & Coordination",
