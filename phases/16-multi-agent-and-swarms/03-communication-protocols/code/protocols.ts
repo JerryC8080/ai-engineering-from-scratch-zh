@@ -226,4 +226,7 @@ async function protocolDemo() {
   }
 }
 
-protocolDemo();
+protocolDemo().catch((err) => {
+  console.error("Protocol demo failed:", err);
+  process.exitCode = 1;
+});

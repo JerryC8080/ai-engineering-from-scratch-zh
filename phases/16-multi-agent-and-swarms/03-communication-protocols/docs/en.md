@@ -486,7 +486,10 @@ async function protocolDemo() {
   }
 }
 
-protocolDemo();
+protocolDemo().catch((err) => {
+  console.error("Protocol demo failed:", err);
+  process.exitCode = 1;
+});
 ```
 
 ## Use It
@@ -530,7 +533,7 @@ This lesson produces:
 
 1. Add a `negotiate` method to the `AgentRegistry` where two agents exchange capability requirements and agree on a task contract before execution
 2. Extend the `AuditableMessageBus` with message expiration: messages older than N seconds should be marked as "expired" and handlers should refuse to process them
-3. Build a multi-hop trust resolution for the `TrustGraph`: if A trusts B and B trusts C, A can transitionally trust C with a decayed trust score — implement breadth-first trust path discovery
+3. Build a multi-hop trust resolution for the `TrustGraph`: if A trusts B and B trusts C, A can transitively trust C with a decayed trust score — implement breadth-first trust path discovery
 
 ## Key Terms
 
