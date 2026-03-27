@@ -315,7 +315,7 @@ Progress tracking for every phase and lesson.
 |---|--------|--------|
 | 01 | Why Multi-Agent | ✅ |
 | 02 | Agent Teams — Roles, Specialization, Delegation | ⬚ |
-| 03 | Communication Protocols | ⬚ |
+| 03 | Communication Protocols | ✅ |
 | 04 | Shared State & Coordination | ⬚ |
 | 05 | Message Passing & Mailboxes | ⬚ |
 | 06 | Task Markets — Agents Bidding for Work | ⬚ |
@@ -367,6 +367,6 @@ Progress tracking for every phase and lesson.
 
 ---
 
-**Total: 20 phases, 230+ lessons | 57 complete**
+**Total: 20 phases, 230+ lessons | 58 complete**
 
 Want to help? Pick any ⬚ lesson and submit a PR. See [CONTRIBUTING.md](CONTRIBUTING.md).
