@@ -2,11 +2,11 @@
 
 Progress tracking for every phase and lesson.
 
-**Total estimated time: ~230 hours (at your own pace)**
+**Total estimated time: ~290 hours (at your own pace)**
 
 **Legend:** ✅ Complete | 🚧 In Progress | ⬚ Planned
 
-## Phase 0: Setup & Tooling — ✅ (~2 hours)
+## Phase 0: Setup & Tooling — ✅ (~14 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -23,7 +23,7 @@ Progress tracking for every phase and lesson.
 | 11 | Linux for AI | ✅ | ~45 min |
 | 12 | Debugging & Profiling | ✅ | ~75 min |
 
-## Phase 1: Math Foundations — ✅ (~20 hours)
+## Phase 1: Math Foundations — ✅ (~23 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -50,7 +50,7 @@ Progress tracking for every phase and lesson.
 | 21 | Graph Theory for ML | ✅ | ~45 min |
 | 22 | Stochastic Processes | ✅ | ~45 min |
 
-## Phase 2: ML Fundamentals — ✅ (~18 hours)
+## Phase 2: ML Fundamentals — ✅ (~21 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -91,7 +91,7 @@ Progress tracking for every phase and lesson.
 | 12 | Introduction to JAX | ⬚ | ~75 min |
 | 13 | Debugging Neural Networks | ⬚ | ~75 min |
 
-## Phase 4: Computer Vision — ⬚ (~16 hours)
+## Phase 4: Computer Vision — ⬚ (~19 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -112,7 +112,7 @@ Progress tracking for every phase and lesson.
 | 15 | Real-Time Vision — Edge Deployment | ⬚ | ~75 min |
 | 16 | Build a Complete Vision Pipeline | ⬚ | ~120 min |
 
-## Phase 5: NLP — Foundations to Advanced — ⬚ (~18 hours)
+## Phase 5: NLP — Foundations to Advanced — ⬚ (~19 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -135,7 +135,7 @@ Progress tracking for every phase and lesson.
 | 17 | Chatbots — Rule-Based to Neural | ⬚ | ~75 min |
 | 18 | Multilingual NLP | ⬚ | ~45 min |
 
-## Phase 6: Speech & Audio — ⬚ (~10 hours)
+## Phase 6: Speech & Audio — ⬚ (~13 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -190,7 +190,7 @@ Progress tracking for every phase and lesson.
 | 13 | Flow Matching & Rectified Flows | ⬚ | ~45 min |
 | 14 | Evaluation — FID, CLIP Score, Human Preference | ⬚ | ~45 min |
 
-## Phase 9: Reinforcement Learning — ⬚ (~12 hours)
+## Phase 9: Reinforcement Learning — ⬚ (~13 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -207,7 +207,7 @@ Progress tracking for every phase and lesson.
 | 11 | Sim-to-Real Transfer | ⬚ | ~45 min |
 | 12 | RL for Games | ⬚ | ~75 min |
 
-## Phase 10: LLMs from Scratch — 🚧 (~16 hours)
+## Phase 10: LLMs from Scratch — 🚧 (~18 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -226,7 +226,7 @@ Progress tracking for every phase and lesson.
 | 13 | Building a Complete LLM Pipeline | ⬚ | ~120 min |
 | 14 | Open Models — Architecture Walkthroughs | ⬚ | ~45 min |
 
-## Phase 11: LLM Engineering — ⬚ (~13 hours)
+## Phase 11: LLM Engineering — ⬚ (~15 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -244,7 +244,7 @@ Progress tracking for every phase and lesson.
 | 12 | Guardrails, Safety & Content Filtering | ⬚ | ~45 min |
 | 13 | Building a Production LLM Application | ⬚ | ~120 min |
 
-## Phase 12: Multimodal AI — ⬚ (~10 hours)
+## Phase 12: Multimodal AI — ⬚ (~11 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -260,7 +260,7 @@ Progress tracking for every phase and lesson.
 | 10 | Text-to-Video Pipelines | ⬚ | ~75 min |
 | 11 | Any-to-Any Models | ⬚ | ~45 min |
 
-## Phase 13: Tools & Protocols — ⬚ (~10 hours)
+## Phase 13: Tools & Protocols — ⬚ (~11 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -275,7 +275,7 @@ Progress tracking for every phase and lesson.
 | 09 | Browser Automation & Web Agents | ⬚ | ~75 min |
 | 10 | Build a Complete Tool Ecosystem | ⬚ | ~120 min |
 
-## Phase 14: Agent Engineering — 🚧 (~15 hours)
+## Phase 14: Agent Engineering — 🚧 (~17 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -295,7 +295,7 @@ Progress tracking for every phase and lesson.
 | 14 | Eval-Driven Agent Development | ⬚ | ~45 min |
 | 15 | Build a Complete AI Agent from Scratch | ⬚ | ~120 min |
 
-## Phase 15: Autonomous Systems — ⬚ (~10 hours)
+## Phase 15: Autonomous Systems — ⬚ (~11 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -311,7 +311,7 @@ Progress tracking for every phase and lesson.
 | 10 | Safety Boundaries — When to Stop | ⬚ | ~45 min |
 | 11 | Build an Autonomous Coding Agent | ⬚ | ~120 min |
 
-## Phase 16: Multi-Agent & Swarms — 🚧 (~14 hours)
+## Phase 16: Multi-Agent & Swarms — 🚧 (~15 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -330,7 +330,7 @@ Progress tracking for every phase and lesson.
 | 13 | DAG-Based Orchestration | ⬚ | ~75 min |
 | 14 | Build an Autonomous Agent Swarm | ⬚ | ~120 min |
 
-## Phase 17: Infrastructure & Production — ⬚ (~10 hours)
+## Phase 17: Infrastructure & Production — ⬚ (~13 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -369,6 +369,6 @@ Progress tracking for every phase and lesson.
 
 ---
 
-**Total: 20 phases, 230+ lessons | 58 complete | ~230 hours estimated**
+**Total: 20 phases, 260+ lessons | 61 complete | ~290 hours estimated**
 
 Want to help? Pick any ⬚ lesson and submit a PR. See [CONTRIBUTING.md](CONTRIBUTING.md).

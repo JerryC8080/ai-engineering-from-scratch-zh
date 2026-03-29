@@ -53,7 +53,7 @@ Map the argument to the correct phase directory under `phases/`:
 
 ### Step 1: Resolve the Phase
 
-Parse the argument. If it is a number, match directly. If it is a name or keyword, match using the Phase Map above. If no argument or ambiguous, ask the user to pick from the full list.
+Parse the argument. If it is a number, validate it is between 0 and 19 inclusive. If the number is out of range, tell the user: "Phase [N] does not exist. Valid phases are 0-19." and show the full list for them to pick from. If it is a name or keyword, look it up in the Phase Map above. If the keyword does not match any entry in the map, tell the user: "Unknown phase '[keyword]'. Pick from the list below:" and present all 20 phases. If no argument is provided, ask the user to pick from the full list.
 
 ### Step 2: Read the Phase Content
 
@@ -111,7 +111,8 @@ Keep a running tally:
 After all 8 questions, display the score and grade:
 
 **7-8 correct: Mastered**
-"You have a strong grasp of Phase N. You are ready to move on to Phase N+1: [next phase name]."
+If the phase is 19 (Capstone Projects): "You have mastered the final phase. Congratulations, you have completed the entire curriculum."
+Otherwise: "You have a strong grasp of Phase N. You are ready to move on to Phase N+1: [next phase name]."
 
 **5-6 correct: Almost**
 "Solid foundation. Review these specific areas before moving on:"
@@ -149,7 +150,7 @@ Wait for the user's choice and act accordingly.
 
 ## Rules
 
-- Never repeat the same question if the user retakes the quiz. Generate new questions from the same pool of lesson content.
+- Avoid repeating questions on retakes until the question pool is exhausted. Once exhausted, reshuffle or rephrase questions for subsequent retakes.
 - Questions must be directly grounded in the lesson docs, not general knowledge.
 - Do not show the correct answer until after the user responds.
 - Keep question text concise. One or two sentences max.

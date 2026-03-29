@@ -194,30 +194,10 @@ Area-to-phase mapping for review detection:
 - NLP & Transformers (1/2) -> mark Phases 5 and 7 as "Review"
 - Applied AI (1/2) -> mark Phase 14 as "Review"
 
-Use these time estimates per phase:
-
-| Phase | Name | Estimated Hours |
-|-------|------|-----------------|
-| 0 | Setup & Tooling | 8 |
-| 1 | Math Foundations | 30 |
-| 2 | ML Fundamentals | 25 |
-| 3 | Deep Learning Core | 20 |
-| 4 | Computer Vision | 25 |
-| 5 | NLP Foundations to Advanced | 25 |
-| 6 | Speech & Audio | 18 |
-| 7 | Transformers Deep Dive | 22 |
-| 8 | Generative AI | 20 |
-| 9 | Reinforcement Learning | 18 |
-| 10 | LLMs from Scratch | 28 |
-| 11 | LLM Engineering | 22 |
-| 12 | Multimodal AI | 18 |
-| 13 | Tools & Protocols | 16 |
-| 14 | Agent Engineering | 24 |
-| 15 | Autonomous Systems | 18 |
-| 16 | Multi-Agent & Swarms | 22 |
-| 17 | Infrastructure & Production | 18 |
-| 18 | Ethics, Safety & Alignment | 10 |
-| 19 | Capstone Projects | 40 |
+Read the time estimates from ROADMAP.md (the canonical source of truth). Each
+phase heading contains the estimated hours in the format `(~N hours)`. Parse
+these values instead of using hardcoded numbers. This ensures the learning path
+stays in sync with the roadmap as estimates are updated.
 
 ## Output Format
 

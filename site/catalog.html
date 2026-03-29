@@ -299,12 +299,12 @@
       <table class="catalog__table" id="catalog-table">
         <thead>
           <tr>
-            <th data-col="phase" class="sort-asc">Phase <span class="sort-arrow">&#9650;</span></th>
-            <th data-col="num"># <span class="sort-arrow">&#9650;</span></th>
-            <th data-col="name">Lesson <span class="sort-arrow">&#9650;</span></th>
-            <th data-col="type" class="col-type">Type <span class="sort-arrow">&#9650;</span></th>
-            <th data-col="lang" class="col-lang">Language <span class="sort-arrow">&#9650;</span></th>
-            <th data-col="status">Status <span class="sort-arrow">&#9650;</span></th>
+            <th data-col="phase" class="sort-asc" tabindex="0" role="columnheader" aria-sort="ascending">Phase <span class="sort-arrow">&#9650;</span></th>
+            <th data-col="num" tabindex="0" role="columnheader" aria-sort="none"># <span class="sort-arrow">&#9650;</span></th>
+            <th data-col="name" tabindex="0" role="columnheader" aria-sort="none">Lesson <span class="sort-arrow">&#9650;</span></th>
+            <th data-col="type" class="col-type" tabindex="0" role="columnheader" aria-sort="none">Type <span class="sort-arrow">&#9650;</span></th>
+            <th data-col="lang" class="col-lang" tabindex="0" role="columnheader" aria-sort="none">Language <span class="sort-arrow">&#9650;</span></th>
+            <th data-col="status" tabindex="0" role="columnheader" aria-sort="none">Status <span class="sort-arrow">&#9650;</span></th>
           </tr>
         </thead>
         <tbody id="catalog-body"></tbody>
@@ -475,23 +475,34 @@
   render(rows);
 
   var headers = document.querySelectorAll('#catalog-table th[data-col]');
+
+  function handleSort(th) {
+    var col = th.getAttribute('data-col');
+    if (sortCol === col) {
+      sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      sortCol = col;
+      sortDir = 'asc';
+    }
+
+    headers.forEach(function(h) {
+      h.classList.remove('sort-asc', 'sort-desc');
+      h.setAttribute('aria-sort', 'none');
+    });
+    th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+    th.setAttribute('aria-sort', sortDir === 'asc' ? 'ascending' : 'descending');
+
+    var q = search.value.toLowerCase().trim();
+    render(q ? filterRows(q) : rows);
+  }
+
   headers.forEach(function(th) {
-    th.addEventListener('click', function() {
-      var col = th.getAttribute('data-col');
-      if (sortCol === col) {
-        sortDir = sortDir === 'asc' ? 'desc' : 'asc';
-      } else {
-        sortCol = col;
-        sortDir = 'asc';
+    th.addEventListener('click', function() { handleSort(th); });
+    th.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleSort(th);
       }
-
-      headers.forEach(function(h) {
-        h.classList.remove('sort-asc', 'sort-desc');
-      });
-      th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
-
-      var q = search.value.toLowerCase().trim();
-      render(q ? filterRows(q) : rows);
     });
   });
 
