@@ -9,11 +9,11 @@
 
 ## The Problem
 
-You built a forward pass in Lesson 02. Data flows in, predictions come out. But the predictions are wrong. Every weight in the network is some random number. You need to adjust them so the output gets closer to the truth.
+Your network has a single hidden layer with 768 inputs and 3072 outputs. That's 2,359,296 weights. It made a wrong prediction. Which weights caused the error? Testing each weight individually means 2.3 million forward passes. Backpropagation computes all 2.3 million gradients in a single backward pass. That's not an optimization. That's the difference between trainable and impossible.
 
-Here's the naive approach: take one weight, nudge it by a tiny amount, run the forward pass again, and measure whether the loss went up or down. That gives you the gradient for that weight. Now do it for every weight. If your network has a million weights, that's a million forward passes per training step. Multiply by thousands of training steps and millions of data points. You'd need geological time to train anything useful.
+The naive approach: take one weight, nudge it by a tiny amount, run the forward pass again, measure whether the loss went up or down. That gives you the gradient for that weight. Now do it for every weight in the network. Multiply by thousands of training steps and millions of data points. You'd need geological time to train anything useful.
 
-Backpropagation solves this. It computes the gradient for every weight in a single backward pass through the network. One forward pass, one backward pass, all gradients computed. The trick is the chain rule from calculus, applied systematically to a computational graph. This is the algorithm that made deep learning practical. Without it, we'd still be stuck on toy problems.
+Backpropagation solves this. One forward pass, one backward pass, all gradients computed. The trick is the chain rule from calculus, applied systematically to a computational graph. This is the algorithm that made deep learning practical. Without it, we'd still be stuck on toy problems.
 
 ## The Concept
 
@@ -418,6 +418,8 @@ with torch.no_grad():
 ```
 
 `loss.backward()` is your `total_loss.backward()`. `optimizer.step()` is your manual `p.data -= lr * p.grad`. `optimizer.zero_grad()` is your `net.zero_grad()`. Same algorithm, industrial-strength implementation. PyTorch handles GPU acceleration, mixed precision, gradient checkpointing, and hundreds of layer types. But the backward pass is the same chain rule applied to the same computational graph.
+
+Training runs the forward pass, then the backward pass, then updates weights. Inference runs only the forward pass. No gradients, no updates. This distinction matters because inference is what happens in production. When you call an API like Claude or GPT, you're running inference -- your prompt flows forward through the network, and tokens come out the other end. No weights change. Understanding backprop matters because it shaped every weight in that network.
 
 ## Ship It
 

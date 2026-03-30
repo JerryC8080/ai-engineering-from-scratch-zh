@@ -9,11 +9,11 @@
 
 ## The Problem
 
-A single perceptron is a straight line. Feed it two inputs, and it splits the plane in half. That works for AND, OR, NOT. It does not work for anything interesting.
+A single neuron is a line drawer. That's it. One straight line through your data. Every real problem in AI -- image recognition, language understanding, playing Go -- requires curves. Stacking neurons into layers is how you get curves.
 
-In 1969, Minsky and Papert published a book called *Perceptrons*. The proof was devastating: a single-layer network cannot learn XOR. Not "struggles to learn" -- mathematically cannot. The XOR truth table places [0,1] and [1,0] on one side, [0,0] and [1,1] on the other. No single line separates them.
+In 1969, Minsky and Papert proved this limitation was fatal: a single-layer network cannot learn XOR. Not "struggles to learn" -- mathematically cannot. The XOR truth table places [0,1] and [1,0] on one side, [0,0] and [1,1] on the other. No single line separates them.
 
-This killed neural network funding for over a decade. Researchers called it the "AI winter." The fix was obvious in hindsight: stop using one layer. Stack neurons into layers. Let the first layer carve the input space into new features, and let the second layer combine those features into decisions no single line could make.
+This killed neural network funding for over a decade. The fix was obvious in hindsight: stop using one layer. Stack neurons into layers. Let the first layer carve the input space into new features, and let the second layer combine those features into decisions no single line could make.
 
 That stack is the multi-layer network. It is the foundation of every deep learning model in production today. The forward pass -- data flowing from input through hidden layers to output -- is the first thing you need to build before anything else works.
 
@@ -55,6 +55,8 @@ graph LR
 ```
 
 This is a 2-3-1 network. Two inputs, three hidden neurons, one output. Every connection carries a weight. Every neuron (except input) carries a bias.
+
+Each layer produces a vector of numbers called a hidden state. For text, hidden states increase dimensionality -- encoding a word as 768 numbers to capture semantic meaning. For images, they reduce dimensionality -- compressing millions of pixels into a manageable representation. The hidden state is where the learning lives.
 
 ### Neurons and Activations
 
@@ -133,6 +135,10 @@ graph LR
     FewNeurons --> MoreNeurons --> ManyNeurons
 ```
 
+### Composability
+
+Neural networks are composable. You can stack them, chain them, run them in parallel. A Whisper model uses an encoder network to process audio and a separate decoder network to generate text. Modern LLMs are decoder-only. BERT is encoder-only. T5 is encoder-decoder. The architecture choice defines what the model can do.
+
 ## Build It
 
 Pure Python. No numpy. Every matrix operation written from scratch.
@@ -150,6 +156,8 @@ def sigmoid(x):
 The clamp to [-500, 500] prevents overflow. `math.exp(500)` is large but finite. `math.exp(1000)` is infinity.
 
 ### Step 2: Layer Class
+
+The most important operation in all of deep learning is matrix multiplication. Every layer, every attention head, every forward pass -- it's matmuls all the way down. A linear layer takes an input vector, multiplies it by a weight matrix, and adds a bias vector: y = Wx + b. That single equation is 90% of the compute in a neural network.
 
 A layer holds a weight matrix and a bias vector. Its forward method takes an input vector and returns the activated output.
 
