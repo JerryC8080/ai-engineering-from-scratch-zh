@@ -7,7 +7,7 @@
   <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
   <img src="https://img.shields.io/badge/Lessons-260+-D97757" alt="260+ Lessons">
   <img src="https://img.shields.io/badge/Phases-20-191A23" alt="20 Phases">
-  <img src="https://img.shields.io/badge/Complete-60-3D8B6E" alt="60 Complete">
+  <img src="https://img.shields.io/badge/Complete-68-3D8B6E" alt="68 Complete">
   <img src="https://img.shields.io/github/stars/rohitg00/ai-engineering-from-scratch?style=social" alt="GitHub Stars">
 </p>
 

@@ -77,8 +77,8 @@ class AdamW:
             m_hat = self.m[i] / (1 - self.beta1 ** self.t)
             v_hat = self.v[i] / (1 - self.beta2 ** self.t)
 
+            params[i] = params[i] * (1 - self.weight_decay * self.lr)
             params[i] -= self.lr * m_hat / (math.sqrt(v_hat) + self.epsilon)
-            params[i] -= self.lr * self.weight_decay * params[i]
 
 
 def sigmoid(x):

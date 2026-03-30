@@ -3,6 +3,7 @@ import random
 
 
 def mse(predictions, targets):
+    assert len(predictions) == len(targets), "predictions and targets must have the same length"
     n = len(predictions)
     total = 0.0
     for p, t in zip(predictions, targets):
@@ -11,6 +12,7 @@ def mse(predictions, targets):
 
 
 def mse_gradient(predictions, targets):
+    assert len(predictions) == len(targets), "predictions and targets must have the same length"
     n = len(predictions)
     grads = []
     for p, t in zip(predictions, targets):
@@ -19,6 +21,7 @@ def mse_gradient(predictions, targets):
 
 
 def binary_cross_entropy(predictions, targets, eps=1e-15):
+    assert len(predictions) == len(targets), "predictions and targets must have the same length"
     n = len(predictions)
     total = 0.0
     for p, t in zip(predictions, targets):
@@ -28,10 +31,12 @@ def binary_cross_entropy(predictions, targets, eps=1e-15):
 
 
 def bce_gradient(predictions, targets, eps=1e-15):
+    assert len(predictions) == len(targets), "predictions and targets must have the same length"
+    n = len(predictions)
     grads = []
     for p, t in zip(predictions, targets):
         p_clipped = max(eps, min(1 - eps, p))
-        grads.append(-(t / p_clipped) + (1 - t) / (1 - p_clipped))
+        grads.append((-(t / p_clipped) + (1 - t) / (1 - p_clipped)) / n)
     return grads
 
 
@@ -69,6 +74,7 @@ def label_smoothed_cce(logits, target_index, num_classes, alpha=0.1, eps=1e-15):
 
 
 def cosine_similarity(a, b):
+    assert len(a) == len(b), "vectors must have the same length"
     dot = sum(x * y for x, y in zip(a, b))
     norm_a = math.sqrt(sum(x * x for x in a))
     norm_b = math.sqrt(sum(x * x for x in b))

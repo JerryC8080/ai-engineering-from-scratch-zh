@@ -27,6 +27,7 @@ class LayerNorm:
 
 class MultiHeadAttention:
     def __init__(self, embed_dim, num_heads):
+        assert embed_dim % num_heads == 0, f"embed_dim {embed_dim} not divisible by num_heads {num_heads}"
         self.num_heads = num_heads
         self.head_dim = embed_dim // num_heads
         self.W_q = np.random.randn(embed_dim, embed_dim) * 0.02
@@ -149,6 +150,43 @@ def generate(model, prompt_tokens, max_new_tokens=100, temperature=0.8):
     return tokens
 
 
+def layernorm_backward(dy, x, ln):
+    mean = x.mean(axis=-1, keepdims=True)
+    var = x.var(axis=-1, keepdims=True)
+    std_inv = 1.0 / np.sqrt(var + ln.eps)
+    x_hat = (x - mean) * std_inv
+    n = x.shape[-1]
+
+    grad_gamma = (dy * x_hat).sum(axis=(0, 1))
+    grad_beta = dy.sum(axis=(0, 1))
+
+    dx_hat = dy * ln.gamma
+    dvar = (dx_hat * (x - mean) * -0.5 * std_inv ** 3).sum(axis=-1, keepdims=True)
+    dmean = (-dx_hat * std_inv).sum(axis=-1, keepdims=True)
+    dmean += dvar * (-2.0 / n) * (x - mean).sum(axis=-1, keepdims=True)
+    dx = dx_hat * std_inv + dvar * 2.0 * (x - mean) / n + dmean / n
+
+    return dx, grad_gamma, grad_beta
+
+
+def ffn_backward(dy, x_in, ffn):
+    h = x_in @ ffn.W1 + ffn.b1
+    h_relu = np.maximum(0, h)
+
+    grad_W2 = h_relu.reshape(-1, h_relu.shape[-1]).T @ dy.reshape(-1, dy.shape[-1])
+    grad_b2 = dy.reshape(-1, dy.shape[-1]).sum(axis=0)
+
+    dh_relu = dy @ ffn.W2.T
+    dh = dh_relu * (h > 0).astype(float)
+
+    grad_W1 = x_in.reshape(-1, x_in.shape[-1]).T @ dh.reshape(-1, dh.shape[-1])
+    grad_b1 = dh.reshape(-1, dh.shape[-1]).sum(axis=0)
+
+    dx = dh @ ffn.W1.T
+
+    return dx, grad_W1, grad_b1, grad_W2, grad_b2
+
+
 def train_mini_gpt(text, vocab_size=256, embed_dim=128, num_heads=4,
                    num_layers=4, seq_len=64, num_steps=200, lr=3e-4):
     tokens = np.array(list(text.encode("utf-8")[:2048]))
@@ -169,8 +207,62 @@ def train_mini_gpt(text, vocab_size=256, embed_dim=128, num_heads=4,
         input_ids = batch_tokens[:-1].reshape(1, -1)
         target_ids = batch_tokens[1:].reshape(1, -1)
 
-        logits = model.forward(input_ids)
+        mask = np.triu(np.full((seq_len, seq_len), -1e9), k=1)
+        x = model.embedding.forward(input_ids)
+        block_inputs = [x]
+        for block in model.blocks:
+            x = block.forward(x, mask)
+            block_inputs.append(x)
+        x_pre_ln = x
+        x_normed = model.ln_f.forward(x_pre_ln)
+        logits = x_normed @ model.embedding.token_embed.T
+
         loss = cross_entropy_loss(logits, target_ids)
+
+        batch_size, s_len, v_size = logits.shape
+        probs = np.exp(logits - logits.max(axis=-1, keepdims=True))
+        probs = probs / probs.sum(axis=-1, keepdims=True)
+        dlogits = probs.copy()
+        dlogits[np.arange(batch_size)[:, None], np.arange(s_len), target_ids] -= 1.0
+        dlogits /= (batch_size * s_len)
+
+        grad_token_embed = np.zeros_like(model.embedding.token_embed)
+        for b in range(batch_size):
+            grad_token_embed += dlogits[b].T @ x_normed[b]
+
+        dx_normed = dlogits @ model.embedding.token_embed
+
+        dx_pre_ln, grad_ln_gamma, grad_ln_beta = layernorm_backward(
+            dx_normed, x_pre_ln, model.ln_f
+        )
+
+        dx = dx_pre_ln
+        for i in range(len(model.blocks) - 1, -1, -1):
+            block = model.blocks[i]
+            block_in = block_inputs[i]
+
+            ln2_in = block_in + block.attn.forward(block.ln1.forward(block_in), mask)
+            ln2_out = block.ln2.forward(ln2_in)
+
+            dffn, gW1, gb1, gW2, gb2 = ffn_backward(dx, ln2_out, block.ffn)
+
+            dln2_out = dffn
+            dln2_in, g_ln2_gamma, g_ln2_beta = layernorm_backward(
+                dln2_out, ln2_in, block.ln2
+            )
+
+            dx = dx + dln2_in
+
+            block.ffn.W1 -= lr * gW1
+            block.ffn.b1 -= lr * gb1
+            block.ffn.W2 -= lr * gW2
+            block.ffn.b2 -= lr * gb2
+            block.ln2.gamma -= lr * g_ln2_gamma
+            block.ln2.beta -= lr * g_ln2_beta
+
+        model.ln_f.gamma -= lr * grad_ln_gamma
+        model.ln_f.beta -= lr * grad_ln_beta
+        model.embedding.token_embed -= lr * grad_token_embed
 
         if step % 20 == 0:
             print(f"Step {step:4d} | Loss: {loss:.4f}")

@@ -15,7 +15,7 @@ An NVIDIA A100 has 80GB of memory.
 
 56GB out of 80GB consumed. That leaves 24GB for activations -- the intermediate values computed during the forward pass that must be kept alive for backpropagation. For a 2048-token sequence with a 4096-dimensional model, a single layer's activations use about 64MB. With 32 layers, you need 2GB per sample. A batch size of 8 requires 16GB. You have 24GB. A batch size of 12 blows up.
 
-Now try 70B parameters. Weights alone: 140GB. Does not fit on one GPU. Does not fit on two A100s. You need at least three A100s just to hold the weights, before optimizer states, gradients, or activations.
+Now try 70B parameters. Weights alone: 140GB in FP16. Does not fit on one GPU. You need at least 2 A100s (2 x 80GB = 160GB) just to hold the weights. Add optimizer states and gradients and you need far more: 3+ GPUs minimum, and realistically 8-16 depending on sharding strategy.
 
 Llama 3 405B was trained on 16,384 NVIDIA H100 GPUs. The training run cost an estimated $100 million in compute. DeepSeek V3 trained a comparable model for roughly $5.6 million by being clever about architecture (Mixture of Experts means only a fraction of parameters activate per token) and training efficiency.
 
@@ -27,16 +27,16 @@ This lesson covers the four strategies that make large-scale training possible: 
 
 Here is the memory math for real models. Every number is calculated, not estimated.
 
-| Model | Params | Weights (FP16) | Adam States | Gradients | Total (no activations) |
-|-------|--------|----------------|-------------|-----------|----------------------|
-| GPT-2 Small | 124M | 248 MB | 992 MB | 496 MB | 1.7 GB |
-| Llama 3 8B | 8B | 16 GB | 64 GB | 32 GB | 112 GB |
-| Llama 3 70B | 70B | 140 GB | 560 GB | 280 GB | 980 GB |
-| Llama 3 405B | 405B | 810 GB | 3,240 GB | 1,620 GB | 5,670 GB |
+| Model | Params | Weights (FP16) | Adam States | Gradients (FP16) | Total (no activations) |
+|-------|--------|----------------|-------------|------------------|----------------------|
+| GPT-2 Small | 124M | 248 MB | 992 MB | 248 MB | 1.5 GB |
+| Llama 3 8B | 8B | 16 GB | 64 GB | 16 GB | 96 GB |
+| Llama 3 70B | 70B | 140 GB | 560 GB | 140 GB | 840 GB |
+| Llama 3 405B | 405B | 810 GB | 3,240 GB | 810 GB | 4,860 GB |
 
 The "Adam States" column is the killer. Adam stores a running mean (m) and a running variance (v) for every parameter, both in FP32. For a 70B model, that is 70B x 4 bytes x 2 = 560GB. The optimizer alone needs seven A100s.
 
-A single H100 has 80GB. Llama 3 405B needs at least 71 H100s to hold the weights, optimizer, and gradients. Add activations and the number grows further. Meta used 16,384 GPUs not because they wanted to -- because they had to.
+A single H100 has 80GB. Llama 3 405B needs at least 61 H100s to hold the weights, optimizer, and gradients. Add activations and the number grows further. Meta used 16,384 GPUs not because they wanted to -- because they had to.
 
 ### Data Parallelism
 
@@ -44,7 +44,7 @@ The simplest distributed strategy. Copy the entire model to N GPUs. Split each t
 
 **The good:** Linear throughput scaling. N GPUs process N times more data per step. Communication is limited to gradient averaging, which overlaps with computation.
 
-**The bad:** Every GPU holds a complete copy of the model, optimizer states, and gradients. For a 70B model, each GPU needs 980GB. Data parallelism does nothing to reduce per-GPU memory. It only reduces training time.
+**The bad:** Every GPU holds a complete copy of the model, optimizer states, and gradients. For a 70B model, each GPU needs 840GB. Data parallelism does nothing to reduce per-GPU memory. It only reduces training time.
 
 **The math:** Effective batch size = per_gpu_batch_size x N. For N=64 GPUs with per-GPU batch of 16, the effective batch is 1,024. Llama 3 used an effective batch size of 16 million tokens per step.
 
@@ -244,14 +244,16 @@ import numpy as np
 def simulate_data_parallelism(data, num_gpus, model_fn):
     batch_size = len(data)
     shard_size = batch_size // num_gpus
+    remainder = batch_size % num_gpus
 
     gpu_losses = []
     gpu_gradients = []
 
+    offset = 0
     for gpu_id in range(num_gpus):
-        start = gpu_id * shard_size
-        end = start + shard_size
-        shard = data[start:end]
+        extra = 1 if gpu_id < remainder else 0
+        shard = data[offset:offset + shard_size + extra]
+        offset += shard_size + extra
 
         loss, grad = model_fn(shard)
         gpu_losses.append(loss)
@@ -272,6 +274,7 @@ Split a weight matrix across GPUs. Each GPU computes a partial matrix multiplica
 ```python
 def simulate_tensor_parallelism(input_data, weight_matrix, num_gpus):
     d_in, d_out = weight_matrix.shape
+    assert d_out % num_gpus == 0, f"d_out {d_out} not divisible by num_gpus {num_gpus}"
     shard_size = d_out // num_gpus
 
     partial_results = []
@@ -395,7 +398,7 @@ def memory_calculator(
         "gradients_gb": gradient_memory / 1e9,
         "activations_gb": activation_memory / 1e9,
         "per_gpu_total_gb": per_gpu_total / 1e9,
-        "total_across_gpus_gb": total_no_activation / 1e9 + activation_memory * num_gpus / 1e9,
+        "total_across_gpus_gb": per_gpu_total * num_gpus / 1e9,
         "fits_on_80gb": per_gpu_total / 1e9 <= 80,
         "num_gpus": num_gpus,
         "sharding": sharding,

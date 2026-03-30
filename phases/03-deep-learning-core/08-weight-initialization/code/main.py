@@ -169,15 +169,18 @@ def training_comparison():
         lr = 0.1
 
         if init_name == "xavier":
-            std = math.sqrt(2.0 / (2 + hidden_size))
+            std_w1 = math.sqrt(2.0 / (2 + hidden_size))
+            std_w2 = math.sqrt(2.0 / (hidden_size + 1))
         elif init_name == "kaiming":
-            std = math.sqrt(2.0 / 2)
+            std_w1 = math.sqrt(2.0 / 2)
+            std_w2 = math.sqrt(2.0 / hidden_size)
         else:
-            std = init_scale
+            std_w1 = init_scale
+            std_w2 = init_scale
 
-        w1 = [[random.gauss(0, std) for _ in range(2)] for _ in range(hidden_size)]
+        w1 = [[random.gauss(0, std_w1) for _ in range(2)] for _ in range(hidden_size)]
         b1 = [0.0] * hidden_size
-        w2 = [random.gauss(0, std) for _ in range(hidden_size)]
+        w2 = [random.gauss(0, std_w2) for _ in range(hidden_size)]
         b2 = 0.0
 
         losses = []

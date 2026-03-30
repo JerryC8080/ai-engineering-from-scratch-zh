@@ -170,6 +170,8 @@ def cosine_schedule(step, lr=0.01, total_steps=1000, lr_min=1e-5, **kwargs):
 
 
 def warmup_cosine_schedule(step, lr=0.01, total_steps=1000, warmup_steps=100, lr_min=1e-5, **kwargs):
+    if total_steps <= warmup_steps:
+        return lr * (step / max(warmup_steps, 1))
     if step < warmup_steps:
         return lr * step / warmup_steps
     progress = (step - warmup_steps) / (total_steps - warmup_steps)
@@ -177,11 +179,11 @@ def warmup_cosine_schedule(step, lr=0.01, total_steps=1000, warmup_steps=100, lr
 
 
 def one_cycle_schedule(step, lr=0.01, total_steps=1000, **kwargs):
-    mid = total_steps // 2
+    mid = max(total_steps // 2, 1)
     if step < mid:
         return (lr / 25) + (lr - lr / 25) * step / mid
     else:
-        progress = (step - mid) / (total_steps - mid)
+        progress = (step - mid) / max(total_steps - mid, 1)
         return lr * (1 - progress) + (lr / 10000) * progress
 ```
 

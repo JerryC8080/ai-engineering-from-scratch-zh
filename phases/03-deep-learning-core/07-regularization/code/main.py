@@ -181,9 +181,14 @@ class RegularizedNetwork:
         d_sigmoid = self.out * (1 - self.out)
         d_out = d_loss * d_sigmoid
 
+        d_h_dropout = [d_out * self.w2[i] for i in range(self.hidden_size)]
+        if self.dropout and self.dropout.mask is not None:
+            d_h_dropout = [g * m / (1 - self.dropout.p) if m else 0.0
+                           for g, m in zip(d_h_dropout, self.dropout.mask)]
+
         for i in range(self.hidden_size):
             d_relu = 1.0 if self.z1[i] > 0 else 0.0
-            d_h = d_out * self.w2[i] * d_relu
+            d_h = d_h_dropout[i] * d_relu
             self.w2[i] -= self.lr * (d_out * self.h[i] + self.weight_decay * self.w2[i])
             for j in range(2):
                 self.w1[i][j] -= self.lr * (d_h * self.x[j] + self.weight_decay * self.w1[i][j])

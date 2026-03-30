@@ -5,14 +5,16 @@ from collections import defaultdict
 def simulate_data_parallelism(data, num_gpus, model_fn):
     batch_size = len(data)
     shard_size = batch_size // num_gpus
+    remainder = batch_size % num_gpus
 
     gpu_losses = []
     gpu_gradients = []
 
+    offset = 0
     for gpu_id in range(num_gpus):
-        start = gpu_id * shard_size
-        end = start + shard_size
-        shard = data[start:end]
+        extra = 1 if gpu_id < remainder else 0
+        shard = data[offset:offset + shard_size + extra]
+        offset += shard_size + extra
 
         loss, grad = model_fn(shard)
         gpu_losses.append(loss)
@@ -26,6 +28,7 @@ def simulate_data_parallelism(data, num_gpus, model_fn):
 
 def simulate_tensor_parallelism(input_data, weight_matrix, num_gpus):
     d_in, d_out = weight_matrix.shape
+    assert d_out % num_gpus == 0, f"d_out {d_out} not divisible by num_gpus {num_gpus}"
     shard_size = d_out // num_gpus
 
     partial_results = []
@@ -130,7 +133,7 @@ def memory_calculator(
         "gradients_gb": gradient_memory / 1e9,
         "activations_gb": activation_memory / 1e9,
         "per_gpu_total_gb": per_gpu_total / 1e9,
-        "total_across_gpus_gb": (params * precision_bytes + params * 4 * 2 + params * precision_bytes) / 1e9 + activation_memory * num_gpus / 1e9,
+        "total_across_gpus_gb": per_gpu_total * num_gpus / 1e9,
         "fits_on_80gb": per_gpu_total / 1e9 <= 80,
         "num_gpus": num_gpus,
         "sharding": sharding,
@@ -217,6 +220,11 @@ def training_cost_estimator(
     if num_gpus is None:
         mem = memory_calculator(params_billions, sharding="fsdp", num_gpus=1)
         num_gpus = max(1, int(np.ceil(mem["per_gpu_total_gb"] / spec["memory_gb"])) * 2)
+
+    verify = memory_calculator(params_billions, sharding="fsdp", num_gpus=num_gpus)
+    while verify["per_gpu_total_gb"] > spec["memory_gb"]:
+        num_gpus *= 2
+        verify = memory_calculator(params_billions, sharding="fsdp", num_gpus=num_gpus)
 
     total_gpu_seconds = flops_total / (flops_per_gpu_per_sec * num_gpus)
     total_gpu_hours = total_gpu_seconds / 3600

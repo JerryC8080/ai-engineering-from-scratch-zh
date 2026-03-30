@@ -369,6 +369,6 @@ Progress tracking for every phase and lesson.
 
 ---
 
-**Total: 20 phases, 260+ lessons | 61 complete | ~290 hours estimated**
+**Total: 20 phases, 260+ lessons | 68 complete | ~290 hours estimated**
 
 Want to help? Pick any ⬚ lesson and submit a PR. See [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -136,25 +136,55 @@ class BatchNorm(Module):
         self.eps = eps
         self.x_norm = None
         self.std_inv = None
+        self.batch_input = None
 
-    def forward(self, x):
+    def forward_batch(self, batch):
+        batch_size = len(batch)
+        output_batch = []
+
         if self.training:
             mean = [0.0] * self.size
-            for j in range(self.size):
-                mean[j] = x[j]
+            for sample in batch:
+                for j in range(self.size):
+                    mean[j] += sample[j]
+            mean = [m / batch_size for m in mean]
 
             var = [0.0] * self.size
+            for sample in batch:
+                for j in range(self.size):
+                    var[j] += (sample[j] - mean[j]) ** 2
+            var = [v / batch_size for v in var]
 
             self.std_inv = [1.0 / math.sqrt(v + self.eps) for v in var]
-            self.x_norm = [(x[j] - mean[j]) * self.std_inv[j] for j in range(self.size)]
 
-            output = [self.gamma[j] * self.x_norm[j] + self.beta[j] for j in range(self.size)]
+            self.x_norm = []
+            self.batch_input = batch
+            for sample in batch:
+                normed = [(sample[j] - mean[j]) * self.std_inv[j] for j in range(self.size)]
+                self.x_norm.append(normed)
+                output = [self.gamma[j] * normed[j] + self.beta[j] for j in range(self.size)]
+                output_batch.append(output)
 
             for j in range(self.size):
                 self.running_mean[j] = (1 - self.momentum) * self.running_mean[j] + self.momentum * mean[j]
                 self.running_var[j] = (1 - self.momentum) * self.running_var[j] + self.momentum * var[j]
+        else:
+            std_inv = [1.0 / math.sqrt(v + self.eps) for v in self.running_var]
+            for sample in batch:
+                normed = [(sample[j] - self.running_mean[j]) * std_inv[j] for j in range(self.size)]
+                output = [self.gamma[j] * normed[j] + self.beta[j] for j in range(self.size)]
+                output_batch.append(output)
 
-            return output
+        return output_batch
+
+    def forward(self, x):
+        if self.training:
+            for j in range(self.size):
+                self.running_mean[j] = (1 - self.momentum) * self.running_mean[j] + self.momentum * x[j]
+
+            self.std_inv = [1.0 / math.sqrt(v + self.eps) for v in self.running_var]
+            self.x_norm = [(x[j] - self.running_mean[j]) * self.std_inv[j] for j in range(self.size)]
+            return [self.gamma[j] * self.x_norm[j] + self.beta[j] for j in range(self.size)]
         else:
             std_inv = [1.0 / math.sqrt(v + self.eps) for v in self.running_var]
             normed = [(x[j] - self.running_mean[j]) * std_inv[j] for j in range(self.size)]
@@ -163,8 +193,9 @@ class BatchNorm(Module):
     def backward(self, grad):
         if self.x_norm is None:
             return grad
+        x_norm = self.x_norm if not isinstance(self.x_norm[0], list) else self.x_norm[0]
         for j in range(self.size):
-            self.gamma_grads[j] += self.x_norm[j] * grad[j]
+            self.gamma_grads[j] += x_norm[j] * grad[j]
             self.beta_grads[j] += grad[j]
         return [grad[j] * self.gamma[j] * self.std_inv[j] for j in range(self.size)]
 
