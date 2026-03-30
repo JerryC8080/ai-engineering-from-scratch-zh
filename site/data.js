@@ -426,39 +426,45 @@ const PHASES = [
       },
       {
         "name": "Loss Functions: MSE, Cross-Entropy, Contrastive",
-        "status": "planned",
+        "status": "complete",
         "type": "Build",
-        "lang": "Python"
+        "lang": "Python",
+        "url": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/03-deep-learning-core/05-loss-functions/"
       },
       {
         "name": "Optimizers -SGD, Momentum, Adam, AdamW",
-        "status": "planned",
+        "status": "complete",
         "type": "Build",
-        "lang": "Python"
+        "lang": "Python",
+        "url": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/03-deep-learning-core/06-optimizers/"
       },
       {
         "name": "Regularization -Dropout, Weight Decay, BatchNorm",
-        "status": "planned",
+        "status": "complete",
         "type": "Build",
-        "lang": "Python"
+        "lang": "Python",
+        "url": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/03-deep-learning-core/07-regularization/"
       },
       {
         "name": "Weight Initialization & Training Stability",
-        "status": "planned",
+        "status": "complete",
         "type": "Build",
-        "lang": "Python"
+        "lang": "Python",
+        "url": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/03-deep-learning-core/08-weight-initialization/"
       },
       {
         "name": "Learning Rate Schedules & Warmup",
-        "status": "planned",
+        "status": "complete",
         "type": "Build",
-        "lang": "Python"
+        "lang": "Python",
+        "url": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/03-deep-learning-core/09-learning-rate-schedules/"
       },
       {
         "name": "Build Your Own Mini Framework",
-        "status": "planned",
+        "status": "complete",
         "type": "Build",
-        "lang": "Python"
+        "lang": "Python",
+        "url": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/03-deep-learning-core/10-mini-framework/"
       },
       {
         "name": "Introduction to PyTorch",
@@ -1074,15 +1080,17 @@ const PHASES = [
       },
       {
         "name": "Pre-Training a Mini GPT (124M)",
-        "status": "planned",
+        "status": "complete",
         "type": "Build",
-        "lang": "Python"
+        "lang": "Python",
+        "url": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/10-llms-from-scratch/04-pre-training-mini-gpt/"
       },
       {
         "name": "Distributed Training, FSDP, DeepSpeed",
-        "status": "planned",
+        "status": "complete",
         "type": "Build",
-        "lang": "Python"
+        "lang": "Python",
+        "url": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/10-llms-from-scratch/05-scaling-distributed/"
       },
       {
         "name": "Instruction Tuning -SFT",

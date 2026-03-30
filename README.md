@@ -127,12 +127,12 @@ You learn AI. You build real things. You ship tools others can use.
 | 02 | [Multi-Layer Networks & Forward Pass](phases/03-deep-learning-core/02-multi-layer-networks/) | Build | Python |
 | 03 | [Backpropagation from Scratch](phases/03-deep-learning-core/03-backpropagation/) | Build | Python |
 | 04 | [Activation Functions: ReLU, Sigmoid, GELU & Why](phases/03-deep-learning-core/04-activation-functions/) | Build | Python |
-| 05 | Loss Functions: MSE, Cross-Entropy, Contrastive | Build | Python |
-| 06 | Optimizers -SGD, Momentum, Adam, AdamW | Build | Python |
-| 07 | Regularization -Dropout, Weight Decay, BatchNorm | Build | Python |
-| 08 | Weight Initialization & Training Stability | Build | Python |
-| 09 | Learning Rate Schedules & Warmup | Build | Python |
-| 10 | Build Your Own Mini Framework | Build | Python |
+| 05 | [Loss Functions: MSE, Cross-Entropy, Contrastive](phases/03-deep-learning-core/05-loss-functions/) | Build | Python |
+| 06 | [Optimizers: SGD, Momentum, Adam, AdamW](phases/03-deep-learning-core/06-optimizers/) | Build | Python |
+| 07 | [Regularization: Dropout, Weight Decay, BatchNorm](phases/03-deep-learning-core/07-regularization/) | Build | Python |
+| 08 | [Weight Initialization & Training Stability](phases/03-deep-learning-core/08-weight-initialization/) | Build | Python |
+| 09 | [Learning Rate Schedules & Warmup](phases/03-deep-learning-core/09-learning-rate-schedules/) | Build | Python |
+| 10 | [Build Your Own Mini Framework](phases/03-deep-learning-core/10-mini-framework/) | Build | Python |
 | 11 | Introduction to PyTorch | Build | Python |
 | 12 | Introduction to JAX | Build | Python |
 | 13 | Debugging Neural Networks | Learn | Python |
@@ -281,8 +281,8 @@ You learn AI. You build real things. You ship tools others can use.
 | 01 | [Tokenizers: BPE, WordPiece, SentencePiece](phases/10-llms-from-scratch/01-tokenizers/) | Build | Python |
 | 02 | [Building a Tokenizer from Scratch](phases/10-llms-from-scratch/02-building-a-tokenizer/) | Build | Python |
 | 03 | [Data Pipelines for Pre-Training](phases/10-llms-from-scratch/03-data-pipelines/) | Build | Python |
-| 04 | Pre-Training a Mini GPT (124M) | Build | Python |
-| 05 | Distributed Training, FSDP, DeepSpeed | Build | Python |
+| 04 | [Pre-Training a Mini GPT (124M)](phases/10-llms-from-scratch/04-pre-training-mini-gpt/) | Build | Python |
+| 05 | [Distributed Training, FSDP, DeepSpeed](phases/10-llms-from-scratch/05-scaling-distributed/) | Build | Python |
 | 06 | Instruction Tuning -SFT | Build | Python |
 | 07 | RLHF -Reward Model + PPO | Build | Python |
 | 08 | DPO -Direct Preference Optimization | Build | Python |

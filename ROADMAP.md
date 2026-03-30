@@ -81,12 +81,12 @@ Progress tracking for every phase and lesson.
 | 02 | Multi-Layer Networks & Forward Pass | ⬚ | ~75 min |
 | 03 | Backpropagation from Scratch | ⬚ | ~75 min |
 | 04 | Activation Functions — ReLU, Sigmoid, GELU & Why | ⬚ | ~45 min |
-| 05 | Loss Functions — MSE, Cross-Entropy, Contrastive | ⬚ | ~45 min |
-| 06 | Optimizers — SGD, Momentum, Adam, AdamW | ⬚ | ~75 min |
-| 07 | Regularization — Dropout, Weight Decay, BatchNorm | ⬚ | ~75 min |
-| 08 | Weight Initialization & Training Stability | ⬚ | ~45 min |
-| 09 | Learning Rate Schedules & Warmup | ⬚ | ~45 min |
-| 10 | Build Your Own Mini Framework | ⬚ | ~120 min |
+| 05 | Loss Functions — MSE, Cross-Entropy, Contrastive | ✅ | ~45 min |
+| 06 | Optimizers — SGD, Momentum, Adam, AdamW | ✅ | ~75 min |
+| 07 | Regularization — Dropout, Weight Decay, BatchNorm | ✅ | ~75 min |
+| 08 | Weight Initialization & Training Stability | ✅ | ~45 min |
+| 09 | Learning Rate Schedules & Warmup | ✅ | ~45 min |
+| 10 | Build Your Own Mini Framework | ✅ | ~120 min |
 | 11 | Introduction to PyTorch | ⬚ | ~75 min |
 | 12 | Introduction to JAX | ⬚ | ~75 min |
 | 13 | Debugging Neural Networks | ⬚ | ~75 min |
@@ -214,8 +214,8 @@ Progress tracking for every phase and lesson.
 | 01 | Tokenizers — BPE, WordPiece, SentencePiece | ✅ | ~45 min |
 | 02 | Building a Tokenizer from Scratch | ✅ | ~75 min |
 | 03 | Data Pipelines for Pre-Training | ✅ | ~75 min |
-| 04 | Pre-Training a Mini GPT (124M) | ⬚ | ~120 min |
-| 05 | Scaling — Distributed Training, FSDP, DeepSpeed | ⬚ | ~75 min |
+| 04 | Pre-Training a Mini GPT (124M) | ✅ | ~120 min |
+| 05 | Scaling — Distributed Training, FSDP, DeepSpeed | ✅ | ~75 min |
 | 06 | Instruction Tuning — SFT | ⬚ | ~75 min |
 | 07 | RLHF — Reward Model + PPO Training | ⬚ | ~75 min |
 | 08 | DPO — Direct Preference Optimization | ⬚ | ~75 min |
