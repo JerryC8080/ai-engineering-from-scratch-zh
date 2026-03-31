@@ -341,3 +341,30 @@
     return div.innerHTML;
   }
 })();
+
+(function() {
+  var viewer = document.querySelector('spline-viewer');
+  if (!viewer) return;
+  function hideLogo() {
+    var shadow = viewer.shadowRoot;
+    if (!shadow) return;
+    var logo = shadow.querySelector('#logo');
+    if (logo) { logo.style.display = 'none'; return; }
+    var links = shadow.querySelectorAll('a');
+    links.forEach(function(a) {
+      if (a.textContent.includes('Spline') || a.href && a.href.includes('spline')) {
+        a.style.display = 'none';
+      }
+    });
+    var divs = shadow.querySelectorAll('div');
+    divs.forEach(function(d) {
+      if (d.textContent.includes('Built with')) {
+        d.style.display = 'none';
+      }
+    });
+  }
+  var interval = setInterval(function() {
+    if (viewer.shadowRoot) { hideLogo(); clearInterval(interval); }
+  }, 500);
+  setTimeout(function() { clearInterval(interval); }, 10000);
+})();
