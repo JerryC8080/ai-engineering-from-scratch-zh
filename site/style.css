@@ -223,7 +223,10 @@ a:hover {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(13,13,24,0.4) 70%);
+  background:
+    radial-gradient(ellipse at center, transparent 0%, rgba(13,13,24,0.4) 70%),
+    linear-gradient(to top, rgba(13,13,24,1) 0%, rgba(13,13,24,0.8) 8%, transparent 25%),
+    linear-gradient(to left, rgba(13,13,24,1) 0%, rgba(13,13,24,0.8) 12%, transparent 30%);
   pointer-events: none;
 }
 
