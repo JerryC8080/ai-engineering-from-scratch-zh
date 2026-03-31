@@ -178,35 +178,30 @@ a:hover {
   position: relative;
   min-height: 100vh;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #0f0f1a;
+  background: linear-gradient(135deg, #0d0d18 0%, #141430 40%, #0d0d18 100%);
 }
 
 [data-theme="light"] .hero {
-  background: #0f0f1a;
+  background: linear-gradient(135deg, #0d0d18 0%, #141430 40%, #0d0d18 100%);
 }
 
-.hero-scene {
+.hero-canvas {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
+  pointer-events: none;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 30%,
-    rgba(15, 15, 26, 0.3) 50%,
-    rgba(15, 15, 26, 0.7) 70%,
-    rgba(15, 15, 26, 0.95) 85%,
-    #0f0f1a 100%
-  );
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(13,13,24,0.4) 70%);
   pointer-events: none;
 }
 
@@ -214,8 +209,21 @@ a:hover {
   position: relative;
   z-index: 3;
   text-align: center;
-  padding: 0 24px 80px;
+  padding: 80px 24px;
   max-width: 800px;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  background: rgba(255, 107, 107, 0.08);
+  padding: 4px 16px;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  margin-bottom: 24px;
+  letter-spacing: 0.03em;
 }
 
 .hero-title {
