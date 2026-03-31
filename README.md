@@ -75,7 +75,7 @@ Other courses end with "congratulations, you learned X." Our lessons end with a 
 - **Agents** -- deploy as autonomous workers
 - **MCP servers** -- plug into any MCP-compatible AI app
 
-277-term searchable glossary. Full lesson catalog. ~290 hours of content with per-lesson time estimates. [Browse the website &rarr;](https://rohitg00.github.io/ai-engineering-from-scratch/)
+277-term searchable glossary. Full lesson catalog. ~290 hours of content with per-lesson time estimates. [Browse the website &rarr;](https://aiengineeringfromscratch.com)
 
 ---
 
@@ -555,7 +555,7 @@ The Build It / Use It split is the key. You understand what the framework does b
 
 **Option A: Just start reading**
 
-Pick any completed lesson from [the website](https://rohitg00.github.io/ai-engineering-from-scratch/) or the phase tables below.
+Pick any completed lesson from [the website](https://aiengineeringfromscratch.com) or the phase tables below.
 
 **Option B: Clone and run**
 
