@@ -159,7 +159,7 @@ The trend is clear: each method eliminates one more piece of complexity. RLHF ne
 
 ### Real DPO Deployments
 
-**Zephyr-7B (HuggingFace, October 2023):** Mistral 7B base, SFT on UltraChat (200K examples), then DPO on UltraFeedback (60K preference pairs). At the time of release, it was the highest-scoring 7B model on MT-Bench (6.47), beating Llama 2 Chat 70B (6.86 is close but Zephyr was 10x smaller).
+**Zephyr-7B (HuggingFace, October 2023):** Mistral 7B base, SFT on UltraChat (200K examples), then DPO on UltraFeedback (60K preference pairs). Scored 6.47 on MT-Bench -- the highest 7B model at the time. For comparison, Llama 2 Chat 70B scored 6.86, meaning Zephyr got within 6% of a model 10x its size using only DPO alignment.
 
 **Llama 3 (Meta, April 2024):** Used DPO after initial RLHF stages. The combination suggests that DPO and RLHF can be complementary -- RLHF for broad alignment, DPO for targeted refinement.
 
