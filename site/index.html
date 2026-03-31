@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Engineering from Scratch</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230d0d18'/><text x='4' y='23' font-size='18' font-weight='bold' font-family='system-ui' fill='%23ff6b6b'>AI</text></svg>">
   <meta name="description" content="260+ lessons across 20 phases. From linear algebra to autonomous agents. Build everything from scratch.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +17,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="logo">
-        <span class="logo-icon">&#9679;</span> AI Eng
+        <span class="logo-icon">&#9679;</span> AI from Scratch
       </a>
       <nav class="header-nav">
         <a href="#phases">Phases</a>
@@ -35,13 +36,15 @@
     <div class="hero-scene">
       <spline-viewer url="https://prod.spline.design/dJqTIQ-tE3ULUPMi/scene.splinecode" style="position:absolute;inset:0;width:100%;height:100%;"></spline-viewer>
     </div>
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
     <div class="hero-overlay"></div>
     <div class="hero-content">
+      <div class="hero-badge">Open Source &middot; MIT License &middot; ~290 hours</div>
       <h1 class="hero-title">
         <span class="hero-line1">AI Engineering</span>
         <span class="hero-line2">from Scratch</span>
       </h1>
-      <p class="hero-subtitle">From linear algebra to autonomous agents. No hand-waving, no black boxes. Build every layer yourself.</p>
+      <p class="hero-subtitle">260+ lessons across 20 phases. Build neural networks, transformers, and LLMs from first principles. Python, TypeScript, Rust, Julia.</p>
       <div class="hero-stats" id="heroStats">
         <div class="stat-item">
           <span class="stat-number" data-target="lessons">0</span>
@@ -50,6 +53,10 @@
         <div class="stat-item">
           <span class="stat-number" data-target="phases">0</span>
           <span class="stat-label">Phases</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="4">4</span>
+          <span class="stat-label">Languages</span>
         </div>
         <div class="stat-item">
           <span class="stat-number" data-target="complete">0</span>
