@@ -1,4 +1,23 @@
 (function() {
+  var root = document.documentElement;
+  var stored = localStorage.getItem('theme');
+  if (stored) {
+    root.setAttribute('data-theme', stored);
+  }
+
+  document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var current = root.getAttribute('data-theme');
+      var isDark = current === 'dark' ||
+        (!current && matchMedia('(prefers-color-scheme: dark)').matches);
+      var next = isDark ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  });
+})();
+
+(function() {
   var header = document.getElementById('header');
   var lastY = 0;
   window.addEventListener('scroll', function() {
