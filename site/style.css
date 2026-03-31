@@ -222,9 +222,9 @@ a:hover {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 220px;
-  height: 50px;
-  background: linear-gradient(135deg, transparent 30%, #0d0d18 70%);
+  width: 300px;
+  height: 80px;
+  background: #0d0d18;
   z-index: 2;
   pointer-events: none;
 }
