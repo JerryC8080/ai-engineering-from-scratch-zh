@@ -2284,10 +2284,10 @@
         var html = '<div class="ai-panel-header"><div class="ai-panel-icon blue">\u{1F680}</div><div class="ai-panel-title">Continue Learning</div></div>';
         html += '<div class="continue-panel">';
 
-        if (next) {
-          html += '<a class="continue-big-btn" href="lesson.html?path=' + next.path + '">Next Lesson \u2192</a>';
+        if (next && next.path) {
+          html += '<a class="continue-big-btn" href="lesson.html?path=' + next.path + '">Next: ' + escapeHtml(next.lessonName) + ' \u2192</a>';
         } else {
-          html += '<div class="continue-big-btn" style="background:var(--complete);border-color:var(--complete)">Course Complete!</div>';
+          html += '<div class="continue-big-btn" style="background:var(--complete);border-color:var(--complete);">\u2705 You finished this phase!</div>';
         }
 
         html += '<div class="continue-links">';
