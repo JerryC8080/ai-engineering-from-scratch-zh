@@ -191,7 +191,7 @@
         html += '<a>' + escapeHtml(l.name) + '</a>';
       }
       if (l.status === 'complete' && l.url) {
-        var pathMatch = l.url.match(/tree\/main\/(.+?)\/?$/);
+        var pathMatch = l.url.match(/(phases\/[^/]+\/[^/]+)\/?$/);
         if (pathMatch) {
           html += '<a href="lesson.html?path=' + pathMatch[1] + '" class="modal-lesson-read">Read</a>';
         }

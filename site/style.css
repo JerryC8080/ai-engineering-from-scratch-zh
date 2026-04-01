@@ -716,7 +716,7 @@ a:hover {
   flex-shrink: 0;
 }
 
-.modal-lesson-read {
+.modal-lesson .modal-lesson-read {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 700;
@@ -729,7 +729,7 @@ a:hover {
   transition: background-color 0.2s, transform 0.2s;
 }
 
-.modal-lesson-read:hover {
+.modal-lesson .modal-lesson-read:hover {
   background: var(--accent-hover);
   color: #fff;
   transform: scale(1.05);

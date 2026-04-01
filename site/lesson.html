@@ -1376,7 +1376,8 @@
               type: l.type,
               lang: l.lang,
               url: l.url,
-              path: 'phases/' + pSlug + '/' + lSlug
+              path: 'phases/' + pSlug + '/' + lSlug,
+              isReadable: l.status === 'complete' || !!l.url
             });
             if (pSlug === currentPhaseSlug && lSlug === currentLessonSlug) {
               currentPhaseIndex = i;
@@ -1445,10 +1446,15 @@
             var lesSlug = extractLessonSlug(les, k);
             var pSlugCurrent = extractPhaseSlug(phase, currentPhaseIndex);
             var isActive = lesSlug === currentLessonSlug;
-            html += '<a class="sidebar-lesson-link' + (isActive ? ' active' : '') + '" href="lesson.html?path=phases/' + pSlugCurrent + '/' + lesSlug + '">';
+            var lesReadable = les.status === 'complete' || !!les.url;
+            if (lesReadable) {
+              html += '<a class="sidebar-lesson-link' + (isActive ? ' active' : '') + '" href="lesson.html?path=phases/' + pSlugCurrent + '/' + lesSlug + '">';
+            } else {
+              html += '<span class="sidebar-lesson-link disabled">';
+            }
             html += '<span class="sidebar-lesson-dot ' + les.status + '"></span>';
             html += escapeHtml(les.name);
-            html += '</a>';
+            html += lesReadable ? '</a>' : '</span>';
           }
         }
 
@@ -1757,11 +1763,17 @@
       }
 
       function inlineFormat(text) {
+        text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         text = text.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
         text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
         text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
         text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-        text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+        text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (m, label, href) {
+          if (/^https?:\/\/|^mailto:/i.test(href)) {
+            return '<a href="' + href + '" target="_blank" rel="noopener">' + label + '</a>';
+          }
+          return label;
+        });
         return text;
       }
 
@@ -1795,11 +1807,23 @@
           commentPattern = /(#[^\n]*|\/\/[^\n]*)/g;
         }
 
-        code = code.replace(commentPattern, '<span class="syn-comment">$1</span>');
-        code = code.replace(/(&quot;(?:[^&]|&(?!quot;))*?&quot;|&#39;(?:[^&]|&(?!#39;))*?&#39;|&quot;&quot;&quot;[\s\S]*?&quot;&quot;&quot;)/g, '<span class="syn-string">$1</span>');
-        code = code.replace(/"([^"]*?)"/g, '<span class="syn-string">"$1"</span>');
+        var tokens = [];
+        function stash(match) {
+          var id = '\x00TOK' + tokens.length + '\x00';
+          tokens.push(match);
+          return id;
+        }
+
+        code = code.replace(commentPattern, function (m) { return stash('<span class="syn-comment">' + m + '</span>'); });
+        code = code.replace(/(&quot;(?:[^&]|&(?!quot;))*?&quot;|&#39;(?:[^&]|&(?!#39;))*?&#39;|&quot;&quot;&quot;[\s\S]*?&quot;&quot;&quot;)/g, function (m) { return stash('<span class="syn-string">' + m + '</span>'); });
+        code = code.replace(/"([^"]*?)"/g, function (m) { return stash('<span class="syn-string">' + m + '</span>'); });
+
         code = code.replace(keywords, '<span class="syn-keyword">$1</span>');
         code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syn-number">$1</span>');
+
+        for (var ti = 0; ti < tokens.length; ti++) {
+          code = code.replace('\x00TOK' + ti + '\x00', tokens[ti]);
+        }
         return code;
       }
 
@@ -1836,8 +1860,14 @@
       function addBottomNav(html) {
         if (currentLessonIndex < 0) return html;
 
-        var prev = currentLessonIndex > 0 ? flatLessons[currentLessonIndex - 1] : null;
-        var next = currentLessonIndex < flatLessons.length - 1 ? flatLessons[currentLessonIndex + 1] : null;
+        var prev = null;
+        for (var pi = currentLessonIndex - 1; pi >= 0; pi--) {
+          if (flatLessons[pi].isReadable) { prev = flatLessons[pi]; break; }
+        }
+        var next = null;
+        for (var ni = currentLessonIndex + 1; ni < flatLessons.length; ni++) {
+          if (flatLessons[ni].isReadable) { next = flatLessons[ni]; break; }
+        }
 
         var nav = '<div class="lesson-nav-bottom">';
         if (prev) {
@@ -2007,12 +2037,21 @@
             html += '<div class="code-card-run">' + escapeHtml(runCmd) + '</div>';
             html += '<div class="code-card-actions">';
             html += '<a class="code-card-btn" href="' + file.html_url + '" target="_blank" rel="noopener">View on GitHub</a>';
-            html += '<button class="code-card-btn" onclick="navigator.clipboard.writeText(\'' + escapeAttr(runCmd) + '\');this.textContent=\'Copied!\';var b=this;setTimeout(function(){b.textContent=\'Copy command\'},1500)">Copy command</button>';
+            html += '<button class="code-card-btn code-card-copy" data-command="' + escapeAttr(runCmd) + '">Copy command</button>';
             html += '</div>';
             html += '</div>';
           });
           html += '</div>';
           el.innerHTML = html;
+          el.querySelectorAll('.code-card-copy').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var command = btn.getAttribute('data-command');
+              navigator.clipboard.writeText(command).then(function () {
+                btn.textContent = 'Copied!';
+                setTimeout(function () { btn.textContent = 'Copy command'; }, 1500);
+              });
+            });
+          });
         });
       }
 
@@ -2201,10 +2240,14 @@
             html += '<div class="timeline-line ' + lineCls + '"></div>';
           }
 
-          html += '<a class="timeline-item ' + cls + '" href="lesson.html?path=' + item.flat.path + '" title="' + escapeAttr(item.flat.lessonName) + '">';
+          if (item.flat.isReadable) {
+            html += '<a class="timeline-item ' + cls + '" href="lesson.html?path=' + item.flat.path + '" title="' + escapeAttr(item.flat.lessonName) + '">';
+          } else {
+            html += '<span class="timeline-item ' + cls + ' disabled" title="' + escapeAttr(item.flat.lessonName) + '">';
+          }
           html += '<div class="timeline-dot"></div>';
           html += '<div class="timeline-label">' + escapeHtml(item.flat.lessonName) + '</div>';
-          html += '</a>';
+          html += item.flat.isReadable ? '</a>' : '</span>';
         });
         html += '</div>';
 
@@ -2230,7 +2273,10 @@
         var panel = document.createElement('div');
         panel.className = 'ai-panel';
 
-        var next = currentLessonIndex < flatLessons.length - 1 ? flatLessons[currentLessonIndex + 1] : null;
+        var next = null;
+        for (var ci = currentLessonIndex + 1; ci < flatLessons.length; ci++) {
+          if (flatLessons[ci].isReadable) { next = flatLessons[ci]; break; }
+        }
         var current = flatLessons[currentLessonIndex];
         var phaseIdx = current.phaseIndex;
         var phase = PHASES[phaseIdx];
@@ -2266,7 +2312,7 @@
       }
 
       function escapeAttr(str) {
-        return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       }
     })();
   </script>
