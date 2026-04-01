@@ -1264,6 +1264,152 @@
         padding: 14px 28px;
       }
     }
+
+    @media (max-width: 768px) {
+      .lesson-main {
+        padding: 32px 16px 60px;
+      }
+
+      .lesson-article {
+        max-width: 100%;
+      }
+
+      .lesson-article h1 {
+        font-size: 2rem;
+      }
+
+      .lesson-article h2 {
+        font-size: 1.5rem;
+      }
+
+      .lesson-article h3 {
+        font-size: 1.2rem;
+      }
+
+      .lesson-article p,
+      .lesson-article ul li,
+      .lesson-article ol li {
+        font-size: 1.05rem;
+        line-height: 1.75;
+      }
+
+      .lesson-article pre code {
+        font-size: 0.8rem;
+        padding: 14px 12px;
+      }
+
+      .lesson-article table {
+        font-size: 0.85rem;
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .lesson-article table th,
+      .lesson-article table td {
+        padding: 8px 10px;
+        white-space: nowrap;
+      }
+
+      .lesson-article .motto {
+        font-size: 1.1rem;
+        padding: 14px 16px;
+      }
+
+      .lesson-article .drop-cap::first-letter {
+        font-size: 3em;
+      }
+
+      .ai-panels {
+        margin-top: 40px;
+        gap: 32px;
+      }
+
+      .ai-panel {
+        padding: 20px 14px;
+        border-radius: 20px 8px 20px 8px / 8px 20px 8px 20px;
+      }
+
+      .ai-panel-title {
+        font-size: 1.2rem;
+      }
+
+      .output-cards,
+      .code-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .quiz-options {
+        gap: 8px;
+      }
+
+      .quiz-option {
+        font-size: 0.9rem;
+        padding: 10px 14px;
+      }
+
+      .learning-timeline {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 16px 8px;
+      }
+
+      .continue-big-btn {
+        font-size: 1rem;
+        padding: 12px 20px;
+      }
+
+      .continue-links {
+        gap: 8px;
+      }
+
+      .lesson-nav-bottom {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .lesson-nav-btn {
+        max-width: 100%;
+      }
+
+      .lesson-nav-btn.next {
+        text-align: left;
+      }
+
+      .lesson-progress {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .lesson-article h1 {
+        font-size: 1.6rem;
+      }
+
+      .lesson-main {
+        padding: 24px 10px 48px;
+      }
+
+      .ai-panel {
+        padding: 16px 10px;
+      }
+    }
+
+    @media (min-width: 1440px) {
+      .lesson-article {
+        max-width: 800px;
+      }
+
+      .lesson-sidebar {
+        width: 300px;
+        min-width: 300px;
+      }
+
+      .lesson-main {
+        margin-left: 300px;
+      }
+    }
   </style>
 </head>
 <body>
