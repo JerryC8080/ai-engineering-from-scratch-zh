@@ -190,6 +190,12 @@
       } else {
         html += '<a>' + escapeHtml(l.name) + '</a>';
       }
+      if (l.status === 'complete' && l.url) {
+        var pathMatch = l.url.match(/tree\/main\/(.+?)\/?$/);
+        if (pathMatch) {
+          html += '<a href="lesson.html?path=' + pathMatch[1] + '" class="modal-lesson-read">Read</a>';
+        }
+      }
       html += '<span class="modal-lesson-type">' + escapeHtml(l.type) + '</span>';
       html += '<span class="modal-lesson-lang">' + escapeHtml(l.lang) + '</span>';
       html += '</div>';

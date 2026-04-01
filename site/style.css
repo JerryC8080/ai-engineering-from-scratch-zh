@@ -716,6 +716,25 @@ a:hover {
   flex-shrink: 0;
 }
 
+.modal-lesson-read {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.modal-lesson-read:hover {
+  background: var(--accent-hover);
+  color: #fff;
+  transform: scale(1.05);
+}
+
 .roadmap-progress {
   display: flex;
   align-items: center;
