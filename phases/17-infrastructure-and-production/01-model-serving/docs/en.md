@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10 (LLMs from Scratch), Phase 11 (LLM Engineering)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Build a model serving endpoint with FastAPI that handles concurrent requests, streams tokens, and returns structured responses
+- Implement continuous batching to group multiple requests into a single GPU forward pass, maximizing throughput
+- Configure vLLM or TGI for production serving and benchmark latency (TTFT, TPS) and throughput under load
+- Explain the tradeoffs between static batching, continuous batching, and speculative decoding for different traffic patterns
+
 ## The Problem
 
 You trained a model. You ran inference in a Jupyter notebook. It works. You call `model.generate()`, wait a few seconds, and get text back. Ship it?

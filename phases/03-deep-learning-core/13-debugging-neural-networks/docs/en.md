@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 03 Lessons 01-10 (especially backpropagation, loss functions, optimizers)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Diagnose common neural network failures (NaN loss, flat loss curve, overfitting, oscillation) using systematic debugging strategies
+- Apply the "overfit one batch" technique to verify that your model architecture and training loop are correct
+- Inspect gradient magnitudes, activation distributions, and weight norms to identify vanishing/exploding gradient problems
+- Build a debugging checklist that covers data pipeline, model architecture, loss function, optimizer, and learning rate issues
+
 ## The Problem
 
 Traditional software crashes when it is broken. A null pointer throws an exception. A type mismatch fails at compile time. An off-by-one error produces a clearly wrong output.

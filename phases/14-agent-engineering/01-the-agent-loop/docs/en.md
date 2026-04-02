@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 11 (LLM Engineering)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Build a complete agent loop from scratch: observe (read LLM output), decide (parse tool calls), act (execute tools), and feed results back
+- Implement tool registration, argument parsing, and result formatting so the LLM can invoke external functions
+- Add error handling, retry logic, and a maximum-iterations guard to prevent infinite loops
+- Compare ReAct-style reasoning traces with direct tool calling and explain when each pattern applies
+
 ## The Problem
 
 You can prompt an LLM. You can call its API. But it can only respond — it can't act. It can't read files, run code, search the web, or fix its own mistakes.

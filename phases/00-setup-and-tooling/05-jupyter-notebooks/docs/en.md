@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 0, Lesson 01
 **Time:** ~30 minutes
 
+## Learning Objectives
+
+- Install and launch JupyterLab, Jupyter Notebook, or VS Code with the Jupyter extension
+- Use magic commands (`%timeit`, `%%time`, `%matplotlib inline`) to benchmark and visualize inline
+- Distinguish when to use notebooks vs scripts and apply the "explore in notebooks, ship in scripts" workflow
+- Identify and avoid common notebook traps: out-of-order execution, hidden state, and memory leaks
+
 ## The Problem
 
 Every AI paper, tutorial, and Kaggle competition uses Jupyter notebooks. They let you run code in pieces, see outputs inline, mix code with explanations, and iterate fast. If you try to learn AI without notebooks, you're doing math homework without scratch paper.

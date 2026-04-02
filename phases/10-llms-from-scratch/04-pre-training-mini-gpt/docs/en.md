@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lessons 01-03 (Tokenizers, Building a Tokenizer, Data Pipelines)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Implement the full GPT-2 architecture (124M parameters) from scratch: token embeddings, positional embeddings, transformer blocks, and the language model head
+- Train a GPT model on a text corpus using next-token prediction with cross-entropy loss
+- Implement autoregressive text generation with temperature sampling and top-k/top-p filtering
+- Monitor training loss curves and validate that the model learns coherent language patterns
+
 ## The Problem
 
 You know what a transformer is. You have read the diagrams. You can recite "attention is all you need" and draw boxes labeled "Multi-Head Attention" on a whiteboard.

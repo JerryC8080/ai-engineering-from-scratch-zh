@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 14 (Agent Engineering), Lesson 16.01 (Why Multi-Agent)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Implement MCP tool discovery and invocation so agents can use tools exposed by external servers
+- Build an A2A agent card and task endpoint that allows one agent to delegate work to another over HTTP
+- Compare MCP (tool access), A2A (agent-to-agent), ACP (enterprise audit), and ANP (decentralized trust) and explain which protocol solves which problem
+- Wire multiple protocols together in a single system where agents discover tools via MCP and delegate tasks via A2A
+
 ## The Problem
 
 You split your system into multiple agents. A researcher, a coder, a reviewer. They're great at their individual jobs. But now you need them to actually talk to each other.

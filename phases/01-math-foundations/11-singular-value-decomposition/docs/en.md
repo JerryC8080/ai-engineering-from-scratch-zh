@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01 (Linear Algebra Intuition), 02 (Vectors & Matrices Operations), 03 (Matrix Transformations)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Implement SVD via power iteration and explain the geometric meaning of U, Sigma, and V^T
+- Apply truncated SVD for image compression and measure the compression ratio vs reconstruction error
+- Compute the Moore-Penrose pseudoinverse via SVD to solve overdetermined least-squares systems
+- Connect SVD to PCA, recommendation systems (latent factors), and Latent Semantic Analysis in NLP
+
 ## The Problem
 
 You have a 1000x2000 matrix. Maybe it is user-movie ratings. Maybe it is a document-term frequency table. Maybe it is the pixel values of an image. You need to compress it, denoise it, find hidden structure in it, or solve a least-squares system with it. Eigendecomposition only works on square matrices. Even then, it requires the matrix to have a full set of linearly independent eigenvectors.

@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lesson 04 (Pre-Training a Mini GPT)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement supervised fine-tuning (SFT) that converts a base language model into an instruction-following assistant
+- Format training data using chat templates with system, user, and assistant roles, and mask loss on non-assistant tokens
+- Explain why SFT is necessary: base models continue text rather than answer questions
+- Evaluate SFT quality by comparing base model vs fine-tuned model responses on a held-out instruction set
+
 ## The Problem
 
 You trained a model in Lesson 04. It can predict the next token given a sequence. Feed it "The transformer architecture" and it might continue with "has revolutionized natural language processing." That's impressive for a next-token predictor.

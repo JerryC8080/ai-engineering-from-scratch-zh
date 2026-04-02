@@ -7,6 +7,13 @@
 **Prerequisites:** Lesson 03.02 (Multi-Layer Networks)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Implement a Value-based autograd engine that builds a computational graph and computes gradients via topological sort
+- Derive the backward pass for addition, multiplication, and sigmoid using the chain rule
+- Train a multi-layer network on XOR and circle classification using only your from-scratch backpropagation engine
+- Identify the vanishing gradient problem in deep sigmoid networks and explain why gradients shrink exponentially
+
 ## The Problem
 
 Your network has a single hidden layer with 768 inputs and 3072 outputs. That's 2,359,296 weights. It made a wrong prediction. Which weights caused the error? Testing each weight individually means 2.3 million forward passes. Backpropagation computes all 2.3 million gradients in a single backward pass. That's not an optimization. That's the difference between trainable and impossible.

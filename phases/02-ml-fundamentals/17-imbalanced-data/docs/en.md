@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 2, Lessons 01-09 (especially evaluation metrics)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement SMOTE from scratch and explain how synthetic oversampling differs from random duplication
+- Evaluate imbalanced classifiers using F1, AUPRC, and Matthews Correlation Coefficient instead of accuracy
+- Compare class weighting, threshold tuning, and resampling strategies and select the right approach for a given imbalance ratio
+- Build a complete imbalanced data pipeline that combines SMOTE, class weights, and threshold optimization
+
 ## The Problem
 
 You build a fraud detection model. It gets 99.9% accuracy. You celebrate. Then you realize it predicts "not fraud" for every single transaction.

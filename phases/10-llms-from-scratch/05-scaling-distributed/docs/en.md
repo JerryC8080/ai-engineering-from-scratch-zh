@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lesson 04 (Pre-Training a Mini GPT)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Explain the three types of parallelism (data, tensor, pipeline) and when each is necessary based on model and cluster size
+- Implement data-parallel training using PyTorch DDP with gradient synchronization across multiple GPUs
+- Calculate the memory budget for a given model size (weights + optimizer states + gradients + activations) to determine the minimum hardware
+- Configure FSDP or DeepSpeed ZeRO stages to shard model states across GPUs and fit models that exceed single-GPU memory
+
 ## The Problem
 
 A 7B parameter model in FP16 needs 14GB just for the weights. Adam optimizer stores two additional copies of every parameter (first and second moment estimates). That is another 28GB. Gradients during backpropagation add 14GB more. You are at 56GB before a single activation is stored.

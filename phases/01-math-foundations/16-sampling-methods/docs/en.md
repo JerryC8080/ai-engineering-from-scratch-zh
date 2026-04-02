@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 06-07 (Probability, Bayes' Theorem)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Implement inverse CDF, rejection, and importance sampling from scratch using only uniform random numbers
+- Build temperature, top-k, and top-p (nucleus) sampling for language model token generation
+- Explain the reparameterization trick and why it enables backpropagation through sampling in VAEs
+- Run Metropolis-Hastings MCMC to sample from an unnormalized target distribution
+
 ## The Problem
 
 A language model finishes processing your prompt and produces a vector of 50,000 logits. One for every token in its vocabulary. Now it has to pick one. How?

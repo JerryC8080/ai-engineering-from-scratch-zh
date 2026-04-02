@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 0, Lesson 01
 **Time:** ~45 minutes
 
+## Learning Objectives
+
+- Verify local GPU availability using `nvidia-smi` and PyTorch's CUDA API
+- Configure Google Colab with a T4 GPU for free cloud-based experiments
+- Benchmark matrix multiplication on CPU vs GPU and measure the speedup
+- Estimate the largest model that fits in your VRAM using the fp16 rule of thumb
+
 ## The Problem
 
 Most lessons in phases 1-3 run fine on CPU. But once you start training CNNs, transformers, or LLMs (phases 4+), you need GPU acceleration. A training run that takes 8 hours on CPU takes 10 minutes on GPU.

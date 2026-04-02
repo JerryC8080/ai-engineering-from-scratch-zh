@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01 (Linear Algebra Intuition), 02 (Vectors, Matrices & Operations)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement a tensor class with shape, strides, reshape, transpose, and element-wise operations from scratch
+- Apply broadcasting rules to operate on tensors of different shapes without copying data
+- Write einsum expressions for dot products, matrix multiplications, outer products, and batched operations
+- Trace the exact tensor shapes through every step of multi-head attention
+
 ## The Problem
 
 You build a transformer. The forward pass looks clean. You run it and get: `RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x768 and 512x768)`. You stare at the shapes. You try a transpose. Now it says `Expected 4D input (got 3D input)`. You add an unsqueeze. Something else breaks.

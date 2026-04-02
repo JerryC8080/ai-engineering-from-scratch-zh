@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 06-07 (probability, Bayes)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Simulate 1D and 2D random walks and verify the sqrt(n) scaling of displacement
+- Build a Markov chain simulator and compute its stationary distribution via eigendecomposition
+- Implement Metropolis-Hastings MCMC and Langevin dynamics for sampling from target distributions
+- Connect the forward diffusion process to Brownian motion and explain how the reverse process generates data
+
 ## The Problem
 
 Many AI systems involve randomness that evolves over time. Not static randomness -- structured, sequential randomness where each step depends on what came before.

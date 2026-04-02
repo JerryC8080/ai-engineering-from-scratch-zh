@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lesson 01 (Linear Algebra Intuition)
 **Time:** ~60 minutes
 
+## Learning Objectives
+
+- Build a Matrix class with element-wise operations, matrix multiplication, transpose, determinant, and inverse
+- Distinguish element-wise multiplication from matrix multiplication and explain when each applies
+- Implement a single dense neural network layer (`relu(W @ x + b)`) using only the from-scratch Matrix class
+- Explain broadcasting rules and how bias addition works in neural network frameworks
+
 ## The Problem
 
 You want to build a neural network. You read the code and see this:

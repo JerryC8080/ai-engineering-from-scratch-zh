@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 11 Lesson 01 (Prompt Engineering), Phase 11 Lesson 09 (Function Calling)
 **Time:** ~45 minutes
 
+## Learning Objectives
+
+- Implement input guardrails that detect and block prompt injection, jailbreak attempts, and toxic content before reaching the model
+- Build output guardrails that validate responses for PII leakage, hallucinated URLs, and policy violations
+- Design a layered defense system combining input filtering, system prompt hardening, and output validation
+- Test guardrails against a red-team prompt set and measure the false positive/negative rate
+
 ## The Problem
 
 You deploy a customer support bot for a bank. Day one, someone types:

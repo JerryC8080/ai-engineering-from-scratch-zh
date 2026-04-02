@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 11 Lesson 03 (Structured Outputs)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Implement a function calling loop: define tool schemas, parse the model's tool-call JSON, execute functions, and return results
+- Design tool schemas with clear descriptions and typed parameters that the model can reliably invoke
+- Build a multi-turn agent loop that chains multiple function calls to answer complex queries
+- Handle function calling edge cases: parallel tool calls, error propagation, and preventing infinite tool loops
+
 ## The Problem
 
 You build a chatbot. A user asks: "What's the weather in Tokyo right now?"

@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 11, Lesson 01 (Prompt Engineering)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Generate text embeddings using API providers and open-source models, and compute cosine similarity between them
+- Explain why embeddings solve the vocabulary mismatch problem that keyword search cannot handle
+- Build a semantic search index that retrieves documents by meaning rather than exact keyword match
+- Evaluate embedding quality using retrieval benchmarks (precision@k, recall) and choose the right embedding model for your task
+
 ## The Problem
 
 You have 10,000 support tickets. A customer writes "my payment didn't go through." You need to find similar past tickets. Keyword search finds tickets containing "payment" and "didn't go through." It misses "transaction failed," "charge was declined," and "billing error." These tickets describe the exact same problem with completely different words.

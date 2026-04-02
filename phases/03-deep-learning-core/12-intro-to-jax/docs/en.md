@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 03 Lessons 01-10, basic NumPy
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Write pure-function neural network code using JAX's functional API (jax.numpy, jax.grad, jax.jit, jax.vmap)
+- Explain the key design difference between PyTorch's eager mutation and JAX's functional compilation model
+- Apply jit compilation and vmap vectorization to accelerate training loops compared to naive Python
+- Train a simple network in JAX and contrast the explicit state management with PyTorch's object-oriented approach
+
 ## The Problem
 
 You know how to build neural networks in PyTorch. You define an `nn.Module`, call `.backward()`, step the optimizer. It works. Millions of people use it.

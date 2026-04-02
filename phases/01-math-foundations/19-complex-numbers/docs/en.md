@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01-04 (linear algebra, calculus)
 **Time:** ~60 minutes
 
+## Learning Objectives
+
+- Perform complex arithmetic (add, multiply, divide, conjugate) in both rectangular and polar form
+- Apply Euler's formula to convert between complex exponentials and trigonometric functions
+- Implement the Discrete Fourier Transform using complex roots of unity
+- Explain how complex rotations underlie RoPE and sinusoidal positional encodings in transformers
+
 ## The Problem
 
 You open a paper on Fourier transforms and there is `i` everywhere. You look at transformer positional encodings and see `sin` and `cos` at different frequencies -- the real and imaginary parts of complex exponentials. You read about quantum computing and find everything expressed in complex vector spaces.

@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 0, Lesson 01
 **Time:** ~35 minutes
 
+## Learning Objectives
+
+- Use piping, redirects, and `grep` to filter and process training logs from the command line
+- Create persistent tmux sessions with multiple panes for concurrent training and GPU monitoring
+- Monitor system and GPU resources with `htop`, `nvtop`, and `nvidia-smi`
+- Transfer files between local and remote machines using SSH, `scp`, and `rsync`
+
 ## The Problem
 
 You will spend more time in the terminal than in any editor. Training runs, GPU monitoring, log tailing, remote SSH sessions, environment management. Every AI workflow touches the shell. If you're slow here, you're slow everywhere.

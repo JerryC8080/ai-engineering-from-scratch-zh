@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10 (LLMs from Scratch), Phase 11 Lessons 01-05
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Build a complete RAG pipeline: document loading, chunking, embedding, vector storage, retrieval, and generation
+- Implement semantic search using a vector database (ChromaDB, FAISS, or Pinecone) with proper indexing
+- Explain why RAG is preferred over fine-tuning for knowledge-grounded applications (cost, freshness, attribution)
+- Evaluate RAG quality using retrieval metrics (precision, recall) and generation metrics (faithfulness, relevance)
+
 ## The Problem
 
 You build a chatbot for your company. A customer asks "What's the refund policy for enterprise plans?" The LLM responds with a generic answer about typical SaaS refund policies. The actual policy, buried in a 200-page internal wiki, says enterprise customers get a 60-day window with pro-rated refunds. The LLM has never seen this document. It cannot know what it was not trained on.

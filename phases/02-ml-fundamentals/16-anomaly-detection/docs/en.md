@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 2, Lessons 01-09
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Implement Z-score, IQR, and Isolation Forest anomaly detection methods from scratch
+- Distinguish between point, contextual, and collective anomalies and select the appropriate detection method for each
+- Explain why anomaly detection is framed as modeling normal data rather than classifying anomalies
+- Compare unsupervised anomaly detection with supervised classification and evaluate the tradeoff between novel anomaly coverage and precision
+
 ## The Problem
 
 A credit card is used in New York at 2pm, then in Tokyo at 2:05pm. A factory sensor reads 150 degrees when the normal range is 80-120. A server sends 50,000 requests per second when the daily average is 200.

@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01-02 (Linear Algebra Intuition, Vectors & Matrices Operations)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Construct rotation, scaling, shearing, and reflection matrices and apply them to 2D and 3D points
+- Compose multiple transformations by matrix multiplication and verify that order matters
+- Compute eigenvalues and eigenvectors of 2x2 matrices from the characteristic equation
+- Explain why eigenvalues determine PCA directions, RNN stability, and spectral clustering behavior
+
 ## The Problem
 
 You read about PCA and see "find the eigenvectors of the covariance matrix." You read about model stability and see "check if all eigenvalues have magnitude less than 1." You read about data augmentation and see "apply a random rotation." None of this makes sense until you understand what matrices do to space geometrically.

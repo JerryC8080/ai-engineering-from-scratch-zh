@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1 (Lessons 08 Optimization, 14 Norms and Distances, 18 Convex Optimization)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement a linear SVM from scratch using hinge loss and gradient descent on the primal formulation
+- Explain the maximum margin principle and identify support vectors from a trained model
+- Compare linear, polynomial, and RBF kernels and explain how the kernel trick avoids explicit high-dimensional mapping
+- Evaluate the tradeoff controlled by the C parameter between margin width and classification errors
+
 ## The Problem
 
 You have two classes of data points and need to draw a line (or hyperplane) separating them. Infinitely many lines could work. Which one should you pick?

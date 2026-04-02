@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lesson 06 (Instruction Tuning / SFT)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Build a reward model that scores response quality from human preference pairs (chosen vs rejected)
+- Implement the PPO training loop that optimizes a language model policy against the reward model with a KL penalty
+- Explain why RLHF requires three models (SFT, reward, policy) and how the KL constraint prevents reward hacking
+- Evaluate the effect of RLHF by comparing response quality before and after preference optimization
+
 ## The Problem
 
 Ask a model "Explain quantum computing" and it might produce:

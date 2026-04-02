@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lesson 07 (RLHF)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement DPO training that directly optimizes a language model on preference pairs without a separate reward model
+- Derive the DPO loss function and explain how it implicitly represents a reward model through the policy's log probabilities
+- Compare DPO vs RLHF in terms of training stability, compute cost, and number of models required
+- Tune the beta parameter to control how far the trained policy diverges from the reference model
+
 ## The Problem
 
 You built an RLHF pipeline in Lesson 07. Three stages. Three models. The SFT model, the reward model, and the policy model optimized with PPO. The reward model alone required thousands of human preference pairs and a separate training loop. PPO required careful tuning of the KL coefficient, learning rate, clip ratio, and number of epochs.

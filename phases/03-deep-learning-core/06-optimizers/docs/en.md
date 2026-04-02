@@ -7,6 +7,13 @@
 **Prerequisites:** Lesson 03.05 (Loss Functions)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Implement SGD, SGD with momentum, Adam, and AdamW optimizers from scratch in Python
+- Explain how Adam's bias correction compensates for zero-initialized moment estimates in early training steps
+- Demonstrate why AdamW produces better generalization than Adam with L2 regularization on the same task
+- Select the appropriate optimizer and default hyperparameters for transformers, CNNs, GANs, and fine-tuning
+
 ## The Problem
 
 You computed the gradients. You know that weight #4,721 should decrease by 0.003 to reduce the loss. But 0.003 in what units? Scaled by what? And should you move the same amount on step 1 as on step 1,000?

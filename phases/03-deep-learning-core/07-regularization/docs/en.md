@@ -7,6 +7,13 @@
 **Prerequisites:** Lesson 03.06 (Optimizers)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Implement dropout with inverted scaling, L2 weight decay, batch normalization, layer normalization, and RMSNorm from scratch
+- Measure the train-test accuracy gap and diagnose overfitting using regularization experiments
+- Explain why transformers use LayerNorm instead of BatchNorm and why modern LLMs prefer RMSNorm
+- Apply the correct combination of regularization techniques based on the severity of overfitting
+
 ## The Problem
 
 A neural network with enough parameters can memorize any dataset. This is not a hypothetical -- Zhang et al. (2017) proved it by training standard networks on ImageNet with random labels. The networks reached near-zero training loss on completely random label assignments. They memorized a million random input-output pairs with no pattern to learn. Training loss was perfect. Test accuracy was zero.

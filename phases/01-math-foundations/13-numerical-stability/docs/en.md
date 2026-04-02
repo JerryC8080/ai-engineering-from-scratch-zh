@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01-04
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Implement numerically stable softmax and log-sum-exp using the max-subtraction trick
+- Identify overflow, underflow, and catastrophic cancellation in floating-point computations
+- Verify analytical gradients against numerical gradients using centered finite differences
+- Explain why bfloat16 is preferred over float16 for training and how loss scaling prevents gradient underflow
+
 ## The Problem
 
 Your model trains for three hours, then the loss becomes NaN. You add a print statement. The logits are fine at step 9,000. At step 9,001 they are `inf`. By step 9,002 every gradient is `nan` and training is dead.

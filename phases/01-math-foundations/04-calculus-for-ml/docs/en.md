@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01-03
 **Time:** ~60 minutes
 
+## Learning Objectives
+
+- Compute numerical and analytical derivatives for common ML functions (x^2, sigmoid, cross-entropy)
+- Implement gradient descent from scratch to minimize a loss function in 1D and 2D
+- Derive the gradient of a linear regression model and train it via manual weight updates
+- Explain the Hessian matrix, Taylor series approximations, and their connection to optimization methods
+
 ## The Problem
 
 You have a neural network with millions of weights. Each weight is a knob. You need to figure out which direction to turn every single knob to make the model slightly less wrong. Calculus gives you that direction.

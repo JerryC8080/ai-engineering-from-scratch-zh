@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 0, Lesson 01
 **Time:** ~30 minutes
 
+## Learning Objectives
+
+- Create isolated virtual environments using `uv`, `venv`, or `conda`
+- Write a `pyproject.toml` with optional dependency groups and generate lockfiles for reproducibility
+- Diagnose and fix common pitfalls: global installs, pip/conda mixing, CUDA version mismatches
+- Implement a per-phase environment strategy for projects with conflicting dependencies
+
 ## The Problem
 
 You install PyTorch 2.4 for a fine-tuning project. Next week, a different project needs PyTorch 2.1 because its CUDA build is pinned. You upgrade globally, and the first project breaks. You downgrade, and the second one breaks.

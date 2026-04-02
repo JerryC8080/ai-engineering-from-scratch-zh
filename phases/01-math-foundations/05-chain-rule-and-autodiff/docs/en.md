@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lesson 04 (Derivatives & Gradients)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Build a minimal autograd engine (Value class) that records operations and computes gradients via reverse-mode autodiff
+- Implement forward and backward passes through a computation graph using topological sort
+- Construct and train a multi-layer perceptron on XOR using only the from-scratch autograd engine
+- Verify autodiff correctness using gradient checking against numerical finite differences
+
 ## The Problem
 
 You can compute derivatives of simple functions. But a neural network is not a simple function. It is hundreds of functions composed together: matrix multiply, add bias, apply activation, matrix multiply again, softmax, cross-entropy loss. The output is a function of a function of a function.

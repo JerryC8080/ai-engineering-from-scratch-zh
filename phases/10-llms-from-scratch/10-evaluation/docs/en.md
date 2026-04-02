@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lessons 01-05 (LLMs from Scratch)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Build a custom evaluation harness that runs multiple-choice and open-ended benchmarks against a language model
+- Explain why standard benchmarks (MMLU, HumanEval) saturate and fail to differentiate frontier models
+- Implement task-specific evals with proper metrics: exact match, F1, BLEU, and LLM-as-judge scoring
+- Design a custom evaluation suite targeting your specific use case rather than relying solely on public leaderboards
+
 ## The Problem
 
 MMLU was published in 2020 with 15,908 questions across 57 subjects. Within three years, frontier models saturated it. GPT-4 scored 86.4%. Claude 3 Opus scored 86.8%. Llama 3 405B scored 88.6%. The leaderboard compressed into a 3-point range where differences are statistical noise, not real capability gaps.

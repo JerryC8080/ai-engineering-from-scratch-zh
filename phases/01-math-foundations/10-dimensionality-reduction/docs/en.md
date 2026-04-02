@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01 (Linear Algebra Intuition), 02 (Vectors, Matrices & Operations), 03 (Eigenvalues & Eigenvectors), 06 (Probability & Distributions)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement PCA from scratch: center data, compute the covariance matrix, eigendecompose, and project
+- Use explained variance ratio and the elbow method to choose the number of principal components
+- Compare PCA, t-SNE, and UMAP for visualizing MNIST digits in 2D and explain their tradeoffs
+- Apply kernel PCA with an RBF kernel to separate nonlinear data structures that standard PCA cannot handle
+
 ## The Problem
 
 You have a dataset with 784 features per sample. Maybe it is pixel values of handwritten digits. Maybe it is gene expression levels. Maybe it is user behavior signals. You cannot visualize 784 dimensions. You cannot plot them. You cannot even think about them.

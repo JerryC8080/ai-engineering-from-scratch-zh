@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 04 (Calculus for ML), 08 (Optimization)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Test whether a function is convex using the definition, second derivative, and Hessian criteria
+- Implement Newton's method and compare its quadratic convergence against gradient descent
+- Solve constrained optimization problems using Lagrange multipliers and interpret KKT conditions
+- Explain why neural network loss landscapes are non-convex yet SGD still finds good solutions
+
 ## The Problem
 
 Lesson 08 taught you gradient descent, momentum, and Adam. Those optimizers walk downhill on any surface. But they come with no guarantees. Gradient descent on a non-convex landscape might land in a bad local minimum, get stuck on a saddle point, or oscillate forever. You used it anyway because neural networks are non-convex and there is no alternative.

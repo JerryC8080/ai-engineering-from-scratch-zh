@@ -7,6 +7,13 @@
 **Prerequisites:** Lesson 03.06 (Optimizers), Lesson 03.08 (Weight Initialization)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement constant, step decay, cosine annealing, warmup + cosine, and 1cycle learning rate schedules from scratch
+- Demonstrate the three failure modes of learning rate selection: divergence (too high), stalling (too low), and oscillation (no decay)
+- Explain why warmup is necessary for Adam-based optimizers and how it stabilizes early training
+- Compare convergence speed across all five schedules on the same task and select the appropriate one for a given training budget
+
 ## The Problem
 
 Set the learning rate to 0.1. Training diverges -- loss jumps to infinity in 3 steps. Set it to 0.0001. Training crawls -- after 100 epochs, the model has barely moved from random. Set it to 0.01. Training works for 50 epochs, then the loss oscillates around a minimum it can never reach because the steps are too large.

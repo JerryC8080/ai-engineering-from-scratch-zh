@@ -7,6 +7,13 @@
 **Prerequisites:** Lesson 03.10 (Build Your Own Mini Framework)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Build and train neural networks using PyTorch's nn.Module, nn.Sequential, and autograd
+- Use PyTorch tensors, GPU acceleration, and the standard training loop (zero_grad, forward, loss, backward, step)
+- Convert your from-scratch mini framework components to their PyTorch equivalents
+- Profile and compare training speed between your pure-Python framework and PyTorch on the same task
+
 ## The Problem
 
 You have a working mini framework. Linear layers, ReLU, dropout, batch norm, Adam, a DataLoader, a training loop. It trains a 4-layer network on a circle classification problem in pure Python.
