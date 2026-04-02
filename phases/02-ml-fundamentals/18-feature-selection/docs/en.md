@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 2, Lessons 01-09, 08 (feature engineering)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Implement filter methods (variance threshold, mutual information, chi-squared) and wrapper methods (RFE, forward selection) from scratch
+- Explain why mutual information captures nonlinear feature-target relationships that correlation misses
+- Compare L1 regularization (embedded selection) with RFE (wrapper selection) and evaluate their computational tradeoffs
+- Build a feature selection pipeline that combines multiple methods and demonstrate improved generalization on held-out data
+
 ## The Problem
 
 You have 500 features. Your model trains slowly, overfits constantly, and nobody can explain what it learned. You add more features hoping to improve performance. It gets worse.

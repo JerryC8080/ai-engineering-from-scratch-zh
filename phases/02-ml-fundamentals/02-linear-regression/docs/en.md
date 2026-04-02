@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1 (Linear Algebra, Calculus, Optimization), Phase 2 Lesson 1
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Derive the gradient descent update rules for mean squared error and implement linear regression from scratch
+- Compare gradient descent and the normal equation in terms of computational complexity and when to use each
+- Build a multiple linear regression model with feature standardization and interpret the learned weights
+- Explain how Ridge regression (L2 regularization) prevents overfitting by penalizing large weights
+
 ## The Problem
 
 You have data: house sizes and their sale prices. You want to predict the price of a new house given its size. You could eyeball it on a scatter plot, but you need a formula. You need a line that best fits the data so you can plug in any size and get a price prediction.

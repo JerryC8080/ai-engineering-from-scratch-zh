@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lessons 01-05 (LLMs from Scratch)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement JSON-mode and schema-constrained outputs using OpenAI and Anthropic API parameters
+- Build a Pydantic validation layer that rejects malformed LLM outputs and retries with error feedback
+- Explain how constrained decoding forces valid JSON at the token level without post-processing
+- Design robust extraction prompts that reliably convert unstructured text into typed data structures
+
 ## The Problem
 
 You ask an LLM: "Extract the product name, price, and availability from this text." It responds:

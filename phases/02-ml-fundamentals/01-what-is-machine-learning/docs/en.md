@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1 (Math Foundations)
 **Time:** ~45 minutes
 
+## Learning Objectives
+
+- Explain the difference between supervised, unsupervised, and reinforcement learning and identify which type applies to a given problem
+- Implement a nearest centroid classifier from scratch and evaluate it against a random baseline
+- Distinguish between classification and regression tasks and select the appropriate loss function for each
+- Evaluate whether a given business problem is suitable for ML or better solved with deterministic rules
+
 ## The Problem
 
 You want to build a spam filter. The traditional approach: sit down and write hundreds of rules. "If the email contains 'FREE MONEY', mark it spam. If it has more than 3 exclamation marks, mark it spam." You spend weeks writing rules. Then spammers change their wording. Your rules break. You write more rules. The cycle never ends.

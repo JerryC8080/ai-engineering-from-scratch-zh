@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1 (Statistics for ML, Linear Algebra), Phase 2 Lessons 1-7
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement numerical transforms (standardization, min-max scaling, log transform, binning) and explain when each is appropriate
+- Build one-hot, label, and target encoding for categorical features and identify the data leakage risk in target encoding
+- Construct a TF-IDF vectorizer from scratch and explain why it outperforms raw word counts for text classification
+- Apply filter-based feature selection (variance threshold, correlation, mutual information) to reduce dimensionality
+
 ## The Problem
 
 You have a dataset. You pick an algorithm. You train it. The results are mediocre. You try a fancier algorithm. Still mediocre. You spend a week tuning hyperparameters. Marginal improvement.

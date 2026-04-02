@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lessons 01-10 (LLMs from Scratch)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Implement symmetric and asymmetric quantization from FP16 to INT8 and INT4, including per-tensor and per-channel scaling
+- Calculate the memory savings from quantization and determine which precision fits a given GPU's VRAM
+- Explain the difference between post-training quantization (PTQ) and quantization-aware training (QAT)
+- Apply GPTQ or AWQ to quantize a real model and measure the accuracy-memory tradeoff on a benchmark
+
 ## The Problem
 
 Llama 3 70B has 70 billion parameters. Each parameter is a 16-bit floating point number. That is 140 billion bytes. 140GB. A single A100 has 80GB of VRAM. You cannot even load the weights, let alone run inference, on a single GPU. You need two A100s at $2/hour each just to serve one model.

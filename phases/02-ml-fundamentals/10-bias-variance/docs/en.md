@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 2, Lessons 01-09 (ML basics, regression, classification, evaluation)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Derive the bias-variance decomposition of expected prediction error and explain the role of irreducible noise
+- Diagnose whether a model suffers from high bias or high variance using training and test error patterns
+- Explain how regularization techniques (L1, L2, dropout, early stopping) trade bias for variance
+- Implement experiments that visualize the bias-variance tradeoff across models of increasing complexity
+
 ## The Problem
 
 You trained a model. It has some error on test data. Where does that error come from?

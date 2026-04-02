@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1 (Lessons 09 Information Theory, 06 Probability)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement Gini impurity, entropy, and information gain calculations to find optimal decision tree splits
+- Build a decision tree classifier from scratch with pre-pruning controls (max depth, min samples)
+- Construct a random forest using bootstrap sampling and feature randomization, and explain why it reduces variance
+- Compare MDI feature importance with permutation importance and identify when MDI is biased
+
 ## The Problem
 
 You have tabular data. Rows are samples, columns are features, and there is a target column you want to predict. You could throw a neural network at it. But for tabular data, tree-based models (decision trees, random forests, gradient boosted trees) consistently outperform deep learning. Kaggle competitions on structured data are dominated by XGBoost and LightGBM, not transformers.

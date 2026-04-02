@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 3 (Deep Learning Core), Phase 5 Lesson 10 (Sequence-to-Sequence)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement scaled dot-product self-attention from scratch using only NumPy, including query/key/value projections and the softmax-weighted sum
+- Build a multi-head attention layer that splits heads, computes parallel attention, and concatenates results
+- Trace how the attention matrix captures token relationships and explain why scaling by sqrt(d_k) prevents softmax saturation
+- Apply causal masking to convert bidirectional attention into autoregressive (decoder-style) attention
+
 ## The Problem
 
 RNNs process sequences one token at a time. By the time you reach token 50, the information from token 1 has been squeezed through 50 compression steps. Long-range dependencies get crushed into a fixed-size hidden state - a bottleneck that no amount of LSTM gating fully solves.

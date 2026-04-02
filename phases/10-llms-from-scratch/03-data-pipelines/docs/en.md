@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lessons 01-02 (Tokenizers, Building a Tokenizer)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Build a streaming data pipeline that tokenizes, chunks, shuffles, and batches terabytes of text without loading it all into memory
+- Implement data quality filters (deduplication, language detection, content filtering) used in real pre-training pipelines
+- Create fixed-length training sequences with proper attention masks and document boundary handling
+- Profile pipeline throughput to ensure the dataloader keeps up with GPU training speed
+
 ## The Problem
 
 You have a tokenizer. Now you need data.

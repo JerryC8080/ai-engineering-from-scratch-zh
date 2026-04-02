@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10 (LLMs from Scratch), Phase 11 Lesson 01-02
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Calculate token budgets across all context window components (system prompt, tools, history, retrieved docs, generation headroom)
+- Implement context window management strategies: truncation, summarization, and sliding window for conversation history
+- Prioritize and order context components to maximize the model's attention on the most relevant information
+- Build a context assembler that dynamically allocates tokens based on query type and available window space
+
 ## The Problem
 
 Claude has a 200K token context window. GPT-4o has 128K. Gemini 1.5 has 1M. These numbers sound enormous until you fill them.

@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 0, Lesson 01
 **Time:** ~30 minutes
 
+## Learning Objectives
+
+- Navigate the Linux file system and perform essential file operations from the command line
+- Manage file permissions with `chmod` and `chown` to resolve "Permission denied" errors
+- Install system packages with `apt` and set up a fresh GPU box for AI work
+- Identify macOS-to-Linux differences that commonly trip up developers working on remote machines
+
 ## The Problem
 
 You develop on macOS or Windows. But the moment you SSH into a cloud GPU box, rent a Lambda instance, or spin up an EC2 machine, you land in Ubuntu. The terminal is your only interface. There is no Finder, no Explorer, no GUI. If you can't navigate the file system, install packages, and manage processes from the command line, you're stuck paying for idle GPU hours while googling "how to unzip a file in Linux."

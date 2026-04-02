@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 06 (Probability and Distributions), 07 (Bayes' Theorem)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Compute descriptive statistics, Pearson/Spearman correlation, and covariance matrices from scratch
+- Perform hypothesis tests (t-test, chi-squared) and interpret p-values and confidence intervals correctly
+- Use bootstrap resampling to construct confidence intervals for any metric without distributional assumptions
+- Distinguish statistical significance from practical significance using effect size measures
+
 ## The Problem
 
 You trained two models. Model A scores 0.87 on your test set. Model B scores 0.89. You deploy Model B. Three weeks later, production metrics are worse than before. What happened?

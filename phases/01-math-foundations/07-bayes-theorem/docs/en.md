@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lesson 06 (Probability Fundamentals)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Apply Bayes' theorem to compute posterior probabilities from priors, likelihoods, and evidence
+- Build a Naive Bayes text classifier from scratch with Laplace smoothing and log-space computation
+- Compare MLE and MAP estimation and explain how MAP corresponds to L2 regularization
+- Implement sequential Bayesian updating using Beta-Binomial conjugate priors for A/B testing
+
 ## The Problem
 
 A medical test is 99% accurate. You test positive. What are the chances you actually have the disease?

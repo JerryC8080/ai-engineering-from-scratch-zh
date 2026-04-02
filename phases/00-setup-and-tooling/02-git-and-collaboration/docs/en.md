@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 0, Lesson 01
 **Time:** ~30 minutes
 
+## Learning Objectives
+
+- Configure git identity and use the daily workflow of add, commit, and push
+- Create and merge branches for isolated experiments without breaking main
+- Write a `.gitignore` that excludes model checkpoints and large binary files
+- Navigate the commit history with `git log` to understand project evolution
+
 ## The Problem
 
 You're about to write hundreds of code files across 20 phases. Without version control you will lose work, break things you can't undo, and have no way to collaborate with others.

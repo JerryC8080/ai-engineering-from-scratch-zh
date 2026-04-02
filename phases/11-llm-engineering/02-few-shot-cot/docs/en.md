@@ -7,6 +7,13 @@
 **Prerequisites:** Lesson 11.01 (Prompt Engineering)
 **Time:** ~45 minutes
 
+## Learning Objectives
+
+- Implement few-shot prompting by selecting and formatting example demonstrations that maximize task accuracy
+- Apply chain-of-thought (CoT) reasoning to improve accuracy on multi-step problems like math word problems
+- Build a tree-of-thought prompt that explores multiple reasoning paths and selects the best one
+- Measure the accuracy improvement from zero-shot vs few-shot vs CoT on a standard benchmark
+
 ## The Problem
 
 You build a math tutoring app. Your prompt says: "Solve this word problem." GPT-4o gets it right 78% of the time on GSM8K, the standard grade-school math benchmark. You think you need a bigger model. You do not.

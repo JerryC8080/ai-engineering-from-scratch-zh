@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 11, Lesson 06 (RAG)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement advanced chunking strategies (semantic, recursive, parent-child) that preserve document structure and context
+- Build a hybrid search pipeline combining BM25 keyword matching with semantic vector search and a cross-encoder reranker
+- Apply query transformation techniques (HyDE, multi-query, step-back) to improve retrieval on ambiguous or complex questions
+- Diagnose and fix common RAG failures: wrong chunk retrieved, answer not in context, multi-hop reasoning breakdown
+
 ## The Problem
 
 You built a basic RAG pipeline in Lesson 06. It works for straightforward questions on a small corpus. Now try these:

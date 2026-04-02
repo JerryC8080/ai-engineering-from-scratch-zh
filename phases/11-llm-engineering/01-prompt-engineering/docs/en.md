@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lessons 01-05 (LLMs from Scratch)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Apply the core prompt engineering patterns (role, context, constraints, output format) to transform vague requests into precise instructions
+- Construct system prompts with explicit behavioral rules that produce consistent, high-quality outputs
+- Diagnose prompt failures (hallucination, refusal, format violations) and fix them with targeted prompt modifications
+- Implement a prompt testing harness that evaluates prompt changes against a set of expected outputs
+
 ## The Problem
 
 You open ChatGPT. You type: "Write me a marketing email." You get something generic, bloated, and unusable. You try again with more detail. Better, but still off. You spend 20 minutes rephrasing the same request. This is not a model problem. It is an instruction problem.

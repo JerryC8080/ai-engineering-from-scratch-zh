@@ -7,6 +7,13 @@
 **Prerequisites:** Lesson 1 (Dev Environment), basic PyTorch familiarity
 **Time:** ~60 minutes
 
+## Learning Objectives
+
+- Use conditional `breakpoint()` and `debug_print` to inspect tensor shapes, dtypes, and NaN values mid-training
+- Profile training loops with `cProfile`, `line_profiler`, and `tracemalloc` to find bottlenecks
+- Detect common AI bugs: shape mismatches, NaN loss, data leakage, and wrong-device tensors
+- Set up TensorBoard to visualize loss curves, weight histograms, and gradient distributions
+
 ## The Problem
 
 AI code fails differently than regular code. A web app crashes with a stack trace. A misconfigured training loop runs for 8 hours, burns $200 in GPU time, and produces a model that predicts the mean of every input. The code never errored. The bug was a tensor on the wrong device, a forgotten `.detach()`, or labels leaking into features.

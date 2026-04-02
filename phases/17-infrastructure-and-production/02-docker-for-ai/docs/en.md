@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 17 Lesson 01 (Model Serving)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Write a multi-stage Dockerfile that separates build dependencies from runtime, keeping the final image under 10GB for a PyTorch + CUDA workload
+- Configure NVIDIA Container Toolkit for GPU passthrough and verify GPU access inside a running container
+- Mount model weights as volumes instead of baking them into images, and explain the size/caching tradeoffs
+- Build a Docker Compose setup with a model server, load balancer, and shared GPU resources for local multi-service development
+
 ## The Problem
 
 You built a model server. It runs on your laptop. You hand it to a teammate. It does not run on their laptop. Different Python version. Missing CUDA toolkit. Wrong version of PyTorch. The model weights are on your local disk and nowhere else.

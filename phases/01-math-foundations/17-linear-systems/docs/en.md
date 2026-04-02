@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01 (Linear Algebra Intuition), 02 (Vectors & Matrices), 03 (Matrix Transformations)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Solve Ax = b using Gaussian elimination with partial pivoting and back substitution
+- Factor matrices with LU, QR, and Cholesky decompositions and explain when each is appropriate
+- Derive the normal equations for least squares and connect them to linear and ridge regression
+- Diagnose ill-conditioned systems using the condition number and apply regularization to stabilize them
+
 ## The Problem
 
 Every time you train a linear regression, you solve a linear system. Every time you compute a least-squares fit, you solve a linear system. Every time a neural network layer computes `y = Wx + b`, it is evaluating one side of a linear system. When you add regularization, you modify the system. When you use Gaussian processes, you factor a matrix. When you invert a covariance matrix for Mahalanobis distance, you solve a linear system.

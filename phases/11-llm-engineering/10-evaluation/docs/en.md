@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 11 Lesson 01 (Prompt Engineering), Lesson 09 (Function Calling)
 **Time:** ~45 minutes
 
+## Learning Objectives
+
+- Build an evaluation dataset with input-output pairs, rubrics, and edge cases specific to your LLM application
+- Implement automated scoring using LLM-as-judge, regex matching, and deterministic assertion checks
+- Set up regression testing that detects quality degradation when prompts, models, or parameters change
+- Design evaluation metrics that capture what matters for your use case (correctness, tone, format compliance, latency)
+
 ## The Problem
 
 You build a RAG chatbot for customer support. It works great in your demos. You ship it. Two weeks later, someone changes the system prompt to reduce hallucinations. The change works -- hallucination rate drops. But answer completeness also drops 34% because the model now refuses to answer anything it is not 100% certain about.

@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 0, Lessons 01 and 03
 **Time:** ~60 minutes
 
+## Learning Objectives
+
+- Build a GPU-enabled Docker image with CUDA, PyTorch, and AI libraries from a Dockerfile
+- Mount host directories as volumes to persist models, datasets, and code across container rebuilds
+- Configure the NVIDIA Container Toolkit to expose GPUs inside containers
+- Orchestrate multi-service AI applications (inference server + vector database) using Docker Compose
+
 ## The Problem
 
 You trained a model on your laptop with PyTorch 2.3, CUDA 12.4, and Python 3.12. Your colleague has PyTorch 2.1, CUDA 11.8, and Python 3.10. Your model crashes on their machine. Your Dockerfile works on both.

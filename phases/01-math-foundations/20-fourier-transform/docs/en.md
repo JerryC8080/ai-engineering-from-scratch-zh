@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01-04, 19 (complex numbers)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement the DFT from scratch and verify it against the O(N log N) Cooley-Tukey FFT
+- Interpret frequency coefficients: extract amplitude, phase, and power spectrum from a signal
+- Apply the convolution theorem to perform convolution via FFT multiplication
+- Connect Fourier frequency decomposition to transformer positional encodings and CNN convolution layers
+
 ## The Problem
 
 An audio recording is a sequence of pressure measurements over time. A stock price is a sequence of values over days. An image is a grid of pixel intensities over space. All of these are data in the time domain (or space domain). You see values changing over some index.

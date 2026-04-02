@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lessons 01-08 (Transformer architecture, attention)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Implement KV-cache to eliminate redundant computation during autoregressive token generation
+- Explain the prefill vs decode phases of LLM inference and why each has different bottlenecks (compute-bound vs memory-bound)
+- Implement continuous batching and PagedAttention concepts to maximize GPU utilization under concurrent requests
+- Compare inference optimization techniques (KV-cache, speculative decoding, flash attention) and their throughput/latency tradeoffs
+
 ## The Problem
 
 You deploy Llama 3 70B on 4xA100 GPUs. A single user gets ~50 tokens per second. Feels fast. Then 100 users hit the endpoint simultaneously. Throughput drops to 3 tokens/second/user. Your $25,000/month GPU bill is serving responses slower than a human types.

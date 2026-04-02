@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 14 (Agent Engineering)
 **Time:** ~60 minutes
 
+## Learning Objectives
+
+- Identify the single-agent ceiling (context overflow, mixed expertise, sequential bottleneck) and explain when splitting into multiple agents is the right move
+- Compare orchestration patterns (pipeline, parallel fan-out, supervisor, hierarchical) and select the right one for a given task structure
+- Design a multi-agent system with clear role boundaries, shared state, and a communication contract
+- Analyze the tradeoffs of multi-agent complexity (latency, cost, debugging difficulty) versus single-agent simplicity
+
 ## The Problem
 
 You built a single agent in Phase 14. It works. It can read files, run commands, call APIs, and reason about results. Then you point it at a real codebase: 200 files, three languages, tests that depend on infrastructure, and a requirement to research external APIs before writing code.

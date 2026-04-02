@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 17 Lesson 02 (Docker for AI)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Deploy a GPU-accelerated model server to Kubernetes using the NVIDIA GPU Operator and resource requests for nvidia.com/gpu
+- Configure horizontal pod autoscaling based on request queue depth instead of CPU utilization, and explain why CPU-based scaling fails for GPU workloads
+- Implement a warm pool strategy with pre-loaded model weights to mitigate cold start latency during scale-up events
+- Write Kubernetes manifests for rolling updates with zero downtime, including readiness probes that verify model loading before accepting traffic
+
 ## The Problem
 
 You containerized your model. It runs in Docker with GPU passthrough. One model, one GPU, one machine. Done.

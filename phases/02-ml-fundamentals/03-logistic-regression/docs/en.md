@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 2 Lesson 1-2 (What Is ML, Linear Regression)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement logistic regression from scratch using the sigmoid function and binary cross-entropy loss
+- Compute and interpret precision, recall, F1 score, and the confusion matrix for binary classification
+- Explain why MSE fails for classification and why binary cross-entropy produces a convex cost surface
+- Build a softmax regression model for multi-class classification and evaluate threshold tuning tradeoffs
+
 ## The Problem
 
 You want to predict whether a tumor is malignant or benign given its size. You try linear regression. It outputs numbers like 0.3 or 1.7 or -0.5. What do those mean? Is 1.7 "very malignant"? Is -0.5 "very benign"? Linear regression outputs unbounded numbers. Classification needs bounded probabilities between 0 and 1, and a clear decision: yes or no.

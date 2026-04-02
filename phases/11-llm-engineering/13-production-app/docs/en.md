@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 11 Lessons 01-12
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Wire all Phase 11 components (prompts, RAG, function calling, caching, guardrails) into a single production-ready service
+- Implement streaming token delivery, graceful error handling, and request timeout management
+- Build observability into the application: request logging, cost tracking, latency percentiles, and error rate dashboards
+- Deploy the application with health checks, rate limiting, and a fallback strategy for provider outages
+
 ## The Problem
 
 Building an LLM feature takes an afternoon. Shipping an LLM product takes months.

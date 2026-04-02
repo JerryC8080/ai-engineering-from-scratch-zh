@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 0, Lesson 01
 **Time:** ~20 minutes
 
+## Learning Objectives
+
+- Install VS Code with essential extensions for Python, Jupyter, linting, and remote SSH
+- Configure format-on-save, type checking, and notebook output scrolling for AI workflows
+- Set up Remote SSH to edit and debug code on remote GPU machines as if they were local
+- Evaluate editor alternatives (Cursor, Windsurf, Neovim) and their tradeoffs for AI work
+
 ## The Problem
 
 You'll spend thousands of hours inside your editor writing Python, running notebooks, debugging training loops, and SSH-ing into GPU boxes. A misconfigured editor turns every session into friction: no autocomplete, no type hints, no inline errors, manual formatting, and a clunky terminal workflow.

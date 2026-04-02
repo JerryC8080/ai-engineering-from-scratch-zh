@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lesson 01 (Tokenizers: BPE, WordPiece, SentencePiece)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Build a production-grade BPE tokenizer that handles Unicode, whitespace normalization, and special tokens
+- Implement byte-level fallback so the tokenizer can encode any input (including emoji, CJK, and code) without unknown tokens
+- Add pre-tokenization regex patterns that split text at word boundaries before applying BPE merges
+- Train a custom tokenizer on a corpus and evaluate its compression ratio against tiktoken on multilingual text
+
 ## The Problem
 
 Your BPE tokenizer from Lesson 01 works on English text. Now throw Japanese at it. Or emoji. Or Python code with mixed tabs and spaces.

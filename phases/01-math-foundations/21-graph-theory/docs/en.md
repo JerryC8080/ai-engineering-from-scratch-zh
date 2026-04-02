@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lessons 01-03 (linear algebra, matrices)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Build a graph class with adjacency matrix/list representations and implement BFS and DFS traversals
+- Compute the graph Laplacian and use its eigenvalues to detect connected components and cluster nodes
+- Implement one round of GNN-style message passing as a normalized adjacency matrix multiplication
+- Apply spectral clustering to partition a graph using the Fiedler vector
+
 ## The Problem
 
 Social networks, molecules, knowledge bases, citation networks, road maps -- all are graphs. Traditional ML treats data as flat tables. Each row is independent. Each feature is a column. But when the structure of connections matters, tables fail.

@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 2, Lesson 10 (Bias-Variance Tradeoff)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Implement AdaBoost and gradient boosting from scratch and explain how boosting sequentially reduces bias
+- Build a bagging ensemble and demonstrate how averaging decorrelated models reduces variance without increasing bias
+- Compare bagging, boosting, and stacking in terms of what error component each method targets
+- Evaluate ensemble diversity and explain why majority voting accuracy improves with more independent weak learners
+
 ## The Problem
 
 A single decision tree is fast to train and easy to interpret, but it overfits. A single linear model underfits on complex boundaries. You could spend days engineering the perfect model architecture. Or you could combine a bunch of imperfect models and get something better than any of them individually.

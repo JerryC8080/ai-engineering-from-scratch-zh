@@ -7,6 +7,13 @@
 **Prerequisites:** Lesson 03.03 (Backpropagation)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Implement sigmoid, tanh, ReLU, Leaky ReLU, GELU, Swish, and softmax with their derivatives from scratch
+- Diagnose the vanishing gradient problem by measuring activation magnitudes through 10+ layers with different activations
+- Detect dead neurons in a ReLU network and explain why GELU avoids this failure mode
+- Select the correct activation function for a given architecture (transformer, CNN, RNN, output layer)
+
 ## The Problem
 
 Stack two linear transformations: y = W2(W1x + b1) + b2. Expand it: y = W2W1x + W2b1 + b2. That's just y = Ax + c -- a single linear transformation. No matter how many linear layers you stack, the result collapses to one matrix multiply. Your 100-layer network has the same representational power as a single layer.

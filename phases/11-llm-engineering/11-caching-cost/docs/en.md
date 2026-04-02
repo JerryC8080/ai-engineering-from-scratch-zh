@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 11 Lesson 09 (Function Calling)
 **Time:** ~45 minutes
 
+## Learning Objectives
+
+- Implement semantic caching that serves repeated or similar queries from cache instead of making a new API call
+- Calculate per-request costs across providers and implement token-aware rate limiting and budget alerts
+- Build a cost optimization layer with prompt compression, model routing (expensive vs cheap), and response caching
+- Design a tiered caching strategy using exact match, semantic similarity, and prefix caching for different query types
+
 ## The Problem
 
 You build a RAG chatbot. It works beautifully. Users love it.

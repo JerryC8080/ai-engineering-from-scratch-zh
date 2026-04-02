@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1 (Linear Algebra Intuition)
 **Time:** ~60 minutes
 
+## Learning Objectives
+
+- Implement a perceptron from scratch in Python, including the weight update rule and step activation function
+- Explain why a single perceptron can only solve linearly separable problems and demonstrate the XOR failure case
+- Construct a multi-layer perceptron by composing OR, NAND, and AND gates to solve XOR
+- Train a two-layer network with sigmoid activation and backpropagation to learn XOR automatically
+
 ## The Problem
 
 You know vectors and dot products. You know that a matrix transforms inputs into outputs. But how does a machine *learn* which transformation to use?

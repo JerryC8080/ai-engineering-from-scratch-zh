@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 10, Lesson 06 (Instruction Tuning / SFT)
 **Time:** ~75 minutes
 
+## Learning Objectives
+
+- Implement LoRA by injecting low-rank adapter matrices (A and B) into a pretrained model's attention layers
+- Calculate the parameter savings of LoRA vs full fine-tuning: rank r with d_model dimensions trains 2*r*d parameters instead of d^2
+- Fine-tune a model using QLoRA (4-bit quantized base + LoRA adapters) to fit within consumer GPU memory
+- Merge LoRA weights back into the base model for deployment and compare inference speed with and without adapters
+
 ## The Problem
 
 You have a base model. Llama 3 8B. You want it to answer customer support tickets in your company's voice. SFT is the answer. But SFT has a cost problem.

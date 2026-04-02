@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 05 (NLP Foundations)
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement BPE, WordPiece, and Unigram tokenization algorithms from scratch and compare their merge strategies
+- Explain how vocabulary size affects model efficiency: too small creates long sequences, too large wastes embedding parameters
+- Analyze tokenization artifacts across languages and code, identifying where specific tokenizers break down
+- Use the tiktoken and sentencepiece libraries to tokenize text and inspect the resulting token IDs
+
 ## The Problem
 
 Your LLM does not read English. It does not read any language. It reads numbers.

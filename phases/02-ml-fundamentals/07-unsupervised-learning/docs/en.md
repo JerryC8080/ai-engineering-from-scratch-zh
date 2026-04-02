@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1 (Norms & Distances, Probability & Distributions), Phase 2 Lessons 1-6
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement K-Means, DBSCAN, and Gaussian Mixture Models from scratch and compare their clustering behavior
+- Evaluate cluster quality using the silhouette score and the elbow method to select the optimal K
+- Explain when DBSCAN outperforms K-Means and identify which algorithm handles non-spherical clusters and outliers
+- Build an anomaly detection pipeline using clustering methods to flag points that deviate from normal patterns
+
 ## The Problem
 
 Every ML lesson so far has assumed labeled data: "here is an input, here is the correct output." In the real world, labels are expensive. A hospital has millions of patient records but no one has manually tagged each one with a disease category. An e-commerce site has millions of user sessions but no one has hand-labeled customer segments. A security team has network logs but nobody has flagged every anomaly.

@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1, Lesson 06 (Probability)
 **Time:** ~60 minutes
 
+## Learning Objectives
+
+- Compute entropy, cross-entropy, and KL divergence from scratch and explain their relationship
+- Derive why minimizing cross-entropy loss is equivalent to maximizing log-likelihood
+- Calculate mutual information between features and a target to rank feature importance
+- Explain perplexity as the effective vocabulary size a language model chooses from
+
 ## The Problem
 
 You call `CrossEntropyLoss()` in every classification model you train. You see "perplexity" in every language model paper. You read about KL divergence in VAEs, distillation, and RLHF. These are not disconnected concepts. They are all the same idea wearing different hats.

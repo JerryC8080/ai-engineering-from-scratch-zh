@@ -7,6 +7,13 @@
 **Prerequisites:** Phase 1 (Probability & Distributions, Statistics for ML), Phase 2 Lessons 1-8
 **Time:** ~90 minutes
 
+## Learning Objectives
+
+- Implement K-fold and stratified K-fold cross-validation from scratch and explain why stratification matters for imbalanced data
+- Compute precision, recall, F1, AUC-ROC, and regression metrics (MSE, RMSE, MAE, R-squared) from scratch
+- Interpret learning curves to diagnose whether a model suffers from high bias or high variance
+- Identify common evaluation mistakes including data leakage, wrong metric selection, and test set contamination
+
 ## The Problem
 
 You trained a model. It gets 95% accuracy on your data. Is it good?

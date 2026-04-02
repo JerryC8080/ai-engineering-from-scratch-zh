@@ -7,6 +7,13 @@
 **Prerequisites:** All of Phase 03 (Lessons 01-09)
 **Time:** ~120 minutes
 
+## Learning Objectives
+
+- Build a complete deep learning framework (~500 lines) with Module, Linear, ReLU, Sigmoid, Dropout, BatchNorm, Sequential, loss functions, optimizers, and DataLoader
+- Explain the Module abstraction (forward, backward, parameters) and why train/eval mode toggling is necessary
+- Wire all components into a working training loop that trains a 4-layer network on circle classification
+- Map each component of your framework to its PyTorch equivalent (nn.Module, nn.Sequential, optim.Adam, DataLoader)
+
 ## The Problem
 
 You have ten lessons of building blocks scattered across separate files. A `Value` class here, a training loop there, weight initialization in another file, learning rate schedules in yet another. To train a network, you copy-paste from five different lessons and wire them together by hand.
