@@ -753,7 +753,10 @@
 
         var g = svgEl('g', {
           class: 'node-group', 'data-id': id,
-          transform: 'translate(' + (pos.x - NODE_W / 2) + ',' + (pos.y - NODE_H / 2) + ')'
+          transform: 'translate(' + (pos.x - NODE_W / 2) + ',' + (pos.y - NODE_H / 2) + ')',
+          tabindex: '0',
+          role: 'button',
+          'aria-label': 'Select Phase ' + id + ': ' + phase.name
         });
 
         /* Background */
@@ -786,6 +789,12 @@
 
         (function (nodeId) {
           g.addEventListener('click', function () { selectNode(nodeId); });
+          g.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              selectNode(nodeId);
+            }
+          });
         })(id);
       }
 
@@ -901,7 +910,7 @@
         for (var i = 0; i < directPrereqs.length; i++) {
           var ppid = directPrereqs[i];
           var pn   = PHASE_MAP[ppid] ? PHASE_MAP[ppid].name : 'Phase ' + ppid;
-          prereqHtml += '<li data-goto="' + ppid + '"><span class="li-num">' + String(ppid).padStart(2, '0') + '</span> ' + escapeHtml(pn) + '</li>';
+          prereqHtml += '<li data-goto="' + ppid + '" tabindex="0" role="button" aria-label="Go to Phase ' + ppid + ': ' + escapeHtml(pn) + '"><span class="li-num">' + String(ppid).padStart(2, '0') + '</span> ' + escapeHtml(pn) + '</li>';
         }
         prereqHtml += '</ul>';
       } else {
@@ -916,7 +925,7 @@
         for (var i = 0; i < childIds.length; i++) {
           var cid = childIds[i];
           var cn  = PHASE_MAP[cid] ? PHASE_MAP[cid].name : 'Phase ' + cid;
-          unlockHtml += '<li data-goto="' + cid + '"><span class="li-num">' + String(cid).padStart(2, '0') + '</span> ' + escapeHtml(cn) + '</li>';
+          unlockHtml += '<li data-goto="' + cid + '" tabindex="0" role="button" aria-label="Go to Phase ' + cid + ': ' + escapeHtml(cn) + '"><span class="li-num">' + String(cid).padStart(2, '0') + '</span> ' + escapeHtml(cn) + '</li>';
         }
         unlockHtml += '</ul>';
       } else {
@@ -968,12 +977,19 @@
       var clickables = panel.querySelectorAll('[data-goto]');
       for (var i = 0; i < clickables.length; i++) {
         (function (el) {
-          el.addEventListener('click', function () {
+          function triggerGoto() {
             var gotoId = parseInt(el.getAttribute('data-goto'));
             selectNode(gotoId);
             var wrap = document.querySelector('.graph-wrap');
             var pos  = POSITIONS[gotoId];
             if (pos && wrap) wrap.scrollLeft = Math.max(0, pos.x - wrap.clientWidth / 2);
+          }
+          el.addEventListener('click', triggerGoto);
+          el.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              triggerGoto();
+            }
           });
         })(clickables[i]);
       }
