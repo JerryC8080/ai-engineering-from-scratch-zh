@@ -694,10 +694,11 @@
 
     function lessonStats(phase) {
       var done = 0;
-      for (var j = 0; j < phase.lessons.length; j++) {
-        if (phase.lessons[j].status === 'complete') done++;
+      var lessons = Array.isArray(phase.lessons) ? phase.lessons : [];
+      for (var j = 0; j < lessons.length; j++) {
+        if (lessons[j].status === 'complete') done++;
       }
-      return { done: done, total: phase.lessons.length };
+      return { done: done, total: lessons.length };
     }
 
     /* ===================================================
@@ -937,12 +938,13 @@
 
       /* Find first readable lesson for Read button */
       var readLink = '';
-      for (var li = 0; li < phase.lessons.length; li++) {
-        var lesson = phase.lessons[li];
+      var lessonsArray = Array.isArray(phase.lessons) ? phase.lessons : [];
+      for (var li = 0; li < lessonsArray.length; li++) {
+        var lesson = lessonsArray[li];
         if (!lesson.url) continue;
         var pm = lesson.url.match(/(phases\/[^/]+\/[^/]+)\/?$/);
         if (pm) {
-          readLink = 'lesson.html?path=' + pm[1];
+          readLink = 'lesson.html?path=' + encodeURI(pm[1]);
           break;
         }
       }
