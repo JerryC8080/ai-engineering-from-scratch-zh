@@ -2373,6 +2373,7 @@
           window._mermaidReady.initialize({ startOnLoad: false, theme: mermaidTheme(), fontFamily: 'Patrick Hand, cursive' });
         } catch (_) {}
         rerenderMermaidBlocks();
+        rerenderMermaidModal();
       }
 
       function rerenderMermaidBlocks() {
@@ -2386,9 +2387,15 @@
           if (!target) return;
           var def = pre.textContent;
           target.innerHTML = '<div class="panel-loading">Rendering diagram...</div>';
+
+          var token = ++mermaidRenderSeq;
+          target._mermaidRenderToken = token;
+
           window._mermaidReady.render('mermaid-' + idx + '-svg', def).then(function (result) {
+            if (target._mermaidRenderToken !== token) return;
             target.innerHTML = result.svg;
           }).catch(function () {
+            if (target._mermaidRenderToken !== token) return;
             target.innerHTML = '<p style="color:var(--text-muted);font-style:italic;">Diagram could not be rendered.</p>';
           });
         });
@@ -2400,7 +2407,7 @@
           btn._bound = true;
           btn.addEventListener('click', function () {
             var idx = btn.getAttribute('data-mermaid-index');
-            openMermaidModal(idx);
+            openMermaidModal(idx, btn);
           });
         });
       }
@@ -2417,30 +2424,90 @@
           if (e.target === overlay) closeMermaidModal();
         });
         document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape') closeMermaidModal();
+          if (!overlay.classList.contains('open')) return;
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            closeMermaidModal();
+            return;
+          }
+
+          if (e.key === 'Tab') {
+            var focusables = getMermaidModalFocusables();
+            if (!focusables.length) return;
+            var first = focusables[0];
+            var last = focusables[focusables.length - 1];
+            var active = document.activeElement;
+
+            if (e.shiftKey) {
+              if (active === first || active === overlay) {
+                e.preventDefault();
+                last.focus();
+              }
+            } else {
+              if (active === last) {
+                e.preventDefault();
+                first.focus();
+              }
+            }
+          }
         });
       }
 
-      function openMermaidModal(idx) {
+      var lastMermaidTrigger = null;
+      var openMermaidIndex = null;
+      var mermaidRenderSeq = 0;
+
+      function getMermaidModalFocusables() {
+        var modal = document.querySelector('#mermaidModalOverlay .mermaid-modal');
+        if (!modal) return [];
+        return Array.prototype.slice.call(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+          .filter(function (el) { return !el.disabled && el.offsetParent !== null; });
+      }
+
+      function openMermaidModal(idx, triggerEl) {
         var overlay = document.getElementById('mermaidModalOverlay');
         var body = document.getElementById('mermaidModalBody');
         var center = document.getElementById('mermaidModalCenter');
         var title = document.getElementById('mermaidModalTitle');
+        var closeBtn = document.getElementById('mermaidModalClose');
         var pre = document.getElementById('mermaid-' + idx);
-        if (!overlay || !body || !center || !pre) return;
+        if (!overlay || !body || !center || !pre || !closeBtn) return;
 
-        var def = pre.textContent;
-        center.innerHTML = '<div class="panel-loading">Rendering diagram...</div>';
+        lastMermaidTrigger = triggerEl || document.activeElement;
+        openMermaidIndex = idx;
+
         if (title) title.textContent = 'Diagram';
 
         overlay.classList.add('open');
         overlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
 
+        closeBtn.focus();
+
+        rerenderMermaidModal();
+      }
+
+      function rerenderMermaidModal() {
+        var overlay = document.getElementById('mermaidModalOverlay');
+        var center = document.getElementById('mermaidModalCenter');
+        if (!overlay || !center) return;
+        if (!overlay.classList.contains('open')) return;
+        if (!openMermaidIndex) return;
         if (!window._mermaidReady) return;
+
+        var pre = document.getElementById('mermaid-' + openMermaidIndex);
+        if (!pre) return;
+        var def = pre.textContent;
+
+        center.innerHTML = '<div class="panel-loading">Rendering diagram...</div>';
+        var token = ++mermaidRenderSeq;
+        center._mermaidRenderToken = token;
+
         window._mermaidReady.render('mermaid-modal-svg', def).then(function (result) {
+          if (center._mermaidRenderToken !== token) return;
           center.innerHTML = result.svg;
         }).catch(function () {
+          if (center._mermaidRenderToken !== token) return;
           center.innerHTML = '<p style="color:var(--text-muted);font-style:italic;">Diagram could not be rendered.</p>';
         });
       }
@@ -2453,6 +2520,11 @@
         overlay.setAttribute('aria-hidden', 'true');
         if (center) center.innerHTML = '';
         document.body.style.overflow = '';
+        openMermaidIndex = null;
+
+        if (lastMermaidTrigger && typeof lastMermaidTrigger.focus === 'function') {
+          lastMermaidTrigger.focus();
+        }
       }
 
       function renderQuiz(data) {
