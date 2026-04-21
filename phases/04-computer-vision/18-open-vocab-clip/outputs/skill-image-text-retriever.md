@@ -84,7 +84,7 @@ class ImageTextRetriever:
             self.index = faiss.IndexIVFFlat(quantizer, self.dim, nlist)
             self.index.train(embs)
         elif index_type == "HNSW":
-            self.index = faiss.IndexHNSWFlat(self.dim, 32)
+            self.index = faiss.IndexHNSWFlat(self.dim, 32, faiss.METRIC_INNER_PRODUCT)
         else:
             self.index = faiss.IndexFlatIP(self.dim)
         self.index.add(embs)
