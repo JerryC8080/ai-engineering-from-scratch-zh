@@ -14,7 +14,7 @@ The most common ViT porting bug: loading a checkpoint pretrained at 224x224 into
 ## When to use
 
 - Fine-tuning a pretrained ViT at a non-default resolution.
-- Porting weights between ViT-B/16 and ViT-B/32.
+- Auditing why a weight port between ViT-B/16 and ViT-B/32 fails; the inspector will flag the patch-size mismatch so the caller knows to swap architectures rather than force a port.
 - Debugging a ViT that loads without error but trains poorly.
 
 ## Inputs
