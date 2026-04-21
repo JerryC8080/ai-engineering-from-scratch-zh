@@ -160,9 +160,13 @@ class MinimalVLM(nn.Module):
 
     def _merge(self, text_embeds, vision_embeds, input_ids):
         out = text_embeds.clone()
+        expected = vision_embeds.size(1)
         for b in range(input_ids.size(0)):
             positions = (input_ids[b] == self.image_token_id).nonzero(as_tuple=True)[0]
-            assert len(positions) == vision_embeds.size(1), "image tokens must match"
+            if len(positions) != expected:
+                raise ValueError(
+                    f"batch item {b} has {len(positions)} image tokens but vision_embeds has {expected} patches."
+                    " Every sample in the batch must be pre-padded to the same number of image placeholder tokens.")
             out[b, positions] = vision_embeds[b]
         return out
 ```
@@ -179,10 +183,12 @@ import torch.nn.functional as F
 
 def cross_modal_error_rate(image_emb, text_emb, text_confidence, sim_threshold=0.25, conf_threshold=0.8):
     """
-    image_emb, text_emb: L2-normalised embeddings of image and generated text
-    text_confidence:     logprob confidence of the generated text
+    image_emb, text_emb: embeddings of image and generated text (normalised internally)
+    text_confidence:     mean per-token probability in [0, 1]
     Returns:             fraction of high-confidence outputs with low image-text alignment
     """
+    image_emb = F.normalize(image_emb, dim=-1)
+    text_emb = F.normalize(text_emb, dim=-1)
     sim = (image_emb * text_emb).sum(dim=-1)        # cosine similarity
     high_conf_low_sim = (text_confidence > conf_threshold) & (sim < sim_threshold)
     return high_conf_low_sim.float().mean().item()
