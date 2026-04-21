@@ -38,7 +38,7 @@ Symptoms:
 
 Fix: TTUR — set `d_lr = 4 * g_lr`, with `d_lr = 4e-4, g_lr = 1e-4`. Alternatively, switch to WGAN-GP which uses Earth-Mover distance and is more stable than BCE.
 
-### 4. G wins / D always says real
+### 4. Nash equilibrium / D uncertain (D outputs ~0.5)
 Symptoms:
 - d_loss near `log(4)` = 1.386 and static
 - g_loss near `log(2)` = 0.693 and static
@@ -52,7 +52,7 @@ Symptoms:
 - g_loss very large (>10)
 - samples are nonsense
 
-Fix: Non-saturating generator loss (you may be using the saturating version); confirm the loss is `-log(sigmoid(D(G(z))))` not `log(1 - sigmoid(D(G(z))))`.
+Fix: non-saturating generator loss (you may be using the saturating version). If D outputs **logits** (no final sigmoid), use `-log(sigmoid(D(G(z))))`; if D outputs **probabilities** (has final sigmoid), use `-log(D(G(z)))`. The saturating form is `log(1 - sigmoid(D(G(z))))` or `log(1 - D(G(z)))` respectively — avoid it.
 
 ## Output
 

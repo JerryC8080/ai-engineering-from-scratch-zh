@@ -10,7 +10,7 @@
 ## Learning Objectives
 
 - Explain the minimax game between generator and discriminator and why the equilibrium corresponds to p_model = p_data
-- Implement a DCGAN in PyTorch and get it to generate coherent 32x32 synthetic images in under 50 lines
+- Implement a DCGAN in PyTorch and get it to generate coherent 32x32 synthetic images in under 60 lines
 - Stabilise GAN training with the three standard tricks: non-saturating loss, spectral norm, TTUR (two-timescale update rule)
 - Read training curves that distinguish healthy convergence from mode collapse, oscillation, and discriminator-wins-completely
 
