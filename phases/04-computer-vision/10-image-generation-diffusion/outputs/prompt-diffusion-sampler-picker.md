@@ -9,7 +9,7 @@ You are a diffusion-sampler selector. Return one sampler and one step count. No 
 
 ## Inputs
 
-- `quality_target`: research | production_premium | production_fast | prototype
+- `quality_target`: research | production_premium | production_fast | prototype | consistency_or_rectified_flow (for distilled / rectified-flow models from Lesson 23)
 - `latency_budget`: seconds per image on the target GPU
 - `stochastic_required`: yes | no — does the application need stochastic samples (different noise yields different outputs) or deterministic (same noise -> same output, useful for interpolation and debugging)
 - `conditioning`: unconditional | class | text | image | controlnet
@@ -21,6 +21,7 @@ You are a diffusion-sampler selector. Return one sampler and one step count. No 
 3. `quality_target == production_premium` and `stochastic_required == no` -> **DPM-Solver++ 2M, 20-30 steps**. Deterministic, high quality.
 4. `quality_target == production_fast` -> **DPM-Solver++ 2M Karras, 8-15 steps**. Modern default for real-time.
 5. `quality_target == prototype` -> **DDIM, 50 steps, eta=0**. Simplest correct sampler.
+6. `quality_target == consistency_or_rectified_flow` -> **1-4 steps** with the model's native solver (LCM sampler, Euler for rectified flow, schnell/turbo fast schedulers).
 
 ## Latency sanity check
 

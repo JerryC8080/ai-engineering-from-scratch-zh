@@ -12,7 +12,7 @@
 - Derive the forward noising process `x_0 -> x_1 -> ... -> x_T` and explain why the closed-form `q(x_t | x_0)` holds for any t
 - Implement a DDPM-style training objective that regresses the noise added at each step, and a sampler that walks back from pure noise to an image
 - Build a time-conditioned U-Net (small enough to train on CPU) that predicts the noise for any timestep
-- Explain the difference between DDPM, DDIM, and flow-matching sampling, and when each is appropriate
+- Explain the difference between DDPM and DDIM sampling, and when each is appropriate (Lesson 23 covers flow matching and rectified flow in depth)
 
 ## The Problem
 
