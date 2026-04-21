@@ -78,7 +78,11 @@ def synthetic_frames(num_frames=25, num_objects=3, H=240, W=320, seed=0, drop_pr
         dets = []
         for i in range(num_objects):
             cx, cy = starts[i] + f * velocities[i]
-            box = [cx - 10, cy - 10, cx + 10, cy + 10]
+            x1 = max(0.0, cx - 10)
+            y1 = max(0.0, cy - 10)
+            x2 = min(float(W - 1), cx + 10)
+            y2 = min(float(H - 1), cy + 10)
+            box = [x1, y1, x2, y2]
             g.append((i, box))
             if rng.random() >= drop_prob:
                 dets.append(box)
