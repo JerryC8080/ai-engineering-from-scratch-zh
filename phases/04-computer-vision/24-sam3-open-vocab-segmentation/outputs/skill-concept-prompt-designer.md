@@ -40,6 +40,7 @@ SAM 3's accuracy depends heavily on how the concept prompt is phrased. This skil
    - `"window"` in surveillance context -> `"building window"`.
    - `"window"` in medical context -> often error; suggest user clarify.
 5. **Fallback** to exact string if splitting fails or yields zero concepts.
+6. **Cap at `max_concepts`.** If more concepts were extracted than the caller asked for, keep the first `max_concepts` in utterance order and emit the rest under `dropped` with reason `"exceeded max_concepts"`. This keeps latency bounded when a user pastes a long enumeration.
 
 ## Output format
 
