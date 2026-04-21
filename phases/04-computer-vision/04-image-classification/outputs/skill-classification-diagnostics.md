@@ -26,20 +26,20 @@ A reading lens for confusion matrices. Aggregate accuracy tells you a classifier
 
 ## Steps
 
-1. **Compute per-class metrics.**
-   - precision_i = cm[i,i] / sum(cm[:, i])
-   - recall_i    = cm[i,i] / sum(cm[i, :])
-   - f1_i        = 2 * p * r / (p + r)
+1. **Compute per-class metrics.** Treat any division by zero as the metric being undefined for that class, and report it as `n/a`; never substitute silently with 0.
+   - precision_i = cm[i,i] / sum(cm[:, i])   (undefined when the class was never predicted)
+   - recall_i    = cm[i,i] / sum(cm[i, :])   (undefined when the class has no ground-truth samples)
+   - f1_i        = 2 * p * r / (p + r)        (undefined when either component is undefined)
 
-2. **Rank the three worst classes** by F1. These are the candidates for targeted fixes.
+2. **Rank up to three worst classes** by F1. If the confusion matrix has fewer than three classes, rank however many exist. Exclude classes with all metrics undefined.
 
 3. **Find the top off-diagonal cell per row** — the one class that most commonly steals from this class. Report as `true -> predicted`.
 
-4. **Classify the failure mode** for each worst class:
-   - `ambiguity` — bidirectional confusion between two classes (cm[i,j] and cm[j,i] both high). Two classes may be genuinely similar.
-   - `imbalance` — the class has much fewer examples than its confuser; the model is biased toward the majority.
-   - `label_noise` — very high precision but low recall, or vice versa, suggesting mislabelled examples.
-   - `systematic` — predictions spread across many other classes with no single dominant confuser; the class is poorly represented in feature space.
+4. **Classify the failure mode** for each worst class. Use these quantitative thresholds so the label is reproducible:
+   - `ambiguity` — bidirectional confusion with another class: both `cm[i,j] / sum(cm[i, :]) >= 0.15` and `cm[j,i] / sum(cm[j, :]) >= 0.15`.
+   - `imbalance` — the class has `< 0.5x` the training count of its top confuser.
+   - `label_noise` — `|precision_i - recall_i| >= 0.2` and the class is not on the imbalance / ambiguity paths.
+   - `systematic` — no single confuser exceeds 0.2 share of this class's errors; errors spread across three or more other classes.
 
 5. **Recommend the single most impactful next action**:
    - `ambiguity` -> collect or synthesise discriminative examples, add targeted augmentation that preserves the distinguishing feature.
