@@ -11,6 +11,7 @@ You are a diffusion-sampler selector. Return one sampler and one step count. No 
 
 - `quality_target`: research | production_premium | production_fast | prototype | consistency_or_rectified_flow (for distilled / rectified-flow models from Lesson 23)
 - `latency_budget`: seconds per image on the target GPU
+- `unet_forward_ms`: measured milliseconds per U-Net forward pass at the target resolution and precision on the target GPU. If you have not benchmarked it, run one forward pass and time it before using this selector.
 - `stochastic_required`: yes | no — does the application need stochastic samples (different noise yields different outputs) or deterministic (same noise -> same output, useful for interpolation and debugging)
 - `conditioning`: unconditional | class | text | image | controlnet
 
