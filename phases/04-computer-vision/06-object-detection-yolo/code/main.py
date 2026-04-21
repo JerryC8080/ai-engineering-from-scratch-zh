@@ -104,8 +104,12 @@ def assign_targets(boxes_xyxy, classes, anchors, stride, grid_size, num_classes)
         best = int(np.argmax(ious))
         aw, ah = anchors[best]
 
-        target[gy, gx, best, 0] = cx / stride - gx
-        target[gy, gx, best, 1] = cy / stride - gy
+        # Store logit(offset) so the network's raw output matches post-sigmoid
+        # decode. Keeps target space aligned with decode()/postprocess().
+        off_x = np.clip(cx / stride - gx, 1e-6, 1 - 1e-6)
+        off_y = np.clip(cy / stride - gy, 1e-6, 1 - 1e-6)
+        target[gy, gx, best, 0] = np.log(off_x / (1 - off_x))
+        target[gy, gx, best, 1] = np.log(off_y / (1 - off_y))
         target[gy, gx, best, 2] = np.log(bw / aw + 1e-8)
         target[gy, gx, best, 3] = np.log(bh / ah + 1e-8)
         target[gy, gx, best, 4] = 1.0
@@ -221,7 +225,7 @@ def main():
     err = np.max(np.abs(np.array(gt_box) - dec))
     print(f"  enc  ={enc.round(3)}")
     print(f"  decoded={dec.round(2)}  (original {gt_box})")
-    print(f"  max|diff|={err:.3f}  (centre should be exact; w/h exact)")
+    print(f"  max|diff|={err:.3f}  (should round-trip to ~0 once encode applies logit)")
 
     print("\n[assign + loss] one synthetic image")
     gt_boxes = [(100, 80, 200, 220)]
