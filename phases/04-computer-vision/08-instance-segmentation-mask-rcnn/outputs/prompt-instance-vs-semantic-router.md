@@ -37,6 +37,7 @@ You are a segmentation task router. Ask the three questions below, then produce 
 
 ### Panoptic
 
+- edge       -> not recommended; panoptic heads do not fit well under 30M params. Fall back to instance (YOLOv8n-seg) and run a parallel semantic head if every-pixel labels are required.
 - serverless -> Panoptic FPN ResNet-50
 - server_gpu -> Mask2Former panoptic
 - batch      -> OneFormer Swin-L
