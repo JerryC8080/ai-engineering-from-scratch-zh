@@ -33,7 +33,7 @@ Turn a description of the fine-tune intent into a concrete training config that 
 | Style | 16-32 | rank * 2 |
 | Concept | 32-64 | rank |
 
-Higher rank = more capacity, more overfitting risk on small datasets. Alpha scales the LoRA's effect strength; keeping `alpha == rank` is the safe default.
+Higher rank = more capacity, more overfitting risk on small datasets. Alpha scales the LoRA's effect strength; `alpha == rank` is the safe default. Styles are the documented exception: `alpha == rank * 2` gives a stronger style push at the cost of more risk of baking the style too hard — use only when subject fidelity is not the goal.
 
 ## Training step target
 
@@ -47,13 +47,19 @@ Overshoot at your peril — a LoRA that has memorised its training images cannot
 
 - Text encoder LoRA: `1e-4` for SD 1.5, `5e-5` for SDXL.
 - U-Net LoRA: `1e-4` for SD 1.5, `1e-4` for SDXL.
-- FLUX / SD3: `5e-5` for U-Net, text encoder usually frozen.
+- FLUX / SD3: `5e-5` for the transformer, text encoders usually frozen.
+- Halve the LR when `num_images < 15` (subject) or when training for more than 3000 steps; tiny datasets and long runs both benefit from a gentler update.
+
+## Scheduler
+
+- `cosine_with_warmup` (default): warmup over the first 5-10% of steps, then cosine decay. Use when `steps >= 1000`; the decay tail gives sharper final samples.
+- `constant`: use only for very short runs (`steps < 500`) or when resuming a previous LoRA where you want to preserve the current learned features without re-annealing.
 
 ## Caption format
 
-- Subject: prepend a unique trigger token ("myperson") to every caption. Keep trigger token rare so it does not overwrite existing concepts.
-- Style: append the style tag at the end of every caption ("...in mystyle style").
-- Concept: describe the concept in every caption; no trigger.
+- Subject: prepend a unique trigger token ("myperson") to every caption. Keep trigger token rare so it does not overwrite existing concepts. Avoid real words and common names.
+- Style: append a unique style tag at the end of every caption ("...in mystyle style"). Treat the tag itself as a rare trigger token — `mystyle`, not `impressionism`, which already maps to a real concept.
+- Concept: describe the concept in every caption; no trigger token. The concept itself (e.g. "low-angle shot") is the anchor.
 
 ## Output config
 
@@ -82,7 +88,7 @@ data:
   caption_source: <manual | BLIP2 | native>
   trigger_token:   <string if purpose==subject>
   resolution:      <512 for SD 1.5, 1024 for SDXL>
-  bucketing:       aspect_ratio_bucketing: true
+  aspect_ratio_bucketing: true
   augmentation:
     flip:          true
     color_jitter:  false
