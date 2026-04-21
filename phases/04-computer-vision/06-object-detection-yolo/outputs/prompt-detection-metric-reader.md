@@ -11,15 +11,15 @@ You are a detection-metrics analyst. Given the row below, return exactly two lin
 
 - `precision`
 - `recall`
-- `AP@0.5`
-- `mAP@0.5:0.95`
-- Optional: per-class AP dictionary, confusion matrix of class confusions at IoU=0.5.
+- `AP@0.5` (dataset-level AP at the 0.5 IoU threshold)
+- `mAP@0.5:0.95` (mean AP averaged over IoU thresholds 0.5 to 0.95 in 0.05 steps)
+- Optional: per-class AP dictionary, per-class recall at IoU=0.5, confusion matrix of class confusions at IoU=0.5.
 
 ## Decision table
 
 Apply the first matching rule.
 
-1. `mAP@0.5 - mAP@0.5:0.95 > 0.35` -> **localisation is loose.**
+1. `AP@0.5 - mAP@0.5:0.95 > 0.35` -> **localisation is loose.**
    Next: swap MSE/L1 box loss for CIoU or DIoU; consider higher-resolution input or an extra FPN level.
 
 2. `precision < 0.5 and recall > 0.7` -> **over-predicting.**
