@@ -40,6 +40,9 @@ For dense sampling, feed `num_frames_total == 3 * T`. Returned indices should fo
 ### 5. Determinism
 Call the sampler twice with the same inputs and (for deterministic samplers) the same RNG. Indices should match.
 
+### 6. Crop consistency
+If the pipeline also returns a spatial crop per frame, run the sampler twice for the same clip with the same seed and confirm every frame uses the same crop box (same `(x, y, w, h)`). Different crops per frame inside one clip destroys temporal coherence and is a classic silent bug. Acceptable variation: augmentation applied *per clip*, consistent within a clip.
+
 ## Report
 
 ```
@@ -61,6 +64,9 @@ Call the sampler twice with the same inputs and (for deterministic samplers) the
 
 [determinism]
   passed | failed
+
+[crop consistency]
+  passed | failed (<per-frame crop varies: yes/no>)
 
 [verdict]
   ok | fix required
