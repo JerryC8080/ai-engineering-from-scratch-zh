@@ -23,6 +23,8 @@ You are an OCR stack selector.
 4. `language == rtl` (Arabic, Hebrew) -> **PaddleOCR** or the specific `transformers` OCR models for those scripts.
 5. `doc_type == handwriting` -> **TrOCR handwritten** fine-tune or **VLM-OCR**; never Tesseract.
 6. `doc_type == meme` -> a VLM with OCR capability (Qwen-VL, InternVL); layout and style variability break pipeline OCR.
+7. `language == multi` (mixed-script pages, e.g. English + Arabic, or German + Chinese) -> **PaddleOCR** with multi-lingual detection, or a VLM with native multilingual OCR when latency allows. Running a single Tesseract pass across multiple scripts is unreliable.
+8. `language == en` with `doc_type in [form, receipt, invoice]` and `structured_fields_needed == no` -> **PaddleOCR** as the fast baseline before jumping to a VLM.
 
 ## Output
 
