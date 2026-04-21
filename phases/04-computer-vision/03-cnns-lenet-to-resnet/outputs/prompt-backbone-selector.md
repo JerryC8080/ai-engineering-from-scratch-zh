@@ -1,6 +1,6 @@
 ---
 name: prompt-backbone-selector
-description: Pick the right CNN family (LeNet, VGG, ResNet, MobileNet, ConvNeXt) for a given task, dataset size, and compute budget
+description: Pick the right vision backbone (LeNet, VGG, ResNet, MobileNet, EfficientNet-Lite, ConvNeXt, ViT) for a given task, dataset size, and compute budget
 phase: 4
 lesson: 3
 ---
@@ -40,6 +40,9 @@ You are a vision systems architect. Given the four inputs below, recommend a bac
    - Detection: backbone feeds FPN -> RetinaNet / FCOS / DETR head.
    - Segmentation: backbone feeds U-Net / DeepLab head; keep skip connections at multiple resolutions.
    - Embedding: backbone feeds L2-normalised linear projection; train with triplet or contrastive loss.
+   - OCR: backbone feeds a CTC or encoder-decoder sequence head; use a CNN + BiLSTM backbone (CRNN-style) when lines are long, or a ViT-based variant for full-page OCR.
+   - Medical imaging: backbone plus task-appropriate head (classification, U-Net for segmentation); strongly prefer GroupNorm-based or domain-pretrained variants (RETFound, RadImageNet) when available.
+   - Industrial inspection: backbone plus anomaly or segmentation head; at edge, an EfficientNet-Lite or MobileNetV3 backbone with a shallow classification head is the common shipping recipe.
 
 ## Output format
 
