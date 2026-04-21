@@ -39,7 +39,7 @@ SAM 3's accuracy depends heavily on how the concept prompt is phrased. This skil
 4. **Disambiguate collisions** using the optional `context`:
    - `"window"` in surveillance context -> `"building window"`.
    - `"window"` in medical context -> often error; suggest user clarify.
-5. **Fallback** to exact string if splitting fails or yields zero concepts.
+5. **Fallback** to the exact string if splitting yields zero concepts *and* the utterance contains at least one concrete noun. If no concrete noun can be extracted, do not emit a concept — return only warnings and ask the user to clarify (see Rules).
 6. **Cap at `max_concepts`.** If more concepts were extracted than the caller asked for, keep the first `max_concepts` in utterance order and emit the rest under `dropped` with reason `"exceeded max_concepts"`. This keeps latency bounded when a user pastes a long enumeration.
 
 ## Output format
@@ -60,8 +60,9 @@ SAM 3's accuracy depends heavily on how the concept prompt is phrased. This skil
 
 ```
 in:  "can you find me a cat or two dogs?"
-out: ["cat", "dog"]
+out: ["cat", "dogs"]
 dropped: ["can you find me", "a", "or two", "?"]
+note: "dogs" kept plural because the utterance says "two dogs" — plural hint preserved.
 
 in:  "segment the big red truck and the blue sedan"
 out: ["big red truck", "blue sedan"]
