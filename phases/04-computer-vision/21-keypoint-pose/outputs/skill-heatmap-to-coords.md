@@ -25,15 +25,25 @@ Turn raw keypoint heatmaps into sub-pixel precise coordinates. The cheapest accu
 ## Steps
 
 1. **Argmax** each heatmap to find the integer peak location.
-2. **First-difference offset** — estimate sub-pixel offset from neighbouring pixels.
+2. **First-difference offset** — estimate sub-pixel offset from neighbouring pixels. The `0.25` coefficient is a heuristic calibrated for Gaussian heatmaps with `sigma >= 1`; for principled sub-pixel recovery, use a full quadratic fit (DARK) or a Gaussian fit.
 
 ```
-dx = 0.25 * (heatmap[y, x+1] - heatmap[y, x-1])
-dy = 0.25 * (heatmap[y+1, x] - heatmap[y-1, x])
+dx = 0.25 * sign(heatmap[y, x+1] - heatmap[y, x-1])
+dy = 0.25 * sign(heatmap[y+1, x] - heatmap[y-1, x])
 ```
+
+For the DARK / quadratic variant, approximate using a local quadratic:
+
+```
+dx = -0.5 * (heatmap[y, x+1] - heatmap[y, x-1])
+        / (heatmap[y, x+1] - 2 * heatmap[y, x] + heatmap[y, x-1] + eps)
+```
+
+The quadratic fit is more accurate on peaked heatmaps; the sign-based offset is the safer default when heatmaps are noisy.
 
 3. **Add offset** to the integer peak.
 4. **Confidence** — return the peak value per keypoint; clients use it to mask low-confidence predictions.
+5. **Boundary case** — when the peak lands on the first or last pixel along an axis, one of the neighbours is clamped; the offset collapses to zero, which is the safest fallback.
 
 ## Output template
 
@@ -58,10 +68,19 @@ def heatmap_to_coords_subpixel(heatmaps, threshold=0.2):
     batch_idx = torch.arange(N).view(-1, 1).expand(-1, K)
     kp_idx = torch.arange(K).view(1, -1).expand(N, -1)
 
-    dx = 0.25 * (heatmaps[batch_idx, kp_idx, ys_int, x_plus]
-                 - heatmaps[batch_idx, kp_idx, ys_int, x_minus])
-    dy = 0.25 * (heatmaps[batch_idx, kp_idx, y_plus, xs_int]
-                 - heatmaps[batch_idx, kp_idx, y_minus, xs_int])
+    dx_raw = (heatmaps[batch_idx, kp_idx, ys_int, x_plus]
+              - heatmaps[batch_idx, kp_idx, ys_int, x_minus])
+    dy_raw = (heatmaps[batch_idx, kp_idx, y_plus, xs_int]
+              - heatmaps[batch_idx, kp_idx, y_minus, xs_int])
+    dx = 0.25 * torch.sign(dx_raw)
+    dy = 0.25 * torch.sign(dy_raw)
+
+    at_left = xs_int == 0
+    at_right = xs_int == (W - 1)
+    at_top = ys_int == 0
+    at_bottom = ys_int == (H - 1)
+    dx = torch.where(at_left | at_right, torch.zeros_like(dx), dx)
+    dy = torch.where(at_top | at_bottom, torch.zeros_like(dy), dy)
 
     refined_x = xs + dx
     refined_y = ys + dy
