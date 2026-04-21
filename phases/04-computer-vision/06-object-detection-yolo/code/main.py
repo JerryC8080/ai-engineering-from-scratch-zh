@@ -61,8 +61,8 @@ def decode(tx_ty_tw_th, cell_x, cell_y, stride, anchor_wh):
     tx, ty, tw, th = tx_ty_tw_th
     cx = (sigmoid(tx) + cell_x) * stride
     cy = (sigmoid(ty) + cell_y) * stride
-    w = anchor_wh[0] * np.exp(tw)
-    h = anchor_wh[1] * np.exp(th)
+    w = anchor_wh[0] * np.exp(np.clip(tw, -10.0, 10.0))
+    h = anchor_wh[1] * np.exp(np.clip(th, -10.0, 10.0))
     return np.array([cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2])
 
 
