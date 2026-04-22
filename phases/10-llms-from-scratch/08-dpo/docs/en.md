@@ -644,6 +644,16 @@ This lesson produces `outputs/prompt-alignment-method-selector.md` -- a prompt t
 | SimPO | "No reference needed" | Simple Preference Optimization: eliminates the reference model by using length-normalized average log-probability as the implicit reward |
 | Alignment tax | "The cost of making models safe" | The additional compute, data, and complexity required to go from a base model to an aligned model -- DPO reduces this significantly |
 
+## Reference Implementations
+
+DPO is a 5-line loss, but the full training loop has subtleties (reference-model freezing, log-prob masking, numerical stability). Use these as your reference:
+
+- [Rasbt LLMs-from-scratch Ch 7 `04_preference-tuning-with-dpo/dpo-from-scratch.ipynb`](https://github.com/rasbt/LLMs-from-scratch/blob/main/ch07/04_preference-tuning-with-dpo/dpo-from-scratch.ipynb) -- DPO built from scratch on top of the Ch 5 GPT-2 model. Walks through `compute_dpo_loss`, preference-pair batching, the reference model copy, and evaluation. This is the cleanest educational DPO implementation anywhere.
+- [Rasbt LLMs-from-scratch Ch 7 `create-preference-data-ollama.ipynb`](https://github.com/rasbt/LLMs-from-scratch/blob/main/ch07/04_preference-tuning-with-dpo/create-preference-data-ollama.ipynb) -- synthetic preference-pair generation using a local Ollama model as the judge. The recipe when you have no human labels.
+- [HuggingFace TRL `DPOTrainer`](https://github.com/huggingface/trl/blob/main/trl/trainer/dpo_trainer.py) -- production DPO with PEFT/LoRA integration, chosen/rejected token masking, and reference-free variants (IPO, cDPO). The class you actually use in practice.
+- [mlabonne "Fine-tune Mistral with DPO" notebook](https://github.com/mlabonne/llm-course#fine-tuning-with-dpo) -- end-to-end DPO on a consumer GPU using TRL, LoRA, and Orca DPO pairs. The template for your first DPO experiment.
+- [mlabonne "Fine-tune Llama 3 with ORPO" notebook](https://github.com/mlabonne/llm-course#fine-tuning-with-orpo) -- ORPO variant that skips SFT entirely. Good A/B baseline against DPO.
+
 ## Further Reading
 
 - [Rafailov et al., 2023 -- "Direct Preference Optimization: Your Language Model is Secretly a Reward Model"](https://arxiv.org/abs/2305.18290) -- the DPO paper that simplified alignment from RLHF to supervised learning
