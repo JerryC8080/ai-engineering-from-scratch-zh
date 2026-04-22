@@ -136,6 +136,16 @@ Save `outputs/skill-sd-toolkit-composer.md`. Skill takes a task (input assets: p
 | DreamBooth | "Full subject fine-tune" | Train the full model on ~30 images of a subject. |
 | Textual Inversion | "New token" | Learn a new word embedding only; legacy, mostly replaced. |
 
+## Production note: LoRA swaps, ControlNet lanes, multi-tenant serving
+
+A real text-to-image SaaS serves hundreds of LoRAs and a dozen ControlNets over the same base checkpoint. The serving problem looks a lot like LLM multi-tenancy (stas00 covers the LLM case under continuous batching and LoRAX / S-LoRA):
+
+- **Hot-swap LoRAs, do not merge.** Merging `W' = W + α·B·A` into the base gives ~3-5% faster per-step inference but freezes `α` and the base. Keep LoRAs hot in VRAM as rank-r deltas; diffusers exposes `pipe.load_lora_weights()` + `pipe.set_adapters([...], adapter_weights=[...])` for per-request activation. Swap cost is the `2 · d · r · num_layers` weights — MB-scale, sub-second.
+- **ControlNet as a second attention lane.** The cloned encoder runs in parallel with the base. Two ControlNets at weight 1.0 each = two extra forward passes per step, not one merged pass. Batch-size headroom drops quadratically. Budget for ~1.5× step cost per active ControlNet.
+- **Quantized LoRAs too.** If you quantized the base (see Lesson 07, Flux on 8GB), the LoRA delta also quantizes cleanly to 8-bit or 4-bit. QLoRA-style loading lets you stack 5-10 LoRAs on top of a 4-bit Flux base without blowing memory.
+
+Flux-specific: Niels' Flux-on-8GB notebook quantizes the base to 4-bit; stacking a style LoRA (`pipe.load_lora_weights("user/style-lora")`) on that quantized base at `weight_name="pytorch_lora_weights.safetensors"` still works. This is the recipe most SaaS agencies ship in 2026.
+
 ## Further Reading
 
 - [Zhang, Rao, Agrawala (2023). Adding Conditional Control to Text-to-Image Diffusion Models](https://arxiv.org/abs/2302.05543) — ControlNet.
@@ -144,3 +154,5 @@ Save `outputs/skill-sd-toolkit-composer.md`. Skill takes a task (input assets: p
 - [Mou et al. (2023). T2I-Adapter: Learning Adapters to Dig Out More Controllable Ability](https://arxiv.org/abs/2302.08453) — lighter alternative to ControlNet.
 - [Ruiz et al. (2023). DreamBooth: Fine Tuning Text-to-Image Diffusion Models for Subject-Driven Generation](https://arxiv.org/abs/2208.12242) — DreamBooth.
 - [HuggingFace Diffusers — ControlNet / LoRA / IP-Adapter docs](https://huggingface.co/docs/diffusers/training/controlnet) — reference pipelines.
+- [Niels Transformers-Tutorials — Run Flux on an 8GB machine](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/Flux/Run_Flux_on_an_8GB_machine.ipynb) — stacking LoRAs on a 4-bit quantized Flux base. The stagger pattern (load encoder, unload, load DiT + LoRA deltas, unload, load VAE) is the template for any multi-adapter consumer-GPU pipeline.
+- [stas00 ml-engineering — Continuous batching and inflight batching](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#continuous-batching-or-in-flight-batching) — the scheduling primitive that makes LoRA multi-tenancy work; the diffusion analog is per-request adapter activation with shared base weights.
