@@ -295,5 +295,5 @@ Refuse to recommend fine-tuning a transformer for under 500 labeled examples unl
 
 - [Lample et al. (2016). Neural Architectures for Named Entity Recognition](https://arxiv.org/abs/1603.01360) — the BiLSTM-CRF paper. Canonical.
 - [Devlin et al. (2018). BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/abs/1810.04805) — introduces the token-classification pattern that became standard.
-- [spaCy NER docs](https://spacy.io/universe/project/nlu_tutorial) — practical training workflow.
+- [spaCy linguistic features — named entities](https://spacy.io/usage/linguistic-features#named-entities) — practical reference for every attribute on `Doc.ents` and `Span`.
 - [seqeval](https://github.com/chakki-works/seqeval) — the correct metric library. Use it always.
