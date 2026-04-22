@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/>
+    </marker>
+    <style>
+      .box { fill: #faf6ef; stroke: #1a1a1a; stroke-width: 1.5; }
+      .hot { fill: #fff1d6; stroke: #c0392b; stroke-width: 1.5; }
+      .label { font-size: 13px; font-weight: 700; fill: #1a1a1a; }
+      .content { font-size: 11px; fill: #333; font-family: 'Menlo', monospace; }
+      .caption { font-size: 11px; fill: #555; font-style: italic; }
+      .title { font-size: 15px; font-weight: 700; fill: #1a1a1a; }
+      .tag { font-size: 10px; fill: #c0392b; font-weight: 600; }
+    </style>
+  </defs>
+
+  <text x="440" y="26" text-anchor="middle" class="title">three TTS paradigms, one production question (TTFA + cloning risk)</text>
+
+  <rect x="30" y="55" width="265" height="190" class="box"/>
+  <text x="162" y="78" text-anchor="middle" class="label">AR codec LM</text>
+  <text x="162" y="96" text-anchor="middle" class="tag">Orpheus · VibeVoice · Sesame · VALL-E</text>
+  <text x="50" y="124" class="content">text  →  LLM backbone</text>
+  <text x="50" y="142" class="content">      →  EnCodec/SNAC/Mimi tokens</text>
+  <text x="50" y="160" class="content">      →  codec-decoder vocoder</text>
+  <text x="50" y="186" class="caption">streams. 200 ms TTFA.</text>
+  <text x="50" y="204" class="caption">zero-shot cloning from 3-30 s</text>
+  <text x="50" y="222" class="caption">emotional tags (Orpheus)</text>
+
+  <rect x="305" y="55" width="265" height="190" class="hot"/>
+  <text x="437" y="78" text-anchor="middle" class="label">flow-matching DiT</text>
+  <text x="437" y="96" text-anchor="middle" class="tag">F5-TTS · E2-TTS</text>
+  <text x="325" y="124" class="content">(text, ref_mel, ref_text)</text>
+  <text x="325" y="142" class="content">  →  DiT denoising</text>
+  <text x="325" y="160" class="content">  →  mel  →  HiFi-GAN  →  wav</text>
+  <text x="325" y="186" class="caption">offline, 1 s TTFA, best quality</text>
+  <text x="325" y="204" class="caption">10 s reference → cloned voice</text>
+  <text x="325" y="222" class="caption">drifts past 30 s; chunk and crossfade</text>
+
+  <rect x="580" y="55" width="265" height="190" class="box"/>
+  <text x="712" y="78" text-anchor="middle" class="label">small decoder-only</text>
+  <text x="712" y="96" text-anchor="middle" class="tag">Kokoro · StyleTTS2</text>
+  <text x="600" y="124" class="content">text + speaker id</text>
+  <text x="600" y="142" class="content">  →  82M decoder</text>
+  <text x="600" y="160" class="content">  →  mel  →  vocoder  →  wav</text>
+  <text x="600" y="186" class="caption">#1 TTS Arena Jan 2026 (ELO 1059)</text>
+  <text x="600" y="204" class="caption">~100 ms TTFA, 96× realtime</text>
+  <text x="600" y="222" class="caption">NO voice cloning (built-in voices only)</text>
+
+  <rect x="30" y="270" width="815" height="180" class="box"/>
+  <text x="437" y="292" text-anchor="middle" class="label">2026 cheatsheet — pick TTFA + license + cloning, then the model</text>
+
+  <text x="60" y="320" class="content">Kokoro-82M         82M    Apache-2.0    ~100 ms    no clone        English audiobooks, real-time agents</text>
+  <text x="60" y="338" class="content">F5-TTS            336M    CC-BY-NC       ~1 s      zero-shot       research, non-commercial cloning</text>
+  <text x="60" y="356" class="content">Orpheus-3B          3B    Apache-2.0    ~200 ms    zero-shot+tags  emotional dialogue, voice agents</text>
+  <text x="60" y="374" class="content">VibeVoice-7B        7B    MIT (forked)  ~800 ms    zero-shot       90-min multi-speaker podcasts</text>
+  <text x="60" y="392" class="content">Sesame CSM-1B    8.3B+300M Apache-2.0   ~200 ms    zero-shot       context-aware dialogue</text>
+  <text x="60" y="410" class="content">ElevenLabs v3       ?    commercial    ~250 ms    zero-shot       studio quality, licensed cloning</text>
+  <text x="60" y="434" class="caption">every cloning deploy in 2026 MUST ship AudioSeal watermark (see Lesson 16) — or skip cloning.</text>
+</svg>
