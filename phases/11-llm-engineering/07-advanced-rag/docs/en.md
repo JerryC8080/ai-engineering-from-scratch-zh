@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 11, Lesson 06 (RAG)
 **Time:** ~90 minutes
+**Related:** Phase 5 · 23 (Chunking Strategies for RAG) covers all six chunking algorithms — recursive, semantic, sentence, parent-document, late chunking, contextual retrieval — with Vectara/Anthropic benchmarks. This lesson builds on top: hybrid search, reranking, query transformation.
 
 ## Learning Objectives
 
@@ -82,10 +83,13 @@ graph LR
     P --> LLM["Generate answer"]
 ```
 
-Common reranking models:
-- Cohere Rerank: managed API, easy to integrate
-- cross-encoder/ms-marco-MiniLM-L-6-v2: open source, runs locally
-- bge-reranker-v2-m3: open source, multilingual
+Common reranking models (2026 lineup):
+- Cohere Rerank 3.5: managed API, multilingual, best recall gain on mixed corpora
+- Voyage rerank-2.5: managed API, lowest latency of the hosted options
+- Jina-Reranker-v2 Multilingual: open-weight, 100+ languages
+- bge-reranker-v2-m3: open-weight, strong baseline
+- cross-encoder/ms-marco-MiniLM-L-6-v2: open-weight, runs on CPU for prototyping
+- ColBERTv2 / Jina-ColBERT-v2: late-interaction multi-vector rerankers — O(tokens) not O(docs) at scoring time
 
 ### Query Transformation
 
