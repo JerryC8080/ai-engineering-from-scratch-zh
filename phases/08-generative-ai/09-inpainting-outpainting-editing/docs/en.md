@@ -136,6 +136,15 @@ Save `outputs/skill-editing-pipeline.md`. Skill takes an original image + edit d
 | SAM | "Segment Anything" | Mask generator by clicks or boxes; pairs with inpaint. |
 | Flux-Kontext | "Edit with context" | Flux variant that accepts a reference image + instruction for edits. |
 
+## Production note: edit pipelines are latency-sensitive
+
+Users editing an image expect sub-5-second round trips. A 30-step SDXL-Inpaint at 1024² is 3-4 s on an L4, plus SAM mask generation (~200 ms) and VAE encode/decode (~500 ms combined). In stas00's ml-engineering framing, this is TTFT-bound rather than throughput-bound — batch 1, low concurrency, minimize every stage:
+
+- **SAM-H is the slow one.** SAM-H at 1024² is ~200 ms; SAM-ViT-B is ~40 ms with minor quality loss. SAM 2 (video) adds temporal overhead; do not use it for single-image edits.
+- **Skip the encode when possible.** `pipe.image_processor.preprocess(img)` encodes to latents. If you have the latents from the previous generation (typical in iterative-edit UIs), pass them directly via `latents=...` to skip one VAE encode.
+- **Mask dilation matters for throughput too.** A small mask means most of the U-Net forward pass is wasted (the unmasked pixels are clamped anyway). `diffusers`' `StableDiffusionInpaintPipeline` runs the full U-Net regardless; only the 9-channel proper-inpaint variants exploit masked compute.
+- **Flux-Kontext is the 2025 answer.** Single forward pass over `(source_image, instruction)` — no separate mask, no SDEdit noise sweep. On an H100 it ships an edit in ~1.5 s. The architectural lesson: collapse the stages.
+
 ## Further Reading
 
 - [Lugmayr et al. (2022). RePaint: Inpainting using Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2201.09865) — training-free inpainting.
@@ -145,3 +154,4 @@ Save `outputs/skill-editing-pipeline.md`. Skill takes an original image + edit d
 - [Ravi et al. (2024). SAM 2: Segment Anything in Images and Videos](https://arxiv.org/abs/2408.00714) — video SAM.
 - [Hertz et al. (2022). Prompt-to-Prompt Image Editing with Cross-Attention Control](https://arxiv.org/abs/2208.01626) — attention-level editing.
 - [Black Forest Labs (2024). Flux.1-Fill and Flux.1-Kontext](https://blackforestlabs.ai/flux-1-tools/) — 2024 tooling.
+- [stas00 ml-engineering — Time To First Token (TTFT)](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#time-to-first-token) — why under-load TTFT differs from cold TTFT. For interactive edit UIs, measure TTFT at concurrency > 1; a 1.5 s Flux-Kontext edit at concurrency 1 becomes 6+ s at concurrency 4 without a proper batcher.
