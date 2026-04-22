@@ -591,6 +591,15 @@ This lesson produces `outputs/prompt-sft-data-curator.md` -- a prompt that helps
 | Weight tying | "Shared embeddings" | Using the same matrix for input token embeddings and output prediction head, saving parameters and improving coherence |
 | Chat template | "How you format the prompt" | The specific token sequence (role markers, delimiters) that structures a conversation for the model |
 
+## Reference Implementations
+
+Instruction tuning has two canonical educational implementations plus one community field guide:
+
+- [Rasbt LLMs-from-scratch Ch 7 `01_main-chapter-code`](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch07/01_main-chapter-code) -- the complete SFT chapter: prompt formatting, instruction dataset (`instruction-data.json`), `InstructionDataset` class with custom collate, training loop, and Ollama-based evaluation (`ollama_evaluate.py`). Diff your training loop against `gpt_instruction_finetuning.py`.
+- [Rasbt LLMs-from-scratch Ch 7 `02_dataset-utilities`](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch07/02_dataset-utilities) -- `find-near-duplicates.py` (data hygiene before training) and `create-passive-voice-entries.ipynb` (synthetic data augmentation). These are the utilities that usually matter more than the model code.
+- [Rasbt LLMs-from-scratch Ch 7 `05_dataset-generation`](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch07/05_dataset-generation) -- synthetic instruction data creation via Llama 3 + evolution strategies. The blueprint when you do not have 50k clean examples.
+- [mlabonne llm-course "Supervised Fine-Tuning" section](https://github.com/mlabonne/llm-course#4-supervised-fine-tuning) -- links to `sft_trainer.py`, TRL's `SFTTrainer` usage, full-training vs LoRA/QLoRA decision, and the ChatML/Alpaca/ShareGPT template trade-off. The community survey of tooling.
+
 ## Further Reading
 
 - [Ouyang et al., 2022 -- "Training language models to follow instructions with human feedback" (InstructGPT)](https://arxiv.org/abs/2203.02155) -- the paper that introduced instruction tuning + RLHF at OpenAI
