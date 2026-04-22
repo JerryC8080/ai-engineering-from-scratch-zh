@@ -462,10 +462,17 @@ This lesson produces `outputs/prompt-tokenizer-analyzer.md` -- a reusable prompt
 | Pre-tokenization | "Splitting on spaces" | Rules applied before subword tokenization: whitespace splitting, digit separation, punctuation handling |
 | Compression ratio | "How efficient the tokenizer is" | Tokens produced divided by input bytes -- lower means better compression and faster inference |
 
+## Reference Implementations
+
+The BPE tokenizer you built in this lesson is the same algorithm three canonical educational implementations use. Compare side by side to internalize what stays identical and what the production versions add:
+
+- [Rasbt LLMs-from-scratch Ch 2](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch02) -- the book walks from character tokenization to BPE, then to `tiktoken`. The `05_bpe-from-scratch/` notebook trains BPE on "The Verdict" novel and reaches 100 percent roundtrip accuracy. The `02_bonus_bytepair-encoder/` folder compares tiktoken, the original GPT-2 BPE, and a scratch version on a GPU-speed benchmark.
+- [Karpathy minbpe](https://github.com/karpathy/minbpe) -- three implementations in 300 lines: `BasicTokenizer` (the core loop you implemented), `RegexTokenizer` (adds the GPT-4 regex pre-tokenization pattern), and `GPT4Tokenizer` (loads actual GPT-4 merges and byte permutations). Read `minbpe/basic.py` right after finishing Step 2.
+- [Karpathy nn-zero-to-hero tokenizer lecture](https://github.com/karpathy/nn-zero-to-hero) -- the 2h13m "Let's build the GPT Tokenizer" video pairs with minbpe and walks through every footgun (merges on UTF-8 boundaries, special tokens, regex pre-tokenization, tiktoken's byte shuffle).
+
 ## Further Reading
 
 - [Sennrich et al., 2016 -- "Neural Machine Translation of Rare Words with Subword Units"](https://arxiv.org/abs/1508.07909) -- the paper that introduced BPE for NLP, turning a 1994 compression algorithm into the foundation of modern tokenization
 - [Kudo & Richardson, 2018 -- "SentencePiece: A simple and language independent subword tokenizer"](https://arxiv.org/abs/1808.06226) -- language-agnostic tokenization that made multilingual models practical
 - [OpenAI tiktoken repository](https://github.com/openai/tiktoken) -- production BPE implementation in Rust with Python bindings, used by GPT-3.5/4/4o
-- [Andrej Karpathy's minbpe](https://github.com/karpathy/minbpe) -- minimal BPE implementation for education, the cleanest reference for understanding the algorithm
 - [Hugging Face Tokenizers documentation](https://huggingface.co/docs/tokenizers) -- production-grade tokenizer training with Rust performance
