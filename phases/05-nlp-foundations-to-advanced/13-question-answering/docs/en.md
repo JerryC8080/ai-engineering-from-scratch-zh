@@ -108,7 +108,7 @@ The prompt pattern matters. Explicitly telling the model to ground in the contex
 
 ### Step 4: evaluation that reflects the real world
 
-SQuAD uses **Exact Match (EM)** and **token-level F1**. Both are character-level comparisons between the model's answer and the reference. Both under-credit paraphrases: "June 29, 2007" vs "June 29th, 2007" gets 0 EM and partial F1.
+SQuAD uses **Exact Match (EM)** and **token-level F1**. EM is a strict match after normalization (lowercase, strip punctuation, remove articles) — either the prediction matches exactly or it scores 0. F1 is computed over token overlap between prediction and reference and gives partial credit. Both under-credit paraphrases: "June 29, 2007" vs "June 29th, 2007" typically gets 0 EM (the ordinal breaks normalization) but still earns substantial F1 from overlapping tokens.
 
 For production QA:
 
