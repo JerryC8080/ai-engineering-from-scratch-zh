@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 10 (LLMs from Scratch), Phase 11 Lesson 01-02
 **Time:** ~90 minutes
+**Related:** Phase 11 · 15 (Prompt Caching) — the cache-friendly layout is an extension of context engineering. Phase 5 · 28 (Long-Context Evaluation) for how to measure lost-in-the-middle with NIAH/RULER.
 
 ## Learning Objectives
 
@@ -16,7 +17,7 @@
 
 ## The Problem
 
-Claude has a 200K token context window. GPT-4o has 128K. Gemini 1.5 has 1M. These numbers sound enormous until you fill them.
+Claude Opus 4.7 has a 200K token window (1M in beta). GPT-5 has 400K. Gemini 3 Pro has 2M. Llama 4 claims 10M. These numbers sound enormous until you fill them.
 
 Here is a real breakdown for a coding assistant. System prompt: 500 tokens. Tool definitions for 50 tools: 8,000 tokens. Retrieved documentation: 4,000 tokens. Conversation history (10 turns): 6,000 tokens. Current user query: 200 tokens. Generation budget (max output): 4,000 tokens. Total: 22,700 tokens. That is only 18% of a 128K window.
 
@@ -566,7 +567,7 @@ It also produces `outputs/skill-context-engineering.md` -- a decision framework 
 
 | Term | What people say | What it actually means |
 |------|----------------|----------------------|
-| Context window | "How much the model can read" | The maximum number of tokens (input + output) the model processes in a single forward pass -- 128K for GPT-4o, 200K for Claude 3.5 |
+| Context window | "How much the model can read" | The maximum number of tokens (input + output) the model processes in a single forward pass -- 400K for GPT-5, 200K (1M beta) for Claude Opus 4.7, 2M for Gemini 3 Pro |
 | Context engineering | "Advanced prompt engineering" | The discipline of deciding what goes into the context window, in what order, and at what priority -- encompasses retrieval, compression, tool selection, and memory management |
 | Lost-in-the-middle | "Models forget stuff in the middle" | Empirical finding that LLMs attend better to the beginning and end of context, with 10-20% accuracy drop for information placed in the middle |
 | Token budget | "How many tokens you have left" | An explicit allocation of context window capacity across components (system prompt, tools, history, retrieval, generation) with per-component limits |
