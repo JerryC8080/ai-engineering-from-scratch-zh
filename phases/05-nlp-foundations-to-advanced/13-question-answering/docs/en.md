@@ -117,6 +117,19 @@ For production QA:
 - **Refusal calibration.** When the answer is not in the retrieved passages, does the system correctly say "I don't know"? Measure false confidence rate.
 - **Retrieval recall.** Before evaluating the reader, measure whether the retriever gets the right passage into the top-`k`. A reader cannot fix a missing passage.
 
+### RAGAS: the 2026 production eval framework
+
+`RAGAS` is purpose-built for RAG systems and is the shipping default in 2026. It scores four dimensions without requiring gold references:
+
+- **Faithfulness.** Does each claim in the answer come from the retrieved context? Measured by NLI-based entailment. Your primary hallucination metric.
+- **Answer relevance.** Does the answer address the question? Measured by generating hypothetical questions from the answer and comparing to the real question.
+- **Context precision.** Of the retrieved chunks, what fraction were actually relevant? Low precision = noise in prompt.
+- **Context recall.** Did the retrieved set contain all needed information? Low recall = reader cannot succeed.
+
+Reference-free scoring lets you evaluate on live production traffic without curated gold answers. Layer LLM-as-judge on top for open-ended questions where exact-match metrics are useless.
+
+`pip install ragas`. Plug your retriever + reader. Get four scalars per query. Alert on regressions.
+
 ## Use It
 
 The 2026 stack.
