@@ -151,7 +151,7 @@ The 2026 stack:
 | Scientific papers | `google/pegasus-pubmed` or a tuned T5 |
 | Multi-document, long-form | Any LLM with 32k+ context, prompted |
 | Dialog summarization | `philschmid/bart-large-cnn-samsum` |
-| Extractive, never hallucinates | TextRank or `sumy`'s LSA / LexRank |
+| Extractive, low hallucination risk by construction | TextRank or `sumy`'s LSA / LexRank |
 
 LLMs with long context often beat specialized models in 2026 when compute is not a constraint. The tradeoff is cost and reproducibility; specialized models give more consistent outputs.
 
