@@ -558,6 +558,18 @@ This lesson produces `outputs/prompt-distributed-training-planner.md` -- a promp
 | Mixed precision | "Train in half precision" | Use FP16/BF16 for forward/backward and FP32 for optimizer states -- saves ~25% memory, not 50%, because the optimizer dominates |
 | Pipeline bubble | "Idle time in the pipeline" | Fraction of time GPUs sit idle waiting for data from the previous stage -- reduced by using more micro-batches |
 
+## Reference Implementations
+
+Stas Bekman's `ml-engineering` is the single best field manual for everything in this lesson. It is the book you would have written after shipping BLOOM-176B. Read these sections alongside the code:
+
+- [stas00 ml-engineering `training/model-parallelism/`](https://github.com/stas00/ml-engineering/tree/master/training/model-parallelism) -- the definitive decision tree for data, tensor, pipeline, sequence, and expert parallelism. Tells you which parallelism form fails first at what scale and why.
+- [stas00 ml-engineering `training/performance/`](https://github.com/stas00/ml-engineering/tree/master/training/performance) -- MFU/HFU math, the "you are bandwidth-limited here" flowchart, and the fleet of microbenchmarks you run before touching a training config. The `benchmarks/` subdir has runnable scripts.
+- [stas00 ml-engineering `training/instabilities/training-loss-patterns.md`](https://github.com/stas00/ml-engineering/blob/master/training/instabilities/training-loss-patterns.md) -- a rogues' gallery of loss curves that break. If your loss spikes at step 8k, this is the first URL to open.
+- [stas00 ml-engineering `training/fault-tolerance/`](https://github.com/stas00/ml-engineering/tree/master/training/fault-tolerance) -- checkpointing cadence, GPU hardware failures, how to detect and replace a dead node mid-run. Real 1000-GPU operations.
+- [stas00 ml-engineering `training/dtype.md`](https://github.com/stas00/ml-engineering/blob/master/training/dtype.md) -- why BF16 beats FP16 for LLMs despite lower precision, and when you still need FP32 master weights.
+- [stas00 ml-engineering `compute/`](https://github.com/stas00/ml-engineering/tree/master/compute) -- TFLOPS, memory, NVLink, and interconnect budgets for every major accelerator. The cheat sheet for capacity planning.
+- [Karpathy nanoGPT DDP launch block](https://github.com/karpathy/nanoGPT/blob/master/train.py#L70-L100) -- the minimal DDP wrapper: `init_process_group("nccl")`, compute gradient accumulation per rank, wrap the model in `DDP(model, device_ids=[local_rank])`. Read once to feel the smallest possible distributed loop.
+
 ## Further Reading
 
 - [Rajbhandari et al., 2020 -- "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models"](https://arxiv.org/abs/1910.02054) -- the DeepSpeed ZeRO paper that defined the three sharding stages
