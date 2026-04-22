@@ -65,7 +65,7 @@ def fake_dense_rank(query, corpus, top_k=5):
         expansion = 0.0
         for qt in q_tokens:
             for dt in d_tokens:
-                if qt != dt and (qt in dt or dt in qt):
+                if qt != dt and min(len(qt), len(dt)) >= 4 and (qt in dt or dt in qt):
                     expansion += 0.15
         scored.append((jaccard + expansion, i))
     scored.sort(reverse=True)

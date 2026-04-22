@@ -43,6 +43,8 @@ def tokenize(text):
 
 class BM25:
     def __init__(self, corpus, k1=1.5, b=0.75):
+        if not corpus:
+            raise ValueError("corpus must not be empty")
         self.corpus = [tokenize(d) for d in corpus]
         self.k1 = k1
         self.b = b
@@ -121,13 +123,14 @@ The `k=60` constant comes from the original RRF paper. Higher `k` flattens the c
 ```python
 from sentence_transformers import CrossEncoder
 
+reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
-def hybrid_search(query, bm25, encoder, dense_embeddings, corpus, top_k=5, pool_size=30):
+
+def hybrid_search(query, bm25, encoder, dense_embeddings, corpus, top_k=5, pool_size=30, reranker=reranker):
     sparse_ranking = bm25.rank(query, top_k=pool_size)
     dense_ranking = dense_search(encoder, dense_embeddings, query, top_k=pool_size)
     fused = reciprocal_rank_fusion([sparse_ranking, dense_ranking])[:pool_size]
 
-    reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
     pairs = [(query, corpus[doc_idx]) for _, doc_idx in fused]
     scores = reranker.predict(pairs)
     reranked = sorted(zip(scores, [doc_idx for _, doc_idx in fused]), reverse=True)
