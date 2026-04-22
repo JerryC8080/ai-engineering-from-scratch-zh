@@ -4,7 +4,7 @@
 
 **Type:** Build
 **Languages:** Python
-**Prerequisites:** Phase 2 · 14 (Naive Bayes), Phase 4 · 01 (Image Fundamentals)
+**Prerequisites:** Phase 2 · 14 (Naive Bayes)
 **Time:** ~45 minutes
 
 ## The Problem
