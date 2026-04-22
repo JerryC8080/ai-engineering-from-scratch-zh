@@ -48,7 +48,7 @@ answer = qa(question=question, context=passage)
 print(answer)
 ```
 
-```
+```python
 {'score': 0.98, 'start': 57, 'end': 70, 'answer': 'June 29, 2007'}
 ```
 
