@@ -37,7 +37,7 @@ This lesson names the tradeoffs so you can pick on evidence, not on whatever was
 
 ### The MTEB leaderboard tells a partial story
 
-Massive Text Embedding Benchmark — 56 tasks across 8 task types. In early 2026, Gemini Embedding 2 tops retrieval (67.71 MTEB-R). Cohere embed-v4 leads general (65.2 MTEB). BGE-M3 leads open-weight multilingual (63.0). The leaderboard is necessary but not sufficient — always benchmark on your domain.
+Massive Text Embedding Benchmark — 56 tasks across 8 task types at launch (2022), expanded to 100+ tasks in MTEB v2. In early 2026, Gemini Embedding 2 tops retrieval (67.71 MTEB-R). Cohere embed-v4 leads general (65.2 MTEB). BGE-M3 leads open-weight multilingual (63.0). The leaderboard is necessary but not sufficient — always benchmark on your domain.
 
 ### The three-tier pattern
 
@@ -194,7 +194,7 @@ Refuse recommendations that truncate Matryoshka to <64 dims without domain valid
 | Sparse embedding | Learned BM25 | One weight per vocab token; mostly zeros; trained end-to-end. |
 | Multi-vector | ColBERT-style | One vector per token; MaxSim scoring; bigger index, better recall. |
 | Matryoshka | Russian doll trick | First N dims are a valid smaller embedding on their own. |
-| MTEB | The benchmark | 56-task leaderboard for embedding quality across 8 task types. |
+| MTEB | The benchmark | Massive Text Embedding Benchmark — 56 tasks at launch, 100+ in v2. |
 | BEIR | The retrieval benchmark | 18 zero-shot retrieval tasks; often cited for cross-domain robustness. |
 | Asymmetric encoding | Query ≠ doc path | Model uses different projections for queries and documents. |
 
