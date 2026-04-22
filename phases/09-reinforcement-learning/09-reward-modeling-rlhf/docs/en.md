@@ -15,7 +15,7 @@ You want a *scalar reward* that says "response A is better than response B for i
 
 RLHF (Christiano et al. 2017; Ouyang et al. 2022) converts preferences into a reward model, then optimizes the LM via PPO against that reward. In three steps: SFT → RM → PPO. It is the recipe that shipped ChatGPT, Claude, Gemini, and every other aligned-LLM in 2023–2025.
 
-In 2026 the PPO step is mostly replaced by DPO (Phase 11 · 06) because it is cheaper and nearly as good for alignment tuning. But the *reward model* piece still underlies every Best-of-N sampler, every RL-from-verifiable-rewards pipeline, and every reasoning model using a process reward model. Understand RLHF and you understand the entire alignment stack.
+In 2026 the PPO step is mostly replaced by DPO (Phase 10 · 08) because it is cheaper and nearly as good for alignment tuning. But the *reward model* piece still underlies every Best-of-N sampler, every RL-from-verifiable-rewards pipeline, and every reasoning model using a process reward model. Understand RLHF and you understand the entire alignment stack.
 
 ## The Concept
 
@@ -49,7 +49,7 @@ In 2026 the PPO step is mostly replaced by DPO (Phase 11 · 06) because it is ch
 
 **2026 status:**
 
-- **DPO** (Rafailov 2023): closed-form algebra collapses Stage 2+3 into a single supervised loss over preference data. No RM, no PPO. Same quality on alignment benchmarks for a fraction of the compute. Covered in Phase 11 · 06.
+- **DPO** (Rafailov 2023): closed-form algebra collapses Stage 2+3 into a single supervised loss over preference data. No RM, no PPO. Same quality on alignment benchmarks for a fraction of the compute. Covered in Phase 10 · 08.
 - **GRPO** (DeepSeek 2024–2025): PPO with a group-relative baseline instead of a critic, reward from a *verifier* (code runs / math answer matches) instead of a human-trained RM. Dominant for reasoning models. Covered in Phase 9 · 12.
 - **Process reward models (PRMs):** score partial solutions (each reasoning step), used in both RLHF and GRPO variants for reasoning.
 - **Constitutional AI / RLAIF:** use an aligned LLM to generate preferences instead of humans. Scales the preference budget.
@@ -172,7 +172,7 @@ RLHF in 2026 is layered:
 
 | Layer | Target | Method |
 |-------|--------|--------|
-| Instruction following, helpfulness, harmlessness | Alignment | DPO (Phase 11 · 06) preferred over RLHF-PPO. |
+| Instruction following, helpfulness, harmlessness | Alignment | DPO (Phase 10 · 08) preferred over RLHF-PPO. |
 | Reasoning correctness (math, code) | Capability | GRPO with verifier reward (Phase 9 · 12). |
 | Long-horizon multi-step tasks | Agentic | PPO / GRPO with process reward models over steps. |
 | Safety / refusal behavior | Safety | RLHF-PPO with separate safety RM, or Constitutional AI. |
