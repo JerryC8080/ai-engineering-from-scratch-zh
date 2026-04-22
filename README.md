@@ -467,12 +467,12 @@ Other courses end with *"congratulations, you learned X."* Our lessons end with 
 | 06 | [Instruction Tuning — SFT](phases/10-llms-from-scratch/06-instruction-tuning-sft/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
 | 07 | [RLHF — Reward Model + PPO](phases/10-llms-from-scratch/07-rlhf/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
 | 08 | [DPO — Direct Preference Optimization](phases/10-llms-from-scratch/08-dpo/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 09 | Constitutional AI | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 09 | [Constitutional AI & Self-Improvement](phases/10-llms-from-scratch/09-constitutional-ai-self-improvement/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
 | 10 | [Evaluation — Benchmarks, Evals](phases/10-llms-from-scratch/10-evaluation/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 11 | Quantization: INT8, GPTQ, AWQ, GGUF | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 🦀 |
-| 12 | Inference Optimization | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 13 | Building a Complete LLM Pipeline | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 14 | Open Models: Architecture Walkthroughs | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 11 | [Quantization: INT8, GPTQ, AWQ, GGUF](phases/10-llms-from-scratch/11-quantization/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 🦀 |
+| 12 | [Inference Optimization](phases/10-llms-from-scratch/12-inference-optimization/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 13 | [Building a Complete LLM Pipeline](phases/10-llms-from-scratch/13-building-complete-llm-pipeline/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 14 | [Open Models: Architecture Walkthroughs](phases/10-llms-from-scratch/14-open-models-architecture-walkthroughs/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
 
 </details>
 
