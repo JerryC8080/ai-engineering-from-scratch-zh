@@ -52,3 +52,4 @@ mlruns/
 *.safetensors
 *.bin
 *.h5
+.gstack/
