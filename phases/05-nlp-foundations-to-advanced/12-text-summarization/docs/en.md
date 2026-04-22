@@ -115,7 +115,7 @@ Always use stemming. Without it, "running" and "run" count as different words an
 ROUGE has been the dominant summarization metric for twenty years and it is insufficient on its own in 2026. A large-scale meta-analysis of NLG papers showed:
 
 - **BERTScore** (contextual embedding similarity) gained ground through 2023 and is now reported alongside ROUGE in most summarization papers.
-- **BARTScore** treats evaluation as generation: score the summary by how likely a pre-trained BART assigns it given the source.
+- **BARTScore** treats evaluation as generation: score the summary by how likely a pretrained BART assigns it given the source.
 - **MoverScore** (Earth Mover's Distance over contextual embeddings) reached the top spot in 2025 summarization benchmarks because it captures semantic overlap better than ROUGE.
 - **FactCC** and **QA-based faithfulness** were common 2021-2023, now often replaced by **G-Eval** (a GPT-4 prompt chain that scores coherence, consistency, fluency, relevance with chain-of-thought reasoning).
 - **G-Eval** and similar LLM-judge approaches match human judgment ~80% of the time when rubrics are well-designed.
@@ -124,7 +124,7 @@ Production recommendation: report ROUGE-L for legacy comparison, BERTScore for s
 
 ### Step 4: the factuality problem
 
-Abstractive summaries hallucinate. Extractive summaries do not. This is the single biggest reason production systems still use extractive methods for anything compliance-adjacent.
+Abstractive summaries are prone to hallucination. Extractive summaries carry a much lower hallucination risk because the output is lifted verbatim from the source, though they can still mislead if source sentences are decontextualized, outdated, or quoted out of order. This is the single biggest reason production systems still prefer extractive methods for compliance-adjacent content.
 
 Hallucination types to name:
 
@@ -182,7 +182,7 @@ Refuse abstractive summarization for medical, legal, financial, or regulated con
 ## Exercises
 
 1. **Easy.** Run TextRank on 5 news articles. Compare the top-3 sentences to a reference summary. Measure ROUGE-L. You should see 30-45 ROUGE-L on CNN/DailyMail-style articles.
-2. **Medium.** Implement entity-level factuality: extract named entities from source and summary (spaCy), compute recall of source entities in summary and precision of summary entities against source. High precision and low recall means safe but terse; low precision means hallucinated entities.
+2. **Medium.** Implement entity-level factuality: extract named entities from source and summary (spaCy), compute recall of source entities in summary and precision of summary entities against source. High precision and low recall mean safe but terse; low precision means hallucinated entities.
 3. **Hard.** Compare BART-large-CNN against an LLM (Claude or GPT-4) on 50 CNN/DailyMail articles. Report ROUGE-L, factuality (by entity F1), and cost per summary. Document where each wins.
 
 ## Key Terms
