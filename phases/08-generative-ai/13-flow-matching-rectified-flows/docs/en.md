@@ -152,6 +152,19 @@ Save `outputs/skill-fm-tuner.md`. Skill takes a diffusion-style model spec and c
 | Consistency distillation | "1-step sampler" | Train a student to map any `x_t` directly to `x_0`. |
 | CFG with velocity | "v-CFG" | `v_cfg = (1+w) v_cond - w v_uncond`; same trick, new variable. |
 
+## Production note: Flux.1-schnell is flow matching at its fastest
+
+Flow matching's production win is Flux.1-schnell — a flow-matched DiT distilled to 1-4 inference steps while keeping Flux-dev-grade quality. Niels' "Run Flux on an 8GB machine" notebook is the reference deployment recipe: T5 + CLIP encode, quantized MMDiT denoise (in 4 steps for schnell vs 50 for dev), VAE decode. The cost accounting:
+
+| Variant | Steps | Latency at 1024² on L4 | Total FLOPs (relative) |
+|---------|-------|------------------------|------------------------|
+| Flux.1-dev (raw) | 50 | ~15 s | 1.0× |
+| Flux.1-schnell | 4 | ~1.2 s | 0.08× (12× faster) |
+| SDXL-base | 30 | ~4 s | 0.25× |
+| SDXL-Lightning 2-step | 2 | ~0.3 s | 0.03× |
+
+The production rule: **flow-matched base + distillation = the 2026 default for fast text-to-image.** Every major vendor ships this combo: SD3-Turbo (SD3 + flow + distillation), Flux-schnell (Flux-dev + rectified-flow straightening), CogView-4-Flash. Pure diffusion bases exist only for legacy checkpoints.
+
 ## Further Reading
 
 - [Liu, Gong, Liu (2022). Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow](https://arxiv.org/abs/2209.03003) — rectified flow.
@@ -161,3 +174,5 @@ Save `outputs/skill-fm-tuner.md`. Skill takes a diffusion-style model spec and c
 - [Song et al. (2023). Consistency Models](https://arxiv.org/abs/2303.01469) — 1-step distillation of diffusion / flow.
 - [Sauer et al. (2023). Adversarial Diffusion Distillation (SDXL-Turbo)](https://arxiv.org/abs/2311.17042) — turbo variant.
 - [Black Forest Labs (2024). Flux.1 models](https://blackforestlabs.ai/announcing-black-forest-labs/) — flow matching in production.
+- [Niels Transformers-Tutorials — Run Flux on an 8GB machine](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/Flux/Run_Flux_on_an_8GB_machine.ipynb) — canonical flow-matching MMDiT deployment with 4-bit quantization and CPU offload. For schnell, swap the checkpoint id for `black-forest-labs/FLUX.1-schnell` and set `num_inference_steps=4, guidance_scale=0.0`.
+- [stas00 ml-engineering — Benchmarks](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#benchmarks) — methodology for prefill/decode throughput. For flow-matching models, the analog is "steps/second × batch × image_size"; measure at target concurrency with `k6` or aiohttp to avoid client-bottlenecked numbers.
