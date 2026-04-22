@@ -233,3 +233,6 @@ Refuse to ship a cache plan that places a dynamic field above the breakpoint. Re
 - [Anthropic engineering — Prompt caching for long-context workloads](https://www.anthropic.com/news/prompt-caching) — original launch post with latency numbers.
 - Phase 11 · 05 (Context Engineering) — where to slice the prompt so the cache can land.
 - Phase 11 · 11 (Caching and Cost) — pair prompt caching with a semantic cache on user messages.
+- [Stas ML Engineering — KV Caching](https://github.com/stas00/ml-engineering/tree/master/inference#kv-caching) — the mechanism prompt caching exposes to users: how the KV cache grows linearly with prompt length, why rereading a cached prefix is ~10× cheaper than recomputing it, and how MQA/GQA change the memory cost.
+- [Stas ML Engineering — Prefill and Decode](https://github.com/stas00/ml-engineering/tree/master/inference#prefill-and-decode) — prefill is the phase prompt caching shortcuts; this section explains why TTFT drops dramatically on cache hit while TPOT is unaffected.
+- [mlabonne LLM Engineer — Inference optimization (KV cache)](https://github.com/mlabonne/llm-course#6-inference-optimization) — prompt caching framed alongside Flash Attention, MQA/GQA, and speculative decoding as the four levers that bend the inference cost curve.
