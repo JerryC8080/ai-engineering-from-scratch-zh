@@ -543,3 +543,5 @@ It also produces `outputs/skill-structured-outputs.md` -- a decision framework f
 - [Anthropic Tool Use Guide](https://docs.anthropic.com/en/docs/tool-use) -- how Claude implements structured output via tool use with JSON Schema input_schema
 - [JSON Schema specification](https://json-schema.org/) -- the full spec for the schema language used by every major structured output system
 - [Outlines library](https://github.com/outlines-dev/outlines) -- open-source constrained generation using regex and JSON Schema compiled to finite state machines
+- [mlabonne LLM Engineer -- Structuring outputs](https://github.com/mlabonne/llm-course#1-running-llms) -- the roadmap bullet where Outlines, LMQL, and native JSON-mode APIs are listed side by side
+- [Stas ML Engineering -- Guided Text Generation](https://github.com/stas00/ml-engineering/tree/master/inference#guided-text-generation) -- production perspective on constrained decoding: why it speeds up inference (pruned vocab) as well as fixing format
