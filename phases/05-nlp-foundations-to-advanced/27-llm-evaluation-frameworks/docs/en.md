@@ -56,7 +56,9 @@ Why it fails silently:
 
 ```python
 from transformers import pipeline
-nli = pipeline("text-classification", model="MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli")
+nli = pipeline("text-classification",
+               model="MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+               top_k=None)
 
 
 def atomic_claims(answer, llm):
@@ -70,7 +72,7 @@ def faithfulness(answer, context, llm):
     claims = atomic_claims(answer, llm)
     supported = 0
     for claim in claims:
-        result = nli({"text": context, "text_pair": claim})
+        result = nli({"text": context, "text_pair": claim})[0]
         entail = next(s for s in result if s["label"] == "entailment")
         if entail["score"] > 0.5:
             supported += 1

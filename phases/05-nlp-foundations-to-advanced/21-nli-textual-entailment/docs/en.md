@@ -55,12 +55,12 @@ from transformers import pipeline
 
 nli = pipeline("text-classification",
                model="facebook/bart-large-mnli",
-               return_all_scores=True)
+               top_k=None)  # return all labels; replaces deprecated return_all_scores=True
 
 premise = "The cat is sleeping on the couch."
 hypothesis = "There is a cat in the room."
 
-result = nli({"text": premise, "text_pair": hypothesis})
+result = nli({"text": premise, "text_pair": hypothesis})[0]
 print(result)
 # [{'label': 'entailment', 'score': 0.97},
 #  {'label': 'neutral', 'score': 0.02},
@@ -89,7 +89,7 @@ The template is "This example is about {label}." by default. Customize with `hyp
 
 ```python
 def is_faithful(answer, context, threshold=0.5):
-    result = nli({"text": context, "text_pair": answer})
+    result = nli({"text": context, "text_pair": answer})[0]
     entail = next(s for s in result if s["label"] == "entailment")
     return entail["score"] > threshold
 ```
