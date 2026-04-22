@@ -243,6 +243,26 @@ print(ner("Apple sued Google over its iPhone in the US."))
 
 `aggregation_strategy="simple"` merges contiguous B-X, I-X tokens into a span. Without it, you get token-level labels and have to merge yourself.
 
+### LLM-based NER (the 2026 option)
+
+Zero-shot and few-shot LLM NER is now competitive with fine-tuned models on many domains, and dramatically better when labeled data is scarce.
+
+- **Zero-shot prompting.** Give the LLM a list of entity types and an example schema. Ask for JSON output. Works out of the box; accuracy is moderate on novel domains.
+- **ZeroTuneBio-style prompting.** Decompose the task into candidate extraction → meaning explanation → judgment → re-check. A multi-stage prompt (not one-shot) lifts accuracy substantially on biomedical NER. The same pattern works for legal, financial, and scientific domains.
+- **Dynamic prompting with RAG.** Retrieve the most similar labeled examples from a small annotated seed set for every inference call; build the few-shot prompt on the fly. In 2026 benchmarks, this lifts GPT-4 biomedical NER F1 by 11-12% over static prompting.
+- **Per-entity-type decomposition.** For long documents, a single call that extracts all entity types at once loses recall as length grows. Run one extraction pass per entity type. Higher inference cost, substantially higher accuracy. This is the standard pattern for clinical notes and legal contracts.
+
+Production recommendation as of 2026: start with an LLM zero-shot baseline before you collect training data. Often the F1 is good enough that you never need to fine-tune.
+
+### Where classical NER still wins
+
+Even with LLMs available, classical NER wins when:
+
+- Latency budget is under 50ms.
+- You have thousands of labeled examples and need 98%+ F1.
+- The domain has a stable ontology where a pretrained CRF or BiLSTM transfers well.
+- Regulatory constraints require an on-prem, non-generative model.
+
 ### Where it falls apart
 
 - **Domain shift.** CoNLL-trained NER on legal contracts performs worse than a gazetteer. Fine-tune on your domain.
