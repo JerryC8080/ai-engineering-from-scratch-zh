@@ -65,38 +65,56 @@ def chunk_recursive(text, size=512, seps=("\n\n", "\n", ". ", " ")):
     if len(text) <= size:
         return [text]
     for sep in seps:
-        if sep in text:
-            parts = text.split(sep)
-            chunks = []
-            buf = ""
-            for p in parts:
-                candidate = buf + sep + p if buf else p
-                if len(candidate) <= size:
-                    buf = candidate
-                else:
-                    if buf:
-                        chunks.append(buf)
-                    buf = p
-            if buf:
-                chunks.append(buf)
-            return [c for c in chunks if c.strip()]
+        if sep not in text:
+            continue
+        parts = text.split(sep)
+        chunks = []
+        buf = ""
+        for p in parts:
+            if len(p) > size:
+                if buf:
+                    chunks.append(buf)
+                    buf = ""
+                chunks.extend(chunk_recursive(p, size=size, seps=seps[1:] or (" ",)))
+                continue
+            candidate = buf + sep + p if buf else p
+            if len(candidate) <= size:
+                buf = candidate
+            else:
+                if buf:
+                    chunks.append(buf)
+                buf = p
+        if buf:
+            chunks.append(buf)
+        return [c for c in chunks if c.strip()]
     return chunk_fixed(text, size)
 ```
 
 ### Step 2: semantic chunking
 
 ```python
-def chunk_semantic(text, encoder, threshold=0.6):
+def chunk_semantic(text, encoder, threshold=0.6, min_chars=200, max_chars=2048):
     sentences = split_sentences(text)
+    if not sentences:
+        return []
     embs = encoder.encode(sentences, normalize_embeddings=True)
     chunks = [[sentences[0]]]
     for i in range(1, len(sentences)):
         sim = float(embs[i] @ embs[i - 1])
-        if sim < threshold:
+        current_len = sum(len(s) for s in chunks[-1])
+        if sim < threshold and current_len >= min_chars:
             chunks.append([sentences[i]])
         else:
             chunks[-1].append(sentences[i])
-    return [" ".join(c) for c in chunks]
+
+    result = []
+    for group in chunks:
+        text_group = " ".join(group)
+        if len(text_group) > max_chars:
+            result.extend(chunk_recursive(text_group, size=max_chars))
+        else:
+            result.append(text_group)
+    return result
 ```
 
 Tune `threshold` on your domain. Too high → fragments. Too low → one giant chunk.
