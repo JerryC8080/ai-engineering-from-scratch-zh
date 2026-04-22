@@ -21,7 +21,7 @@ The interesting problem is what to do about unseen n-grams. A raw count-based mo
 
 **N-gram probability:** `P(w_i | w_{i-n+1}, ..., w_{i-1})`. Fix `n` (typically 3 for trigrams, 4 for 4-grams). Compute from counts:
 
-```
+```text
 P(w | context) = count(context, w) / count(context)
 ```
 
@@ -40,7 +40,7 @@ The Kneser-Ney insight is deep. "San Francisco" is a common bigram. Unigram "Fra
 
 **Evaluation: perplexity.** The exponent of the average negative log-likelihood per word on a held-out test set. Lower is better. A perplexity of 100 means the model is as confused as it would be choosing uniformly among 100 words.
 
-```
+```text
 perplexity = exp(- (1/N) * Σ log P(w_i | context_i))
 ```
 

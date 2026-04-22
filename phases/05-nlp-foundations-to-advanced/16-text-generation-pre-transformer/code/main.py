@@ -65,7 +65,7 @@ def sample_sentence(prob_fn, vocab, max_len=15, seed=0):
                 tokens.append(w)
                 break
         if tokens[-1] == "</s>":
-            break
+            return tokens[1:-1]
     return tokens[1:]
 
 
