@@ -115,11 +115,20 @@ def agent_loop(user_message, tools, llm, max_steps=5):
     history = [{"role": "user", "content": user_message}]
     for _ in range(max_steps):
         response = llm(history, tools=tools)
-        if response.get("tool_call"):
-            tool_name = response["tool_call"]["name"]
-            args = response["tool_call"]["arguments"]
+        tool_call = response.get("tool_call")
+        if tool_call:
+            tool_name = tool_call.get("name")
+            args = tool_call.get("arguments")
+            if not isinstance(tool_name, str) or tool_name not in tools:
+                history.append({"role": "assistant", "tool_call": tool_call})
+                history.append({"role": "tool", "name": str(tool_name), "content": f"error: unknown tool {tool_name!r}"})
+                continue
+            if not isinstance(args, dict):
+                history.append({"role": "assistant", "tool_call": tool_call})
+                history.append({"role": "tool", "name": tool_name, "content": f"error: arguments must be a dict, got {type(args).__name__}"})
+                continue
             result = tools[tool_name](**args)
-            history.append({"role": "assistant", "tool_call": response["tool_call"]})
+            history.append({"role": "assistant", "tool_call": tool_call})
             history.append({"role": "tool", "name": tool_name, "content": result})
         else:
             return response["content"]
