@@ -21,16 +21,7 @@ This lesson builds the three preprocessing primitives from scratch, then shows h
 
 Three operations. Each has a job and a failure mode.
 
-```
-RAW TEXT ──▶ tokenizer ──▶ tokens ──▶ stemmer ──▶ stems
-"The cats                   [The, cats,            [the, cat,
- were                        were,                  were, run]
- running."                   running, .]
-
-                                    ──▶ lemmatizer ──▶ lemmas
-                                                       [the, cat,
-                                                        be, run]
-```
+![Preprocessing pipeline: raw text → tokens → stems or lemmas → model](./assets/pipeline.svg)
 
 **Tokenization** splits a string into tokens. "Token" is deliberately vague because the right granularity depends on the task. Word-level for classical NLP. Subword for transformers. Character for languages without whitespace.
 
@@ -208,6 +199,14 @@ spaCy hides the whole pipeline behind `nlp(text)`. Tokenization, POS tagging, an
 | Teaching, research, swapping components | NLTK |
 | Production, multi-language, speed matters | spaCy |
 | Transformer pipeline (you'll tokenize with the model's tokenizer anyway) | Use `tokenizers` / `transformers` and skip classical preprocessing |
+
+### The two failure modes nobody warns you about
+
+Most tutorials teach the algorithms and stop. Two things will bite a real preprocessing pipeline, and they are almost never covered.
+
+**Reproducibility drift.** NLTK and spaCy change tokenization and lemmatizer behavior between versions. What produced `['do', "n't"]` in spaCy 2.x may produce `["don't"]` in 3.x. Your model was trained on one distribution. Inference now runs on a different one. Accuracy quietly degrades and nobody knows why. Pin library versions in `requirements.txt`. Write a preprocessing regression test that freezes expected tokenization of 20 sample sentences. Run it on every upgrade.
+
+**Training / inference mismatch.** Train with aggressive preprocessing (lowercase, stopword removal, stemming), deploy on raw user input, watch performance crater. This is the single most common production NLP failure. If you preprocess during training, you must run the identical function during inference. Ship preprocessing as a function inside the model package, not as a notebook cell the serving team rewrites.
 
 ## Ship It
 
