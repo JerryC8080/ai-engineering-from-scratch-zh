@@ -903,3 +903,6 @@ It also produces `outputs/skill-cost-patterns.md` -- a decision framework for ch
 - [Martian Model Router](https://docs.withmartian.com) -- production model routing that automatically selects the cheapest model capable of handling each query
 - [Not Diamond](https://www.notdiamond.ai) -- ML-based model router that learns from your traffic patterns to optimize cost/quality tradeoffs across providers
 - [Helicone](https://www.helicone.ai) -- LLM observability platform with cost tracking, caching, rate limiting, and budget alerts as a proxy layer
+- [Stas ML Engineering -- Inference Performance Metrics](https://github.com/stas00/ml-engineering/tree/master/inference#key-inference-performance-metrics) -- latency, throughput, TTFT, TPOT, and percentiles with their formulas; the cost model behind "pick the cheapest model that still meets P95"
+- [Stas ML Engineering -- Continuous Batching and Paged Attention](https://github.com/stas00/ml-engineering/tree/master/inference#batching) -- why vLLM, TGI, and SGLang beat naive servers on throughput; the infra side of "caching and cost" for self-hosted deployments
+- [mlabonne LLM Engineer -- Inference optimization](https://github.com/mlabonne/llm-course#6-inference-optimization) -- Flash Attention, KV cache, MQA/GQA, and speculative decoding framed as cost-reducers alongside caching and batching
