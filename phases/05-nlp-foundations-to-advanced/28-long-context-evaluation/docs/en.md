@@ -54,9 +54,24 @@ See `code/main.py`. The skeleton:
 
 ```python
 def build_haystack(filler_text, needle, depth_ratio, total_tokens):
-    insert_at = int(total_tokens * depth_ratio)
+    if not (0.0 <= depth_ratio <= 1.0):
+        raise ValueError(f"depth_ratio must be in [0, 1], got {depth_ratio}")
+    if total_tokens <= 0:
+        raise ValueError(f"total_tokens must be positive, got {total_tokens}")
+
     filler_tokens = tokenize(filler_text)
-    haystack = filler_tokens[:insert_at] + tokenize(needle) + filler_tokens[insert_at:total_tokens]
+    needle_tokens = tokenize(needle)
+    if not filler_tokens:
+        raise ValueError("filler_text produced no tokens")
+
+    # Repeat filler until long enough to fill the haystack body.
+    body_len = max(total_tokens - len(needle_tokens), 0)
+    while len(filler_tokens) < body_len:
+        filler_tokens = filler_tokens + filler_tokens
+    filler_tokens = filler_tokens[:body_len]
+
+    insert_at = min(int(body_len * depth_ratio), body_len)
+    haystack = filler_tokens[:insert_at] + needle_tokens + filler_tokens[insert_at:]
     return " ".join(haystack)
 
 
