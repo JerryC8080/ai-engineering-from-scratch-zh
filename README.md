@@ -339,29 +339,40 @@ Other courses end with *"congratulations, you learned X."* Our lessons end with 
 </details>
 
 <details id="phase-5">
-<summary><b>🔴 Phase 5 — NLP: Foundations to Advanced</b> &nbsp;<code>18 lessons</code>&nbsp; <em>Language is the interface to intelligence.</em></summary>
+<summary><b>🔴 Phase 5 — NLP: Foundations to Advanced</b> &nbsp;<code>29 lessons</code>&nbsp; <em>Language is the interface to intelligence.</em></summary>
 <br/>
 
 | # | Lesson | Type | Lang |
 |:---:|--------|:----:|------|
-| 01 | Text Processing: Tokenization, Stemming, Lemmatization | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 02 | Bag of Words, TF-IDF & Text Representation | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 03 | Word Embeddings: Word2Vec from Scratch | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 04 | GloVe, FastText & Subword Embeddings | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 05 | Sentiment Analysis | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 06 | Named Entity Recognition (NER) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 07 | POS Tagging & Syntactic Parsing | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 08 | Text Classification — CNNs & RNNs for Text | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 09 | Sequence-to-Sequence Models | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 10 | Attention Mechanism — The Breakthrough | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 11 | Machine Translation | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 12 | Text Summarization | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 13 | Question Answering Systems | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 14 | Information Retrieval & Search | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 15 | Topic Modeling: LDA, BERTopic | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 16 | Text Generation | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 17 | Chatbots: Rule-Based to Neural | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
-| 18 | Multilingual NLP | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 01 | [Text Processing: Tokenization, Stemming, Lemmatization](phases/05-nlp-foundations-to-advanced/01-text-processing/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 02 | [Bag of Words, TF-IDF & Text Representation](phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 03 | [Word Embeddings: Word2Vec from Scratch](phases/05-nlp-foundations-to-advanced/03-word-embeddings-word2vec/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 04 | [GloVe, FastText & Subword Embeddings](phases/05-nlp-foundations-to-advanced/04-glove-fasttext-subword/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 05 | [Sentiment Analysis](phases/05-nlp-foundations-to-advanced/05-sentiment-analysis/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 06 | [Named Entity Recognition (NER)](phases/05-nlp-foundations-to-advanced/06-named-entity-recognition/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 07 | [POS Tagging & Syntactic Parsing](phases/05-nlp-foundations-to-advanced/07-pos-tagging-parsing/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 08 | [Text Classification — CNNs & RNNs for Text](phases/05-nlp-foundations-to-advanced/08-cnns-rnns-for-text/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 09 | [Sequence-to-Sequence Models](phases/05-nlp-foundations-to-advanced/09-sequence-to-sequence/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 10 | [Attention Mechanism — The Breakthrough](phases/05-nlp-foundations-to-advanced/10-attention-mechanism/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 11 | [Machine Translation](phases/05-nlp-foundations-to-advanced/11-machine-translation/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 12 | [Text Summarization](phases/05-nlp-foundations-to-advanced/12-text-summarization/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 13 | [Question Answering Systems](phases/05-nlp-foundations-to-advanced/13-question-answering/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 14 | [Information Retrieval & Search](phases/05-nlp-foundations-to-advanced/14-information-retrieval-search/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 15 | [Topic Modeling: LDA, BERTopic](phases/05-nlp-foundations-to-advanced/15-topic-modeling/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 16 | [Text Generation](phases/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 17 | [Chatbots: Rule-Based to Neural](phases/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 18 | [Multilingual NLP](phases/05-nlp-foundations-to-advanced/18-multilingual-nlp/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 19 | [Subword Tokenization: BPE, WordPiece, Unigram, SentencePiece](phases/05-nlp-foundations-to-advanced/19-subword-tokenization/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 20 | [Structured Outputs & Constrained Decoding](phases/05-nlp-foundations-to-advanced/20-structured-outputs-constrained-decoding/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 21 | [NLI & Textual Entailment](phases/05-nlp-foundations-to-advanced/21-nli-textual-entailment/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 22 | [Embedding Models Deep Dive](phases/05-nlp-foundations-to-advanced/22-embedding-models-deep-dive/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 23 | [Chunking Strategies for RAG](phases/05-nlp-foundations-to-advanced/23-chunking-strategies-rag/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 24 | [Coreference Resolution](phases/05-nlp-foundations-to-advanced/24-coreference-resolution/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 25 | [Entity Linking & Disambiguation](phases/05-nlp-foundations-to-advanced/25-entity-linking/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 26 | [Relation Extraction & Knowledge Graph Construction](phases/05-nlp-foundations-to-advanced/26-relation-extraction-kg/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 27 | [LLM Evaluation: RAGAS, DeepEval, G-Eval](phases/05-nlp-foundations-to-advanced/27-llm-evaluation-frameworks/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 28 | [Long-Context Evaluation: NIAH, RULER, LongBench, MRCR](phases/05-nlp-foundations-to-advanced/28-long-context-evaluation/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 29 | [Dialogue State Tracking](phases/05-nlp-foundations-to-advanced/29-dialogue-state-tracking/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
 
 </details>
 
