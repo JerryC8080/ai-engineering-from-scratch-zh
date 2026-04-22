@@ -111,6 +111,52 @@ def rlhf_step(theta, ref, w, prompt, rng, eps=0.2, beta=0.1, lr=0.05):
 
 Track mean `KL(π_θ || π_ref)` every update. If it creeps past `~5-10` the policy has drifted far from `π_SFT` — lower `β` is rising or reward hacking is starting. This is the top diagnostic in real RLHF.
 
+### Step 5: the production recipe with TRL
+
+Once you understand the toy pipeline, here is the same loop as a real library user writes it. Hugging Face's [TRL](https://huggingface.co/docs/trl) is the reference implementation — `RewardTrainer` for Stage 2 and `PPOTrainer` (with a KL-to-reference built in) for Stage 3.
+
+```python
+# Stage 2: reward model from pairwise preferences
+from trl import RewardTrainer, RewardConfig
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+tok = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
+rm = AutoModelForSequenceClassification.from_pretrained(
+    "meta-llama/Llama-3.1-8B-Instruct", num_labels=1
+)
+
+# dataset rows: {"prompt", "chosen", "rejected"} — Bradley-Terry format
+trainer = RewardTrainer(
+    model=rm,
+    tokenizer=tok,
+    train_dataset=preference_data,
+    args=RewardConfig(output_dir="./rm", num_train_epochs=1, learning_rate=1e-5),
+)
+trainer.train()
+```
+
+```python
+# Stage 3: PPO against the RM with KL penalty to the SFT reference
+from trl import PPOTrainer, PPOConfig, AutoModelForCausalLMWithValueHead
+
+policy = AutoModelForCausalLMWithValueHead.from_pretrained("./sft-checkpoint")
+ref    = AutoModelForCausalLMWithValueHead.from_pretrained("./sft-checkpoint")  # frozen
+
+ppo = PPOTrainer(
+    config=PPOConfig(learning_rate=1.41e-5, batch_size=64, init_kl_coef=0.05,
+                     target_kl=6.0, adap_kl_ctrl=True),
+    model=policy, ref_model=ref, tokenizer=tok,
+)
+
+for batch in dataloader:
+    responses = ppo.generate(batch["query_ids"], max_new_tokens=128)
+    rewards   = rm(torch.cat([batch["query_ids"], responses], dim=-1)).logits[:, 0]
+    stats     = ppo.step(batch["query_ids"], responses, rewards)
+    # stats includes: mean_kl, clip_frac, value_loss — the three PPO diagnostics
+```
+
+Three things the library does for you. `adap_kl_ctrl=True` implements the adaptive-β schedule: if observed KL exceeds `target_kl`, β doubles; if below half, β halves. The reference model is frozen by convention — you must not accidentally share parameters with `policy`. And the value head lives on the same backbone as the policy (`AutoModelForCausalLMWithValueHead` attaches a scalar MLP head), which is why TRL reports `policy/kl` and `value/loss` separately.
+
 ## Pitfalls
 
 - **Over-optimization / reward hacking.** The RM is imperfect; `π_θ` finds adversarial completions that score high but are bad. Symptoms: reward climbs indefinitely while human eval score plateaus or drops. Fix: stop early, raise `β`, broaden RM training data.
@@ -187,3 +233,11 @@ Refuse to ship RLHF-PPO without a KL monitor. Refuse to use an RM smaller than t
 - [Rafailov et al. (2023). Direct Preference Optimization](https://arxiv.org/abs/2305.18290) — DPO; the post-RLHF default in 2026.
 - [Bai et al. (2022). Constitutional AI: Harmlessness from AI Feedback](https://arxiv.org/abs/2212.08073) — RLAIF and self-critique loop.
 - [Anthropic RLHF paper (Bai et al. 2022). Training a Helpful and Harmless Assistant](https://arxiv.org/abs/2204.05862) — the HH paper.
+- [Hugging Face TRL library](https://huggingface.co/docs/trl) — production `RewardTrainer` and `PPOTrainer`. Read the trainer source for the adaptive-KL and value-head details.
+- [Hugging Face — Illustrating Reinforcement Learning from Human Feedback](https://huggingface.co/blog/rlhf) by Lambert, Castricato, von Werra, Havrilla — the canonical walk-through of the three-stage pipeline with diagrams.
+- [Raschka (2024). LLMs-from-Scratch, Ch. 7 — DPO from scratch notebook](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch07/04_preference-tuning-with-dpo) — implement DPO without TRL; excellent for understanding where the `β` and the reference log-probs come from.
+- [Labonne (2024). LLM Course — Preference Alignment](https://github.com/mlabonne/llm-course#5-preference-alignment) — side-by-side of DPO, GRPO, and PPO for LLM alignment with tutorial notebooks (Fine-tune Mistral-7b with DPO, Fine-tune Llama 3 with ORPO).
+- [Labonne (2024). Fine-tune Mistral-7b with DPO](https://mlabonne.github.io/blog/posts/Fine_tune_Mistral_7b_with_DPO.html) — practical DPO recipe reproducing NeuralHermes-2.5.
+- [Raschka (2023). LLM Training: RLHF and Its Alternatives](https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives) — RLHF vs DPO vs RLAIF with empirical comparisons.
+- [von Werra et al. (2020). TRL: Transformer Reinforcement Learning](https://github.com/huggingface/trl) — the library; `examples/` has end-to-end RLHF scripts for Llama, Mistral, and Qwen.
+- [Sutton & Barto (2018). Ch. 17.4 — Designing Reward Signals](http://incompleteideas.net/book/RLbook2020.pdf) — the reward-hypothesis view; essential prerequisite for thinking about reward hacking.
