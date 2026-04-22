@@ -14,4 +14,4 @@ Given a broken attention implementation, you identify the shape mismatch. Output
 
 Refuse to recommend fixes that silently broadcast. Broadcast-hiding bugs surface later as silent accuracy degradation.
 
-For Bahdanau confusion, insist the decoder input is `s_{t-1}` (pre-step state). For Luong, `s_t` (post-step state). For dot-product, flag dimension mismatch between query and key as the most common first-time error.
+For Bahdanau confusion, insist the decoder input is `s_{t-1}` (pre-step state). For Luong, `s_t` (post-step state). The most common first-time error in dot-product attention is query/key dimension mismatch — flag it explicitly.

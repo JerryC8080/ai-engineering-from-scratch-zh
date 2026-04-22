@@ -67,7 +67,7 @@ def main():
     U_a = [[0.5, 0.2, 0.3], [0.2, 0.6, 0.2]]
     v_a = [0.8, 0.6]
     for name, s in [("close to 'cat'", [0.9, 0.1, 0.2]), ("close to 'mat'", [0.1, 0.9, 0.3])]:
-        context, weights = additive_attention(s, H, W_a, U_a, v_a)
+        _, weights = additive_attention(s, H, W_a, U_a, v_a)
         pretty = {p: round(w, 3) for p, w in zip(positions, weights)}
         print(f"  decoder state {name:20s} -> weights {pretty}")
 

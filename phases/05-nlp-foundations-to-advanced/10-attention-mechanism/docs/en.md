@@ -117,7 +117,7 @@ print("weights:", w.round(3))
 ```
 
 ```
-weights: [0.446 0.312 0.242]
+weights: [0.464 0.305 0.231]
 ```
 
 First row wins. Then move the decoder state closer to the third encoder state and watch the weights shift. That is it. Attention is explicit alignment.
