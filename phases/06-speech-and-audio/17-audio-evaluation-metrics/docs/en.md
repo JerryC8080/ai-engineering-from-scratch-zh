@@ -181,6 +181,16 @@ Pair every deploy with a fixed eval harness that runs on every model update. Thr
 2. **Report distributions, not averages.** P50/P95/P99 for latency. Per-class recall for classification. Per-category for MMAU.
 3. **Run one canonical public benchmark.** Even if your production data differs, reporting on Open ASR / TTS Arena / MMAU lets reviewers compare apples-to-apples.
 
+### Three complementary evaluation strategies
+
+Borrowing the framing from mlabonne's `llm-course` evaluation chapter, every audio model release should pick one (or more) of:
+
+- **Automated benchmarks.** `jiwer` for WER, `frechet_audio_distance` for FAD, `lighteval` or `lm-eval-harness` patterns if you're running audio-LM tasks. Fast, reproducible, prone to data contamination. Use for regression tests.
+- **Human evaluation.** MOS / CMOS panels. The gold standard for TTS and music; slow and expensive but the only measure that catches "sounds weird" failures UTMOS misses.
+- **Model-based evaluation.** UTMOS (learned MOS predictor), CLAP (text-audio alignment), Whisper-round-trip WER (ASR-as-judge for TTS). Cheap and reproducible; correlates with human preference but carries the judge model's biases.
+
+The right release report combines at least two: e.g. "UTMOS 3.9 + round-trip WER 2.1% + 20-listener MOS panel." Any single number misleads.
+
 ## Pitfalls
 
 - **UTMOS extrapolation.** Trained on VCTK-style clean speech; scores noisy / cloned / emotional audio poorly.
@@ -222,3 +232,6 @@ Save as `outputs/skill-audio-evaluator.md`. Pick metrics, benchmarks, and report
 - [TTS Arena](https://huggingface.co/spaces/TTS-AGI/TTS-Arena) — human-vote TTS leaderboard.
 - [MMAU-Pro benchmark](https://mmaubenchmark.github.io/) — LALM reasoning leaderboard.
 - [HEAR benchmark](https://hearbenchmark.com/) — audio SSL benchmarks.
+- [mlabonne llm-course — Evaluation section](https://github.com/mlabonne/llm-course#6-evaluation) — automated vs human vs model-based framing; the three-way split applies as cleanly to audio as to text.
+- [Hugging Face LLM evaluation guidebook](https://huggingface.co/spaces/OpenEvals/evaluation-guidebook) — practical guide to designing benchmarks that generalize.
+- [EleutherAI lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) / [Lighteval](https://github.com/huggingface/lighteval) — frameworks whose patterns (task registry, automated runner, deterministic scoring) carry over cleanly to audio benchmarks.
