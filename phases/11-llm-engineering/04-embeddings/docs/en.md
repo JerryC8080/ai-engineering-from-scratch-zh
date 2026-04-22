@@ -505,3 +505,4 @@ This lesson produces:
 - Malkov & Yashunin, "Efficient and Robust Approximate Nearest Neighbor using Hierarchical Navigable Small World Graphs" (2018) -- the HNSW paper, the algorithm behind most production vector search
 - OpenAI Embeddings Guide (platform.openai.com/docs/guides/embeddings) -- practical reference for text-embedding-3 models including Matryoshka dimension reduction
 - MTEB Leaderboard (huggingface.co/spaces/mteb/leaderboard) -- live benchmark comparing all embedding models across tasks and languages
+- [mlabonne LLM Engineer -- Building a Vector Storage](https://github.com/mlabonne/llm-course#2-building-a-vector-storage) -- Ingest, split, embed, store: the four-step pipeline this lesson implements, with mlabonne's curated pointers to Sentence Transformers, MTEB, and the vector-DB comparison
