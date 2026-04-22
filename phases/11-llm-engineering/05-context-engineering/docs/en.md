@@ -586,3 +586,5 @@ It also produces `outputs/skill-context-engineering.md` -- a decision framework 
 - [LangChain documentation on RAG](https://python.langchain.com/docs/tutorials/rag/) -- practical implementation of retrieval-augmented generation as a context engineering pattern
 - [Greg Kamradt's Needle in a Haystack test](https://github.com/gkamradt/LLMTest_NeedleInAHaystack) -- the benchmark that revealed position-dependent retrieval failures across all major models
 - [Andrej Karpathy on context length](https://karpathy.ai/) -- practical observations on how context window usage affects model performance in real applications
+- [Stas ML Engineering -- Anatomy of Model's Memory Usage: KV Caching](https://github.com/stas00/ml-engineering/tree/master/inference#kv-caching) -- why context length drives memory and latency, and how KV cache, MQA, and GQA change the budget calculation
+- [Stas ML Engineering -- Prefill and Decode](https://github.com/stas00/ml-engineering/tree/master/inference#prefill-and-decode) -- the two phases of inference that make long prompts expensive in TTFT but cheap in TPOT; the ground truth behind "context packing" tradeoffs
