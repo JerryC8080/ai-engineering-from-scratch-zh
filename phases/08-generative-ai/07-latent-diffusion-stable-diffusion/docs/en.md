@@ -124,6 +124,16 @@ Save `outputs/skill-sd-prompter.md`. Skill takes a text prompt + target style an
 | MMDiT | "Multi-modal DiT" | SD3's architecture: text and image streams with joint attention. |
 | VAE scaling factor | "Magic number" | Divides latents by ~5.4 so diffusion operates in unit-variance space. |
 
+## Production note: running Flux-12B on an 8GB consumer GPU
+
+Niels' Flux notebook is the canonical "I have a consumer GPU, can I ship this?" recipe. The trick is the same three-knob recipe stas00 lists for LLM inference applied to a diffusion DiT:
+
+1. **Staggered loading.** Flux has three networks that never need to coexist in VRAM: T5-XXL text encoder (~10 GB in fp32), CLIP-L (small), the 12B MMDiT, and the VAE. Encode the prompt first, *delete* the encoders, load the DiT, denoise, *delete* the DiT, load the VAE, decode. Consumer 8GB GPUs only fit one stage at a time.
+2. **4-bit quantization via bitsandbytes.** `BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)` on both the T5 encoder and the DiT. Cuts memory 8×, quality drop is imperceptible for text-to-image per Aritra's benchmarks (linked in the notebook).
+3. **CPU offload.** `pipe.enable_model_cpu_offload()` auto-swaps modules between CPU and GPU as each forward pass advances. Adds 10-20% latency but makes the pipeline run at all.
+
+The memory accounting is: `10 GB T5 / 8 = 1.25 GB` quantized, `12 B params × 0.5 bytes = ~6 GB` quantized DiT, plus activations. In stas00's terms this is the extreme-end of TP=1 inference — no model parallelism, maximum quantization. For production you'd run TP=2 or TP=4 on H100s; for a single dev laptop, this is the recipe.
+
 ## Further Reading
 
 - [Rombach et al. (2022). High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752) — Stable Diffusion.
@@ -133,3 +143,5 @@ Save `outputs/skill-sd-prompter.md`. Skill takes a text prompt + target style an
 - [Ho & Salimans (2022). Classifier-Free Diffusion Guidance](https://arxiv.org/abs/2207.12598) — CFG.
 - [Labs (2024). Flux.1 — Black Forest Labs announcement](https://blackforestlabs.ai/announcing-black-forest-labs/) — Flux.1 family.
 - [Hugging Face Diffusers docs](https://huggingface.co/docs/diffusers/index) — reference implementation for every checkpoint above.
+- [Niels Transformers-Tutorials — Run Flux on an 8GB machine](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/Flux/Run_Flux_on_an_8GB_machine.ipynb) — end-to-end 4-bit-quantized Flux.1-dev pipeline with staggered encoder/DiT/VAE loading and CPU offload. The single most complete "how to deploy a 12B diffusion DiT on consumer hardware" walkthrough.
+- [stas00 ml-engineering — Model parallelism (TP, PP)](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#model-parallelism) — tensor vs pipeline parallelism for inference; the production-server counterpart to Flux's consumer-GPU offload recipe.
