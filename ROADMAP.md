@@ -158,7 +158,7 @@ Progress tracking for every phase and lesson.
 | 28 | [Long-Context Evaluation — NIAH, RULER, LongBench, MRCR](phases/05-nlp-foundations-to-advanced/28-long-context-evaluation) | ✅ | ~60 min |
 | 29 | [Dialogue State Tracking](phases/05-nlp-foundations-to-advanced/29-dialogue-state-tracking) | ✅ | ~75 min |
 
-## Phase 6: Speech & Audio — ✅ (~13 hours)
+## Phase 6: Speech & Audio — ✅ (~18 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -174,6 +174,11 @@ Progress tracking for every phase and lesson.
 | 10 | [Audio-Language Models](phases/06-speech-and-audio/10-audio-language-models) | ✅ | ~45 min |
 | 11 | [Real-Time Audio Processing](phases/06-speech-and-audio/11-real-time-audio-processing) | ✅ | ~75 min |
 | 12 | [Build a Voice Assistant Pipeline](phases/06-speech-and-audio/12-voice-assistant-pipeline) | ✅ | ~120 min |
+| 13 | [Neural Audio Codecs — EnCodec, SNAC, Mimi, DAC](phases/06-speech-and-audio/13-neural-audio-codecs) | ✅ | ~60 min |
+| 14 | [Voice Activity Detection & Turn-Taking](phases/06-speech-and-audio/14-voice-activity-detection-turn-taking) | ✅ | ~45 min |
+| 15 | [Streaming Speech-to-Speech — Moshi, Hibiki](phases/06-speech-and-audio/15-streaming-speech-to-speech-moshi-hibiki) | ✅ | ~75 min |
+| 16 | [Voice Anti-Spoofing & Audio Watermarking](phases/06-speech-and-audio/16-anti-spoofing-audio-watermarking) | ✅ | ~75 min |
+| 17 | [Audio Evaluation — WER, MOS, MMAU, Leaderboards](phases/06-speech-and-audio/17-audio-evaluation-metrics) | ✅ | ~60 min |
 
 ## Phase 7: Transformers Deep Dive — 🚧 (~14 hours)
 
