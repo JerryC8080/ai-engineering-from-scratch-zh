@@ -124,7 +124,7 @@ Progress tracking for every phase and lesson.
 | 27 | Multi-Object Tracking & Video Memory | ✅ | ~60 min |
 | 28 | World Models & Video Diffusion | ✅ | ~75 min |
 
-## Phase 5: NLP — Foundations to Advanced — 🚧 (~19 hours)
+## Phase 5: NLP — Foundations to Advanced — ✅ (~19 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -137,15 +137,15 @@ Progress tracking for every phase and lesson.
 | 07 | [POS Tagging & Syntactic Parsing](phases/05-nlp-foundations-to-advanced/07-pos-tagging-parsing) | ✅ | ~45 min |
 | 08 | [Text Classification — CNNs & RNNs for Text](phases/05-nlp-foundations-to-advanced/08-cnns-rnns-for-text) | ✅ | ~75 min |
 | 09 | [Sequence-to-Sequence Models](phases/05-nlp-foundations-to-advanced/09-sequence-to-sequence) | ✅ | ~75 min |
-| 10 | Attention Mechanism — The Breakthrough | ⬚ | ~45 min |
-| 11 | Machine Translation | ⬚ | ~75 min |
-| 12 | Text Summarization | ⬚ | ~75 min |
-| 13 | Question Answering Systems | ⬚ | ~75 min |
-| 14 | Information Retrieval & Search | ⬚ | ~75 min |
-| 15 | Topic Modeling — LDA, BERTopic | ⬚ | ~45 min |
-| 16 | Text Generation — Language Models Before Transformers | ⬚ | ~45 min |
-| 17 | Chatbots — Rule-Based to Neural | ⬚ | ~75 min |
-| 18 | Multilingual NLP | ⬚ | ~45 min |
+| 10 | [Attention Mechanism — The Breakthrough](phases/05-nlp-foundations-to-advanced/10-attention-mechanism) | ✅ | ~45 min |
+| 11 | [Machine Translation](phases/05-nlp-foundations-to-advanced/11-machine-translation) | ✅ | ~75 min |
+| 12 | [Text Summarization](phases/05-nlp-foundations-to-advanced/12-text-summarization) | ✅ | ~75 min |
+| 13 | [Question Answering Systems](phases/05-nlp-foundations-to-advanced/13-question-answering) | ✅ | ~75 min |
+| 14 | [Information Retrieval & Search](phases/05-nlp-foundations-to-advanced/14-information-retrieval-search) | ✅ | ~75 min |
+| 15 | [Topic Modeling — LDA, BERTopic](phases/05-nlp-foundations-to-advanced/15-topic-modeling) | ✅ | ~45 min |
+| 16 | [Text Generation — Language Models Before Transformers](phases/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer) | ✅ | ~45 min |
+| 17 | [Chatbots — Rule-Based to Neural](phases/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural) | ✅ | ~75 min |
+| 18 | [Multilingual NLP](phases/05-nlp-foundations-to-advanced/18-multilingual-nlp) | ✅ | ~45 min |
 
 ## Phase 6: Speech & Audio — ⬚ (~13 hours)
 
