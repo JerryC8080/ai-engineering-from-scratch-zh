@@ -55,23 +55,26 @@ def cosine(a, b):
 
 
 def watermark(wave, payload_bits, strength=0.003):
-    """Fake inaudible watermark: add tiny signed perturbation per bit."""
-    rng = random.Random(0xC0FFEE)
+    """Toy inaudible watermark: per-bit DC shift on a partitioned stride.
+
+    Real systems (SilentCipher, PerTh) embed in perceptual domain and survive
+    re-encoding. This demo just proves the encode/decode contract holds.
+    """
+    n_bits = len(payload_bits)
     out = list(wave)
     for i in range(len(out)):
-        bit_idx = i % len(payload_bits)
+        bit_idx = i % n_bits
         sign = 1 if payload_bits[bit_idx] else -1
-        out[i] += sign * strength * rng.gauss(0, 1)
+        out[i] += sign * strength
     return out
 
 
 def detect_watermark(wave_original, wave_wm, n_bits=32):
-    """Fake detector: look at perturbation pattern."""
     diff = [a - b for a, b in zip(wave_wm, wave_original)]
     bits = []
-    for i in range(n_bits):
-        chunk = diff[i::n_bits]
-        avg = sum(chunk) / len(chunk)
+    for b in range(n_bits):
+        chunk = diff[b::n_bits]
+        avg = sum(chunk) / max(1, len(chunk))
         bits.append(1 if avg > 0 else 0)
     return bits
 
@@ -151,11 +154,6 @@ def main():
     print("  | Model          | SECS  | CER%  | Size |")
     for name, s, c, p in table:
         print(f"  | {name:<14} | {s:.2f}  | {c:.1f}   | {p:<4} |")
-
-
-def extract_embedding(wave, reference_speakers):
-    """Return dict of {speaker_vector: projected}: for SECS math."""
-    return {v: wave for v in reference_speakers.values()}
 
 
 if __name__ == "__main__":
