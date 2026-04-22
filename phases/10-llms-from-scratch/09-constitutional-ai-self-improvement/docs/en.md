@@ -326,6 +326,17 @@ This lesson produces `outputs/skill-self-improvement-auditor.md`. Feed it a prop
 | KL budget | "How far you can drift" | The total KL divergence from the reference model that the optimizer is allowed to accumulate before training stops |
 | R1 moment | "The model learned to backtrack" | DeepSeek's reported behavior where a policy trained only on outcome rewards spontaneously developed self-checking and backtracking in its chain-of-thought |
 
+## Reference Implementations
+
+CAI and GRPO are newer, so canonical open implementations are thinner than the SFT or DPO space. Start here:
+
+- [Anthropic `hh-rlhf` repo](https://github.com/anthropics/hh-rlhf) -- the red-team prompts + CAI critique examples Anthropic released alongside the original paper. Use the prompts as seeds for your self-critique step.
+- [Anthropic Claude constitution](https://www.anthropic.com/news/claudes-constitution) -- the exact principles the production Claude is trained against. Worth reading side by side with your own constitution.
+- [HuggingFace TRL `GRPOTrainer`](https://github.com/huggingface/trl/blob/main/trl/trainer/grpo_trainer.py) -- production GRPO implementation that powers Hugging Face's Open-R1 reproduction. Group-relative advantage, no value head, KL penalty, reward function as Python callable. Diff against your scratch GRPO to verify group normalization.
+- [Hugging Face Open-R1](https://github.com/huggingface/open-r1) -- the open reproduction of DeepSeek R1 using TRL's GRPO. Real-world training config for rule-based rewards (math verifier, format checker).
+- [DeepSeek-Math (official)](https://github.com/deepseek-ai/DeepSeek-Math) -- the authors' own GRPO scaffolding, released alongside the paper.
+- [mlabonne llm-course "Preference Alignment" section](https://github.com/mlabonne/llm-course#5-preference-alignment) -- survey covering PPO/DPO/GRPO with runnable notebooks. Useful when deciding which algorithm to try next.
+
 ## Further Reading
 
 - [Bai et al., 2022 -- "Constitutional AI: Harmlessness from AI Feedback"](https://arxiv.org/abs/2212.08073) -- Anthropic's original CAI paper with the two-stage SL-CAI + RLAIF pipeline
