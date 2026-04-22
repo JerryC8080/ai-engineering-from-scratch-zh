@@ -114,11 +114,13 @@ ds = Dataset.from_list(pairs)
 
 
 def preprocess(ex):
-    inputs = tok(ex["src"], truncation=True, max_length=128, padding="max_length")
-    with tok.as_target_tokenizer():
-        labels = tok(ex["tgt"], truncation=True, max_length=128, padding="max_length")
-    inputs["labels"] = labels["input_ids"]
-    return inputs
+    return tok(
+        ex["src"],
+        text_target=ex["tgt"],
+        truncation=True,
+        max_length=128,
+        padding="max_length",
+    )
 
 
 ds = ds.map(preprocess, remove_columns=["src", "tgt"])
