@@ -41,6 +41,15 @@ Latency target: first TTS audio byte within 800 ms of the user finishing their u
 2. **Mid-response interrupt confusion.** LLM keeps generating after user interrupts; assistant talks over user. Wire VAD → cancel-LLM.
 3. **Silence hallucination.** Whisper outputs "Thanks for watching" on the silent warm-up frames. Always VAD-gate.
 
+### Prefill vs decode is the right mental model
+
+Borrow from LLM-inference vocabulary (Stas ML Engineering, inference chapter). The voice pipeline has a **prefill stage** (VAD-gated user turn → STT produces transcript → LLM processes the prompt in parallel) and a **decode stage** (LLM emits tokens one-at-a-time, streamed into TTS). The two stages have different bottlenecks:
+
+- **Prefill** is compute-bound; you can batch multiple concurrent users' prompts on one GPU.
+- **Decode** is memory-bound; the KV cache dominates, and **continuous batching** is what lets an inference server serve many decoding sessions concurrently without waiting for the slowest one to finish (vLLM, TGI, SGLang all ship this).
+
+For a single-user laptop demo, none of this matters. For a production voice agent serving N concurrent callers on one GPU, continuous batching + streaming TTS (so decoded tokens don't queue) is the difference between 4 and 40 concurrent sessions.
+
 ### 2026 production reference stacks
 
 | Stack | Latency | License | Notes |
@@ -175,3 +184,4 @@ Save as `outputs/skill-voice-assistant-architect.md`. Given budget + scale + lan
 - [Kyutai Moshi](https://github.com/kyutai-labs/moshi) — full-duplex reference (Lesson 15).
 - [Porcupine wake-word](https://picovoice.ai/products/porcupine/) — wake-word gating.
 - [Anthropic — tool use guide](https://docs.anthropic.com/en/docs/build-with-claude/tool-use) — LLM function calling.
+- [Stas ML Engineering — inference chapter](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#continuous-batching-or-in-flight-batching) — prefill vs decode, continuous batching, KV cache sizing for the LLM stage of the pipeline.
