@@ -507,11 +507,21 @@ It also produces `outputs/skill-evaluation.md` -- a decision framework for choos
 | Pass rate | "What percentage it gets right" | Fraction of eval cases scoring above a threshold -- more actionable than mean score because it measures reliability |
 | Chatbot Arena | "Model ranking website" | LMSYS platform with 2M+ human preference votes, producing the most trusted LLM leaderboard via ELO ratings |
 
+## Reference Implementations
+
+Evaluation is mostly about not fooling yourself. Use these canonical harnesses and their eval design choices as reference:
+
+- [EleutherAI lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) -- the standard open-source framework for running 200+ benchmarks on any HF model. Study `lm_eval/tasks/` for how each benchmark formats prompts, parses answers, and handles few-shot sampling. Every serious model release uses this.
+- [HuggingFace `lighteval`](https://github.com/huggingface/lighteval) -- lm-eval's sibling, with better support for multi-node and vLLM backends. The actual harness behind the HuggingFace Open LLM Leaderboard.
+- [mlabonne llm-course "Evaluation" section](https://github.com/mlabonne/llm-course#6-evaluation) -- the decision matrix between automated benchmarks, human arena voting, LLM-as-judge, and model-based feedback signals. Use it to pick a stack for your use case.
+- [Rasbt LLMs-from-scratch Ch 7 `03_model-evaluation`](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch07/03_model-evaluation) -- Ollama-based local LLM-as-judge for instruction-tuned models. The scratch version of the "Arena" pattern without the infrastructure.
+- [MT-Bench judge prompts](https://github.com/lm-sys/FastChat/blob/main/fastchat/llm_judge/data/judge_prompts.jsonl) -- LMSYS's calibrated single-answer and pairwise judge prompts. Copy these rubrics, do not write your own from scratch.
+- [promptfoo](https://github.com/promptfoo/promptfoo) -- config-driven prompt regression testing. The equivalent of unit tests for your prompts. Diff against your own eval harness to see what you missed.
+- [stas00 ml-engineering `resources/`](https://github.com/stas00/ml-engineering/tree/master/resources) -- benchmark checklists and the "reproducibility requirements" list for trustworthy eval reporting.
+
 ## Further Reading
 
 - [Hendrycks et al., 2021 -- "Measuring Massive Multitask Language Understanding"](https://arxiv.org/abs/2009.03300) -- the MMLU paper, still the most cited LLM benchmark despite its saturation
 - [Chen et al., 2021 -- "Evaluating Large Language Models Trained on Code"](https://arxiv.org/abs/2107.03374) -- the HumanEval paper from OpenAI, established code generation evaluation methodology
 - [Zheng et al., 2023 -- "Judging LLM-as-a-Judge"](https://arxiv.org/abs/2306.05685) -- systematic analysis of using LLMs to evaluate LLMs, including position bias and verbosity bias findings
-- [EleutherAI lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) -- the standard open-source framework for running 200+ benchmarks on any model
 - [LMSYS Chatbot Arena](https://chat.lmsys.org/) -- crowdsourced model comparison platform with 2M+ votes, the most trusted real-world LLM ranking
-- [promptfoo](https://github.com/promptfoo/promptfoo) -- open-source prompt testing tool, config-driven, supports regression testing across model changes
