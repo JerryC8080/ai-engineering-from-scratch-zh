@@ -142,6 +142,16 @@ Save `outputs/skill-gan-debugger.md`. Skill takes a failing GAN run (loss curves
 | Spectral norm | "Lipschitz trick" | Constrain D's weight norms to bound its slope; stabilizes training. |
 | StyleGAN | "The one that works" | Mapping network + AdaIN; best-in-class for faces, still in 2026. |
 
+## Production note: one-shot inference is GAN's lasting advantage
+
+GANs no longer win on sample quality for open-domain generation, but they still win on inference cost. In stas00's `ml-engineering/inference` vocabulary a GAN has:
+
+- **No prefill, no decode stages.** A single `G(z)` forward pass. TTFT ≈ total latency.
+- **No KV-cache pressure.** The only state is the weights. Batch size is bounded by activation memory, not cache.
+- **Trivial continuous batching.** Since every request takes the same fixed FLOPs, a static batch at the server's target occupancy is usually optimal. No in-flight scheduler needed.
+
+This is why GAN distillation (SDXL-Turbo, SD3-Turbo, ADD, LCM) is the dominant technique for fast text-to-image in 2026: it collapses a 20-50-step diffusion pipeline into 1-4 GAN-style forward passes while keeping the distribution of a diffusion base. The adversarial loss survives as a training-time knob for turning slow generators into fast ones.
+
 ## Further Reading
 
 - [Goodfellow et al. (2014). Generative Adversarial Nets](https://arxiv.org/abs/1406.2661) — the original GAN paper.
@@ -151,3 +161,4 @@ Save `outputs/skill-gan-debugger.md`. Skill takes a failing GAN run (loss curves
 - [Karras et al. (2020). Analyzing and Improving the Image Quality of StyleGAN](https://arxiv.org/abs/1912.04958) — StyleGAN2.
 - [Karras et al. (2021). Alias-Free Generative Adversarial Networks](https://arxiv.org/abs/2106.12423) — StyleGAN3.
 - [Sauer et al. (2023). Adversarial Diffusion Distillation](https://arxiv.org/abs/2311.17042) — SDXL-Turbo.
+- [stas00 ml-engineering — Key inference performance metrics](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#key-inference-performance-metrics) — latency vs throughput vs TTFT vs TPOT. For GAN servers, TTFT = latency; for diffusion servers, TTFT is small (the first denoising step) but latency is `num_steps × step_cost`. Understanding the difference guides when distillation earns its complexity.
