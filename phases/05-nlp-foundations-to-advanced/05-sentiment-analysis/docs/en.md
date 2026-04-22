@@ -157,12 +157,17 @@ Now `good` and `NOT_good` are different features. The classifier can weight them
 
 ### Step 5: evaluation metrics that matter
 
-Accuracy alone is misleading if classes are imbalanced. Report:
+Accuracy alone is misleading if classes are imbalanced. Real sentiment corpora are usually 70-80% positive or 70-80% negative; a constant-majority classifier gets 80% accuracy and is worthless. Report every one of the following:
 
-- **Precision.** Of documents predicted positive, how many were actually positive?
-- **Recall.** Of documents actually positive, how many did we catch?
-- **F1.** Harmonic mean of precision and recall.
-- **Confusion matrix.** Raw counts. Always inspect before trusting the scalar metrics.
+- **Per-class precision and recall.** One pair per class. Macro-average them to get a single number that respects class balance.
+- **Macro-F1 (primary metric for imbalanced data).** Mean of per-class F1 scores, equally weighted. Use this instead of accuracy when classes are imbalanced.
+- **Weighted-F1 (alternative).** Same as macro but weighted by class frequency. Report alongside macro-F1 when the imbalance itself has business meaning.
+- **Confusion matrix.** Raw counts. Always inspect before trusting any scalar metric; it reveals which pair of classes the model confuses.
+- **Per-class error samples.** Pull 5 wrong predictions per class. Read them. Nothing replaces reading the actual errors.
+
+For severely imbalanced data (> 95-5 ratio), report **AUROC** and **AUPRC** instead of accuracy. AUPRC is more sensitive to the minority class, which is what you usually care about (spam, fraud, rare sentiment).
+
+**Common bug to avoid.** Reporting micro-F1 instead of macro-F1 on imbalanced data gives a number that looks high because it is dominated by the majority class. Macro-F1 forces you to see the minority-class performance.
 
 ```python
 def evaluate(y_true, y_pred):
