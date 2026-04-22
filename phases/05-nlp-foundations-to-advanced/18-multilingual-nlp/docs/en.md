@@ -39,13 +39,13 @@ This lesson names the tradeoffs, the canonical models, and the one decision that
 | BLOOM | 2022 | 46 languages + 13 programming | Open 176B LLM trained multilingually. |
 | Aya-23 | 2024 | 23 languages | Cohere's multilingual LLM. Strong on Arabic, Hindi, Swahili. |
 
-Pick by use case. For classification, XLM-R-base is the sane default. For generation, mT5 or NLLB depending on translation vs open generation. For LLM-style work, Aya-23 or Claude with explicit multilingual prompting.
+Pick by use case. Classification works well with XLM-R-base as the sane default. Generation tasks call for mT5 or NLLB depending on translation vs open generation. LLM-style work pairs with Aya-23 or Claude using explicit multilingual prompting.
 
 ## The source-language decision (2026 research)
 
 Most teams default to English as the fine-tuning source. Recent research (2026) shows this is often wrong.
 
-Language similarity predicts transfer quality better than raw corpus size. For Slavic targets, German or Russian often beat English. For Indic targets, Hindi often beats English. The **qWALS** similarity metric (based on World Atlas of Language Structures features) quantifies this. LANGRANK ranks candidate source languages by a combination of linguistic similarity, corpus size, and genetic relatedness.
+Language similarity predicts transfer quality better than raw corpus size. For Slavic targets, German or Russian often beat English. For Indic targets, Hindi often beats English. The **qWALS** similarity metric (2026, based on World Atlas of Language Structures features) quantifies this. **LANGRANK** (Lin et al., ACL 2019) is a separate, earlier method that ranks candidate source languages from a combination of linguistic similarity, corpus size, and genetic relatedness.
 
 Practical rule: if your target language has a typologically close high-resource relative, try fine-tuning on that one first, then compare to English fine-tune.
 
@@ -115,7 +115,7 @@ def few_shot_finetune(base_model, base_tokenizer, examples):
     ds = Dataset.from_list(examples)
 
     def tokenize_fn(ex):
-        out = base_tokenizer(ex["text"], truncation=True, padding="max_length", max_length=128)
+        out = base_tokenizer(ex["text"], truncation=True, max_length=128)
         out["labels"] = ex["label"]
         return out
 
