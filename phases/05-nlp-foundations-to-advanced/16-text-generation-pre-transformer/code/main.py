@@ -89,10 +89,9 @@ def main():
     vocab = list(unigrams.keys())
     vocab_size = len(vocab)
     context_totals = Counter()
+    unique_follow = defaultdict(set)
     for (prev, w), c in bigrams.items():
         context_totals[prev] += c
-    unique_follow = defaultdict(set)
-    for (prev, w) in bigrams:
         unique_follow[prev].add(w)
     total_unique_bigrams = sum(len(ctx_set) for ctx_set in unigram_contexts.values())
 
