@@ -250,4 +250,4 @@ Refuse to recommend dropping stopwords for sentiment tasks. Refuse to report acc
 
 - [Pang and Lee (2008). Opinion Mining and Sentiment Analysis](https://www.cs.cornell.edu/home/llee/opinion-mining-sentiment-analysis-survey.html) — the foundational survey. Long, but the first four sections cover everything classical.
 - [Wang and Manning (2012). Baselines and Bigrams: Simple, Good Sentiment and Topic Classification](https://aclanthology.org/P12-2018/) — the paper that showed bigrams + Naive Bayes is hard to beat on short text.
-- [scikit-learn working with text data tutorial](https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html) — production-grade baseline in 40 minutes.
+- [scikit-learn text feature extraction docs](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction) — reference for `CountVectorizer`, `TfidfVectorizer`, and every knob you'll tune.
