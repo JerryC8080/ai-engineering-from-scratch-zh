@@ -73,15 +73,15 @@ from langgraph.prebuilt import ToolNode
 from langgraph.checkpoint.memory import MemorySaver
 
 class State(TypedDict):
- messages: Annotated[list[AnyMessage], add_messages]
+    messages: Annotated[list[AnyMessage], add_messages]
 
 def agent_node(state: State) -> dict:
- response = llm.invoke(state["messages"])
- return {"messages": [response]}
+    response = llm.invoke(state["messages"])
+    return {"messages": [response]}
 
 def should_continue(state: State) -> str:
- last = state["messages"][-1]
- return "tools" if getattr(last, "tool_calls", None) else END
+    last = state["messages"][-1]
+    return "tools" if getattr(last, "tool_calls", None) else END
 
 tool_node = ToolNode(tools=[search_web, read_file])
 
@@ -102,11 +102,11 @@ app = graph.compile(checkpointer=MemorySaver())
 ```python
 config = {"configurable": {"thread_id": "user-42"}}
 for event in app.stream(
- {"messages": [HumanMessage("find the Anthropic headquarters address")]},
- config,
- stream_mode="updates",
+    {"messages": [HumanMessage("find the Anthropic headquarters address")]},
+    config,
+    stream_mode="updates",
 ):
- print(event)
+    print(event)
 ```
 
 Every update is a dict `{node_name: state_delta}`. Your frontend can stream these to the UI so users see "agent is thinking… calling search_web… got result… answering."
@@ -117,8 +117,8 @@ Mark a node so execution pauses before it runs.
 
 ```python
 app = graph.compile(
- checkpointer=MemorySaver(),
- interrupt_before=["tools"], # pause before every tool call
+    checkpointer=MemorySaver(),
+    interrupt_before=["tools"],  # pause before every tool call
 )
 
 state = app.invoke({"messages": [HumanMessage("delete the production database")]}, config)
@@ -137,12 +137,12 @@ The state, the checkpoint, and the thread all persist across the interrupt. Noth
 ```python
 history = list(app.get_state_history(config))
 for snapshot in history:
- print(snapshot.values["messages"][-1].content[:80], snapshot.config)
+    print(snapshot.values["messages"][-1].content[:80], snapshot.config)
 
 # Fork from a prior checkpoint
-target = history[3].config # three steps back
+target = history[3].config  # three steps back
 for event in app.stream(None, target, stream_mode="values"):
- pass # replay from that point forward
+    pass  # replay from that point forward
 ```
 
 Passing `None` as the input replays from the given checkpoint; passing a value appends it as an update to that checkpoint's state before resuming. This is how you reproduce a bad agent run without re-running the whole conversation.
@@ -153,8 +153,8 @@ Passing `None` as the input replays from the given checkpoint; passing a value a
 from langgraph.checkpoint.postgres import PostgresSaver
 
 with PostgresSaver.from_conn_string("postgresql://...") as checkpointer:
- checkpointer.setup()
- app = graph.compile(checkpointer=checkpointer)
+    checkpointer.setup()
+    app = graph.compile(checkpointer=checkpointer)
 ```
 
 SQLite, Redis, and Postgres are shipped. `MemorySaver` is for tests. Anything that persists across restarts wants a real store.

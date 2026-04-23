@@ -34,12 +34,12 @@ That move is prompt caching. Anthropic shipped it in August 2024 (with a 1-hour 
 ### The cache-friendly layout
 
 ```
-[system prompt] <-- cache this
-[tool definitions] <-- cache this
-[few-shot examples] <-- cache this
-[retrieved documents] <-- cache if reused, else don't
-[conversation history] <-- cache up to last turn
-[current user message] <-- never cache (different every time)
+[system prompt]          <-- cache this
+[tool definitions]       <-- cache this
+[few-shot examples]      <-- cache this
+[retrieved documents]    <-- cache if reused, else don't
+[conversation history]   <-- cache up to last turn
+[current user message]   <-- never cache (different every time)
 ```
 
 Violate the order — put the user message above the system prompt, interleave dynamic retrievals between few-shots — and the cache never hits.
@@ -58,20 +58,20 @@ import anthropic
 client = anthropic.Anthropic()
 
 SYSTEM = [
- {
- "type": "text",
- "text": "You are a senior Python reviewer. Follow the rubric exactly.\n\n" + RUBRIC_15K_TOKENS,
- "cache_control": {"type": "ephemeral"},
- }
+    {
+        "type": "text",
+        "text": "You are a senior Python reviewer. Follow the rubric exactly.\n\n" + RUBRIC_15K_TOKENS,
+        "cache_control": {"type": "ephemeral"},
+    }
 ]
 
 def review(code: str):
- return client.messages.create(
- model="claude-opus-4-7",
- max_tokens=1024,
- system=SYSTEM,
- messages=[{"role": "user", "content": code}],
- )
+    return client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=1024,
+        system=SYSTEM,
+        messages=[{"role": "user", "content": code}],
+    )
 ```
 
 The `cache_control` marker tells Anthropic to store the block for 5 minutes. Reuse within that window hits; reuse after expires and writes again.
@@ -82,16 +82,16 @@ The `cache_control` marker tells Anthropic to store the block for 5 minutes. Reu
 response = review(code_a)
 response.usage
 # InputTokensUsage(
-# input_tokens=120,
-# cache_creation_input_tokens=15023, # paid at 1.25x
-# cache_read_input_tokens=0,
-# output_tokens=340,
+#     input_tokens=120,
+#     cache_creation_input_tokens=15023,   # paid at 1.25x
+#     cache_read_input_tokens=0,
+#     output_tokens=340,
 # )
 
 response_b = review(code_b)
 response_b.usage
 # cache_creation_input_tokens=0
-# cache_read_input_tokens=15023 # paid at 0.1x
+# cache_read_input_tokens=15023           # paid at 0.1x
 ```
 
 Check both fields in CI — if `cache_read_input_tokens` stays at zero across requests, your cache keys are drifting.
@@ -115,13 +115,13 @@ from openai import OpenAI
 client = OpenAI()
 
 resp = client.chat.completions.create(
- model="gpt-5",
- messages=[
- {"role": "system", "content": SYSTEM_PROMPT}, # long and stable
- {"role": "user", "content": user_msg},
- ],
+    model="gpt-5",
+    messages=[
+        {"role": "system", "content": SYSTEM_PROMPT},   # long and stable
+        {"role": "user", "content": user_msg},
+    ],
 )
-resp.usage.prompt_tokens_details.cached_tokens # the discounted portion
+resp.usage.prompt_tokens_details.cached_tokens  # the discounted portion
 ```
 
 Same cache-friendly layout rule applies. Two things kill OpenAI's cache that don't kill Anthropic's: changing the `user` field (used as a cache key component) and reordering tools.
@@ -137,19 +137,19 @@ from google.genai import types
 client = genai.Client()
 
 cache = client.caches.create(
- model="gemini-3-pro",
- config=types.CreateCachedContentConfig(
- display_name="rubric-v3",
- system_instruction=RUBRIC,
- contents=[FEW_SHOT_EXAMPLES],
- ttl="3600s",
- ),
+    model="gemini-3-pro",
+    config=types.CreateCachedContentConfig(
+        display_name="rubric-v3",
+        system_instruction=RUBRIC,
+        contents=[FEW_SHOT_EXAMPLES],
+        ttl="3600s",
+    ),
 )
 
 resp = client.models.generate_content(
- model="gemini-3-pro",
- contents=["Review this code:\n" + code],
- config=types.GenerateContentConfig(cached_content=cache.name),
+    model="gemini-3-pro",
+    contents=["Review this code:\n" + code],
+    config=types.GenerateContentConfig(cached_content=cache.name),
 )
 ```
 
