@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 10 (LLMs from Scratch), Phase 11 Lessons 01-05
 **Time:** ~90 minutes
+**Related:** Phase 5 · 23 (Chunking Strategies for RAG) for the six chunking algorithms and when each wins. Phase 5 · 22 (Embedding Models Deep Dive) for picking the embedder. Phase 11 · 07 (Advanced RAG) for hybrid search, reranking, and query transformation.
 
 ## Learning Objectives
 
@@ -72,16 +73,18 @@ The one case where fine-tuning wins: when you need the model to adopt a specific
 
 An embedding model converts text into a dense vector. Similar texts produce vectors that are close together in this high-dimensional space. "How do I reset my password?" and "I need to change my password" produce nearly identical vectors despite sharing few words. "The cat sat on the mat" produces a very different vector.
 
-Common embedding models:
+Common embedding models (2026 lineup — see Phase 5 · 22 for full analysis):
 
 | Model | Dimensions | Provider | Notes |
 |-------|-----------|----------|-------|
-| text-embedding-3-small | 1536 | OpenAI | Best price/performance for most use cases |
-| text-embedding-3-large | 3072 | OpenAI | Higher accuracy, 2x the dimensions |
-| text-embedding-ada-002 | 1536 | OpenAI | Legacy, replaced by 3-small |
-| all-MiniLM-L6-v2 | 384 | Open source (Sentence Transformers) | Runs locally, fast, good for prototyping |
-| voyage-3 | 1024 | Voyage AI | Strong on code and technical content |
-| Cohere embed-v3 | 1024 | Cohere | Good multilingual support |
+| text-embedding-3-small | 1536 (Matryoshka) | OpenAI | Best price/performance for most use cases |
+| text-embedding-3-large | 3072 (Matryoshka) | OpenAI | Higher accuracy, truncatable to 256/512/1024 |
+| Gemini Embedding 2 | 3072 (Matryoshka) | Google | Top MTEB retrieval; 8K context |
+| voyage-4 | 1024/2048 (Matryoshka) | Voyage AI | Domain variants (code, finance, law) |
+| Cohere embed-v4 | 1024 (Matryoshka) | Cohere | Strong multilingual, 128K context |
+| BGE-M3 | 1024 (dense + sparse + ColBERT) | BAAI (open-weight) | Three views from one model |
+| Qwen3-Embedding | 4096 (Matryoshka) | Alibaba (open-weight) | Top open-weight retrieval score |
+| all-MiniLM-L6-v2 | 384 | Open-weight (Sentence Transformers) | Prototyping baseline |
 
 For this lesson, we build our own simple embedding using TF-IDF. Not because TF-IDF is what production systems use, but because it makes the concept concrete: text goes in, a vector comes out, similar texts produce similar vectors.
 
@@ -424,3 +427,6 @@ This lesson produces:
 - Anthropic's RAG documentation (docs.anthropic.com) -- practical guidelines for chunk sizes, prompt construction, and evaluation
 - Pinecone Learning Center, "What is RAG?" -- clear visual explanations of the RAG pipeline with production considerations
 - Sentence-BERT: Reimers & Gurevych (2019) -- the paper behind the all-MiniLM embedding models, showing how to train bi-encoders for semantic similarity
+- [Karpukhin et al., "Dense Passage Retrieval for Open-Domain Question Answering" (EMNLP 2020)](https://arxiv.org/abs/2004.04906) -- the DPR paper that proved dense bi-encoder retrieval beats BM25 on open-domain QA and set the pattern for modern RAG retrievers.
+- [LlamaIndex High-Level Concepts](https://docs.llamaindex.ai/en/stable/getting_started/concepts.html) -- the main concepts to know when building RAG pipelines: data loaders, node parsers, indices, retrievers, response synthesizers.
+- [LangChain RAG tutorial](https://python.langchain.com/docs/tutorials/rag/) -- the opposite-flavor orchestrator; chain-of-runnables view of the same retrieve-then-generate pattern.

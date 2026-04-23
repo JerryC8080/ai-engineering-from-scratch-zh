@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 11, Lesson 06 (RAG)
 **Time:** ~90 minutes
+**Related:** Phase 5 · 23 (Chunking Strategies for RAG) covers all six chunking algorithms — recursive, semantic, sentence, parent-document, late chunking, contextual retrieval — with Vectara/Anthropic benchmarks. This lesson builds on top: hybrid search, reranking, query transformation.
 
 ## Learning Objectives
 
@@ -82,10 +83,13 @@ graph LR
     P --> LLM["Generate answer"]
 ```
 
-Common reranking models:
-- Cohere Rerank: managed API, easy to integrate
-- cross-encoder/ms-marco-MiniLM-L-6-v2: open source, runs locally
-- bge-reranker-v2-m3: open source, multilingual
+Common reranking models (2026 lineup):
+- Cohere Rerank 3.5: managed API, multilingual, best recall gain on mixed corpora
+- Voyage rerank-2.5: managed API, lowest latency of the hosted options
+- Jina-Reranker-v2 Multilingual: open-weight, 100+ languages
+- bge-reranker-v2-m3: open-weight, strong baseline
+- cross-encoder/ms-marco-MiniLM-L-6-v2: open-weight, runs on CPU for prototyping
+- ColBERTv2 / Jina-ColBERT-v2: late-interaction multi-vector rerankers — O(tokens) not O(docs) at scoring time
 
 ### Query Transformation
 
@@ -521,3 +525,7 @@ This lesson produces:
 - Cormack et al., "Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods" (2009) -- the original RRF paper showing it beats more complex fusion methods
 - Gao et al., "Precise Zero-Shot Dense Retrieval without Relevance Labels" (2022) -- the HyDE paper demonstrating that hypothetical document embeddings improve retrieval without any training data
 - Nogueira & Cho, "Passage Re-ranking with BERT" (2019) -- showed cross-encoder reranking on top of BM25 significantly improves retrieval quality
+- [Khattab et al., "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines" (2023)](https://arxiv.org/abs/2310.03714) -- treats prompt construction and weight selection as an optimization problem over retrieval pipelines; read this for "program LLMs" instead of "prompt LLMs."
+- [Edge et al., "From Local to Global: A Graph RAG Approach to Query-Focused Summarization" (Microsoft Research 2024)](https://arxiv.org/abs/2404.16130) -- GraphRAG paper: entity-relation extraction + Leiden community detection for query-focused summarization; the global vs local retrieval distinction.
+- [Asai et al., "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection" (ICLR 2024)](https://arxiv.org/abs/2310.11511) -- self-evaluating RAG with reflection tokens; the agentic frontier past static retrieve-then-generate.
+- [LangChain Query Construction blog](https://blog.langchain.dev/query-construction/) -- how to translate natural-language queries into structured database queries (Text-to-SQL, Cypher) as a pre-retrieval step.

@@ -4,8 +4,9 @@
 
 **Type:** Build (Capstone)
 **Languages:** Python
-**Prerequisites:** Phase 11 Lessons 01-12
+**Prerequisites:** Phase 11 Lessons 01-15
 **Time:** ~120 minutes
+**Related:** Phase 11 · 14 (MCP) for replacing bespoke tool schemas with a shared protocol; Phase 11 · 15 (Prompt Caching) for 50-90% cost reduction on stable prefixes. Both are expected in every serious 2026 production stack.
 
 ## Learning Objectives
 
@@ -80,7 +81,7 @@ Seven components. Each one is a lesson you already completed. The engineering is
 
 ### Streaming: Why It Matters
 
-A GPT-4o response with 500 output tokens takes 3-8 seconds to fully generate. Without streaming, the user stares at a spinner for the entire duration. With streaming, the first token arrives in 200-500ms. The total time is the same. The perceived latency drops by 90%.
+A GPT-5 response with 500 output tokens takes 3-8 seconds to fully generate. Without streaming, the user stares at a spinner for the entire duration. With streaming, the first token arrives in 200-500ms. The total time is the same. The perceived latency drops by 90%.
 
 ```mermaid
 sequenceDiagram
@@ -194,9 +195,9 @@ Use a deterministic hash of the user ID, not random selection. This ensures each
 
 **Perplexity.** User query enters. A search engine retrieves 10-20 web pages. Pages are chunked, embedded, and reranked. Top 5 chunks become RAG context. The LLM generates an answer with citations, streamed back in real-time. Two models: a fast one for search query reformulation, a strong one for answer synthesis. Estimated 50M+ queries/day.
 
-**Cursor.** The open file, surrounding files, recent edits, and terminal output form the context. A prompt router decides: small model for autocomplete (Cursor-small, ~20ms), large model for chat (Claude Sonnet/GPT-4o, ~3s). Context is aggressively compressed -- only relevant code sections, not entire files. Codebase embeddings provide long-range context. Speculative edits stream diffs, not full files.
+**Cursor.** The open file, surrounding files, recent edits, and terminal output form the context. A prompt router decides: small model for autocomplete (Cursor-small, ~20ms), large model for chat (Claude Sonnet 4.6 / GPT-5, ~3s). Context is aggressively compressed -- only relevant code sections, not entire files. Codebase embeddings provide long-range context. Speculative edits stream diffs, not full files. MCP integration lets third-party tools plug in without per-tool code changes.
 
-**ChatGPT.** Plugins and function calling let the model access the web, run code, generate images, and query databases. A routing layer decides which capabilities to invoke. Memory persists user preferences across sessions. The system prompt is 1,500+ tokens of behavioral rules. Multiple models serve different features: GPT-4o for chat, DALL-E 3 for images, Whisper for voice.
+**ChatGPT.** Plugins, function calling, and MCP servers let the model access the web, run code, generate images, and query databases. A routing layer decides which capabilities to invoke. Memory persists user preferences across sessions. The system prompt is 1,500+ tokens of behavioral rules, cached via prompt caching. Multiple models serve different features: GPT-5 for chat, GPT-Image for images, Whisper for voice, o4-mini for deep reasoning.
 
 ### Scaling
 
@@ -224,8 +225,8 @@ Before you ship, estimate your monthly cost. This spreadsheet decides if your bu
 | Queries per user per day | 5 | Product analytics |
 | Avg input tokens per query | 1,500 | Measured (system + context + user) |
 | Avg output tokens per query | 400 | Measured |
-| Input price per 1M tokens | $2.50 | OpenAI GPT-4o pricing |
-| Output price per 1M tokens | $10.00 | OpenAI GPT-4o pricing |
+| Input price per 1M tokens | $5.00 | OpenAI GPT-5 pricing |
+| Output price per 1M tokens | $15.00 | OpenAI GPT-5 pricing |
 | Cache hit rate | 35% | Measured from cache metrics |
 | Effective daily queries | 32,500 | 50,000 * (1 - 0.35) |
 
@@ -1144,3 +1145,7 @@ It also produces `outputs/skill-production-checklist.md` -- a decision framework
 - [Semantic Caching with GPTCache](https://github.com/zilliztech/GPTCache) -- production semantic caching library that implements the concepts from this lesson at scale
 - [Hamel Husain, "Your AI Product Needs Evals"](https://hamel.dev/blog/posts/evals/) -- the definitive guide on evaluation-driven development for LLM applications, complementing the eval component in this capstone
 - [Eugene Yan, "Patterns for Building LLM-based Systems"](https://eugeneyan.com/writing/llm-patterns/) -- architectural patterns (guardrails, RAG, caching, routing) seen across production LLM deployments at major tech companies
+- [vLLM documentation](https://docs.vllm.ai/) -- PagedAttention-based serving: the default self-hosted inference layer used under the FastAPI capstone in this lesson.
+- [Hugging Face TGI](https://huggingface.co/docs/text-generation-inference/index) -- Text Generation Inference: Rust server with continuous batching, Flash Attention, and Medusa speculative decoding; the HF-native alternative to vLLM.
+- [NVIDIA TensorRT-LLM documentation](https://nvidia.github.io/TensorRT-LLM/) -- the highest-throughput path on NVIDIA hardware; quantization, in-flight batching, and FP8 kernels for enterprise deployments.
+- [Hamel Husain -- Optimizing Latency: TGI vs vLLM vs CTranslate2 vs mlc](https://hamel.dev/notes/llm/inference/03_inference.html) -- measured comparison of throughput and latency across the main serving frameworks.

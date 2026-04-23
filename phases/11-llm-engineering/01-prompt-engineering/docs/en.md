@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 10, Lessons 01-05 (LLMs from Scratch)
 **Time:** ~90 minutes
+**Related:** Phase 11 · 05 (Context Engineering) for what else goes in the window; Phase 5 · 20 (Structured Outputs) for token-level format control.
 
 ## Learning Objectives
 
@@ -58,7 +59,7 @@ graph TD
     style A fill:#1a1a2e,stroke:#51cf66,color:#fff
 ```
 
-**System message**: the invisible hand. It sets the model's identity, behavioral constraints, and output rules. The model treats this as highest-priority context. OpenAI, Anthropic, and Google all support system messages, but they process them differently internally. Claude gives system messages the strongest adherence. GPT-4o sometimes drifts from system instructions in long conversations.
+**System message**: the invisible hand. It sets the model's identity, behavioral constraints, and output rules. The model treats this as highest-priority context. OpenAI, Anthropic, and Google all support system messages, but they process them differently internally. Claude gives system messages the strongest adherence. GPT-5 sometimes drifts from system instructions in long conversations, and Gemini 3 treats `system_instruction` as a separate generation-config field rather than a message.
 
 **User message**: the task. This is what most people think of as "the prompt." But without a good system message, the user message is under-constrained.
 
@@ -172,13 +173,16 @@ Every model has a maximum context length. This is the total number of tokens for
 
 | Model | Context window | Output limit | Provider |
 |-------|---------------|-------------|----------|
-| GPT-4o | 128K tokens | 16K tokens | OpenAI |
-| GPT-4.1 | 1M tokens | 32K tokens | OpenAI |
-| Claude 3.5 Sonnet | 200K tokens | 8K tokens | Anthropic |
-| Claude 3.7 Sonnet | 200K tokens | 128K tokens | Anthropic |
-| Gemini 1.5 Pro | 2M tokens | 8K tokens | Google |
-| Gemini 2.5 Pro | 1M tokens | 65K tokens | Google |
-| Llama 3.3 70B | 128K tokens | 4K tokens | Meta (open) |
+| GPT-5 | 400K tokens | 128K tokens | OpenAI |
+| GPT-5 mini | 400K tokens | 128K tokens | OpenAI |
+| o4-mini (reasoning) | 200K tokens | 100K tokens | OpenAI |
+| Claude Opus 4.7 | 200K tokens (1M beta) | 64K tokens | Anthropic |
+| Claude Sonnet 4.6 | 200K tokens (1M beta) | 64K tokens | Anthropic |
+| Gemini 3 Pro | 2M tokens | 64K tokens | Google |
+| Gemini 3 Flash | 1M tokens | 64K tokens | Google |
+| Llama 4 | 10M tokens | 8K tokens | Meta (open) |
+| Qwen3 Max | 256K tokens | 32K tokens | Alibaba (open) |
+| DeepSeek-V3.1 | 128K tokens | 32K tokens | DeepSeek (open) |
 
 Context window size matters less than context window usage. A 10K token prompt that is 90% signal outperforms a 100K token prompt that is 10% signal. More context means more noise for the attention mechanism to filter through. This is why context engineering (Lesson 05) is the bigger discipline -- it decides what goes in the window, not just how the prompt is worded.
 
@@ -285,7 +289,7 @@ Do not attempt to answer out-of-scope questions even if you know the answer.
 
 ### Cross-Model Prompt Design
 
-The best prompts are model-agnostic. They work on GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro, and open-source models with minimal tuning. Here is how:
+The best prompts are model-agnostic. They work on GPT-5, Claude Opus 4.7, Gemini 3 Pro, and open-weight models (Llama 4, Qwen3, DeepSeek-V3) with minimal tuning. Here is how:
 
 1. Use plain English, not model-specific syntax (no ChatGPT-specific markdown tricks)
 2. Be explicit about format -- do not rely on default behaviors that differ across models
@@ -877,7 +881,7 @@ if __name__ == "__main__":
 # client = OpenAI()
 #
 # response = client.chat.completions.create(
-#     model="gpt-4o",
+#     model="gpt-5",
 #     temperature=0.0,
 #     messages=[
 #         {
@@ -904,7 +908,7 @@ OpenAI's system message is processed first and given high attention weight. Temp
 # client = anthropic.Anthropic()
 #
 # response = client.messages.create(
-#     model="claude-sonnet-4-20250514",
+#     model="claude-opus-4-7",
 #     max_tokens=1024,
 #     temperature=0.0,
 #     system="You are a data extraction engine. Output valid JSON only.",
@@ -960,8 +964,8 @@ Gemini processes system instructions as part of the model configuration, not as 
 #     ("user", "{question}"),
 # ])
 #
-# chain_openai = prompt | ChatOpenAI(model="gpt-4o", temperature=0)
-# chain_claude = prompt | ChatAnthropic(model="claude-sonnet-4-20250514", temperature=0)
+# chain_openai = prompt | ChatOpenAI(model="gpt-5", temperature=0)
+# chain_claude = prompt | ChatAnthropic(model="claude-opus-4-7", temperature=0)
 #
 # variables = {"role": "a database expert", "format": "bullet points", "question": "When should I use Redis vs Memcached?"}
 #
@@ -1016,3 +1020,5 @@ The Python code (`code/prompt_engineering.py`) is a standalone testing harness. 
 - [Zamfirescu-Pereira et al., 2023 -- "Why Johnny Can't Prompt"](https://arxiv.org/abs/2304.13529) -- research on how non-experts struggle with prompt engineering and what makes prompts effective
 - [Shin et al., 2023 -- "Prompt Engineering a Prompt Engineer"](https://arxiv.org/abs/2311.05661) -- using LLMs to automatically optimize prompts, the foundation of meta-prompting
 - [LMSYS Chatbot Arena](https://chat.lmsys.org/) -- live blind comparison of LLMs where you can test the same prompt across models and vote on which response is better
+- [DAIR.AI Prompt Engineering Guide](https://www.promptingguide.ai/) -- exhaustive catalogue of prompt techniques with examples (zero-shot, few-shot, CoT, ReAct, self-consistency); the reference practitioners use for the broader "Prompt engineering" surface.
+- [Anthropic prompt library](https://docs.anthropic.com/en/prompt-library) -- curated, known-good prompts by use case; shows the structural patterns that ship in production.

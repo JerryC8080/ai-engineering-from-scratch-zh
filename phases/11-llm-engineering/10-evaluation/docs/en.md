@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 11 Lesson 01 (Prompt Engineering), Lesson 09 (Function Calling)
 **Time:** ~45 minutes
+**Related:** Phase 5 · 27 (LLM Evaluation — RAGAS, DeepEval, G-Eval) covers the framework-level concepts (NLI-based faithfulness, judge calibration, the RAG four). Phase 5 · 28 (Long-Context Evaluation) covers NIAH / RULER / LongBench / MRCR for context-length regression. This lesson focuses on what is LLM-engineering-specific: CI/CD integration, cost-gated eval runs, regression dashboards.
 
 ## Learning Objectives
 
@@ -58,7 +59,7 @@ graph TD
 
 **Automated metrics** compare output text against reference answers using algorithms. BLEU measures n-gram overlap (originally for machine translation). ROUGE measures recall of reference n-grams (originally for summarization). BERTScore uses BERT embeddings to measure semantic similarity. These are fast and cheap -- you can score 10,000 outputs in seconds. But they miss nuance. Two answers can have zero word overlap and both be correct. One answer can have high ROUGE and be completely wrong in context.
 
-**LLM-as-judge** uses a strong model (GPT-4o, Claude Sonnet) to grade outputs against a rubric. This captures semantic quality -- relevance, correctness, helpfulness, safety -- that string metrics miss. It costs money (~$20 per 1,000 judge calls with GPT-4o) but correlates 80-85% with human judgment on well-designed rubrics.
+**LLM-as-judge** uses a strong model (GPT-5, Claude Opus 4.7, Gemini 3 Pro) to grade outputs against a rubric. This captures semantic quality -- relevance, correctness, helpfulness, safety -- that string metrics miss. It costs money (~$8 per 1,000 judge calls with GPT-5-mini, ~$25 with Claude Opus 4.7) but correlates 82-88% with human judgment on well-designed rubrics — see Phase 5 · 27 for the calibration recipe.
 
 **Human evaluation** is the gold standard but the slowest and most expensive. Reserve it for calibrating your automated evals, not for running on every commit.
 
@@ -66,8 +67,11 @@ graph TD
 |--------|-------|-------------------|------------------------|----------|
 | BLEU/ROUGE | <1 sec | $0 | 40-60% | Translation, summarization baselines |
 | BERTScore | ~30 sec | $0 | 55-70% | Semantic similarity screening |
-| LLM-as-judge (GPT-4o) | ~5 min | ~$20 | 80-85% | Quality scoring, regression testing |
-| LLM-as-judge (Claude Sonnet) | ~5 min | ~$15 | 80-85% | Quality scoring, safety evaluation |
+| LLM-as-judge (GPT-5-mini) | ~3 min | ~$8 | 82-86% | Default CI judge; cheap, fast, calibrated |
+| LLM-as-judge (Claude Opus 4.7) | ~5 min | ~$25 | 85-88% | High-stakes scoring, safety, refusals |
+| LLM-as-judge (Gemini 3 Flash) | ~2 min | ~$3 | 80-84% | Highest-throughput judge; for 1M+ eval pass |
+| RAGAS (NLI faithfulness + judge) | ~5 min | ~$12 | 85% | RAG-specific metrics (see Phase 5 · 27) |
+| DeepEval (G-Eval + Pytest) | ~4 min | depends on judge | 80-88% | CI-native, per-PR regression gates |
 | Human expert | ~2 hours | ~$500 | 100% (by definition) | Calibration, edge cases, policy |
 
 ### LLM-as-Judge: The Workhorse
@@ -179,14 +183,14 @@ The workflow:
 
 Evals cost money when using LLM-as-judge. Budget for it.
 
-| Eval size | GPT-4o judge cost | Claude Sonnet judge cost | Time |
-|-----------|------------------|------------------------|------|
-| 100 cases x 4 criteria | ~$8 | ~$6 | ~2 min |
-| 200 cases x 4 criteria | ~$16 | ~$12 | ~4 min |
-| 500 cases x 4 criteria | ~$40 | ~$30 | ~10 min |
-| 1000 cases x 4 criteria | ~$80 | ~$60 | ~20 min |
+| Eval size | GPT-5-mini judge | Claude Opus 4.7 judge | Gemini 3 Flash judge | Time |
+|-----------|------------------|-----------------------|----------------------|------|
+| 100 cases x 4 criteria | ~$2 | ~$6 | ~$0.40 | ~2 min |
+| 200 cases x 4 criteria | ~$4 | ~$12 | ~$0.80 | ~4 min |
+| 500 cases x 4 criteria | ~$10 | ~$30 | ~$2 | ~10 min |
+| 1000 cases x 4 criteria | ~$20 | ~$60 | ~$4 | ~20 min |
 
-A 200-case eval suite running on every PR costs roughly $16 per run. If your team merges 10 PRs per week, that is $640/month. Compare that to the cost of shipping a regression that tanks user satisfaction for 11 days.
+A 200-case eval suite running on every PR with GPT-5-mini costs ~$4 per run. If your team merges 10 PRs per week, that is $160/month. Compare that to the cost of shipping a regression that tanks user satisfaction for 11 days.
 
 ### Anti-Patterns
 
@@ -849,3 +853,7 @@ It also produces `outputs/skill-eval-patterns.md` -- a decision framework for ch
 - [Braintrust Eval Guide](https://www.braintrust.dev/docs) -- production eval platform with experiment tracking, scoring functions, and dataset management
 - [Ribeiro et al., 2020 -- "Beyond Accuracy: Behavioral Testing of NLP Models with CheckList"](https://arxiv.org/abs/2005.04118) -- systematic behavioral testing methodology (minimum functionality, invariance, directional expectations) applicable to LLM evaluation
 - [LMSYS Chatbot Arena](https://chat.lmsys.org) -- live human evaluation platform where users vote on model outputs, the largest pairwise comparison dataset for LLMs
+- [Es et al., "RAGAS: Automated Evaluation of Retrieval Augmented Generation" (EACL 2024 demo)](https://arxiv.org/abs/2309.15217) -- reference-free metrics for RAG (faithfulness, answer relevancy, context precision/recall); the eval pattern that scales to prod without labelers.
+- [Liu et al., "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment" (EMNLP 2023)](https://arxiv.org/abs/2303.16634) -- chain-of-thought + form-filling as a judge protocol; the calibration and bias results every judge-builder needs.
+- [Hugging Face LLM Evaluation Guidebook](https://huggingface.co/spaces/OpenEvals/evaluation-guidebook) -- practical advice on data contamination, metric selection, and reproducibility from the team maintaining the Open LLM Leaderboard.
+- [EleutherAI lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) -- the standard framework for automated benchmarks (MMLU, HellaSwag, TruthfulQA, BIG-Bench); the engine behind the Open LLM Leaderboard.

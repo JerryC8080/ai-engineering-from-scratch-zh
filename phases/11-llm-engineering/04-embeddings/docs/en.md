@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 11, Lesson 01 (Prompt Engineering)
 **Time:** ~75 minutes
+**Related:** Phase 5 · 22 (Embedding Models Deep Dive) covers dense vs sparse vs multi-vector, Matryoshka truncation, and per-axis model selection. This lesson focuses on the production pipeline (vector DBs, HNSW, similarity math). Read Phase 5 · 22 before picking a model.
 
 ## Learning Objectives
 
@@ -78,19 +79,20 @@ graph LR
 
 ### Modern Embedding Models
 
-The market has settled into a handful of production-grade options:
+The market has settled into a handful of production-grade options (MTEB scores as of early 2026, MTEB v2):
 
-| Model | Provider | Dimensions | MTEB Score | Context Length | Cost per 1M tokens |
-|-------|----------|-----------|------------|----------------|-------------------|
-| text-embedding-3-small | OpenAI | 1536 | 62.3 | 8191 | $0.02 |
-| text-embedding-3-large | OpenAI | 3072 | 64.6 | 8191 | $0.13 |
-| embed-v3.0 | Cohere | 1024 | 64.5 | 512 | $0.10 |
-| voyage-3 | Voyage AI | 1024 | 67.3 | 32000 | $0.06 |
-| BGE-M3 | BAAI | 1024 | 68.2 | 8192 | Free (open source) |
-| nomic-embed-text-v1.5 | Nomic | 768 | 62.3 | 8192 | Free (open source) |
-| GTE-large-en-v1.5 | Alibaba | 1024 | 65.4 | 8192 | Free (open source) |
+| Model | Provider | Dimensions | MTEB | Context | Cost / 1M tokens |
+|-------|----------|-----------|------|---------|------------------|
+| Gemini Embedding 2 | Google | 3072 (Matryoshka) | 67.7 (retrieval) | 8192 | $0.15 |
+| embed-v4 | Cohere | 1024 (Matryoshka) | 65.2 | 128K | $0.12 |
+| voyage-4 | Voyage AI | 1024/2048 (Matryoshka) | 66.8 | 32K | $0.12 |
+| text-embedding-3-large | OpenAI | 3072 (Matryoshka) | 64.6 | 8192 | $0.13 |
+| text-embedding-3-small | OpenAI | 1536 (Matryoshka) | 62.3 | 8192 | $0.02 |
+| BGE-M3 | BAAI | 1024 (dense+sparse+ColBERT) | 63.0 multilingual | 8192 | Open-weight |
+| Qwen3-Embedding | Alibaba | 4096 (Matryoshka) | 66.9 | 32K | Open-weight |
+| Nomic-embed-v2 | Nomic | 768 (Matryoshka) | 63.1 | 8192 | Open-weight |
 
-MTEB (Massive Text Embedding Benchmark) is the standard evaluation suite -- 56 datasets across 8 tasks. Higher is better. Open-source models now match or exceed commercial ones -- BGE-M3 scores 68.2 while Voyage-3 scores 67.3. Open source wins on cost. Commercial wins on convenience.
+MTEB (Massive Text Embedding Benchmark) v2 covers 100+ tasks across retrieval, classification, clustering, reranking, and summarization. Higher is better. By 2026, open-weight models (Qwen3-Embedding, BGE-M3) match or beat closed hosted models on most axes. Gemini Embedding 2 leads pure retrieval; Voyage/Cohere lead specific domains (finance, law, code). Always benchmark on your own queries before committing.
 
 ### Similarity Metrics
 
@@ -503,3 +505,5 @@ This lesson produces:
 - Malkov & Yashunin, "Efficient and Robust Approximate Nearest Neighbor using Hierarchical Navigable Small World Graphs" (2018) -- the HNSW paper, the algorithm behind most production vector search
 - OpenAI Embeddings Guide (platform.openai.com/docs/guides/embeddings) -- practical reference for text-embedding-3 models including Matryoshka dimension reduction
 - MTEB Leaderboard (huggingface.co/spaces/mteb/leaderboard) -- live benchmark comparing all embedding models across tasks and languages
+- [Muennighoff et al., "MTEB: Massive Text Embedding Benchmark" (EACL 2023)](https://arxiv.org/abs/2210.07316) -- the benchmark defining 8 task categories (classification, clustering, pair classification, reranking, retrieval, STS, summarization, bitext mining) that the leaderboard reports; read before trusting any single MTEB score.
+- [Sentence Transformers documentation](https://www.sbert.net/) -- canonical reference for bi-encoder vs cross-encoder, pooling strategies, and the ingest-split-embed-store RAG pipeline this lesson implements.

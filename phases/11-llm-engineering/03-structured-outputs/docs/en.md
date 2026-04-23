@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 10, Lessons 01-05 (LLMs from Scratch)
 **Time:** ~90 minutes
+**Related:** Phase 5 · 20 (Structured Outputs & Constrained Decoding) covers the decoder-level theory (FSM/CFG logit processors, Outlines, XGrammar). This lesson focuses on the production SDK surface (OpenAI `response_format`, Anthropic tool use, Instructor) — read Phase 5 · 20 first if you want to understand what is happening below the API.
 
 ## Learning Objectives
 
@@ -53,7 +54,7 @@ graph LR
 
 **JSON mode**: the API guarantees the output is valid JSON. OpenAI's `response_format: { type: "json_object" }` enables this. The output will parse without errors. But it may not match your expected schema -- extra keys, wrong types, missing fields.
 
-**Schema mode**: the API takes a JSON Schema and guarantees the output matches it. OpenAI's `response_format: { type: "json_schema", json_schema: {...} }` and Anthropic's tool use both do this. The output has the exact keys, types, and constraints you specified.
+**Schema mode**: the API takes a JSON Schema and guarantees the output matches it. In 2026 every major provider supports this natively: OpenAI's `response_format: { type: "json_schema", json_schema: {...} }` (also as `tool_choice="required"`), Anthropic's tool use with `input_schema`, and Gemini's `response_schema` + `response_mime_type: "application/json"`. The output has the exact keys, types, and constraints you specified.
 
 **Constrained decoding**: at each token position during generation, the decoder masks out all tokens that would produce invalid output. If the schema requires a number and the model is about to emit a letter, that token is set to probability zero. The model can only produce tokens that lead to valid output. This is what OpenAI's structured output mode and libraries like Outlines and Guidance implement under the hood.
 
@@ -434,7 +435,7 @@ def run_demo():
 #     in_stock: bool
 #
 # response = client.beta.chat.completions.parse(
-#     model="gpt-4o-mini",
+#     model="gpt-5-mini",
 #     messages=[
 #         {"role": "system", "content": "Extract product information."},
 #         {"role": "user", "content": "Sony WH-1000XM5, $348, in stock"},
@@ -456,7 +457,7 @@ OpenAI's structured output mode uses constrained decoding internally. Every toke
 # client = anthropic.Anthropic()
 #
 # response = client.messages.create(
-#     model="claude-sonnet-4-20250514",
+#     model="claude-opus-4-7",
 #     max_tokens=1024,
 #     tools=[{
 #         "name": "extract_product",
@@ -493,7 +494,7 @@ Anthropic achieves structured output through tool use. The model emits a tool ca
 #     in_stock: bool
 #
 # product = client.chat.completions.create(
-#     model="gpt-4o-mini",
+#     model="gpt-5-mini",
 #     response_model=Product,
 #     messages=[{"role": "user", "content": "Sony WH-1000XM5, $348, in stock"}],
 # )
@@ -542,3 +543,6 @@ It also produces `outputs/skill-structured-outputs.md` -- a decision framework f
 - [Anthropic Tool Use Guide](https://docs.anthropic.com/en/docs/tool-use) -- how Claude implements structured output via tool use with JSON Schema input_schema
 - [JSON Schema specification](https://json-schema.org/) -- the full spec for the schema language used by every major structured output system
 - [Outlines library](https://github.com/outlines-dev/outlines) -- open-source constrained generation using regex and JSON Schema compiled to finite state machines
+- [Dong et al., "XGrammar: Flexible and Efficient Structured Generation Engine for Large Language Models" (MLSys 2025)](https://arxiv.org/abs/2411.15100) -- the current state-of-the-art grammar engine; pushdown-automaton compilation that masks tokens at ~100 ns / token.
+- [Beurer-Kellner et al., "Prompting Is Programming: A Query Language for Large Language Models" (LMQL)](https://arxiv.org/abs/2212.06094) -- the LMQL paper framing constrained decoding as a query language with type and value constraints.
+- [Microsoft Guidance (framework docs)](https://github.com/guidance-ai/guidance) -- template-driven constrained generation; vendor-agnostic complement to Outlines and XGrammar.

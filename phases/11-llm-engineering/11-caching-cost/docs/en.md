@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 11 Lesson 09 (Function Calling)
 **Time:** ~45 minutes
+**Related:** Phase 11 · 15 (Prompt Caching) — this lesson covers application-layer caching (semantic cache, exact hash cache, model routing). Lesson 15 covers provider-layer prompt caching (Anthropic cache_control, OpenAI automatic, Gemini CachedContent). Combine both for 50-95% cost reduction.
 
 ## Learning Objectives
 
@@ -20,7 +21,7 @@ You build a RAG chatbot. It works beautifully. Users love it.
 
 Then the invoice arrives.
 
-GPT-4o costs $2.50 per million input tokens and $10.00 per million output tokens. Claude Sonnet costs $3.00 input and $15.00 output. These numbers look small until you multiply by real usage.
+GPT-5 costs $5 per million input tokens and $15 per million output. Claude Opus 4.7 costs $15 input / $75 output. Gemini 3 Pro costs $1.25 input / $5 output. GPT-5-mini is $0.25/$2. Prices below are illustrative; always check the provider's current pricing page.
 
 Here is the math that kills startups:
 
@@ -61,13 +62,13 @@ System prompts are the silent killer. A 1,500-token system prompt sent with ever
 
 ### Provider Caching: Built-in Discounts
 
-Both Anthropic and OpenAI offer prompt caching, but the mechanics differ.
+All three major providers offer provider-side prompt caching in 2026, but the mechanics differ. See Phase 11 · 15 for the deep dive.
 
 | Provider | Mechanism | Discount | Minimum | Cache Duration |
 |----------|-----------|----------|---------|----------------|
-| Anthropic | Explicit cache_control markers | 90% on cache hits (pay 25% extra on write) | 1,024 tokens (Sonnet), 2,048 (Opus) | 5 minutes (extended on hit) |
-| OpenAI | Automatic prefix matching | 50% on cache hits | 1,024 tokens | Up to 1 hour |
-| Google | Context caching API | ~75% reduction | 32,768 tokens | Configurable TTL |
+| Anthropic | Explicit cache_control markers | 90% on cache hits (pay 25% extra on write) | 1,024 tokens (Sonnet/Opus), 2,048 (Haiku) | 5 min default; 1h extended (2x write premium) |
+| OpenAI | Automatic prefix matching | 50% on cache hits | 1,024 tokens | Best-effort up to 1 hour |
+| Google Gemini | Explicit CachedContent API | ~75% reduction (plus storage) | 4,096 (Flash) / 32,768 (Pro) | User-configurable TTL |
 
 **Anthropic's approach** is explicit. You mark sections of your prompt with `cache_control: {"type": "ephemeral"}`. The first request pays a 25% write premium. Subsequent requests with the same prefix get a 90% discount. A 2,000-token system prompt that costs $0.005 normally costs $0.000625 on cache hits. Over 100K requests, that saves $437.50/day.
 
@@ -902,3 +903,6 @@ It also produces `outputs/skill-cost-patterns.md` -- a decision framework for ch
 - [Martian Model Router](https://docs.withmartian.com) -- production model routing that automatically selects the cheapest model capable of handling each query
 - [Not Diamond](https://www.notdiamond.ai) -- ML-based model router that learns from your traffic patterns to optimize cost/quality tradeoffs across providers
 - [Helicone](https://www.helicone.ai) -- LLM observability platform with cost tracking, caching, rate limiting, and budget alerts as a proxy layer
+- [Dean & Barroso, "The Tail at Scale" (CACM 2013)](https://research.google/pubs/the-tail-at-scale/) -- latency, throughput, TTFT/TPOT percentiles, and hedged requests; the cost model behind "pick the cheapest model that still meets P95."
+- [Kwon et al., "Efficient Memory Management for Large Language Model Serving with PagedAttention" (SOSP 2023)](https://arxiv.org/abs/2309.06180) -- the vLLM paper; why paged KV-cache + continuous batching beat naive servers 24× on throughput, the infra layer under "caching and cost."
+- [Dao et al., "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning" (ICLR 2024)](https://arxiv.org/abs/2307.08691) -- kernel-level cost reduction orthogonal to prompt caching; read alongside speculative decoding and GQA for the full cost-curve picture.

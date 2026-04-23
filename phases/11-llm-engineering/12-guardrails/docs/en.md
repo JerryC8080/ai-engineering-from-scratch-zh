@@ -6,6 +6,7 @@
 **Languages:** Python
 **Prerequisites:** Phase 11 Lesson 01 (Prompt Engineering), Phase 11 Lesson 09 (Function Calling)
 **Time:** ~45 minutes
+**Related:** Phase 11 · 14 (Model Context Protocol) — MCP's resource/tool boundaries interact with guardrails; untrusted resource content must be treated as data, not instructions. Phase 18 (Ethics, Safety, Alignment) goes deeper on policy and red-teaming.
 
 ## Learning Objectives
 
@@ -128,12 +129,19 @@ Each layer catches what the others miss. Length checks are free. Rate limits are
 
 | Tool | Type | Categories | Latency | Cost | Open Source |
 |---|---|---|---|---|---|
-| OpenAI Moderation | API | 11 categories | ~100ms | Free | No |
-| LlamaGuard 3 8B | Model | 13 categories | ~200ms | Self-hosted | Yes |
-| NeMo Guardrails | Framework | Custom | ~50ms + LLM | Free | Yes |
-| Guardrails AI | Library | 50+ validators | ~10-50ms | Free tier | Yes |
-| Presidio | Library | 28 PII types | ~10ms | Free | Yes |
+| OpenAI Moderation (`omni-moderation`) | API | 13 text + image categories | ~100ms | Free | No |
+| LlamaGuard 4 (2B / 8B) | Model | 14 MLCommons categories | ~150ms | Self-hosted | Yes |
+| NeMo Guardrails | Framework | Custom (Colang) | ~50ms + LLM | Free | Yes |
+| Guardrails AI | Library | 50+ validators on hub | ~10-50ms | Free tier + hosted | Yes |
+| LLM Guard (Protect AI) | Library | 20+ input/output scanners | ~10-100ms | Free | Yes |
+| Rebuff AI | Library + canary token service | Heuristic + vector + canary detection | ~20ms + lookup | Free | Yes |
+| Lakera Guard | API | Prompt injection, PII, toxicity | ~30ms | Paid SaaS | No |
+| Presidio | Library | 28 PII types, 50+ languages | ~10ms | Free | Yes |
 | Perspective API | API | 6 toxicity types | ~100ms | Free | No |
+
+**Rebuff AI** adds a canary-token pattern: inject a random token into the system prompt; if it leaks in output, you know a prompt-injection attack succeeded. Pair with heuristic + vector-similarity detection.
+
+**LLM Guard** bundles 20+ scanners (ban_topics, regex, secrets, prompt injection, token limits) in one Python library — the closest thing to a turnkey guardrail middleware in open-weight form.
 
 ### Defense-in-Depth
 
@@ -884,3 +892,6 @@ It also produces `outputs/skill-guardrail-patterns.md` -- a decision framework f
 - [NeMo Guardrails Documentation](https://docs.nvidia.com/nemo/guardrails/) -- NVIDIA's guide to implementing programmable conversational rails with Colang
 - [OpenAI Moderation Guide](https://platform.openai.com/docs/guides/moderation) -- reference for the free Moderation API, category definitions, and score thresholds
 - [Simon Willison's "Prompt Injection" Series](https://simonwillison.net/series/prompt-injection/) -- the most comprehensive ongoing collection of prompt injection research, real-world exploits, and defense analysis from the person who named the attack
+- [Derczynski et al., "garak: A Framework for Large Language Model Red Teaming" (2024)](https://arxiv.org/abs/2406.11036) -- the paper behind the scanner; probes for jailbreaks, prompt injection, data leakage, toxicity, and hallucinated package names; pair it with the human-in-the-loop escalation pattern in this lesson.
+- [Prompt Injection Primer for Engineers](https://github.com/jthack/PIPE) -- short practical guide covering attack categories (direct, indirect, multi-modal, memory) and first-line defenses (input sanitization, output moderation, privilege separation).
+- [Perez & Ribeiro, "Ignore Previous Prompt: Attack Techniques For Language Models" (2022)](https://arxiv.org/abs/2211.09527) -- the first systematic study of prompt-injection attacks; defines goal hijacking vs prompt leaking and the adversarial test suite every guardrail needs to pass.
