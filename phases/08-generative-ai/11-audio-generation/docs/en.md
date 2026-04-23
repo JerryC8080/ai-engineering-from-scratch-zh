@@ -125,7 +125,7 @@ Save `outputs/skill-audio-brief.md`. Skill takes an audio brief (task, duration,
 
 ## Production note: audio is a streaming problem
 
-Audio is the one output modality users expect to arrive *as it is generated*, not all-at-once. In stas00's ml-engineering terms this means TPOT matters (Time Per Output Token) because the user's listening speed is the target throughput — not their reading speed. For 16kHz audio tokenized at ~75 tokens/second (Encodec), the server must generate ≥75 tokens/sec per user to keep playback smooth.
+Audio is the one output modality users expect to arrive *as it is generated*, not all-at-once. In production terms this means TPOT matters (Time Per Output Token) because the user's listening speed is the target throughput — not their reading speed. For 16kHz audio tokenized at ~75 tokens/second (Encodec), the server must generate ≥75 tokens/sec per user to keep playback smooth.
 
 Two architectural consequences:
 

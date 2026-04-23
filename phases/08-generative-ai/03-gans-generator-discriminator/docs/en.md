@@ -144,7 +144,7 @@ Save `outputs/skill-gan-debugger.md`. Skill takes a failing GAN run (loss curves
 
 ## Production note: one-shot inference is GAN's lasting advantage
 
-GANs no longer win on sample quality for open-domain generation, but they still win on inference cost. In stas00's `ml-engineering/inference` vocabulary a GAN has:
+GANs no longer win on sample quality for open-domain generation, but they still win on inference cost. In production-inference literature vocabulary a GAN has:
 
 - **No prefill, no decode stages.** A single `G(z)` forward pass. TTFT ≈ total latency.
 - **No KV-cache pressure.** The only state is the weights. Batch size is bounded by activation memory, not cache.
