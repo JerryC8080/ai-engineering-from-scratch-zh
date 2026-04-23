@@ -179,4 +179,3 @@ Save as `outputs/skill-asr-picker.md`. Pick model, decoding strategy, chunking, 
 - [Radford et al. / OpenAI (2022). Whisper: Robust Speech Recognition via Large-Scale Weak Supervision](https://arxiv.org/abs/2212.04356) — the 2022 canonical paper; v3-turbo extension in 2024.
 - [NVIDIA NeMo — Parakeet-TDT card](https://huggingface.co/nvidia/parakeet-tdt-1.1b) — 2026 Open ASR Leaderboard leader.
 - [Hugging Face — Open ASR Leaderboard](https://huggingface.co/spaces/hf-audio/open_asr_leaderboard) — live benchmark across 25+ models.
-- [Stas ML Engineering — inference chapter (input-grounded tasks)](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#input-grounded-tasks) — ASR is formally an input-grounded task; treat the audio as the prompt and the metrics reduce to prefill throughput + decode latency.

@@ -156,15 +156,6 @@ The 2026 stack:
 - **Short-clip padding.** A 2-second clip padded to 30 seconds can hallucinate in the trailing silence. Use `pad=False` or VAD-gate.
 - **Wrong mel stats.** Using librosa's mels instead of Whisper's produces near-random output. Use `whisper.audio.log_mel_spectrogram`.
 
-### Why Turbo is 8× faster without losing quality
-
-Whisper Large-v3-turbo shrinks the decoder from 32 layers to 4 and leaves the encoder untouched. The asymmetry is deliberate and maps onto the **prefill/decode** split from LLM inference (see Stas ML Engineering, inference chapter):
-
-- The 30-second encoder pass is **prefill-like** — runs once per audio window, parallel across frames, compute-bound.
-- The decoder generates tokens autoregressively — **decode-like**, memory-bound, serial, every extra layer adds latency.
-
-Shrinking the decoder 8× shrinks decode latency nearly 8×; keeping the encoder full preserves the acoustic features. Every new "fast Whisper" variant in 2024-2026 leans on the same trick.
-
 ## Ship It
 
 Save as `outputs/skill-whisper-tuner.md`. Design a Whisper fine-tune or inference pipeline for a given domain.
@@ -194,4 +185,3 @@ Save as `outputs/skill-whisper-tuner.md`. Design a Whisper fine-tune or inferenc
 - [Bain et al. (2023). WhisperX](https://arxiv.org/abs/2303.00747) — long-form, word-aligned, diarized.
 - [Systran — faster-whisper repo](https://github.com/SYSTRAN/faster-whisper) — CTranslate2-backed, 4× faster.
 - [HuggingFace — Whisper fine-tune tutorial](https://huggingface.co/blog/fine-tune-whisper) — canonical LoRA / full-FT walkthrough.
-- [Stas ML Engineering — inference chapter](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#prefill-and-decode) — prefill vs decode, KV cache sizing, and why shrinking the decoder wins for autoregressive transcription.
