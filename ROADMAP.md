@@ -230,24 +230,24 @@ Progress tracking for every phase and lesson.
 | 11 | Sim-to-Real Transfer | ⬚ | ~45 min |
 | 12 | RL for Games | ⬚ | ~75 min |
 
-## Phase 10: LLMs from Scratch — 🚧 (~18 hours)
+## Phase 10: LLMs from Scratch — ✅ (~18 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
-| 01 | Tokenizers — BPE, WordPiece, SentencePiece | ✅ | ~45 min |
-| 02 | Building a Tokenizer from Scratch | ✅ | ~75 min |
-| 03 | Data Pipelines for Pre-Training | ✅ | ~75 min |
-| 04 | Pre-Training a Mini GPT (124M) | ✅ | ~120 min |
-| 05 | Scaling — Distributed Training, FSDP, DeepSpeed | ✅ | ~75 min |
-| 06 | Instruction Tuning — SFT | ✅ | ~75 min |
-| 07 | RLHF — Reward Model + PPO Training | ✅ | ~75 min |
-| 08 | DPO — Direct Preference Optimization | ✅ | ~75 min |
-| 09 | Constitutional AI & Self-Improvement | ⬚ | ~45 min |
-| 10 | Evaluation — Benchmarks, Evals, LM Harness | ✅ | ~75 min |
-| 11 | Quantization — INT8, GPTQ, AWQ, GGUF | ✅ | ~75 min |
-| 12 | Inference Optimization | ✅ | ~75 min |
-| 13 | Building a Complete LLM Pipeline | ⬚ | ~120 min |
-| 14 | Open Models — Architecture Walkthroughs | ⬚ | ~45 min |
+| 01 | [Tokenizers — BPE, WordPiece, SentencePiece](phases/10-llms-from-scratch/01-tokenizers) | ✅ | ~45 min |
+| 02 | [Building a Tokenizer from Scratch](phases/10-llms-from-scratch/02-building-a-tokenizer) | ✅ | ~75 min |
+| 03 | [Data Pipelines for Pre-Training](phases/10-llms-from-scratch/03-data-pipelines) | ✅ | ~75 min |
+| 04 | [Pre-Training a Mini GPT (124M)](phases/10-llms-from-scratch/04-pre-training-mini-gpt) | ✅ | ~120 min |
+| 05 | [Scaling — Distributed Training, FSDP, DeepSpeed](phases/10-llms-from-scratch/05-scaling-distributed) | ✅ | ~75 min |
+| 06 | [Instruction Tuning — SFT](phases/10-llms-from-scratch/06-instruction-tuning-sft) | ✅ | ~75 min |
+| 07 | [RLHF — Reward Model + PPO Training](phases/10-llms-from-scratch/07-rlhf) | ✅ | ~75 min |
+| 08 | [DPO — Direct Preference Optimization](phases/10-llms-from-scratch/08-dpo) | ✅ | ~75 min |
+| 09 | [Constitutional AI & Self-Improvement](phases/10-llms-from-scratch/09-constitutional-ai-self-improvement) | ✅ | ~45 min |
+| 10 | [Evaluation — Benchmarks, Evals, LM Harness](phases/10-llms-from-scratch/10-evaluation) | ✅ | ~75 min |
+| 11 | [Quantization — INT8, GPTQ, AWQ, GGUF](phases/10-llms-from-scratch/11-quantization) | ✅ | ~75 min |
+| 12 | [Inference Optimization](phases/10-llms-from-scratch/12-inference-optimization) | ✅ | ~75 min |
+| 13 | [Building a Complete LLM Pipeline](phases/10-llms-from-scratch/13-building-complete-llm-pipeline) | ✅ | ~120 min |
+| 14 | [Open Models — Architecture Walkthroughs](phases/10-llms-from-scratch/14-open-models-architecture-walkthroughs) | ✅ | ~45 min |
 
 ## Phase 11: LLM Engineering — ✅ (~15 hours)
 
@@ -392,6 +392,6 @@ Progress tracking for every phase and lesson.
 
 ---
 
-**Total: 20 phases, 272+ lessons | 124 complete | ~306 hours estimated**
+**Total: 20 phases, 272+ lessons | 127 complete | ~306 hours estimated**
 
 Want to help? Pick any ⬚ lesson and submit a PR. See [CONTRIBUTING.md](CONTRIBUTING.md).
