@@ -92,7 +92,7 @@ See `code/main.py`. We implement the Chinchilla loss equation and solve for comp
 
 ```python
 def chinchilla_loss(N, D, A=406.4, B=410.7, alpha=0.34, beta=0.28, E=1.69):
- return A / N ** alpha + B / D ** beta + E
+    return A / N ** alpha + B / D ** beta + E
 ```
 
 Plot `L` as a contour over `(N, D)` at fixed `C = 6ND`. Find the minimum.

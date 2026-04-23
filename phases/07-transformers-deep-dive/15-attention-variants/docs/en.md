@@ -26,17 +26,17 @@ These coexist. A 2026 frontier model often mixes them: most layers are SWA-1024,
 Each query at position `i` attends only to positions in `[i - W, i]` (causal SWA) or `[i - W/2, i + W/2]` (bidirectional). Tokens outside the window get `-inf` in the score matrix.
 
 ```
-full causal: sliding window (W=4):
-positions 0-7 positions 0-7, W=4
- 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
-0 | x 0 | x
-1 | x x 1 | x x
-2 | x x x 2 | x x x
-3 | x x x x 3 | x x x x
-4 | x x x x x 4 | x x x x
-5 | x x x x x x 5 | x x x x
-6 | x x x x x x x 6 | x x x x
-7 | x x x x x x x x 7 | x x x x
+full causal:           sliding window (W=4):
+positions 0-7          positions 0-7, W=4
+    0 1 2 3 4 5 6 7        0 1 2 3 4 5 6 7
+0 | x                0 |  x
+1 | x x              1 |  x x
+2 | x x x            2 |  x x x
+3 | x x x x          3 |  x x x x
+4 | x x x x x        4 |    x x x x
+5 | x x x x x x      5 |      x x x x
+6 | x x x x x x x    6 |        x x x x
+7 | x x x x x x x x  7 |          x x x x
 ```
 
 For `N = 8192` and `W = 1024`, the score matrix has 1024 × 8192 non-zero rows in expectation — an 8× reduction.
@@ -90,7 +90,7 @@ See `code/main.py`. We implement a causal mask comparator that shows full, SWA, 
 
 ```python
 def causal_mask(n):
- return [[0.0 if j <= i else float("-inf") for j in range(n)] for i in range(n)]
+    return [[0.0 if j <= i else float("-inf") for j in range(n)] for i in range(n)]
 ```
 
 Baseline from Lesson 07. Lower triangular; zero weight above the diagonal.
@@ -99,12 +99,12 @@ Baseline from Lesson 07. Lower triangular; zero weight above the diagonal.
 
 ```python
 def swa_mask(n, window):
- M = [[float("-inf")] * n for _ in range(n)]
- for i in range(n):
- lo = max(0, i - window + 1)
- for j in range(lo, i + 1):
- M[i][j] = 0.0
- return M
+    M = [[float("-inf")] * n for _ in range(n)]
+    for i in range(n):
+        lo = max(0, i - window + 1)
+        for j in range(lo, i + 1):
+            M[i][j] = 0.0
+    return M
 ```
 
 One parameter — `window`. For `window >= n`, you recover full causal attention. For `window = 1`, each token attends only to itself.
@@ -113,14 +113,14 @@ One parameter — `window`. For `window >= n`, you recover full causal attention
 
 ```python
 def strided_mask(n, window, stride):
- M = [[float("-inf")] * n for _ in range(n)]
- for i in range(n):
- lo = max(0, i - window + 1)
- for j in range(lo, i + 1):
- M[i][j] = 0.0
- for j in range(0, i + 1, stride):
- M[i][j] = 0.0
- return M
+    M = [[float("-inf")] * n for _ in range(n)]
+    for i in range(n):
+        lo = max(0, i - window + 1)
+        for j in range(lo, i + 1):
+            M[i][j] = 0.0
+        for j in range(0, i + 1, stride):
+            M[i][j] = 0.0
+    return M
 ```
 
 Dense local window plus every `stride`-th token back to the start of the sequence. Receptive field grows in log steps with additional layers.
@@ -129,9 +129,9 @@ Dense local window plus every `stride`-th token back to the start of the sequenc
 
 ```python
 def diff_attention(Q1, K1, Q2, K2, V, lam):
- A1 = softmax_causal(Q1 @ K1.T / sqrt_d)
- A2 = softmax_causal(Q2 @ K2.T / sqrt_d)
- return (A1 - lam * A2) @ V
+    A1 = softmax_causal(Q1 @ K1.T / sqrt_d)
+    A2 = softmax_causal(Q2 @ K2.T / sqrt_d)
+    return (A1 - lam * A2) @ V
 ```
 
 Two attention passes, subtract with a learned mixing coefficient. In the code we compare the attention-sink heatmap of single vs differential and watch the sink collapse.
@@ -157,7 +157,7 @@ FlexAttention in PyTorch 2.5+ accepts a mask function:
 from torch.nn.attention.flex_attention import flex_attention, create_block_mask
 
 def swa_pattern(b, h, q_idx, kv_idx):
- return (q_idx - kv_idx < 1024) & (q_idx >= kv_idx)
+    return (q_idx - kv_idx < 1024) & (q_idx >= kv_idx)
 
 mask = create_block_mask(swa_pattern, B=batch, H=heads, Q_LEN=n, KV_LEN=n)
 out = flex_attention(q, k, v, block_mask=mask)

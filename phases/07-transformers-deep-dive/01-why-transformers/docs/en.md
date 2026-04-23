@@ -45,13 +45,13 @@ See `code/main.py`. We build two functions. One encodes a sequence as a chain of
 
 ```python
 def rnn_style(xs):
- h = 0.0
- for x in xs:
- h = 0.9 * h + x # can't parallelize: h depends on previous h
- return h
+    h = 0.0
+    for x in xs:
+        h = 0.9 * h + x   # can't parallelize: h depends on previous h
+    return h
 
 def attention_style(xs):
- return sum(xs) / len(xs) # every x is independent
+    return sum(xs) / len(xs)  # every x is independent
 ```
 
 We time both on sequences up to 100,000 elements. The RNN version is O(N) and a single CPU pipeline. Even in pure Python, the attention-style reduction beats it at length ≥ 1,000 because Python's `sum()` is implemented in C and iterates without interpreter overhead per step.

@@ -28,8 +28,8 @@ Take a sentence: `the quick brown fox jumps over the lazy dog`.
 Mask 15% of tokens randomly:
 
 ```
-input: the [MASK] brown fox jumps [MASK] the lazy dog
-target: the quick brown fox jumps over the lazy dog
+input:  the [MASK] brown fox jumps [MASK] the lazy dog
+target: the  quick brown fox jumps  over  the lazy dog
 ```
 
 Train the model to predict the original tokens at masked positions. Because the encoder is bidirectional, predicting `[MASK]` at position 1 can use `brown fox jumps` at positions 2+. That is the thing GPT cannot do.
@@ -81,18 +81,18 @@ See `code/main.py`. The function `create_mlm_batch` takes a list of token IDs, a
 
 ```python
 def create_mlm_batch(tokens, vocab_size, mask_prob=0.15, rng=None):
- input_ids = list(tokens)
- labels = [-100] * len(tokens)
- for i, t in enumerate(tokens):
- if rng.random() < mask_prob:
- labels[i] = t
- r = rng.random()
- if r < 0.8:
- input_ids[i] = MASK_ID
- elif r < 0.9:
- input_ids[i] = rng.randrange(vocab_size)
- # else: keep original
- return input_ids, labels
+    input_ids = list(tokens)
+    labels = [-100] * len(tokens)
+    for i, t in enumerate(tokens):
+        if rng.random() < mask_prob:
+            labels[i] = t
+            r = rng.random()
+            if r < 0.8:
+                input_ids[i] = MASK_ID
+            elif r < 0.9:
+                input_ids[i] = rng.randrange(vocab_size)
+            # else: keep original
+    return input_ids, labels
 ```
 
 ### Step 2: run MLM prediction on a tiny corpus
@@ -117,7 +117,7 @@ model = AutoModel.from_pretrained("answerdotai/ModernBERT-base")
 
 text = "Attention is all you need."
 inputs = tok(text, return_tensors="pt")
-out = model(**inputs).last_hidden_state # (1, N, 768)
+out = model(**inputs).last_hidden_state   # (1, N, 768)
 ```
 
 **Embedding models are fine-tuned BERT.** `sentence-transformers` models like `all-MiniLM-L6-v2` are BERTs trained with contrastive loss. The encoder is the same. The loss changed.

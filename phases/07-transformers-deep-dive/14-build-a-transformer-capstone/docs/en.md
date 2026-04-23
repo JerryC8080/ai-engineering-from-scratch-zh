@@ -13,7 +13,7 @@ You've read every paper. You've implemented attention, multi-head splits, positi
 
 The capstone: train a small decoder-only transformer end-to-end on a character-level language modeling task. It reads Shakespeare. It generates new Shakespeare. It is small enough to train on a laptop in under 10 minutes. It is correct enough that swapping in a bigger dataset and longer training gets you a real LM.
 
-This is the "minimal-GPT reference implementations" of the course. It is not original — 2023 minimal-GPT reference implementations tutorial is the reference implementation every student writes at least once. We lift the shape and retool it around what we've covered.
+This is the "nanoGPT" of the course. It is not original — Karpathy's 2023 nanoGPT tutorial is the reference implementation every student writes at least once. We lift the shape and retool it around what we've covered.
 
 ## The Concept
 
@@ -23,31 +23,31 @@ The architecture, annotated:
 
 ```
 input tokens (B, N)
- │
- ▼
-token embedding + positional embedding ◀── Lesson 04 (RoPE option)
- │
- ▼
+   │
+   ▼
+token embedding + positional embedding  ◀── Lesson 04 (RoPE option)
+   │
+   ▼
 ┌──── block × L ────────────────────┐
-│ RMSNorm │ ◀── Lesson 05
-│ MultiHeadAttention (causal) │ ◀── Lesson 03 + 07 (causal mask)
-│ residual │
-│ RMSNorm │
-│ SwiGLU FFN │ ◀── Lesson 05
-│ residual │
+│  RMSNorm                          │  ◀── Lesson 05
+│  MultiHeadAttention (causal)      │  ◀── Lesson 03 + 07 (causal mask)
+│  residual                         │
+│  RMSNorm                          │
+│  SwiGLU FFN                       │  ◀── Lesson 05
+│  residual                         │
 └────────────────────────────────── ┘
- │
- ▼
+   │
+   ▼
 final RMSNorm
- │
- ▼
+   │
+   ▼
 lm_head (tied to token embedding)
- │
- ▼
+   │
+   ▼
 logits (B, N, V)
- │
- ▼
-shift-by-one cross-entropy ◀── Lesson 07
+   │
+   ▼
+shift-by-one cross-entropy            ◀── Lesson 07
 ```
 
 ### What we ship
@@ -108,13 +108,13 @@ Get a random batch of length-256 token windows. Forward. Shift-by-one cross-entr
 
 ```python
 for step in range(max_steps):
- x, y = get_batch("train")
- logits = model(x)
- loss = F.cross_entropy(logits.view(-1, vocab_size), y.view(-1))
- loss.backward()
- torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
- opt.step()
- opt.zero_grad()
+    x, y = get_batch("train")
+    logits = model(x)
+    loss = F.cross_entropy(logits.view(-1, vocab_size), y.view(-1))
+    loss.backward()
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+    opt.step()
+    opt.zero_grad()
 ```
 
 ### Step 4: sample
@@ -128,7 +128,8 @@ After 2,000 steps:
 ```
 ROMEO:
 Away and mild will not thy friend, that thou shalt wit:
-The chief that well shame and hath been his friends,...
+The chief that well shame and hath been his friends,
+...
 ```
 
 Not Shakespeare. But Shakespeare-shaped. A clear win for ~800K parameters and 6 minutes on a laptop.
@@ -141,7 +142,7 @@ This capstone is a reference architecture. Three extensions to ship it to someth
 2. **Train on a bigger corpus.** Use `OpenWebText` or `fineweb-edu` (HuggingFace). 10B tokens on a single A100 takes ~24 hours for a 125M-param GPT.
 3. **Add RoPE + KV cache + Flash Attention.** The exercises below walk you through each.
 
-This ends up as a 125M-parameter GPT that generates fluent English. Not a frontier model. But the same code path — just bigger — is what, EleutherAI, and the Allen Institute use to train research checkpoints in 2026.
+This ends up as a 125M-parameter GPT that generates fluent English. Not a frontier model. But the same code path — just bigger — is what Karpathy, EleutherAI, and the Allen Institute use to train research checkpoints in 2026.
 
 ## Ship It
 
@@ -159,7 +160,7 @@ See `outputs/skill-transformer-review.md`. The skill reviews a transformer-from-
 
 | Term | What people say | What it actually means |
 |------|-----------------|-----------------------|
-| minimal-GPT reference implementations | " tutorial repo" | Minimal decoder-only transformer training code, ~300 LOC; the canonical reference. |
+| nanoGPT | "Karpathy's tutorial repo" | Minimal decoder-only transformer training code, ~300 LOC; the canonical reference. |
 | tinyshakespeare | "The standard toy corpus" | ~1.1 MB of text; every character-LM tutorial since 2015 uses it. |
 | Tied embeddings | "Share input/output matrix" | LM head weight = transpose of token embedding matrix; saves parameters, improves quality. |
 | bf16 autocast | "Training precision trick" | Run forward/back in bf16, keep optimizer state in fp32; standard since 2021. |

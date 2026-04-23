@@ -39,14 +39,14 @@ Decoder-only won the spotlight, but encoder-decoder never went away.
 ### The forward loop
 
 ```
-source tokens ─▶ encoder ─▶ (N_src, d_model) ──┐
- │
-target tokens ─▶ decoder block │
- ├─▶ masked self-attention │
- ├─▶ cross-attention ◀───────────┘
- └─▶ FFN
- ↓
- next-token logits
+source tokens ─▶ encoder ─▶ (N_src, d_model)  ──┐
+                                                 │
+target tokens ─▶ decoder block                   │
+                 ├─▶ masked self-attention       │
+                 ├─▶ cross-attention ◀───────────┘
+                 └─▶ FFN
+                ↓
+              next-token logits
 ```
 
 Crucially, the encoder runs once per input. The decoder runs autoregressively but cross-attends to the *same* encoder output at every step. Caching the encoder output is a free speedup for long inputs.
@@ -99,13 +99,14 @@ See `code/main.py`. We implement T5-style span corruption for a toy corpus — t
 
 ```python
 def corrupt_spans(tokens, mask_rate=0.15, mean_span=3.0, rng=None):
- """Pick spans summing to ~mask_rate of tokens. Return (corrupted_input, target)."""
- n = len(tokens)
- n_mask = max(1, int(n * mask_rate))
- n_spans = max(1, int(round(n_mask / mean_span)))...
+    """Pick spans summing to ~mask_rate of tokens. Return (corrupted_input, target)."""
+    n = len(tokens)
+    n_mask = max(1, int(n * mask_rate))
+    n_spans = max(1, int(round(n_mask / mean_span)))
+    ...
 ```
 
-The target format is the T5 convention: `<sent0> span0 <sent1> span1...`. The corrupted input interleaves unchanged tokens with the sentinel tokens at span locations.
+The target format is the T5 convention: `<sent0> span0 <sent1> span1 ...`. The corrupted input interleaves unchanged tokens with the sentinel tokens at span locations.
 
 ### Step 2: verify round-trip
 

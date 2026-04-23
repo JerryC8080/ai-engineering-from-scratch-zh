@@ -30,7 +30,7 @@ As of 2026, essentially every frontier open model uses RoPE: Llama 2/3/4, Qwen 2
 Pre-compute a fixed matrix `PE` of shape `(max_len, d_model)`:
 
 ```
-PE[pos, 2i] = sin(pos / 10000^(2i / d_model))
+PE[pos, 2i]   = sin(pos / 10000^(2i / d_model))
 PE[pos, 2i+1] = cos(pos / 10000^(2i / d_model))
 ```
 
@@ -41,10 +41,10 @@ Then `X' = X + PE[:N]` before attention. Each dimension is a sinusoid at a diffe
 Rotate the Q and K vectors (not embeddings). For a pair of dimensions `(2i, 2i+1)`:
 
 ```
-[q'_2i ] [ cos(pos·θ_i) -sin(pos·θ_i) ] [q_2i ]
-[q'_2i+1 ] = [ sin(pos·θ_i) cos(pos·θ_i) ] [q_2i+1 ]
+[q'_2i    ]   [ cos(pos·θ_i)  -sin(pos·θ_i) ] [q_2i   ]
+[q'_2i+1  ] = [ sin(pos·θ_i)   cos(pos·θ_i) ] [q_2i+1 ]
 
-θ_i = base^(-2i / d_head), base = 10000 by default
+θ_i = base^(-2i / d_head),  base = 10000 by default
 ```
 
 Apply the same rotation to keys with position `pos_k`. The dot product `q'_m · k'_n` becomes a function of `(m - n)` alone. That is: **the attention score depends only on the relative distance**, even though the rotation was keyed off absolute positions. Beautiful trick.
@@ -56,7 +56,7 @@ Extending RoPE: `base` can be scaled (NTK-aware, YaRN, LongRoPE) to extrapolate 
 Skip the embedding trick. Bias the attention scores directly:
 
 ```
-attn_score[i, j] = (q_i · k_j) / √d - m_h · |i - j|
+attn_score[i, j] = (q_i · k_j) / √d  -  m_h · |i - j|
 ```
 
 Where `m_h` is a head-specific slope (e.g. `1 / 2^(8·h/H)`). Closer tokens get boosted; far tokens get penalized. No training-time cost. The paper shows length extrapolation beats sinusoidal and matches RoPE on its original trained length.
@@ -81,13 +81,13 @@ See `code/main.py`. A 4-line computation:
 
 ```python
 def sinusoidal(N, d):
- pe = [[0.0] * d for _ in range(N)]
- for pos in range(N):
- for i in range(d // 2):
- theta = pos / (10000 ** (2 * i / d))
- pe[pos][2 * i] = math.sin(theta)
- pe[pos][2 * i + 1] = math.cos(theta)
- return pe
+    pe = [[0.0] * d for _ in range(N)]
+    for pos in range(N):
+        for i in range(d // 2):
+            theta = pos / (10000 ** (2 * i / d))
+            pe[pos][2 * i]     = math.sin(theta)
+            pe[pos][2 * i + 1] = math.cos(theta)
+    return pe
 ```
 
 Add this to the embedding matrix before the first attention layer.
@@ -98,15 +98,15 @@ RoPE operates in-place on Q and K. For each pair of dims:
 
 ```python
 def apply_rope(x, pos, base=10000):
- d = len(x)
- out = list(x)
- for i in range(d // 2):
- theta = pos / (base ** (2 * i / d))
- c, s = math.cos(theta), math.sin(theta)
- a, b = x[2 * i], x[2 * i + 1]
- out[2 * i] = a * c - b * s
- out[2 * i + 1] = a * s + b * c
- return out
+    d = len(x)
+    out = list(x)
+    for i in range(d // 2):
+        theta = pos / (base ** (2 * i / d))
+        c, s = math.cos(theta), math.sin(theta)
+        a, b = x[2 * i], x[2 * i + 1]
+        out[2 * i]     = a * c - b * s
+        out[2 * i + 1] = a * s + b * c
+    return out
 ```
 
 Crucial: apply the same function to Q at position `m` and K at position `n`. Their dot product picks up a `cos((m-n)·θ_i)` factor on every coordinate pair. Attention learns relative position for free.
@@ -115,13 +115,13 @@ Crucial: apply the same function to Q at position `m` and K at position `n`. The
 
 ```python
 def alibi_bias(n_heads, seq_len):
- # slope_h = 2 ** (-8 * h / n_heads) for h = 1..n_heads
- slopes = [2 ** (-8 * (h + 1) / n_heads) for h in range(n_heads)]
- bias = []
- for m in slopes:
- row = [[-m * abs(i - j) for j in range(seq_len)] for i in range(seq_len)]
- bias.append(row)
- return bias # add to attention scores before softmax
+    # slope_h = 2 ** (-8 * h / n_heads) for h = 1..n_heads
+    slopes = [2 ** (-8 * (h + 1) / n_heads) for h in range(n_heads)]
+    bias = []
+    for m in slopes:
+        row = [[-m * abs(i - j) for j in range(seq_len)] for i in range(seq_len)]
+        bias.append(row)
+    return bias  # add to attention scores before softmax
 ```
 
 Add `bias[h]` to the `(seq_len, seq_len)` attention score matrix of head `h`, then softmax.
