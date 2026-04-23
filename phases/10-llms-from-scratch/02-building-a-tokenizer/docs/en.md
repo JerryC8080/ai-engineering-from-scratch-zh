@@ -434,15 +434,6 @@ This lesson produces a prompt for building and debugging production tokenizers. 
 | tiktoken | "OpenAI tokenizer" | Rust BPE implementation with Python bindings -- 10-100x faster than pure Python |
 | Merge table | "The vocabulary" | Ordered list of byte-pair merges learned during training -- this IS the tokenizer's learned knowledge |
 
-## Reference Implementations
-
-Lesson 01 walked the concept. This lesson ships one. Compare yours to these three canonical trainers when debugging:
-
-- [Karpathy minbpe `RegexTokenizer`](https://github.com/karpathy/minbpe/blob/master/minbpe/regex.py) -- 100 lines that add the GPT-4 pre-tokenization split pattern on top of `BasicTokenizer`. If your merges span whitespace, diff against this file first.
-- [Karpathy minbpe `GPT4Tokenizer`](https://github.com/karpathy/minbpe/blob/master/minbpe/gpt4.py) -- reconstructs tiktoken's `cl100k_base` by recovering merges from the rank table, then applies the byte permutation. The recipe for loading someone else's tokenizer instead of training your own.
-- [Rasbt LLMs-from-scratch Ch 2 `05_bpe-from-scratch`](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch02/05_bpe-from-scratch) -- trains a BPE tokenizer on a small corpus, saves merge files, and reloads. Shows how to serialize the merge table so a training job can resume.
-- [HuggingFace `tokenizers` library examples](https://github.com/huggingface/tokenizers/tree/main/bindings/python/examples) -- production trainer with normalization, pre-tokenization, decoder, and post-processor pipelines explicit. This is the blueprint when you need to ship a tokenizer alongside a model.
-
 ## Further Reading
 
 - [OpenAI tiktoken source](https://github.com/openai/tiktoken) -- Rust BPE implementation used by GPT-3.5/4

@@ -437,16 +437,6 @@ This lesson produces a prompt for validating and debugging data quality in LLM t
 | Deduplication | "Removing copies" | Eliminating exact and near-duplicate documents -- typically removes 30-40% of raw web data |
 | Attention mask | "Which tokens to look at" | A binary mask that prevents attention across document boundaries in packed sequences |
 
-## Reference Implementations
-
-The filtering and deduplication logic you built has production equivalents. The training-data loader has canonical ones:
-
-- [Rasbt LLMs-from-scratch Ch 2 `04_bonus_dataloader-intuition`](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch02/04_bonus_dataloader-intuition) -- intuition notebook that shows how `stride`, `max_length`, and `batch_size` interact. The `GPTDatasetV1` class is the minimal sliding-window dataset -- if your dataloader pads, diff against this.
-- [Rasbt LLMs-from-scratch Ch 2 main chapter code](https://github.com/rasbt/LLMs-from-scratch/blob/main/ch02/01_main-chapter-code/ch02.ipynb) -- `create_dataloader_v1` is the helper that wraps `DataLoader(drop_last=True, shuffle=True)` with correct stride semantics for causal LM pre-training.
-- [Karpathy llm.c `dev/data/fineweb.py`](https://github.com/karpathy/llm.c/blob/master/dev/data/fineweb.py) -- the reference script for tokenizing and sharding a real 10B-token web corpus (FineWeb-EDU) into the memory-mappable `.bin` shards `train_gpt2.c` consumes. Shows how to pack, shard, and write a `uint16` token stream at scale.
-- [Karpathy llm.c `dev/data/data_common.py`](https://github.com/karpathy/llm.c/blob/master/dev/data/data_common.py) -- the shard-file header format (256 int32 words, magic number, version, size). Adopt this when you need memory-mapped tokens without a framework.
-- [Karpathy llm.c `dev/data/tinyshakespeare.py`](https://github.com/karpathy/llm.c/blob/master/dev/data/tinyshakespeare.py) -- the 10KB version of the above that runs in seconds. Use it as your smoke test.
-
 ## Further Reading
 
 - [Hoffmann et al., 2022 -- Training Compute-Optimal Large Language Models (Chinchilla)](https://arxiv.org/abs/2203.15556) -- the paper that changed how we think about data scale
