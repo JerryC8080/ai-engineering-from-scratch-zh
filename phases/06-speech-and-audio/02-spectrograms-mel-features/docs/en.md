@@ -39,8 +39,8 @@ Mel spectrograms push further. Humans perceive pitch logarithmically: 100 Hz vs 
 
 ```python
 def frame(signal, frame_len, hop):
- n = 1 + (len(signal) - frame_len) // hop
- return [signal[i * hop : i * hop + frame_len] for i in range(n)]
+    n = 1 + (len(signal) - frame_len) // hop
+    return [signal[i * hop : i * hop + frame_len] for i in range(n)]
 ```
 
 A 10-second 16 kHz clip with `frame_len=400, hop=160` yields 998 frames.
@@ -51,7 +51,7 @@ A 10-second 16 kHz clip with `frame_len=400, hop=160` yields 998 frames.
 import math
 
 def hann(N):
- return [0.5 * (1 - math.cos(2 * math.pi * n / (N - 1))) for n in range(N)]
+    return [0.5 * (1 - math.cos(2 * math.pi * n / (N - 1))) for n in range(N)]
 ```
 
 Multiply element-wise before the FFT. Removes spectral leakage caused by truncating at non-zero endpoints.
@@ -60,9 +60,9 @@ Multiply element-wise before the FFT. Removes spectral leakage caused by truncat
 
 ```python
 def stft_magnitude(signal, frame_len=400, hop=160):
- win = hann(frame_len)
- frames = frame(signal, frame_len, hop)
- return [magnitudes(dft([w * s for w, s in zip(win, f)])) for f in frames]
+    win = hann(frame_len)
+    frames = frame(signal, frame_len, hop)
+    return [magnitudes(dft([w * s for w, s in zip(win, f)])) for f in frames]
 ```
 
 Production uses `torch.stft` or `librosa.stft` (FFT-backed, vectorized). The loop here is pedagogical; it runs on short clips in `code/main.py`.
@@ -71,24 +71,24 @@ Production uses `torch.stft` or `librosa.stft` (FFT-backed, vectorized). The loo
 
 ```python
 def hz_to_mel(f):
- return 2595.0 * math.log10(1.0 + f / 700.0)
+    return 2595.0 * math.log10(1.0 + f / 700.0)
 
 def mel_to_hz(m):
- return 700.0 * (10 ** (m / 2595.0) - 1)
+    return 700.0 * (10 ** (m / 2595.0) - 1)
 
 def mel_filterbank(n_mels, n_fft, sr, fmin=0, fmax=None):
- fmax = fmax or sr / 2
- mels = [hz_to_mel(fmin) + (hz_to_mel(fmax) - hz_to_mel(fmin)) * i / (n_mels + 1)
- for i in range(n_mels + 2)]
- hzs = [mel_to_hz(m) for m in mels]
- bins = [int(h * n_fft / sr) for h in hzs]
- fb = [[0.0] * (n_fft // 2 + 1) for _ in range(n_mels)]
- for m in range(n_mels):
- for k in range(bins[m], bins[m + 1]):
- fb[m][k] = (k - bins[m]) / max(1, bins[m + 1] - bins[m])
- for k in range(bins[m + 1], bins[m + 2]):
- fb[m][k] = (bins[m + 2] - k) / max(1, bins[m + 2] - bins[m + 1])
- return fb
+    fmax = fmax or sr / 2
+    mels = [hz_to_mel(fmin) + (hz_to_mel(fmax) - hz_to_mel(fmin)) * i / (n_mels + 1)
+            for i in range(n_mels + 2)]
+    hzs = [mel_to_hz(m) for m in mels]
+    bins = [int(h * n_fft / sr) for h in hzs]
+    fb = [[0.0] * (n_fft // 2 + 1) for _ in range(n_mels)]
+    for m in range(n_mels):
+        for k in range(bins[m], bins[m + 1]):
+            fb[m][k] = (k - bins[m]) / max(1, bins[m + 1] - bins[m])
+        for k in range(bins[m + 1], bins[m + 2]):
+            fb[m][k] = (bins[m + 2] - k) / max(1, bins[m + 2] - bins[m + 1])
+    return fb
 ```
 
 80 mels covering 0–8 kHz with `n_fft=400` gives an `(80, 201)` matrix. Multiply the `(n_frames, 201)` STFT magnitude by the transpose to get `(n_frames, 80)` mel spectrogram.
@@ -97,7 +97,7 @@ def mel_filterbank(n_mels, n_fft, sr, fmin=0, fmax=None):
 
 ```python
 def log_mel(mel_spec, eps=1e-10):
- return [[math.log(max(v, eps)) for v in frame] for frame in mel_spec]
+    return [[math.log(max(v, eps)) for v in frame] for frame in mel_spec]
 ```
 
 Common alternatives: `librosa.power_to_db` (reference-normalized dB), `10 * log10(power + eps)`. Whisper uses a more involved clip + normalize routine (see Whisper's `log_mel_spectrogram`).
@@ -106,11 +106,11 @@ Common alternatives: `librosa.power_to_db` (reference-normalized dB), `10 * log1
 
 ```python
 def dct_ii(x, n_coeffs):
- N = len(x)
- return [
- sum(x[n] * math.cos(math.pi * k * (2 * n + 1) / (2 * N)) for n in range(N))
- for k in range(n_coeffs)
- ]
+    N = len(x)
+    return [
+        sum(x[n] * math.cos(math.pi * k * (2 * n + 1) / (2 * N)) for n in range(N))
+        for k in range(n_coeffs)
+    ]
 ```
 
 Apply DCT to each log-mel frame, keep the first 13 coefficients. That is your MFCC matrix. The first coefficient is usually dropped (it encodes overall energy).

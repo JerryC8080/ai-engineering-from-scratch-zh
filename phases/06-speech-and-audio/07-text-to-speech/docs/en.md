@@ -82,7 +82,7 @@ Phonemes are the universal bridge. Avoid feeding raw text to anything below VITS
 
 ```python
 from kokoro import KPipeline
-tts = KPipeline(lang_code="a") # "a" = American English
+tts = KPipeline(lang_code="a")  # "a" = American English
 audio, sr = tts("Please remind me to water the plants at 6 pm.", voice="af_bella")
 # audio: float32 tensor, sr=24000
 ```
@@ -95,9 +95,9 @@ Runs offline, single file, 82M params.
 from f5_tts.api import F5TTS
 tts = F5TTS()
 wav = tts.infer(
- ref_file="my_voice_5s.wav",
- ref_text="The quick brown fox jumps over the lazy dog.",
- gen_text="Please remind me to water the plants.",
+    ref_file="my_voice_5s.wav",
+    ref_text="The quick brown fox jumps over the lazy dog.",
+    gen_text="Please remind me to water the plants.",
 )
 ```
 
@@ -109,11 +109,12 @@ Too big to fit in a tutorial script, but the shape is:
 
 ```python
 class HiFiGAN(nn.Module):
- def __init__(self, mel_channels=80, upsample_rates=[8, 8, 2, 2]):
- super().__init__()
- # 4 upsample blocks, total 256x to go from mel-rate to audio-rate...
- def forward(self, mel):
- return self.blocks(mel) # -> waveform
+    def __init__(self, mel_channels=80, upsample_rates=[8, 8, 2, 2]):
+        super().__init__()
+        # 4 upsample blocks, total 256x to go from mel-rate to audio-rate
+        ...
+    def forward(self, mel):
+        return self.blocks(mel)  # -> waveform
 ```
 
 Training: adversarial (discriminator on short windows) + mel-spectrogram reconstruction loss + feature-matching loss. Commoditized — use pretrained checkpoints from `hifi-gan` repo or nvidia-NeMo.
@@ -123,8 +124,8 @@ Training: adversarial (discriminator on short windows) + mel-spectrogram reconst
 ```python
 text = "Please remind me at 6 pm."
 phones = phonemize(text)
-mel = acoustic_model(phones, speaker=alice) # [T, 80]
-wav = vocoder(mel) # [T * 256]
+mel = acoustic_model(phones, speaker=alice)      # [T, 80]
+wav = vocoder(mel)                                # [T * 256]
 soundfile.write("out.wav", wav, 24000)
 ```
 

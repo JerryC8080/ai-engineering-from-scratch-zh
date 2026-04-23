@@ -84,25 +84,25 @@ import websockets
 from moshi.client_utils import encode_audio_mimi, decode_audio_mimi
 
 async def moshi_chat():
- async with websockets.connect("ws://localhost:8998/api/chat") as ws:
- mic_task = asyncio.create_task(stream_mic_to(ws))
- spk_task = asyncio.create_task(stream_from_to_speaker(ws))
- await asyncio.gather(mic_task, spk_task)
+    async with websockets.connect("ws://localhost:8998/api/chat") as ws:
+        mic_task = asyncio.create_task(stream_mic_to(ws))
+        spk_task = asyncio.create_task(stream_from_to_speaker(ws))
+        await asyncio.gather(mic_task, spk_task)
 ```
 
 ### Step 2: the full-duplex loop
 
 ```python
 async def stream_mic_to(ws):
- async for chunk_80ms in mic_stream_at_12_5_hz():
- mimi_tokens = encode_audio_mimi(chunk_80ms)
- await ws.send(serialize(mimi_tokens))
+    async for chunk_80ms in mic_stream_at_12_5_hz():
+        mimi_tokens = encode_audio_mimi(chunk_80ms)
+        await ws.send(serialize(mimi_tokens))
 
 async def stream_from_to_speaker(ws):
- async for msg in ws:
- mimi_tokens, text_token = deserialize(msg)
- audio = decode_audio_mimi(mimi_tokens)
- await play(audio)
+    async for msg in ws:
+        mimi_tokens, text_token = deserialize(msg)
+        audio = decode_audio_mimi(mimi_tokens)
+        await play(audio)
 ```
 
 Both directions run simultaneously. Python asyncio or Rust futures are the standard transport.

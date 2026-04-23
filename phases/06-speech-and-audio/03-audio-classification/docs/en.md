@@ -55,23 +55,23 @@ ESC-50: 50 classes, 40 clips each — balanced, easy. UrbanSound8K: 10 classes, 
 
 ```python
 def featurize_mfcc(signal, sr, n_mfcc=13, n_mels=40, frame_len=400, hop=160):
- mag = stft_magnitude(signal, frame_len, hop)
- fb = mel_filterbank(n_mels, frame_len, sr)
- mels = apply_filterbank(mag, fb)
- log = log_transform(mels)
- return [dct_ii(frame, n_mfcc) for frame in log]
+    mag = stft_magnitude(signal, frame_len, hop)
+    fb = mel_filterbank(n_mels, frame_len, sr)
+    mels = apply_filterbank(mag, fb)
+    log = log_transform(mels)
+    return [dct_ii(frame, n_mfcc) for frame in log]
 ```
 
 ### Step 2: fixed-length summary
 
 ```python
 def summarize(mfcc_frames):
- n = len(mfcc_frames[0])
- mean = [sum(f[i] for f in mfcc_frames) / len(mfcc_frames) for i in range(n)]
- var = [
- sum((f[i] - mean[i]) ** 2 for f in mfcc_frames) / len(mfcc_frames) for i in range(n)
- ]
- return mean + var
+    n = len(mfcc_frames[0])
+    mean = [sum(f[i] for f in mfcc_frames) / len(mfcc_frames) for i in range(n)]
+    var = [
+        sum((f[i] - mean[i]) ** 2 for f in mfcc_frames) / len(mfcc_frames) for i in range(n)
+    ]
+    return mean + var
 ```
 
 Simple but strong: mean + variance across time gives a 26-dim fixed embedding for a 13-coef MFCC. Runs instantly. Beat state-of-the-art NN baselines on ESC-50 as recently as 2017.
@@ -80,15 +80,15 @@ Simple but strong: mean + variance across time gives a 26-dim fixed embedding fo
 
 ```python
 def cosine(a, b):
- dot = sum(x * y for x, y in zip(a, b))
- na = math.sqrt(sum(x * x for x in a)) or 1e-12
- nb = math.sqrt(sum(x * x for x in b)) or 1e-12
- return dot / (na * nb)
+    dot = sum(x * y for x, y in zip(a, b))
+    na = math.sqrt(sum(x * x for x in a)) or 1e-12
+    nb = math.sqrt(sum(x * x for x in b)) or 1e-12
+    return dot / (na * nb)
 
 def knn_classify(q, bank, labels, k=5):
- sims = sorted(range(len(bank)), key=lambda i: -cosine(q, bank[i]))[:k]
- votes = Counter(labels[i] for i in sims)
- return votes.most_common(1)[0][0]
+    sims = sorted(range(len(bank)), key=lambda i: -cosine(q, bank[i]))[:k]
+    votes = Counter(labels[i] for i in sims)
+    return votes.most_common(1)[0][0]
 ```
 
 ### Step 4: upgrade to CNN on log-mels
@@ -99,18 +99,18 @@ In PyTorch:
 import torch.nn as nn
 
 class AudioCNN(nn.Module):
- def __init__(self, n_mels=80, n_classes=50):
- super().__init__()
- self.body = nn.Sequential(
- nn.Conv2d(1, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
- nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
- nn.Conv2d(64, 128, 3, padding=1), nn.ReLU(),
- nn.AdaptiveAvgPool2d(1),
- )
- self.head = nn.Linear(128, n_classes)
+    def __init__(self, n_mels=80, n_classes=50):
+        super().__init__()
+        self.body = nn.Sequential(
+            nn.Conv2d(1, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Conv2d(64, 128, 3, padding=1), nn.ReLU(),
+            nn.AdaptiveAvgPool2d(1),
+        )
+        self.head = nn.Linear(128, n_classes)
 
- def forward(self, x): # x: (B, 1, T, n_mels)
- return self.head(self.body(x).flatten(1))
+    def forward(self, x):  # x: (B, 1, T, n_mels)
+        return self.head(self.body(x).flatten(1))
 ```
 
 3M parameters. Trains in ~10 min on ESC-50 with a single RTX 4090. 80%+ accuracy.
@@ -122,9 +122,9 @@ from transformers import ASTFeatureExtractor, ASTForAudioClassification
 
 ext = ASTFeatureExtractor.from_pretrained("MIT/ast-finetuned-audioset-10-10-0.4593")
 model = ASTForAudioClassification.from_pretrained(
- "MIT/ast-finetuned-audioset-10-10-0.4593",
- num_labels=50,
- ignore_mismatched_sizes=True,
+    "MIT/ast-finetuned-audioset-10-10-0.4593",
+    num_labels=50,
+    ignore_mismatched_sizes=True,
 )
 
 inputs = ext(audio, sampling_rate=16000, return_tensors="pt")

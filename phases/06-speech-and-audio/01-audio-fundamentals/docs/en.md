@@ -54,7 +54,7 @@ Get these right and the rest of Phase 6 is tractable. Get them wrong and even Wh
 
 ```python
 import soundfile as sf
-waveform, sr = sf.read("clip.wav", dtype="float32") # shape (T,), sr=int
+waveform, sr = sf.read("clip.wav", dtype="float32")  # shape (T,), sr=int
 ```
 
 ### Step 2: synthesize a sine wave from first principles
@@ -63,8 +63,8 @@ waveform, sr = sf.read("clip.wav", dtype="float32") # shape (T,), sr=int
 import math
 
 def sine(freq_hz, sr, seconds, amp=0.5):
- n = int(sr * seconds)
- return [amp * math.sin(2 * math.pi * freq_hz * i / sr) for i in range(n)]
+    n = int(sr * seconds)
+    return [amp * math.sin(2 * math.pi * freq_hz * i / sr) for i in range(n)]
 ```
 
 A 440 Hz sine (concert A) at 16 kHz for 1 second is 16,000 floats. Write with `wave.open(..., "wb")` using 16-bit PCM encoding.
@@ -73,13 +73,13 @@ A 440 Hz sine (concert A) at 16 kHz for 1 second is 16,000 floats. Write with `w
 
 ```python
 def dft(x):
- N = len(x)
- out = []
- for k in range(N):
- re = sum(x[n] * math.cos(-2 * math.pi * k * n / N) for n in range(N))
- im = sum(x[n] * math.sin(-2 * math.pi * k * n / N) for n in range(N))
- out.append((re, im))
- return out
+    N = len(x)
+    out = []
+    for k in range(N):
+        re = sum(x[n] * math.cos(-2 * math.pi * k * n / N) for n in range(N))
+        im = sum(x[n] * math.sin(-2 * math.pi * k * n / N) for n in range(N))
+        out.append((re, im))
+    return out
 ```
 
 `O(N²)` — fine for `N=256` to confirm correctness, useless for real audio. Real code calls `numpy.fft.rfft` or `torch.fft.rfft`.

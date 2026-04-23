@@ -89,9 +89,9 @@ Three sizes: `small` (300M, fast), `medium` (1.5B), `large` (3.3B). Small is eno
 ```python
 melody, sr = torchaudio.load("humming.wav")
 wav = model.generate_with_chroma(
- ["jazz piano cover"],
- melody.squeeze(),
- sr,
+    ["jazz piano cover"],
+    melody.squeeze(),
+    sr,
 )
 ```
 
@@ -114,7 +114,7 @@ Combine with the ideas from Lessons 7-8:
 
 ```python
 prompt = "Write a 30-second jazz loop. Describe the drums, bass, and piano voicing."
-description = reference C implementationsomplete(prompt)
+description = llm.complete(prompt)
 music = musicgen.generate([description], duration=30)
 ```
 
