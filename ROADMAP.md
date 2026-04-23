@@ -158,22 +158,27 @@ Progress tracking for every phase and lesson.
 | 28 | [Long-Context Evaluation — NIAH, RULER, LongBench, MRCR](phases/05-nlp-foundations-to-advanced/28-long-context-evaluation) | ✅ | ~60 min |
 | 29 | [Dialogue State Tracking](phases/05-nlp-foundations-to-advanced/29-dialogue-state-tracking) | ✅ | ~75 min |
 
-## Phase 6: Speech & Audio — ⬚ (~13 hours)
+## Phase 6: Speech & Audio — ✅ (~18 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
-| 01 | Audio Fundamentals — Waveforms, Sampling, Fourier Transform | ⬚ | ~45 min |
-| 02 | Spectrograms, Mel Scale & Audio Features | ⬚ | ~45 min |
-| 03 | Audio Classification | ⬚ | ~75 min |
-| 04 | Speech Recognition (ASR) | ⬚ | ~45 min |
-| 05 | Whisper — Architecture & Fine-Tuning | ⬚ | ~75 min |
-| 06 | Speaker Recognition & Verification | ⬚ | ~45 min |
-| 07 | Text-to-Speech (TTS) | ⬚ | ~75 min |
-| 08 | Voice Cloning & Voice Conversion | ⬚ | ~75 min |
-| 09 | Music Generation | ⬚ | ~75 min |
-| 10 | Audio-Language Models | ⬚ | ~45 min |
-| 11 | Real-Time Audio Processing | ⬚ | ~75 min |
-| 12 | Build a Voice Assistant Pipeline | ⬚ | ~120 min |
+| 01 | [Audio Fundamentals — Waveforms, Sampling, Fourier Transform](phases/06-speech-and-audio/01-audio-fundamentals) | ✅ | ~45 min |
+| 02 | [Spectrograms, Mel Scale & Audio Features](phases/06-speech-and-audio/02-spectrograms-mel-features) | ✅ | ~45 min |
+| 03 | [Audio Classification](phases/06-speech-and-audio/03-audio-classification) | ✅ | ~75 min |
+| 04 | [Speech Recognition (ASR)](phases/06-speech-and-audio/04-speech-recognition-asr) | ✅ | ~45 min |
+| 05 | [Whisper — Architecture & Fine-Tuning](phases/06-speech-and-audio/05-whisper-architecture-finetuning) | ✅ | ~75 min |
+| 06 | [Speaker Recognition & Verification](phases/06-speech-and-audio/06-speaker-recognition-verification) | ✅ | ~45 min |
+| 07 | [Text-to-Speech (TTS)](phases/06-speech-and-audio/07-text-to-speech) | ✅ | ~75 min |
+| 08 | [Voice Cloning & Voice Conversion](phases/06-speech-and-audio/08-voice-cloning-conversion) | ✅ | ~75 min |
+| 09 | [Music Generation](phases/06-speech-and-audio/09-music-generation) | ✅ | ~75 min |
+| 10 | [Audio-Language Models](phases/06-speech-and-audio/10-audio-language-models) | ✅ | ~45 min |
+| 11 | [Real-Time Audio Processing](phases/06-speech-and-audio/11-real-time-audio-processing) | ✅ | ~75 min |
+| 12 | [Build a Voice Assistant Pipeline](phases/06-speech-and-audio/12-voice-assistant-pipeline) | ✅ | ~120 min |
+| 13 | [Neural Audio Codecs — EnCodec, SNAC, Mimi, DAC](phases/06-speech-and-audio/13-neural-audio-codecs) | ✅ | ~60 min |
+| 14 | [Voice Activity Detection & Turn-Taking](phases/06-speech-and-audio/14-voice-activity-detection-turn-taking) | ✅ | ~45 min |
+| 15 | [Streaming Speech-to-Speech — Moshi, Hibiki](phases/06-speech-and-audio/15-streaming-speech-to-speech-moshi-hibiki) | ✅ | ~75 min |
+| 16 | [Voice Anti-Spoofing & Audio Watermarking](phases/06-speech-and-audio/16-anti-spoofing-audio-watermarking) | ✅ | ~75 min |
+| 17 | [Audio Evaluation — WER, MOS, MMAU, Leaderboards](phases/06-speech-and-audio/17-audio-evaluation-metrics) | ✅ | ~60 min |
 
 ## Phase 7: Transformers Deep Dive — 🚧 (~14 hours)
 
