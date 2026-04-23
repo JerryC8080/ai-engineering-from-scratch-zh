@@ -1,0 +1,56 @@
+{
+  "lesson": "14-model-context-protocol",
+  "title": "Model Context Protocol",
+  "questions": [
+    {
+      "q": "What three primitives does an MCP server expose?",
+      "choices": [
+        "Functions, types, classes",
+        "Tools, resources, prompts",
+        "Endpoints, webhooks, queues",
+        "Agents, skills, workflows"
+      ],
+      "answer": 1
+    },
+    {
+      "q": "What wire format does MCP use?",
+      "choices": [
+        "GraphQL over HTTP",
+        "gRPC with protobuf",
+        "JSON-RPC 2.0",
+        "REST with OpenAPI"
+      ],
+      "answer": 2
+    },
+    {
+      "q": "Which metadata field signals a tool mutates state and should require human approval?",
+      "choices": [
+        "readonly: false",
+        "mutating: true",
+        "destructiveHint: true",
+        "requiresAuth: true"
+      ],
+      "answer": 2
+    },
+    {
+      "q": "What is the 2025-06-18 transport that replaced the earlier SSE-only remote transport?",
+      "choices": [
+        "WebTransport",
+        "Streamable HTTP",
+        "WebSocket-only",
+        "gRPC bidi"
+      ],
+      "answer": 1
+    },
+    {
+      "q": "When should a tool be split into its own MCP server instead of staying inline?",
+      "choices": [
+        "When it is called fewer than 10 times per day",
+        "When it is called from two or more hosts and is read-only/cacheable",
+        "When it returns more than 1KB of data",
+        "Never; MCP is only for local dev"
+      ],
+      "answer": 1
+    }
+  ]
+}
