@@ -462,7 +462,7 @@ Other courses end with *"congratulations, you learned X."* Our lessons end with 
 </details>
 
 <details id="phase-10">
-<summary><b>🟧 Phase 10 — LLMs from Scratch</b> &nbsp;<code>14 lessons</code>&nbsp; <em>Build, train, and understand large language models.</em></summary>
+<summary><b>🟧 Phase 10 — LLMs from Scratch</b> &nbsp;<code>22 lessons</code>&nbsp; <em>Build, train, and understand large language models.</em></summary>
 <br/>
 
 | # | Lesson | Type | Lang |
@@ -481,6 +481,14 @@ Other courses end with *"congratulations, you learned X."* Our lessons end with 
 | 12 | [Inference Optimization](phases/10-llms-from-scratch/12-inference-optimization/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
 | 13 | [Building a Complete LLM Pipeline](phases/10-llms-from-scratch/13-building-complete-llm-pipeline/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
 | 14 | [Open Models: Architecture Walkthroughs](phases/10-llms-from-scratch/14-open-models-architecture-walkthroughs/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 15 | [Speculative Decoding and EAGLE-3](phases/10-llms-from-scratch/15-speculative-decoding-eagle3/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 16 | [Differential Attention (V2)](phases/10-llms-from-scratch/16-differential-attention-v2/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 17 | [Native Sparse Attention (DeepSeek NSA)](phases/10-llms-from-scratch/17-native-sparse-attention/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 18 | [Multi-Token Prediction (MTP)](phases/10-llms-from-scratch/18-multi-token-prediction/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
+| 19 | [DualPipe Parallelism](phases/10-llms-from-scratch/19-dualpipe-parallelism/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 20 | [DeepSeek-V3 Architecture Walkthrough](phases/10-llms-from-scratch/20-deepseek-v3-walkthrough/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 21 | [Jamba — Hybrid SSM-Transformer](phases/10-llms-from-scratch/21-jamba-hybrid-ssm-transformer/) | ![Learn](https://img.shields.io/badge/-Learn-3498DB?style=flat-square) | 🐍 |
+| 22 | [Async and Hogwild! Inference](phases/10-llms-from-scratch/22-async-hogwild-inference/) | ![Build](https://img.shields.io/badge/-Build-2ECC71?style=flat-square) | 🐍 |
 
 </details>
 

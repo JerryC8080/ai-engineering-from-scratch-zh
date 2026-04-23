@@ -235,7 +235,7 @@ Progress tracking for every phase and lesson.
 | 11 | Sim-to-Real Transfer | ✅ | ~45 min |
 | 12 | RL for Games | ✅ | ~75 min |
 
-## Phase 10: LLMs from Scratch — ✅ (~18 hours)
+## Phase 10: LLMs from Scratch — ✅ (~26 hours)
 
 | # | Lesson | Status | Est. |
 |---|--------|--------|------|
@@ -253,6 +253,14 @@ Progress tracking for every phase and lesson.
 | 12 | [Inference Optimization](phases/10-llms-from-scratch/12-inference-optimization) | ✅ | ~75 min |
 | 13 | [Building a Complete LLM Pipeline](phases/10-llms-from-scratch/13-building-complete-llm-pipeline) | ✅ | ~120 min |
 | 14 | [Open Models — Architecture Walkthroughs](phases/10-llms-from-scratch/14-open-models-architecture-walkthroughs) | ✅ | ~45 min |
+| 15 | [Speculative Decoding and EAGLE-3](phases/10-llms-from-scratch/15-speculative-decoding-eagle3) | ✅ | ~75 min |
+| 16 | [Differential Attention (V2)](phases/10-llms-from-scratch/16-differential-attention-v2) | ✅ | ~60 min |
+| 17 | [Native Sparse Attention (DeepSeek NSA)](phases/10-llms-from-scratch/17-native-sparse-attention) | ✅ | ~60 min |
+| 18 | [Multi-Token Prediction (MTP)](phases/10-llms-from-scratch/18-multi-token-prediction) | ✅ | ~60 min |
+| 19 | [DualPipe Parallelism](phases/10-llms-from-scratch/19-dualpipe-parallelism) | ✅ | ~60 min |
+| 20 | [DeepSeek-V3 Architecture Walkthrough](phases/10-llms-from-scratch/20-deepseek-v3-walkthrough) | ✅ | ~75 min |
+| 21 | [Jamba — Hybrid SSM-Transformer](phases/10-llms-from-scratch/21-jamba-hybrid-ssm-transformer) | ✅ | ~60 min |
+| 22 | [Async and Hogwild! Inference](phases/10-llms-from-scratch/22-async-hogwild-inference) | ✅ | ~60 min |
 
 ## Phase 11: LLM Engineering — ✅ (~17 hours)
 
