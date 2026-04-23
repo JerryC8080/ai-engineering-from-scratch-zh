@@ -203,4 +203,3 @@ Refuse `K > 30` or `ε > 0.3` (unsafe trust region). Refuse any PPO run without 
 - [CleanRL PPO implementation](https://github.com/vwxyzjn/cleanrl) — reference single-file PPO used by many papers.
 - [Hugging Face TRL — PPOTrainer](https://huggingface.co/docs/trl/main/en/ppo_trainer) — the production recipe for PPO on language models; read alongside Lesson 09 (RLHF).
 - [Engstrom et al. (2020). Implementation Matters in Deep Policy Gradients](https://arxiv.org/abs/2005.12729) — the "37 code-level optimizations" paper; which PPO tricks are load-bearing and which are folklore.
-- [Stas00 — ML Engineering book, Distributed Training chapter](https://github.com/stas00/ml-engineering) — ZeRO, FSDP, and gradient-accumulation patterns for scaling PPO rollouts past a single node (directly relevant to RLHF / GRPO at 70B+).

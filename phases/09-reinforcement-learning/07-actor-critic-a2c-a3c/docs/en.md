@@ -191,4 +191,3 @@ Refuse single-worker A2C on environments with horizon > 1000 (too on-policy, too
 - [Espeholt et al. (2018). IMPALA](https://arxiv.org/abs/1802.01561) — scalable distributed actor-critic with V-trace off-policy correction.
 - [OpenAI Baselines / Stable-Baselines3](https://stable-baselines3.readthedocs.io/) — production A2C/PPO implementations worth reading.
 - [Konda & Tsitsiklis (2000). Actor-Critic Algorithms](https://papers.nips.cc/paper/1786-actor-critic-algorithms) — the foundational convergence result for the two-timescale actor-critic decomposition.
-- [Stas00 — ML Engineering book, Training Stability chapter](https://github.com/stas00/ml-engineering) — practical notes on gradient clipping, loss scaling, and mixed precision that keep large-scale actor-critic training from diverging.

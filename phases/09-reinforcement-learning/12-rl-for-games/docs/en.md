@@ -219,8 +219,6 @@ Refuse AlphaZero on imperfect-info games (route to CFR). Refuse GRPO without a t
 - [DeepSeek-AI (2025). DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948) — the full four-stage R1 recipe plus the R1-Zero ablation.
 - [Brown et al. (2019). Superhuman AI for multiplayer poker (Pluribus)](https://www.science.org/doi/10.1126/science.aay2400) — CFR + deep-learning at scale.
 - [Tesauro (1995). Temporal Difference Learning and TD-Gammon](https://dl.acm.org/doi/10.1145/203330.203343) — the paper that started it all.
-- [Labonne (2024). LLM Course — Preference Alignment](https://github.com/mlabonne/llm-course#5-preference-alignment) — side-by-side of DPO / GRPO / PPO framings with tutorial notebooks; the best 2026 overview of RL for LLMs.
-- [Hugging Face LLM Course — Fine-tune with GRPO](https://huggingface.co/learn/llm-course/en/chapter12/5) — practical exercise to GRPO-fine-tune a small model end-to-end on verifier rewards.
 - [Hugging Face TRL — GRPOTrainer](https://huggingface.co/docs/trl/main/en/grpo_trainer) — the production reference for applying GRPO with custom reward functions.
 - [Qwen Team (2024). Qwen2.5-Math — GRPO replication](https://github.com/QwenLM/Qwen2.5-Math) — open replication of the R1 recipe at multiple scales.
 - [Sutton & Barto (2018). Ch. 17 — Frontiers of Reinforcement Learning](http://incompleteideas.net/book/RLbook2020.pdf) — the textbook framing for self-play, search, and "designed reward" that R1 instantiates at LLM scale.

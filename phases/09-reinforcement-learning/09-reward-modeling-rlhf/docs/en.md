@@ -235,9 +235,5 @@ Refuse to ship RLHF-PPO without a KL monitor. Refuse to use an RM smaller than t
 - [Anthropic RLHF paper (Bai et al. 2022). Training a Helpful and Harmless Assistant](https://arxiv.org/abs/2204.05862) — the HH paper.
 - [Hugging Face TRL library](https://huggingface.co/docs/trl) — production `RewardTrainer` and `PPOTrainer`. Read the trainer source for the adaptive-KL and value-head details.
 - [Hugging Face — Illustrating Reinforcement Learning from Human Feedback](https://huggingface.co/blog/rlhf) by Lambert, Castricato, von Werra, Havrilla — the canonical walk-through of the three-stage pipeline with diagrams.
-- [Raschka (2024). LLMs-from-Scratch, Ch. 7 — DPO from scratch notebook](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch07/04_preference-tuning-with-dpo) — implement DPO without TRL; excellent for understanding where the `β` and the reference log-probs come from.
-- [Labonne (2024). LLM Course — Preference Alignment](https://github.com/mlabonne/llm-course#5-preference-alignment) — side-by-side of DPO, GRPO, and PPO for LLM alignment with tutorial notebooks (Fine-tune Mistral-7b with DPO, Fine-tune Llama 3 with ORPO).
-- [Labonne (2024). Fine-tune Mistral-7b with DPO](https://mlabonne.github.io/blog/posts/Fine_tune_Mistral_7b_with_DPO.html) — practical DPO recipe reproducing NeuralHermes-2.5.
-- [Raschka (2023). LLM Training: RLHF and Its Alternatives](https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives) — RLHF vs DPO vs RLAIF with empirical comparisons.
 - [von Werra et al. (2020). TRL: Transformer Reinforcement Learning](https://github.com/huggingface/trl) — the library; `examples/` has end-to-end RLHF scripts for Llama, Mistral, and Qwen.
 - [Sutton & Barto (2018). Ch. 17.4 — Designing Reward Signals](http://incompleteideas.net/book/RLbook2020.pdf) — the reward-hypothesis view; essential prerequisite for thinking about reward hacking.
