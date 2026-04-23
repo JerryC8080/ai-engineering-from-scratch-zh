@@ -132,5 +132,3 @@ When you see "faster than diffusion" in a paper abstract, translate it to "fewer
 - [Song et al. (2021). Score-Based Generative Modeling through SDEs](https://arxiv.org/abs/2011.13456) — diffusion as an SDE.
 - [Lipman et al. (2023). Flow Matching for Generative Modeling](https://arxiv.org/abs/2210.02747) — the flow matching paper.
 - [Esser et al. (2024). Scaling Rectified Flow Transformers for High-Resolution Image Synthesis](https://arxiv.org/abs/2403.03206) — Stable Diffusion 3.
-- [Niels Transformers-Tutorials — (Un)conditional image generation with ImageGPT](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/ImageGPT/(Un)conditional_image_generation_with_ImageGPT.ipynb) — pixel-level autoregressive sampler (bucket 1 and 5). Shows the 32×32 color-cluster tokenization and the sequential decode that makes autoregressive image models slow.
-- [stas00 ml-engineering — Inference](https://github.com/stas00/ml-engineering/blob/master/inference/README.md) — prefill vs decode, TTFT, TPOT, continuous batching. Substrate vocabulary for everything in this phase.

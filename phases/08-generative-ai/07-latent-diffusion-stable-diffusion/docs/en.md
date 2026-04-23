@@ -143,5 +143,3 @@ The memory accounting is: `10 GB T5 / 8 = 1.25 GB` quantized, `12 B params × 0.
 - [Ho & Salimans (2022). Classifier-Free Diffusion Guidance](https://arxiv.org/abs/2207.12598) — CFG.
 - [Labs (2024). Flux.1 — Black Forest Labs announcement](https://blackforestlabs.ai/announcing-black-forest-labs/) — Flux.1 family.
 - [Hugging Face Diffusers docs](https://huggingface.co/docs/diffusers/index) — reference implementation for every checkpoint above.
-- [Niels Transformers-Tutorials — Run Flux on an 8GB machine](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/Flux/Run_Flux_on_an_8GB_machine.ipynb) — end-to-end 4-bit-quantized Flux.1-dev pipeline with staggered encoder/DiT/VAE loading and CPU offload. The single most complete "how to deploy a 12B diffusion DiT on consumer hardware" walkthrough.
-- [stas00 ml-engineering — Model parallelism (TP, PP)](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#model-parallelism) — tensor vs pipeline parallelism for inference; the production-server counterpart to Flux's consumer-GPU offload recipe.

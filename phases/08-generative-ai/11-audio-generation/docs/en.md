@@ -129,7 +129,6 @@ Audio is the one output modality users expect to arrive *as it is generated*, no
 
 Two architectural consequences:
 
-- **Codec AR models dominate streaming.** VALL-E, MusicGen, AudioLM generate one codec token at a time — a textbook LLM decode loop with KV cache, speculative decoding, continuous batching. Everything stas00 writes about LLM inference applies directly.
 - **Flow-matching audio models cannot stream trivially.** Stable Audio 2.5 and AudioCraft 2 render a fixed clip length in one pass. To stream, you chunk the clip and overlap boundaries — think sliding-window diffusion — adding 100-300ms of latency overhead vs a codec AR model.
 
 If the product is "live voice chat" or "real-time music continuation", pick the codec AR path. If it is "render a 30-second clip on submit", flow-matching wins on quality and total latency.
@@ -143,4 +142,3 @@ If the product is "live voice chat" or "real-time music continuation", pick the 
 - [Copet et al. (2023). Simple and Controllable Music Generation (MusicGen)](https://arxiv.org/abs/2306.05284) — MusicGen.
 - [Liu et al. (2023). AudioLDM 2: Learning Holistic Audio Generation with Self-supervised Pretraining](https://arxiv.org/abs/2308.05734) — AudioLDM 2.
 - [Stability AI (2024). Stable Audio 2.5](https://stability.ai/news/introducing-stable-audio-2-5) — 2025 text-to-music with flow matching.
-- [stas00 ml-engineering — Time Per Output Token (TPOT)](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#time-per-output-token) — the "listen-speed" metric. For audio, the 75-token/sec Encodec rate is the floor; below it users hear gaps. The same continuous-batching + speculative-decoding toolkit that speeds up LLM chat ports directly to codec-AR audio models.

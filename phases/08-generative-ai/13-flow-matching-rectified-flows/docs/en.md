@@ -174,5 +174,3 @@ The production rule: **flow-matched base + distillation = the 2026 default for f
 - [Song et al. (2023). Consistency Models](https://arxiv.org/abs/2303.01469) — 1-step distillation of diffusion / flow.
 - [Sauer et al. (2023). Adversarial Diffusion Distillation (SDXL-Turbo)](https://arxiv.org/abs/2311.17042) — turbo variant.
 - [Black Forest Labs (2024). Flux.1 models](https://blackforestlabs.ai/announcing-black-forest-labs/) — flow matching in production.
-- [Niels Transformers-Tutorials — Run Flux on an 8GB machine](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/Flux/Run_Flux_on_an_8GB_machine.ipynb) — canonical flow-matching MMDiT deployment with 4-bit quantization and CPU offload. For schnell, swap the checkpoint id for `black-forest-labs/FLUX.1-schnell` and set `num_inference_steps=4, guidance_scale=0.0`.
-- [stas00 ml-engineering — Benchmarks](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#benchmarks) — methodology for prefill/decode throughput. For flow-matching models, the analog is "steps/second × batch × image_size"; measure at target concurrency with `k6` or aiohttp to avoid client-bottlenecked numbers.

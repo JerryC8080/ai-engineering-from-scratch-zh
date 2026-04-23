@@ -161,4 +161,3 @@ This is why GAN distillation (SDXL-Turbo, SD3-Turbo, ADD, LCM) is the dominant t
 - [Karras et al. (2020). Analyzing and Improving the Image Quality of StyleGAN](https://arxiv.org/abs/1912.04958) — StyleGAN2.
 - [Karras et al. (2021). Alias-Free Generative Adversarial Networks](https://arxiv.org/abs/2106.12423) — StyleGAN3.
 - [Sauer et al. (2023). Adversarial Diffusion Distillation](https://arxiv.org/abs/2311.17042) — SDXL-Turbo.
-- [stas00 ml-engineering — Key inference performance metrics](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#key-inference-performance-metrics) — latency vs throughput vs TTFT vs TPOT. For GAN servers, TTFT = latency; for diffusion servers, TTFT is small (the first denoising step) but latency is `num_steps × step_cost`. Understanding the difference guides when distillation earns its complexity.

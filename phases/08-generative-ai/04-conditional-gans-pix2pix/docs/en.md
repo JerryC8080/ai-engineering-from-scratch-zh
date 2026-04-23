@@ -145,4 +145,3 @@ Pix2Pix wins on throughput in static batches (every request is the same FLOPs). 
 - [Wang et al. (2018). High-Resolution Image Synthesis with Conditional GANs](https://arxiv.org/abs/1711.11585) — Pix2PixHD.
 - [Park et al. (2019). Semantic Image Synthesis with Spatially-Adaptive Normalization](https://arxiv.org/abs/1903.07291) — SPADE / GauGAN.
 - [Miyato & Koyama (2018). cGANs with Projection Discriminator](https://arxiv.org/abs/1802.05637) — the projection D.
-- [stas00 ml-engineering — Batching](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#batching) — static vs continuous batching. Paired Pix2Pix-style generators are textbook static-batch servers (fixed FLOPs per request); diffusion needs continuous batching to keep the GPU saturated across variable step counts.

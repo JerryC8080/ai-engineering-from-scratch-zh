@@ -152,5 +152,3 @@ Three production knobs, all straight from stas00's ml-engineering inference chap
 - [Alibaba (2025). WAN 2.2](https://wanvideo.io/) — open SOTA mid-2025.
 - [Ho, Salimans, Gritsenko et al. (2022). Video Diffusion Models](https://arxiv.org/abs/2204.03458) — the seminal video diffusion paper.
 - [Blattmann et al. (2023). Align your Latents (Video LDM)](https://arxiv.org/abs/2304.08818) — Stable Video Diffusion's ancestor.
-- [Niels Transformers-Tutorials — Quick inference with VideoMAE](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/VideoMAE/Quick_inference_with_VideoMAE.ipynb) — masked-video-autoencoder recognition pipeline. The tube-masking + temporal encoder pattern is the ancestor of the spatiotemporal-patch tokenizers used by Sora / CogVideoX / WAN — useful reference for understanding video-latent structure before jumping to the trillion-FLOP DiTs.
-- [stas00 ml-engineering — Pipeline parallelism](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#pipeline-parallelism) — PP for inference (no backward-pass bubble). Essential for serving 30B+ video DiTs where TP alone hits the all-reduce wall.

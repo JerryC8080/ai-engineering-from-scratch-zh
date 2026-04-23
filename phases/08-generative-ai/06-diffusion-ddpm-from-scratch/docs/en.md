@@ -179,4 +179,3 @@ For a production diffusion server the budget conversation is the same as stas00 
 - [Dhariwal & Nichol (2021). Diffusion Models Beat GANs on Image Synthesis](https://arxiv.org/abs/2105.05233) — classifier guidance.
 - [Ho & Salimans (2022). Classifier-Free Diffusion Guidance](https://arxiv.org/abs/2207.12598) — CFG.
 - [Karras et al. (2022). Elucidating the Design Space of Diffusion-Based Generative Models (EDM)](https://arxiv.org/abs/2206.00364) — unified notation, cleanest recipe.
-- [stas00 ml-engineering — Speculative decoding](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#speculative-decoding) — the LLM-side analog of diffusion distillation: use a small draft model to propose, a big model to verify. For diffusion, you distill into the big model directly (the "draft" becomes the student). Same cost-reduction intuition, different mechanism.

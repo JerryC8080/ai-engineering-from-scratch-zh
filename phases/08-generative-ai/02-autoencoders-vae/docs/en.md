@@ -141,7 +141,6 @@ In a Stable Diffusion / Flux / SD3 pipeline the VAE is called twice per request 
 
 - **Slice or tile the decode.** `diffusers` exposes `pipe.vae.enable_slicing()` and `pipe.vae.enable_tiling()`. Tiling trades a small seam artifact for `O(tile²)` memory instead of `O(H·W)`. Essential for 1024²+ on consumer GPUs.
 - **bf16 decoder, fp32 numerics for the final resize.** The SD 1.x VAE was released in fp32 and *silently produces NaNs* when cast to fp16 at 1024²+. SDXL ships `madebyollin/sdxl-vae-fp16-fix` — always prefer the fp16-fix variant or use bf16.
-- **Load time.** stas00 notes model loading can dominate TTFT in research loops. The VAE is small (~80MB) but still benefits from `--load-format npcache` (vLLM) or Tensorizer for serverless cold starts.
 
 ## Further Reading
 
@@ -151,5 +150,3 @@ In a Stable Diffusion / Flux / SD3 pipeline the VAE is called twice per request 
 - [Vahdat & Kautz (2021). NVAE: A Deep Hierarchical Variational Autoencoder](https://arxiv.org/abs/2007.03898) — state-of-the-art image VAE.
 - [Rombach et al. (2022). High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752) — Stable Diffusion; VAE as encoder.
 - [Défossez et al. (2022). High Fidelity Neural Audio Compression](https://arxiv.org/abs/2210.13438) — Encodec, the audio VAE standard.
-- [Niels Transformers-Tutorials — ViT MAE visualization demo](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/ViTMAE/ViT_MAE_visualization_demo.ipynb) — Masked Autoencoder: encoder on visible patches, decoder reconstructs masked pixels at 75% masking. Same encoder-decoder skeleton as a VAE, different posterior (no KL, just reconstruction); clean reference implementation to lift the `encode → reparam → decode` structure onto real images.
-- [stas00 ml-engineering — Speeding up model loading time](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#speeding-up-model-loading-time) — why VAE / transformer weights benefit from pre-sharded caches on cold start.

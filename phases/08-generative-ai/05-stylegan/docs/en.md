@@ -142,4 +142,3 @@ Two operational consequences:
 - [Tov et al. (2021). Designing an Encoder for StyleGAN Image Manipulation](https://arxiv.org/abs/2102.02766) — e4e inversion.
 - [Sauer et al. (2022). StyleGAN-XL: Scaling StyleGAN to Large Diverse Datasets](https://arxiv.org/abs/2202.00273) — StyleGAN-XL.
 - [Huang et al. (2024). R3GAN: The GAN is dead; long live the GAN!](https://arxiv.org/abs/2501.05441) — modern minimal GAN recipe.
-- [stas00 ml-engineering — Accelerator utilization and percentiles](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#more-metric-notes) — how to actually measure `gpu util`, why p90/p95/p99 matter when half your users hit a long-tail prompt. StyleGAN servers have uniform compute so percentile spread is narrow; treat it as the baseline when profiling noisier diffusion servers.

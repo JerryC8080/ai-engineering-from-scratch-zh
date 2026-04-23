@@ -145,7 +145,6 @@ Save `outputs/skill-3d-pipeline.md`. Skill takes a 3D brief (input: text / one i
 
 Unlike image (latent diffusion + DiT) and video (spatiotemporal DiT), 3D has no single dominant runtime in 2026. The production decision tree forks on the representation:
 
-- **3DGS.** Inference is rasterization, not neural. Serving is a CUDA rasterizer, not an LLM inference server. stas00's ml-engineering inference chapter does not apply; throughput is bounded by vertex counts and alpha-blending, not FLOPs.
 - **NeRF / triplane.** Inference is ray-marching + an MLP forward per sample. A 512² render requires millions of MLP forwards. Batch the ray samples aggressively; SDPA/xformers applies.
 - **Multi-view diffusion + LRM reconstruction.** Two-stage pipeline. Stage 1 (multi-view DiT) is a diffusion server just like Lesson 07. Stage 2 (LRM transformer) is a one-shot forward pass over the views. The overall latency profile is "diffusion + one-shot" — pick per-stage serving primitives accordingly.
 - **SDS / DreamFusion.** Per-asset optimization, not inference. Build jobs, not request handlers.
@@ -162,4 +161,3 @@ For most 2026 products, the right answer is "run a multi-view diffusion model on
 - [Hong et al. (2023). LRM: Large Reconstruction Model for Single Image to 3D](https://arxiv.org/abs/2311.04400) — LRM.
 - [Gao et al. (2024). CAT3D: Create Anything in 3D with Multi-View Diffusion Models](https://arxiv.org/abs/2405.10314) — CAT3D.
 - [Stability AI (2024). Stable Video 3D (SV3D)](https://stability.ai/research/sv3d) — SV3D.
-- [stas00 ml-engineering — Inference frameworks](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#inference-frameworks) — vLLM / TGI / TensorRT-LLM ship for text; the multi-view-diffusion stage of a 3D pipeline plugs into the same frameworks via `diffusers`. Stage 2 (LRM reconstruction) is usually Python + `torch.compile`, no dedicated server.

@@ -154,4 +154,3 @@ Users editing an image expect sub-5-second round trips. A 30-step SDXL-Inpaint a
 - [Ravi et al. (2024). SAM 2: Segment Anything in Images and Videos](https://arxiv.org/abs/2408.00714) — video SAM.
 - [Hertz et al. (2022). Prompt-to-Prompt Image Editing with Cross-Attention Control](https://arxiv.org/abs/2208.01626) — attention-level editing.
 - [Black Forest Labs (2024). Flux.1-Fill and Flux.1-Kontext](https://blackforestlabs.ai/flux-1-tools/) — 2024 tooling.
-- [stas00 ml-engineering — Time To First Token (TTFT)](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#time-to-first-token) — why under-load TTFT differs from cold TTFT. For interactive edit UIs, measure TTFT at concurrency > 1; a 1.5 s Flux-Kontext edit at concurrency 1 becomes 6+ s at concurrency 4 without a proper batcher.

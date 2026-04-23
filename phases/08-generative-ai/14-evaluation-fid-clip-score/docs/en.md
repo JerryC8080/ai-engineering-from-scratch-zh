@@ -169,7 +169,6 @@ Running FID on 10k samples means generating 10k images. For a 50-step SDXL base 
 
 - **Batch hard, forget latency.** Offline eval = static batching at the largest size that fits in memory. `pipe(...).images` with `num_images_per_prompt=8` on an 80GB H100 runs 4-6× faster wall-clock than single-request.
 - **Cache the real features.** The Inception (FID) or CLIP (CLIP-score, CMMD) feature extraction over the real reference set is run *once*, stored as a `.npz`. Do not recompute per eval.
-- **LLM-judge / VLM-judge scales.** ImageReward, HPSv2, and GPT-4V-as-judge (or Llama-3.2-V-as-judge) all run as a separate inference server. If your eval budget is tight, judge servers can be smaller open-weights VLMs on cheaper GPUs — same "separate inference pools per workload" pattern stas00 describes for multi-model LLM deployments.
 
 For CI / regression gates: run FID + CLIP score on a 500-sample subset per PR (~30 min); run full 10k FID + HPSv2 + Elo nightly.
 
@@ -182,4 +181,3 @@ For CI / regression gates: run FID + CLIP score on a 500-sample subset per PR (~
 - [Xu et al. (2023). ImageReward: Learning and Evaluating Human Preferences for Text-to-Image Generation](https://arxiv.org/abs/2304.05977) — ImageReward.
 - [Yu et al. (2023). Scaling Autoregressive Models for Content-Rich Text-to-Image Generation (Parti + PartiPrompts)](https://arxiv.org/abs/2206.10789) — PartiPrompts.
 - [Stein et al. (2023). Exposing flaws of generative model evaluation metrics](https://arxiv.org/abs/2306.04675) — failure-mode survey.
-- [stas00 ml-engineering — Online vs Offline inference](https://github.com/stas00/ml-engineering/blob/master/inference/README.md#online-vs-offline-inference) — evaluation is the textbook offline-inference workload: ignore TTFT, maximize throughput, batch at the largest size that fits. Same playbook as synthetic-data generation and benchmark sweeps.
