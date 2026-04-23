@@ -78,15 +78,15 @@ Community results: fine-tuning Medium on 20 hours of medical dictation drops WER
 import whisper
 model = whisper.load_model("large-v3-turbo")
 result = model.transcribe(
-    "clip.wav",
-    language="en",
-    task="transcribe",
-    temperature=0.0,
-    condition_on_previous_text=False,  # prevents runaway repetition
+ "clip.wav",
+ language="en",
+ task="transcribe",
+ temperature=0.0,
+ condition_on_previous_text=False, # prevents runaway repetition
 )
 print(result["text"])
 for seg in result["segments"]:
-    print(f"[{seg['start']:.2f}–{seg['end']:.2f}] {seg['text']}")
+ print(f"[{seg['start']:.2f}–{seg['end']:.2f}] {seg['text']}")
 ```
 
 Key defaults you should always override: `temperature=0.0` (sampling defaults to 0.0 → 0.2 → 0.4 … fallback chain), `condition_on_previous_text=False` (prevents the cascading hallucination problem), and `no_speech_threshold=0.6` (silence detection).
@@ -110,11 +110,11 @@ from peft import LoraConfig, get_peft_model
 
 model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v3-turbo")
 lora = LoraConfig(
-    r=16, lora_alpha=32, target_modules=["q_proj", "v_proj"],
-    lora_dropout=0.1, bias="none", task_type="SEQ_2_SEQ_LM",
+ r=16, lora_alpha=32, target_modules=["q_proj", "v_proj"],
+ lora_dropout=0.1, bias="none", task_type="SEQ_2_SEQ_LM",
 )
 model = get_peft_model(model, lora)
-# model.print_trainable_parameters()  -> ~3M trainable / 809M total
+# model.print_trainable_parameters() -> ~3M trainable / 809M total
 ```
 
 Then standard Trainer loop. Checkpoint every 1000 steps. Evaluate with WER on held-out.
@@ -124,11 +124,11 @@ Then standard Trainer loop. Checkpoint every 1000 steps. Evaluate with WER on he
 ```python
 # Grab cross-attention weights during decode to see what the decoder attends to.
 with torch.inference_mode():
-    out = model.generate(
-        input_features=features,
-        return_dict_in_generate=True,
-        output_attentions=True,
-    )
+ out = model.generate(
+ input_features=features,
+ return_dict_in_generate=True,
+ output_attentions=True,
+ )
 # out.cross_attentions: layer × head × step × src_len
 ```
 

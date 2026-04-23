@@ -120,10 +120,10 @@ from jiwer import wer, Compose, ToLowerCase, RemovePunctuation, Strip
 
 transform = Compose([ToLowerCase(), RemovePunctuation(), Strip()])
 score = wer(
-    truth="Please turn on the lights.",
-    hypothesis="please turn on the light",
-    truth_transform=transform,
-    hypothesis_transform=transform,
+ truth="Please turn on the lights.",
+ hypothesis="please turn on the light",
+ truth_transform=transform,
+ hypothesis_transform=transform,
 )
 # ~0.17
 ```
@@ -132,12 +132,12 @@ score = wer(
 
 ```python
 def ttr_wer(tts_model, asr_model, texts):
-    errors = []
-    for txt in texts:
-        audio = tts_model.synthesize(txt)
-        recog = asr_model.transcribe(audio)
-        errors.append(wer(truth=txt, hypothesis=recog))
-    return sum(errors) / len(errors)
+ errors = []
+ for txt in texts:
+ audio = tts_model.synthesize(txt)
+ recog = asr_model.transcribe(audio)
+ errors.append(wer(truth=txt, hypothesis=recog))
+ return sum(errors) / len(errors)
 ```
 
 ### Step 3: SECS for voice cloning
@@ -163,14 +163,14 @@ score = fad.get_fad_score("generated_folder/", "reference_folder/")
 
 ```python
 def eer(same_scores, diff_scores):
-    thresholds = sorted(set(same_scores + diff_scores))
-    best = (1.0, 0.0)
-    for t in thresholds:
-        far = sum(1 for s in diff_scores if s >= t) / len(diff_scores)
-        frr = sum(1 for s in same_scores if s < t) / len(same_scores)
-        if abs(far - frr) < best[0]:
-            best = (abs(far - frr), (far + frr) / 2)
-    return best[1]
+ thresholds = sorted(set(same_scores + diff_scores))
+ best = (1.0, 0.0)
+ for t in thresholds:
+ far = sum(1 for s in diff_scores if s >= t) / len(diff_scores)
+ frr = sum(1 for s in same_scores if s < t) / len(same_scores)
+ if abs(far - frr) < best[0]:
+ best = (abs(far - frr), (far + frr) / 2)
+ return best[1]
 ```
 
 ## Use It

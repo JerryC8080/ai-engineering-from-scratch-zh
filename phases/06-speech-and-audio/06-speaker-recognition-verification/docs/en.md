@@ -55,13 +55,13 @@ The metric is **EER** — Equal Error Rate. Set your decision threshold so False
 
 ```python
 def embed_mfcc_stats(signal, sr):
-    frames = featurize_mfcc(signal, sr, n_mfcc=13)
-    mean = [sum(f[i] for f in frames) / len(frames) for i in range(13)]
-    std = [
-        math.sqrt(sum((f[i] - mean[i]) ** 2 for f in frames) / len(frames))
-        for i in range(13)
-    ]
-    return mean + std  # 26-d
+ frames = featurize_mfcc(signal, sr, n_mfcc=13)
+ mean = [sum(f[i] for f in frames) / len(frames) for i in range(13)]
+ std = [
+ math.sqrt(sum((f[i] - mean[i]) ** 2 for f in frames) / len(frames))
+ for i in range(13)
+ ]
+ return mean + std # 26-d
 ```
 
 Not SOTA by a mile — for teaching only. `code/main.py` uses this as a proof-of-concept on synthetic speaker data.
@@ -70,27 +70,27 @@ Not SOTA by a mile — for teaching only. `code/main.py` uses this as a proof-of
 
 ```python
 def cosine(a, b):
-    dot = sum(x * y for x, y in zip(a, b))
-    na = math.sqrt(sum(x * x for x in a))
-    nb = math.sqrt(sum(x * x for x in b))
-    return dot / (na * nb) if na and nb else 0.0
+ dot = sum(x * y for x, y in zip(a, b))
+ na = math.sqrt(sum(x * x for x in a))
+ nb = math.sqrt(sum(x * x for x in b))
+ return dot / (na * nb) if na and nb else 0.0
 
 def verify(enroll, test, threshold=0.75):
-    return cosine(enroll, test) >= threshold
+ return cosine(enroll, test) >= threshold
 ```
 
 ### Step 3: EER from similarity pairs
 
 ```python
 def eer(same_scores, diff_scores):
-    thresholds = sorted(set(same_scores + diff_scores))
-    best = (1.0, 1.0, 0.0)  # (fa, fr, threshold)
-    for t in thresholds:
-        fr = sum(1 for s in same_scores if s < t) / len(same_scores)
-        fa = sum(1 for s in diff_scores if s >= t) / len(diff_scores)
-        if abs(fa - fr) < abs(best[0] - best[1]):
-            best = (fa, fr, t)
-    return (best[0] + best[1]) / 2, best[2]
+ thresholds = sorted(set(same_scores + diff_scores))
+ best = (1.0, 1.0, 0.0) # (fa, fr, threshold)
+ for t in thresholds:
+ fr = sum(1 for s in same_scores if s < t) / len(same_scores)
+ fa = sum(1 for s in diff_scores if s >= t) / len(diff_scores)
+ if abs(fa - fr) < abs(best[0] - best[1]):
+ best = (fa, fr, t)
+ return (best[0] + best[1]) / 2, best[2]
 ```
 
 Returns (eer, threshold_at_eer). Report both.
@@ -106,7 +106,7 @@ clf = EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb")
 enroll = torch.stack([clf.encode_batch(load(x)) for x in enrollment_clips]).mean(0)
 # verify
 score = clf.similarity(enroll, clf.encode_batch(load("test.wav"))).item()
-verdict = score > 0.25   # ECAPA typical threshold; tune on your data
+verdict = score > 0.25 # ECAPA typical threshold; tune on your data
 ```
 
 ### Step 5: diarize with pyannote
@@ -117,7 +117,7 @@ from pyannote.audio import Pipeline
 pipe = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1")
 diarization = pipe("meeting.wav", num_speakers=None)
 for turn, _, speaker in diarization.itertracks(yield_label=True):
-    print(f"{turn.start:.1f}–{turn.end:.1f}  {speaker}")
+ print(f"{turn.start:.1f}–{turn.end:.1f} {speaker}")
 ```
 
 ## Use It

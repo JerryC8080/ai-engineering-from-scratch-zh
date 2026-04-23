@@ -54,7 +54,7 @@ At 12.5 Hz, a 10-second utterance is only 125 codec frames — a transformer can
 ### Semantic vs acoustic tokens
 
 ```
-frame_t → [semantic_token_t, acoustic_token_0_t, acoustic_token_1_t, ..., acoustic_token_6_t]
+frame_t → [semantic_token_t, acoustic_token_0_t, acoustic_token_1_t,..., acoustic_token_6_t]
 ```
 
 - **Semantic token (codebook 0 in Mimi).** Encodes what was said — phonemes, words, content. Distilled from WavLM via an auxiliary prediction loss.
@@ -83,11 +83,11 @@ from encodec import EncodecModel
 import torch
 
 model = EncodecModel.encodec_model_24khz()
-model.set_target_bandwidth(6.0)  # kbps
+model.set_target_bandwidth(6.0) # kbps
 
 wav = torch.randn(1, 1, 24000)
 with torch.no_grad():
-    encoded = model.encode(wav)
+ encoded = model.encode(wav)
 codes, scale = encoded[0]
 # codes: (1, n_codebooks, n_frames), dtype=int64
 ```
@@ -98,7 +98,7 @@ codes, scale = encoded[0]
 
 ```python
 with torch.no_grad():
-    wav_recon = model.decode([(codes, scale)])
+ wav_recon = model.decode([(codes, scale)])
 
 from torchaudio.functional import compute_deltas
 import torch.nn.functional as F
@@ -113,7 +113,7 @@ from moshi.models import loaders
 mimi = loaders.get_mimi()
 
 with torch.no_grad():
-    codes = mimi.encode(wav)  # shape (1, 8, frames@12.5Hz)
+ codes = mimi.encode(wav) # shape (1, 8, frames@12.5Hz)
 
 semantic = codes[:, 0]
 acoustic = codes[:, 1:]
