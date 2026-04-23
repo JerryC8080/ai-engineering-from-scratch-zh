@@ -46,13 +46,13 @@ Take the `SelfAttention` from Lesson 02 and wrap it with a split/concat pair. Se
 
 ```python
 def split_heads(X, n_heads):
-    n, d = X.shape
-    d_head = d // n_heads
-    return X.reshape(n, n_heads, d_head).transpose(1, 0, 2)  # (heads, n, d_head)
+ n, d = X.shape
+ d_head = d // n_heads
+ return X.reshape(n, n_heads, d_head).transpose(1, 0, 2) # (heads, n, d_head)
 
 def combine_heads(H):
-    h, n, d_head = H.shape
-    return H.transpose(1, 0, 2).reshape(n, h * d_head)
+ h, n, d_head = H.shape
+ return H.transpose(1, 0, 2).reshape(n, h * d_head)
 ```
 
 One reshape and one transpose. No loop. This is exactly what PyTorch does under `nn.MultiheadAttention`.
@@ -63,17 +63,17 @@ Each head gets its own slice of Q, K, V. Attention becomes a batched matmul:
 
 ```python
 def mha_forward(X, W_q, W_k, W_v, W_o, n_heads):
-    Q = X @ W_q
-    K = X @ W_k
-    V = X @ W_v
-    Qh = split_heads(Q, n_heads)         # (heads, n, d_head)
-    Kh = split_heads(K, n_heads)
-    Vh = split_heads(V, n_heads)
-    scores = Qh @ Kh.transpose(0, 2, 1) / np.sqrt(Qh.shape[-1])
-    weights = softmax(scores, axis=-1)
-    out = weights @ Vh                    # (heads, n, d_head)
-    concat = combine_heads(out)
-    return concat @ W_o, weights
+ Q = X @ W_q
+ K = X @ W_k
+ V = X @ W_v
+ Qh = split_heads(Q, n_heads) # (heads, n, d_head)
+ Kh = split_heads(K, n_heads)
+ Vh = split_heads(V, n_heads)
+ scores = Qh @ Kh.transpose(0, 2, 1) / np.sqrt(Qh.shape[-1])
+ weights = softmax(scores, axis=-1)
+ out = weights @ Vh # (heads, n, d_head)
+ concat = combine_heads(out)
+ return concat @ W_o, weights
 ```
 
 On real hardware `Qh @ Kh.transpose(...)` is one `bmm`. The GPU sees a single batched matmul of shape `(heads, N, d_head) × (heads, d_head, N) -> (heads, N, N)`. Adding heads is free.
@@ -84,9 +84,9 @@ Only the key and value projections change. Q gets `n_heads` groups; K and V get 
 
 ```python
 def gqa_project(X, W, n_kv_heads, n_heads):
-    kv = split_heads(X @ W, n_kv_heads)       # (kv_heads, n, d_head)
-    repeat = n_heads // n_kv_heads
-    return np.repeat(kv, repeat, axis=0)      # (n_heads, n, d_head)
+ kv = split_heads(X @ W, n_kv_heads) # (kv_heads, n, d_head)
+ repeat = n_heads // n_kv_heads
+ return np.repeat(kv, repeat, axis=0) # (n_heads, n, d_head)
 ```
 
 At inference this saves memory because only `n_kv_heads` copies live in the KV cache, not `n_heads`. Llama 3 70B uses 64 query heads with 8 KV heads — an 8× cache shrink.

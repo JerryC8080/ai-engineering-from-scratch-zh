@@ -44,13 +44,13 @@ A 24-layer transformer decoder. It autoregressively produces tokens from a BPE v
 The decoder prompt starts with control tokens that tell the model what to do:
 
 ```
-<|startoftranscript|>  <|en|>  <|transcribe|>  <|0.00|>
+<|startoftranscript|> <|en|> <|transcribe|> <|0.00|>
 ```
 
 or
 
 ```
-<|startoftranscript|>  <|fr|>  <|translate|>   <|0.00|>
+<|startoftranscript|> <|fr|> <|translate|> <|0.00|>
 ```
 
 The model was trained on this convention. You control task by prefix. The 2026 equivalent of instruction-tuning, but applied to speech.
@@ -103,10 +103,10 @@ Full mel spectrogram needs FFT. We do a simplified framing + per-frame energy ve
 
 ```python
 def frame_signal(x, frame_size=400, hop=160):
-    frames = []
-    for start in range(0, len(x) - frame_size + 1, hop):
-        frames.append(x[start:start + frame_size])
-    return frames
+ frames = []
+ for start in range(0, len(x) - frame_size + 1, hop):
+ frames.append(x[start:start + frame_size])
+ return frames
 ```
 
 Frame = 25 ms, hop = 10 ms. Matches Whisper's windowing. Per-frame energy stands in for mel bins for pedagogy.
@@ -119,10 +119,10 @@ Whisper always processes 30-second chunks. Pad (or clip) the spectrogram to 3,00
 
 ```python
 def whisper_prompt(lang="en", task="transcribe", timestamps=True):
-    tokens = ["<|startoftranscript|>", f"<|{lang}|>", f"<|{task}|>"]
-    if not timestamps:
-        tokens.append("<|notimestamps|>")
-    return tokens
+ tokens = ["<|startoftranscript|>", f"<|{lang}|>", f"<|{task}|>"]
+ if not timestamps:
+ tokens.append("<|notimestamps|>")
+ return tokens
 ```
 
 That is the whole task-control surface. A 4-token prefix.
@@ -144,7 +144,7 @@ from faster_whisper import WhisperModel
 model = WhisperModel("large-v3-turbo", compute_type="int8_float16")
 segments, info = model.transcribe("meeting.wav", vad_filter=True)
 for s in segments:
-    print(f"{s.start:.2f} - {s.end:.2f}: {s.text}")
+ print(f"{s.start:.2f} - {s.end:.2f}: {s.text}")
 ```
 
 **When to pick Whisper in 2026:**

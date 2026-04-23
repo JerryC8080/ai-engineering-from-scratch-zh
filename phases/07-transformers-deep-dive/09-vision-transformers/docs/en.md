@@ -77,17 +77,17 @@ A 24 × 24 RGB image as a list of rows of `(R, G, B)` tuples. We use 6×6 patche
 
 ```python
 def patchify(image, P):
-    H = len(image)
-    W = len(image[0])
-    patches = []
-    for i in range(0, H, P):
-        for j in range(0, W, P):
-            patch = []
-            for di in range(P):
-                for dj in range(P):
-                    patch.extend(image[i + di][j + dj])
-            patches.append(patch)
-    return patches
+ H = len(image)
+ W = len(image[0])
+ patches = []
+ for i in range(0, H, P):
+ for j in range(0, W, P):
+ patch = []
+ for di in range(P):
+ for dj in range(P):
+ patch.extend(image[i + di][j + dj])
+ patches.append(patch)
+ return patches
 ```
 
 Raster order: row-major across the grid. Every ViT uses this ordering.
@@ -112,8 +112,8 @@ model = ViTModel.from_pretrained("google/vit-base-patch16-224-in21k")
 
 img = Image.open("cat.jpg")
 inputs = processor(img, return_tensors="pt")
-out = model(**inputs).last_hidden_state   # (1, 197, 768): [CLS] + 196 patches
-cls_emb = out[:, 0]                       # image representation
+out = model(**inputs).last_hidden_state # (1, 197, 768): [CLS] + 196 patches
+cls_emb = out[:, 0] # image representation
 ```
 
 **DINOv2 embeddings are the 2026 default for image features.** Freeze the backbone, train a tiny head. Works for classification, retrieval, detection, captioning. Meta's DINOv2 checkpoints outperform CLIP on every non-text vision task.

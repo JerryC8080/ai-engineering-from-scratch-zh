@@ -32,9 +32,9 @@ This lesson is the skeleton. Next lessons specialize it — 06 for encoders, 07 
 
 ```
 x → LN → MHA(self) → + → LN → FFN → + → out
-                     ^              ^
-                     |              |
-                     └── residual ──┘
+ ^ ^
+ | |
+ └── residual ──┘
 ```
 
 Encoder is bidirectional. No masking. All positions see all positions.
@@ -96,16 +96,16 @@ Stack them. Pass the encoder output into every decoder cross-attention. Add a fi
 
 ```python
 def encode(tokens, params):
-    x = embed(tokens, params.emb) + sinusoidal(len(tokens), params.d)
-    for block in params.encoder_blocks:
-        x = encoder_block(x, block)
-    return x
+ x = embed(tokens, params.emb) + sinusoidal(len(tokens), params.d)
+ for block in params.encoder_blocks:
+ x = encoder_block(x, block)
+ return x
 
 def decode(target_tokens, encoder_out, params):
-    x = embed(target_tokens, params.emb) + sinusoidal(len(target_tokens), params.d)
-    for block in params.decoder_blocks:
-        x = decoder_block(x, encoder_out, block)
-    return x
+ x = embed(target_tokens, params.emb) + sinusoidal(len(target_tokens), params.d)
+ for block in params.decoder_blocks:
+ x = decoder_block(x, encoder_out, block)
+ return x
 ```
 
 ### Step 3: run forward on a toy example

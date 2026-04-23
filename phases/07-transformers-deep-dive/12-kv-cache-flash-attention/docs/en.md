@@ -30,8 +30,8 @@ Per decoder layer, per token, per head:
 
 ```
 bytes_per_token_per_layer = 2 * d_head * dtype_size
-                          ^
-                          K and V
+ ^
+ K and V
 ```
 
 For a 7B model with 32 layers, 32 heads, d_head=128, fp16:
@@ -58,9 +58,9 @@ That 10 GB is why Llama 3 70B at 128K context needs most of a 40 GB A100 just fo
 Standard attention:
 
 ```
-S = Q @ K^T          (HBM read, N×N, HBM write)
-P = softmax(S)       (HBM read, HBM write)
-O = P @ V            (HBM read, HBM write)
+S = Q @ K^T (HBM read, N×N, HBM write)
+P = softmax(S) (HBM read, HBM write)
+O = P @ V (HBM read, HBM write)
 ```
 
 Three HBM round trips. On H100, HBM bandwidth is 3 TB/s; SRAM is 30 TB/s. Every HBM trip is a factor-of-10 slowdown vs keeping everything on-chip.
@@ -69,13 +69,13 @@ Flash Attention:
 
 ```
 for each block of Q (tile size ~128 × 128):
-    load Q_tile into SRAM
-    for each block of K, V:
-        load K_tile, V_tile into SRAM
-        compute S_tile = Q_tile @ K_tile^T     (SRAM)
-        running softmax aggregation             (SRAM)
-        accumulate into O_tile                  (SRAM)
-    write O_tile to HBM
+ load Q_tile into SRAM
+ for each block of K, V:
+ load K_tile, V_tile into SRAM
+ compute S_tile = Q_tile @ K_tile^T (SRAM)
+ running softmax aggregation (SRAM)
+ accumulate into O_tile (SRAM)
+ write O_tile to HBM
 ```
 
 One HBM trip per tile. Total memory footprint drops from `O(N²)` to `O(N)`. Backward pass recomputes some values from the forward pass instead of storing them — another memory win.
@@ -124,16 +124,16 @@ See `code/main.py`. We implement:
 
 ```python
 class KVCache:
-    def __init__(self, n_layers, n_heads, d_head):
-        self.K = [[[] for _ in range(n_heads)] for _ in range(n_layers)]
-        self.V = [[[] for _ in range(n_heads)] for _ in range(n_layers)]
+ def __init__(self, n_layers, n_heads, d_head):
+ self.K = [[[] for _ in range(n_heads)] for _ in range(n_layers)]
+ self.V = [[[] for _ in range(n_heads)] for _ in range(n_layers)]
 
-    def append(self, layer, head, k, v):
-        self.K[layer][head].append(k)
-        self.V[layer][head].append(v)
+ def append(self, layer, head, k, v):
+ self.K[layer][head].append(k)
+ self.V[layer][head].append(v)
 
-    def read(self, layer, head):
-        return self.K[layer][head], self.V[layer][head]
+ def read(self, layer, head):
+ return self.K[layer][head], self.V[layer][head]
 ```
 
 Simple: keep growing per-token K, V vectors in per-layer, per-head lists.
@@ -142,22 +142,22 @@ Simple: keep growing per-token K, V vectors in per-layer, per-head lists.
 
 ```python
 def tiled_softmax_dot(q, K, V, tile=4):
-    """Flash-attention-style softmax(qK^T)V with running max/sum."""
-    m = float("-inf")
-    s = 0.0
-    out = [0.0] * len(V[0])
-    for start in range(0, len(K), tile):
-        k_block = K[start:start + tile]
-        v_block = V[start:start + tile]
-        scores = [sum(qi * ki for qi, ki in zip(q, k)) for k in k_block]
-        new_m = max(m, *scores)
-        exp_old = math.exp(m - new_m) if m != float("-inf") else 0.0
-        exp_new = [math.exp(sc - new_m) for sc in scores]
-        s = s * exp_old + sum(exp_new)
-        for j in range(len(out)):
-            out[j] = out[j] * exp_old + sum(e * v[j] for e, v in zip(exp_new, v_block))
-        m = new_m
-    return [o / s for o in out]
+ """Flash-attention-style softmax(qK^T)V with running max/sum."""
+ m = float("-inf")
+ s = 0.0
+ out = [0.0] * len(V[0])
+ for start in range(0, len(K), tile):
+ k_block = K[start:start + tile]
+ v_block = V[start:start + tile]
+ scores = [sum(qi * ki for qi, ki in zip(q, k)) for k in k_block]
+ new_m = max(m, *scores)
+ exp_old = math.exp(m - new_m) if m != float("-inf") else 0.0
+ exp_new = [math.exp(sc - new_m) for sc in scores]
+ s = s * exp_old + sum(exp_new)
+ for j in range(len(out)):
+ out[j] = out[j] * exp_old + sum(e * v[j] for e, v in zip(exp_new, v_block))
+ m = new_m
+ return [o / s for o in out]
 ```
 
 Bit-identical output to `softmax(qK) V` in one shot, but at any time the working set is a `tile × d_head` block, not the full `N × d_head`.
@@ -172,9 +172,9 @@ Count attention operations. Naive: `O(N²)` = 5050. Cached: `O(N)` = 100. The co
 # HuggingFace transformers auto-enables KV cache on decoder-only generate().
 from transformers import AutoModelForCausalLM
 model = AutoModelForCausalLM.from_pretrained(
-    "meta-llama/Llama-3.2-3B",
-    attn_implementation="flash_attention_2",  # use FA3 if Hopper
-    torch_dtype="bfloat16",
+ "meta-llama/Llama-3.2-3B",
+ attn_implementation="flash_attention_2", # use FA3 if Hopper
+ torch_dtype="bfloat16",
 )
 # generate() uses KV cache automatically
 ```
@@ -184,10 +184,10 @@ vLLM production:
 ```bash
 pip install vllm
 vllm serve meta-llama/Llama-3.1-70B-Instruct \
-    --tensor-parallel-size 4 \
-    --max-model-len 32768 \
-    --enable-prefix-caching \
-    --kv-cache-dtype fp8
+ --tensor-parallel-size 4 \
+ --max-model-len 32768 \
+ --enable-prefix-caching \
+ --kv-cache-dtype fp8
 ```
 
 Prefix caching across requests is a big 2026 win — the same system prompt, few-shot examples, or long context document reuses KV across calls. For agent workloads with repeated tool prompts, prefix caching is routinely 5× throughput gain.

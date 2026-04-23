@@ -29,8 +29,8 @@ Every production inference stack in 2026 ships speculative decoding by default. 
 Given a verifier `M_q` and a cheaper draft `M_p`:
 
 1. Let `x_1..x_k` be the prefix already decoded.
-2. **Draft**: use `M_p` to autoregressively propose `d_{k+1}, d_{k+2}, ..., d_{k+N}` with draft probabilities `p_1..p_N`.
-3. **Verify in parallel**: run `M_q` once on `x_1..x_k, d_{k+1}, ..., d_{k+N}`, getting verifier probabilities `q_1..q_{N+1}` for positions `k+1..k+N+1`.
+2. **Draft**: use `M_p` to autoregressively propose `d_{k+1}, d_{k+2},..., d_{k+N}` with draft probabilities `p_1..p_N`.
+3. **Verify in parallel**: run `M_q` once on `x_1..x_k, d_{k+1},..., d_{k+N}`, getting verifier probabilities `q_1..q_{N+1}` for positions `k+1..k+N+1`.
 4. **Accept/reject each draft token left to right**: for each `i`, accept with probability `min(1, q_i(d_i) / p_i(d_i))`.
 5. On first rejection at position `j`: sample `t_j` from the "residual" distribution `(q_j - p_j)_+` normalized. All drafts after `j` are discarded.
 6. On accepting all `N`: sample one extra token `t_{N+1}` from `q_{N+1}` (the free bonus token).
@@ -58,10 +58,10 @@ Medusa replaces the draft model with extra output heads on the verifier. At posi
 
 ```
 shared trunk → hidden h_t
-    ├── head_0: predict token at t+1  (standard LM head)
-    ├── head_1: predict token at t+2
-    ├── head_2: predict token at t+3
-    ├── head_3: predict token at t+4
+ ├── head_0: predict token at t+1 (standard LM head)
+ ├── head_1: predict token at t+2
+ ├── head_2: predict token at t+3
+ ├── head_3: predict token at t+4
 ```
 
 Each head outputs its own logits. At inference you sample from each head to get a candidate sequence, then verify with one forward pass using a tree-attention scheme that considers all candidate continuations at once.
@@ -92,8 +92,8 @@ See `code/main.py`. We implement the core speculative-sampling algorithm (reject
 
 ```python
 def accept_or_reject(q_prob, p_prob, draft_token, u):
-    ratio = q_prob / p_prob if p_prob > 0 else float("inf")
-    return u < min(1.0, ratio)
+ ratio = q_prob / p_prob if p_prob > 0 else float("inf")
+ return u < min(1.0, ratio)
 ```
 
 `u` is a uniform random number. `q_prob` is the verifier's probability for the drafted token. `p_prob` is the draft model's probability. The Leviathan theorem is that this Bernoulli decision, followed by sampling from the residual on rejection, preserves the verifier's distribution exactly.
@@ -102,9 +102,9 @@ def accept_or_reject(q_prob, p_prob, draft_token, u):
 
 ```python
 def residual_dist(q, p):
-    raw = [max(0.0, qi - pi) for qi, pi in zip(q, p)]
-    s = sum(raw)
-    return [r / s for r in raw]
+ raw = [max(0.0, qi - pi) for qi, pi in zip(q, p)]
+ s = sum(raw)
+ return [r / s for r in raw]
 ```
 
 Subtract `p` from `q` element-wise, clamp negative values to zero, renormalize. Sample from this on any rejection.
@@ -113,30 +113,30 @@ Subtract `p` from `q` element-wise, clamp negative values to zero, renormalize. 
 
 ```python
 def spec_step(prefix, q_model, p_model, N, rng):
-    drafts = []
-    p_probs = []
-    ctx = list(prefix)
-    for _ in range(N):
-        p_dist = p_model(ctx)
-        d = sample(p_dist, rng)
-        drafts.append(d)
-        p_probs.append(p_dist[d])
-        ctx.append(d)
+ drafts = []
+ p_probs = []
+ ctx = list(prefix)
+ for _ in range(N):
+ p_dist = p_model(ctx)
+ d = sample(p_dist, rng)
+ drafts.append(d)
+ p_probs.append(p_dist[d])
+ ctx.append(d)
 
-    q_dists = [q_model(prefix + drafts[:i]) for i in range(N + 1)]
+ q_dists = [q_model(prefix + drafts[:i]) for i in range(N + 1)]
 
-    for i, d in enumerate(drafts):
-        u = rng.random()
-        q_prob = q_dists[i][d]
-        p_prob = p_probs[i]
-        if u < min(1.0, q_prob / p_prob if p_prob > 0 else float("inf")):
-            prefix = prefix + [d]
-        else:
-            res = residual_dist(q_dists[i], p_model(prefix))
-            prefix = prefix + [sample(res, rng)]
-            return prefix
-    prefix = prefix + [sample(q_dists[N], rng)]
-    return prefix
+ for i, d in enumerate(drafts):
+ u = rng.random()
+ q_prob = q_dists[i][d]
+ p_prob = p_probs[i]
+ if u < min(1.0, q_prob / p_prob if p_prob > 0 else float("inf")):
+ prefix = prefix + [d]
+ else:
+ res = residual_dist(q_dists[i], p_model(prefix))
+ prefix = prefix + [sample(res, rng)]
+ return prefix
+ prefix = prefix + [sample(q_dists[N], rng)]
+ return prefix
 ```
 
 Five accepted → one bonus → six tokens produced in one verifier pass.
@@ -156,14 +156,14 @@ Production:
 ```bash
 # vLLM with EAGLE
 vllm serve meta-llama/Llama-3.1-70B-Instruct \
-    --speculative-model /models/llama-3.1-eagle-70b \
-    --speculative-draft-tensor-parallel-size 1 \
-    --num-speculative-tokens 5
+ --speculative-model /models/llama-3.1-eagle-70b \
+ --speculative-draft-tensor-parallel-size 1 \
+ --num-speculative-tokens 5
 
 # vLLM with vanilla draft model
 vllm serve meta-llama/Llama-3.1-70B-Instruct \
-    --speculative-model meta-llama/Llama-3.2-1B-Instruct \
-    --num-speculative-tokens 5
+ --speculative-model meta-llama/Llama-3.2-1B-Instruct \
+ --num-speculative-tokens 5
 ```
 
 TensorRT-LLM has the fastest Medusa path as of mid-2026. `faster-whisper` wraps speculative decoding for Whisper-large with a small draft.
