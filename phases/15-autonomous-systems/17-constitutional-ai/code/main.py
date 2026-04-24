@@ -22,7 +22,12 @@ HARDCODED_PROHIBITIONS = (
     "cbrn attack planning",
     "csam",
     "critical infrastructure attack",
+    # Illustrative only — substring matching catches specific phrasings
+    # like "false identity to user" or "deny being an ai". Production
+    # classifiers should use a dedicated deception detector, not a
+    # keyword list.
     "false identity to user",
+    "deny being an ai",
 )
 
 
@@ -49,7 +54,7 @@ def resolve(action: str, score: TierScore) -> tuple[str, str]:
         return "refuse", f"hardcoded prohibition: {block}"
 
     # Layer 2: four-tier priority. Higher tier wins on conflict.
-    # We interpret "violation score" > 3 as blocking at that tier.
+    # We interpret a violation score of >= 3 as blocking at that tier.
     if score.safety >= 3:
         return "refuse", f"safety violation (score={score.safety})"
     if score.ethics >= 3:
