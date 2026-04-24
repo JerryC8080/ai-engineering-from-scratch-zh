@@ -40,7 +40,7 @@ Shipped as Helm chart + operator.
 
 vLLM 0.9.0 introduced a Connector API for pluggable KV cache backends. Your engine offloads blocks to the connector; connector stores them (RAM, disk, object storage, LMCache). Request needs a block, connector loads it back.
 
-vLLM 0.11.0 (January 2026) makes this asynchronous — offload happens in background, engine does not stall. Offload latency is not user-facing.
+vLLM 0.11.0 (January 2026) adds an asynchronous offload path — offload can happen in the background so the engine does not block on it in the common case. End-to-end latency and throughput still depend on workload shape, KV cache hit rate, and system pressure; vLLM's own notes call out that custom-kernel offload can degrade throughput at low hit rates and that async scheduling has known interaction issues with speculative decoding.
 
 ### Native CPU offload vs LMCache
 
@@ -78,7 +78,7 @@ Phase 17 · 17 disaggregated serving + LMCache compounds: KV transfers from pref
 ### Numbers you should remember
 
 - vLLM 0.9.0: Connector API shipped.
-- vLLM 0.11.0 (Jan 2026): asynchronous offload; not user-facing latency.
+- vLLM 0.11.0 (Jan 2026): asynchronous offload path; end-to-end latency impact depends on workload, KV hit rate, and system pressure (not an absolute guarantee).
 - 16x H100 benchmark: LMCache helps when KV footprint exceeds HBM.
 - Small HBM pressure: 3-5% overhead without benefit.
 
