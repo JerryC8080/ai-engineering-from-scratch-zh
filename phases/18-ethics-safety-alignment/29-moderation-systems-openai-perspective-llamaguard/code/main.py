@@ -13,6 +13,12 @@ CATEGORIES = [
     "harassment", "hate", "self-harm", "sexual", "sexual/minors",
     "violence", "illicit", "illicit/violent",
 ]
+"""Pedagogical top-level taxonomy. The production omni-moderation-latest
+response schema returns 13 booleans: harassment, harassment/threatening,
+hate, hate/threatening, illicit, illicit/violent, self-harm,
+self-harm/intent, self-harm/instructions, sexual, sexual/minors,
+violence, violence/graphic. We collapse the sub-categories here to
+keep the demo harness small."""
 
 
 CATEGORY_TRIGGERS = {

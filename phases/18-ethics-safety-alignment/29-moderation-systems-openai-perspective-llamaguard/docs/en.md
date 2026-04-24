@@ -1,6 +1,6 @@
 # Moderation Systems — OpenAI, Perspective, Llama Guard
 
-> Production moderation systems operationalize the safety policies defined in Lessons 12-16. OpenAI Moderation API: `omni-moderation-latest` (2024) built on GPT-4o classifies text + images in one call; 42% better on multilingual test set than prior version; categories — harassment, hate, self-harm, sexual, sexual/minors, violence, illicit, illicit/violent; free for most developers. Layered patterns: Input moderation (pre-generation), Output moderation (post-generation), Custom moderation (domain rules). Async parallel calls hide latency; placeholder responses on flag. Llama Guard 3/4 (Lesson 16): 14 MLCommons hazards, Code Interpreter Abuse, 8 languages (v3), multi-image (v4). Perspective API (Google Jigsaw): toxicity scoring predating the LLM-as-moderator wave; primarily single-dimension toxicity with severe-toxicity/insult/profanity variants; baseline for content-moderation research. Deprecations: Azure Content Moderator deprecated February 2024, retired February 2027, replaced by Azure AI Content Safety.
+> Production moderation systems operationalize the safety policies defined in Lessons 12-16. OpenAI Moderation API: `omni-moderation-latest` (2024) built on GPT-4o classifies text + images in one call; 42% better on multilingual test set than prior version; the response schema returns 13 category booleans — harassment, harassment/threatening, hate, hate/threatening, illicit, illicit/violent, self-harm, self-harm/intent, self-harm/instructions, sexual, sexual/minors, violence, violence/graphic; free for most developers. Layered patterns: Input moderation (pre-generation), Output moderation (post-generation), Custom moderation (domain rules). Async parallel calls hide latency; placeholder responses on flag. Llama Guard 3/4 (Lesson 16): 14 MLCommons hazards, Code Interpreter Abuse, 8 languages (v3), multi-image (v4). Perspective API (Google Jigsaw): toxicity scoring predating the LLM-as-moderator wave; primarily single-dimension toxicity with severe-toxicity/insult/profanity variants; baseline for content-moderation research. Deprecations: Azure Content Moderator deprecated February 2024, retired February 2027, replaced by Azure AI Content Safety.
 
 **Type:** Build
 **Languages:** Python (stdlib, three-layer moderation harness)
@@ -24,21 +24,23 @@ Lessons 12-16 describe attacks and defense tooling. Lesson 29 covers the deploye
 
 `omni-moderation-latest` (2024). Built on GPT-4o. Classifies text + images in one call. Free for most developers.
 
-Categories:
-- harassment
-- hate
-- self-harm
-- sexual
-- sexual/minors
-- violence
-- illicit
-- illicit/violent
+Categories (13 booleans in the response schema):
+- harassment, harassment/threatening
+- hate, hate/threatening
+- self-harm, self-harm/intent, self-harm/instructions
+- sexual, sexual/minors
+- violence, violence/graphic
+- illicit, illicit/violent
+
+Multimodal support applies to `violence`, `self-harm`, and `sexual` but not `sexual/minors`; the rest are text-only.
+
+For the code harness in `code/main.py` we collapse the `/threatening`, `/intent`, `/instructions`, and `/graphic` sub-categories into their top-level parents for pedagogical simplicity. Production code should use the full 13-category schema.
 
 42% better on multilingual test set than the prior-generation moderation endpoint. Per-category scores; applications set thresholds.
 
 ### Llama Guard 3/4
 
-Covered in Lesson 16. 14 MLCommons hazard categories (richer than OpenAI's 8). Supports 8 languages (v3). Llama Guard 4 (April 2025) is natively multimodal, 12B.
+Covered in Lesson 16. 14 MLCommons hazard categories (organized differently from OpenAI's 13 response-schema booleans). Supports 8 languages (v3). Llama Guard 4 (April 2025) is natively multimodal, 12B.
 
 The OpenAI and Llama Guard taxonomies overlap but diverge. OpenAI has "illicit" as a broad category; Llama Guard has "violent crimes" and "non-violent crimes" separately. Deployments pick based on their policy-taxonomy fit.
 
@@ -96,7 +98,7 @@ This lesson produces `outputs/skill-moderation-stack.md`. Given a deployment, it
 
 | Term | What people say | What it actually means |
 |------|-----------------|------------------------|
-| OpenAI Moderation | "omni-moderation-latest" | GPT-4o-based 8-category multimodal classifier |
+| OpenAI Moderation | "omni-moderation-latest" | GPT-4o-based 13-category (text) classifier with partial multimodal support |
 | Perspective API | "Google Jigsaw toxicity" | Pre-LLM-era toxicity scoring baseline |
 | Llama Guard | "MLCommons 14-category" | Meta's 8B/12B multimodal classifier |
 | Input moderation | "pre-generation filter" | Classifier on user prompt before model call |

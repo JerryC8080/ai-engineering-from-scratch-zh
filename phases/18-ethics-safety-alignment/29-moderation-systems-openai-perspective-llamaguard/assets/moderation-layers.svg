@@ -45,10 +45,10 @@
   <rect x="40" y="180" width="880" height="160" class="box"/>
   <text x="480" y="205" text-anchor="middle" class="head">category taxonomies</text>
   <rect x="60" y="225" width="280" height="100" class="cool"/>
-  <text x="200" y="250" text-anchor="middle" class="step">OpenAI Moderation (8 categories)</text>
-  <text x="200" y="270" text-anchor="middle" class="small">harassment / hate / self-harm</text>
-  <text x="200" y="288" text-anchor="middle" class="small">sexual / sexual-minors / violence</text>
-  <text x="200" y="306" text-anchor="middle" class="small">illicit / illicit-violent</text>
+  <text x="200" y="250" text-anchor="middle" class="step">OpenAI Moderation (13 categories)</text>
+  <text x="200" y="270" text-anchor="middle" class="small">harassment(+threatening) / hate(+threatening)</text>
+  <text x="200" y="288" text-anchor="middle" class="small">self-harm(+intent,+instructions) / sexual(+minors)</text>
+  <text x="200" y="306" text-anchor="middle" class="small">violence(+graphic) / illicit(+violent)</text>
 
   <rect x="360" y="225" width="280" height="100" class="cool"/>
   <text x="500" y="250" text-anchor="middle" class="step">Llama Guard 3 (14 categories)</text>
