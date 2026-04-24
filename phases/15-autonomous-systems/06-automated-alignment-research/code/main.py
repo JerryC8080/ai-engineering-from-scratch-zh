@@ -132,8 +132,10 @@ def tamper_demo() -> None:
     print("\nLog tampering detection")
     print("-" * 70)
     baseline = run_regime("free")
+    # attempt_tamper() performs one silent edit (rewrites AAR-A's worst
+    # score upward). We rely on that single tamper so verify() reports
+    # deterministic, reproducible flagged indices.
     tampered = attempt_tamper(baseline)
-    tampered.records[2].result = 0.95  # Silent rewrite.
     bad = tampered.verify()
     print(f"  verify() flagged {len(bad)} corrupted record(s) "
           f"at indices {bad}")
