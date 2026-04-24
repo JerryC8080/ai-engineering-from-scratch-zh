@@ -139,6 +139,12 @@ def gateway_tools_call(bearer: str, canonical_name: str, args: dict) -> dict:
                           "decision": "rate_limited", "at": time.time()})
         return {"error": "rate_limited", "status": 429}
     server, tool = canonical_name.split(".", 1)
+    backend_tools = {"notes": NOTES_TOOLS, "github": GITHUB_TOOLS}.get(server, [])
+    live = next((t for t in backend_tools if t["name"] == tool), None)
+    if live is None or not verify_pinned(server, tool, live["description"]):
+        AUDIT_LOG.append({"user": user["id"], "call": canonical_name,
+                          "decision": "hash_mismatch", "at": time.time()})
+        return {"error": "hash_mismatch", "status": 409}
     resp = backend_call(server, tool, args)
     AUDIT_LOG.append({"user": user["id"], "call": canonical_name,
                       "decision": "allow", "at": time.time()})
@@ -183,6 +189,8 @@ def demo() -> None:
     r = gateway_tools_list("bearer_alice")
     remaining = [t["name"] for t in r["tools"]]
     print(f"  tools after rug pull: {remaining}  (notes.search dropped by hash check)")
+    r = gateway_tools_call("bearer_bob", "notes.search", {"query": "anything"})
+    print(f"  tools/call after rug pull: {r}  (blocked on hash mismatch too)")
 
 
 if __name__ == "__main__":
