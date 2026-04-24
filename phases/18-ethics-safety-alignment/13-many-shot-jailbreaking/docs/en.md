@@ -56,7 +56,7 @@ Anthropic's classifier-based prompt modification runs a safety classifier over t
 
 ### Combinations with other attacks
 
-MSJ composes with PAIR (Lesson 12): use PAIR to find the attack structure, fill it with many shots. Apollo 2024 shows MSJ + role-play prompts reach higher ASR than either alone.
+MSJ composes with PAIR (Lesson 12): use PAIR to find the attack structure, fill it with many shots. Anil et al. 2024 (Anthropic) report that MSJ composes with competing-objective jailbreaks — stacking reaches higher ASR than either alone.
 
 ### What 2025-2026 frontier models ship
 
