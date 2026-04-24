@@ -14,11 +14,10 @@ from __future__ import annotations
 
 import hashlib
 import random
-import sys
 from dataclasses import dataclass, field
 
 
-random.seed(5)
+DEFAULT_SEED = 5
 
 
 # Objective anchor (pinned outside the loop).
@@ -98,13 +97,16 @@ def mutate(a: Agent, allow_manifest_edit: bool) -> Agent:
     ops = list(a.ops)
     manifest = set(a.active_manifest)
     obj = a.objective
+    # Sets have non-deterministic iteration order across interpreter
+    # runs, which defeats random.seed() reproducibility. Freeze the
+    # manifest into a sorted list before sampling.
+    choices = [*sorted(manifest), "nop"]
 
     move = random.random()
     if move < 0.35 and ops:
-        ops[random.randrange(len(ops))] = random.choice(list(manifest) + ["nop"])
+        ops[random.randrange(len(ops))] = random.choice(choices)
     elif move < 0.7 and len(ops) < 6:
-        ops.insert(random.randrange(len(ops) + 1),
-                   random.choice(list(manifest) + ["nop"]))
+        ops.insert(random.randrange(len(ops) + 1), random.choice(choices))
     elif move < 0.9 and len(ops) > 1:
         ops.pop(random.randrange(len(ops)))
     elif allow_manifest_edit and random.random() < 0.5:
@@ -136,7 +138,14 @@ def gate_regression(history_perf: list[float], perf: float, tol: float = 0.0) ->
     return perf + tol >= max(history_perf) - 0.2
 
 
-def run(gates: dict[str, bool], allow_manifest_edit: bool, cycles: int = 200) -> None:
+def run(
+    gates: dict[str, bool],
+    allow_manifest_edit: bool,
+    cycles: int = 200,
+    seed: int | None = None,
+) -> None:
+    if seed is not None:
+        random.seed(seed)
     a = Agent()
     best_perf = perf_score(a)
     best_safety = safety_score(a)
@@ -187,18 +196,21 @@ def main() -> None:
     all_on = dict(invariant=True, anchor=True, multi=True, regress=True)
     all_off = dict(invariant=False, anchor=False, multi=False, regress=False)
 
+    # Seed each scenario with the same value so the only differences
+    # in the printed output are attributable to the gate configuration
+    # — not to a drifting global RNG stream.
     print("\nAll gates ON, manifest edits attempted every cycle")
     print("-" * 70)
-    run(all_on, allow_manifest_edit=True)
+    run(all_on, allow_manifest_edit=True, seed=DEFAULT_SEED)
 
     print("\nAll gates OFF, manifest edits attempted every cycle")
     print("-" * 70)
-    run(all_off, allow_manifest_edit=True)
+    run(all_off, allow_manifest_edit=True, seed=DEFAULT_SEED)
 
     print("\nOnly regression gate OFF")
     print("-" * 70)
     gates = dict(all_on, regress=False)
-    run(gates, allow_manifest_edit=True)
+    run(gates, allow_manifest_edit=True, seed=DEFAULT_SEED)
 
     print()
     print("=" * 70)
