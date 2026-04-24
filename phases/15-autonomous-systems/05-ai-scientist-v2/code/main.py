@@ -13,7 +13,7 @@ import random
 from dataclasses import dataclass
 
 
-random.seed(42)
+DEFAULT_SEED = 42
 
 
 @dataclass
@@ -61,7 +61,11 @@ def run_one(cfg: LoopConfig) -> Outcome:
                 polished_ok=False,
                 abandoned_stage="experiment",
             )
-        # Recovered, but the paper still has signs of struggle unless polished.
+        # Modeling choice: a retry-recovered experiment still carries a
+        # residual flaw (silently-wrong numerics, shape-mismatch patched
+        # without re-validation, etc.). This residual flaw is what the
+        # polish stage can mask later and is the headline driver of the
+        # "polished-but-flawed" category.
         has_experiment_flaw = True
     else:
         has_experiment_flaw = False
@@ -98,12 +102,14 @@ def run_one(cfg: LoopConfig) -> Outcome:
         (has_experiment_flaw and polished_hides_weakness)
         or has_novelty_flaw
     )
+    # polished_but_flawed can never be true when polished_ok is true, so
+    # the old "and not polished_but_flawed" guard is redundant.
     return Outcome(
         submitted=True,
         has_novelty_flaw=has_novelty_flaw,
         has_experiment_flaw=has_experiment_flaw,
         polished_but_flawed=polished_but_flawed,
-        polished_ok=polished_ok and not polished_but_flawed,
+        polished_ok=polished_ok,
         abandoned_stage="",
     )
 
@@ -145,6 +151,7 @@ def report(n: int, cfg: LoopConfig) -> None:
 
 
 def main() -> None:
+    random.seed(DEFAULT_SEED)
     print("=" * 70)
     print("AI SCIENTIST V2 LOOP SIMULATOR (Phase 15, Lesson 5)")
     print("=" * 70)

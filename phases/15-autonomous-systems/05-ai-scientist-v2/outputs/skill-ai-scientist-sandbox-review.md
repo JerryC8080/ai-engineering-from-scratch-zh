@@ -9,6 +9,8 @@ tags: [ai-scientist, research-agent, sandbox, peer-review, disclosure]
 
 Given an autonomous research output (hypothesis, code, experiments, figures, paper draft) produced by an AI-Scientist-v2-style loop, produce a two-gate review: sandbox audit (does anything leave?) plus research audit (is the work sound?).
 
+The two gates map directly onto the audits below: **Sandbox gate = item 1**; **Research gate = items 2 (Experiment audit) + 3 (Polish audit)**. Items 4–5 govern what happens after both gates pass.
+
 Produce:
 
 1. **Sandbox gate.** Before any artifact leaves the sandbox:
@@ -46,7 +48,7 @@ Output format:
 
 Return a two-gate report:
 - **Sandbox gate verdict** (PASS / BLOCK, with rationale)
-- **Research gate verdict** (PASS / BLOCK / REQUIRES_EXPERT, with per-check notes)
+- **Research gate verdict** (covers Experiment audit (2) and Polish audit (3)) (PASS / BLOCK / REQUIRES_EXPERT, with per-check notes)
 - **Disclosure plan** (venue, text, human reviewer name)
 - **Release decision** (release / hold / reject)
 - **Next action** (who does what by when)
