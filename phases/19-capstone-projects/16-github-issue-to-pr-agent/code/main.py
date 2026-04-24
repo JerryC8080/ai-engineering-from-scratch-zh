@@ -164,7 +164,16 @@ def run_verify(run: SandboxRun, difficulty: float, rng: random.Random) -> None:
 
 
 def open_pr(run: SandboxRun, token: InstallationToken) -> None:
-    assert token.can("pull_request.open"), "PR write must be allowed"
+    # Explicit runtime checks -- never use `assert` for a safety gate. `python -O`
+    # strips asserts, which would let a denied or expired token still open a PR.
+    if time.time() >= token.expires_at:
+        run.failure = "token_expired"
+        run.state = SState.FAILED
+        return
+    if not token.can("pull_request.open"):
+        run.failure = "policy_denied"
+        run.state = SState.FAILED
+        return
     run.pr_opened = True
     run.state = SState.DONE
 
