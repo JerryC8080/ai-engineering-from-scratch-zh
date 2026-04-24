@@ -36,7 +36,7 @@ The engineering question: what does this system catch, what does it miss, and wh
 Auto Mode (launched March 24, 2026) is the first permission mode to delegate per-action approval to a model. Structure:
 
 1. **Stage 1 — single-token classifier.** Runs on every proposed action. Cheap. Returns "safe" or "flag." Designed to run in parallel with the main agent loop so approved actions do not sit in a queue.
-2. **Stage 2 — chain-of-thought deep review.** Runs only on flagged actions. Explicit reasoning trace over the action, the current state of the session, and the declared task. Escalates to user HITL if the deep review is not confident.
+2. **Stage 2 — secondary policy/safety review.** Runs only on flagged actions. Performs a focused policy and safety assessment over the action, the current state of the session, and the declared task. Escalates to user HITL if confidence is low.
 
 Budget controls sit alongside the classifier:
 
