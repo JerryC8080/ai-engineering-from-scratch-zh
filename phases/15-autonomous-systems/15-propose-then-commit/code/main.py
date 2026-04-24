@@ -91,8 +91,10 @@ def propose(store: Store, p: Proposal) -> str:
 def surface(store: Store, k: str) -> None:
     r = store.all()[k]
     print(f"  [surface] proposal {k}")
-    for field in ("intent", "lineage", "blast_radius", "rollback"):
-        print(f"    {field:<14} {r[field]}")
+    # Use 'name' rather than 'field' to avoid shadowing dataclasses.field
+    # if a reader adds a dataclass below this module later (Ruff F402).
+    for name in ("intent", "lineage", "blast_radius", "rollback"):
+        print(f"    {name:<14} {r[name]}")
 
 
 def rubber_stamp_approve(store: Store, k: str) -> bool:
@@ -101,7 +103,7 @@ def rubber_stamp_approve(store: Store, k: str) -> bool:
     rec["status"] = "approved"
     rec["ack_mode"] = "rubber_stamp"
     store.save(k, rec)
-    print(f"  [approve:rubber-stamp] clicked Approve (no checklist)")
+    print("  [approve:rubber-stamp] clicked Approve (no checklist)")
     return True
 
 
@@ -109,14 +111,14 @@ def checklist_approve(store: Store, k: str,
                       understood: bool, verified: bool,
                       rollback_ready: bool) -> bool:
     if not (understood and verified and rollback_ready):
-        print(f"  [approve:checklist] REJECTED (incomplete answers)")
+        print("  [approve:checklist] REJECTED (incomplete answers)")
         return False
     r = store.all()
     rec = r[k]
     rec["status"] = "approved"
     rec["ack_mode"] = "challenge_response"
     store.save(k, rec)
-    print(f"  [approve:checklist] APPROVED (all three checks)")
+    print("  [approve:checklist] APPROVED (all three checks)")
     return True
 
 
@@ -168,7 +170,7 @@ def main() -> None:
     checklist_approve(store, k, understood=True, verified=True, rollback_ready=True)
     commit(store, k)
 
-    print("\nDemo 2: retry after transient failure; idempotency catches re-exec")
+    print("\nDemo 2: retry after approval; idempotency catches re-exec")
     print("-" * 80)
     initial = len(SIDE_EFFECTS)
     commit(store, k)  # retry
@@ -199,9 +201,13 @@ def main() -> None:
         rollback="restore from weekly backup; data loss up to 6 days",
     )
     k3 = propose(store, p3)
-    # Reviewer cannot tick rollback-ready; checklist declines
+    # Reviewer cannot tick rollback-ready; checklist_approve declines
     ok = checklist_approve(store, k3, understood=True, verified=True,
                            rollback_ready=False)
+    # Pedagogical intent: call commit() on a rejected proposal so the
+    # log demonstrates that commit() refuses when status is still
+    # "waiting" rather than "approved". We WANT the refusal line to
+    # print.
     if not ok:
         commit(store, k3)
 
