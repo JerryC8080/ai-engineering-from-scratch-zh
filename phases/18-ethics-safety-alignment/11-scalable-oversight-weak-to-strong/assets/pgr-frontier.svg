@@ -53,7 +53,7 @@
   <text x="700" y="325" text-anchor="middle" class="head">complementarity with W2SG</text>
   <text x="500" y="350" class="small">scalable oversight: improves label quality.</text>
   <text x="500" y="368" class="small">W2SG: closes gap from whatever labels.</text>
-  <text x="500" y="386" class="small">combined (Khan 2024): better PGR on NLP tasks.</text>
+  <text x="500" y="386" class="small">combined (Lang 2025): better PGR on NLP tasks.</text>
 
   <rect x="40" y="410" width="880" height="80" class="box"/>
   <text x="60" y="435" class="small">PGR is a measurable, not a solution. Burns et al. 2023 are explicit: the weak-strong gap they study is capability-shaped.</text>

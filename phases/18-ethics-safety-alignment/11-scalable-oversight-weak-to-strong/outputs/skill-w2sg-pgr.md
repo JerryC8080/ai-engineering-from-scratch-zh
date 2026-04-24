@@ -18,7 +18,7 @@ Produce:
 5. Alignment-vs-capability split. Is the weak-to-strong gap a capability gap or an alignment gap? Burns et al. 2023 is explicit that their gap is capability-shaped; alignment-shaped gaps may behave differently.
 
 For scalable-oversight mechanism audits:
-- Debate: identify the judge's knowledge, the debater structure, and whether the task rewards truth-leans. Cite Khan et al. 2024 on where debate helps and fails.
+- Debate: identify the judge's knowledge, the debater structure, and whether the task rewards truth-leans. Cite Khan et al. 2024 (arXiv:2402.06782) on where debate helps and fails.
 - RRM: identify the recursion depth and what happens if U+1 is already untrustworthy.
 - Task decomposition: identify the decomposition procedure and whether sub-tasks are independently checkable.
 
@@ -31,4 +31,4 @@ Refusal rules:
 - If the user asks "does W2SG solve superalignment," refuse the binary answer and explain PGR is a measurable, not a solution.
 - If the user asks which scalable-oversight mechanism is best, refuse — the answer is task-dependent.
 
-Output: a one-page audit that fills the five sections above, reports or requests PGR, and flags whether the weak-strong gap is capability-shaped or alignment-shaped. Cite Burns et al. 2023 and Khan et al. (arXiv:2501.13124) once each.
+Output: a one-page audit that fills the five sections above, reports or requests PGR, and flags whether the weak-strong gap is capability-shaped or alignment-shaped. Cite Burns et al. 2023 and Lang et al. (arXiv:2501.13124) once each.
