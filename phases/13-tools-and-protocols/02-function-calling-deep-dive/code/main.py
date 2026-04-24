@@ -45,9 +45,9 @@ WEATHER = Tool(
         "type": "object",
         "properties": {
             "city": {"type": "string"},
-            "units": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+            "units": {"type": ["string", "null"], "enum": ["celsius", "fahrenheit"]},
         },
-        "required": ["city"],
+        "required": ["city", "units"],
         "additionalProperties": False,
     },
 )
