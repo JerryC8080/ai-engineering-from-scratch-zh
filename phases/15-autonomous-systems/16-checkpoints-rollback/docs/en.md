@@ -80,7 +80,7 @@ The most common production incident in this space:
 4. Workflow resumes; sees "approved but not committed"; re-executes.
 5. Side effect fires twice.
 
-Mitigation: write the "committed" status before returning from commit, not after. This is the classic "mark as done first, then do it" database pattern. If the action fires and the status write fails, you know to verify and (if necessary) re-fire. If the status write succeeds and the action fails, you verify and fire exactly once via the recovery path.
+Mitigation: persist an "in-flight" intent before execution, execute with an idempotency key, then mark "committed" only after post-action verification succeeds. If the action fires and the status write fails, you know to verify and (if necessary) re-fire. If the status write succeeds and the action fails, you verify and fire exactly once via the recovery path.
 
 ## Use It
 

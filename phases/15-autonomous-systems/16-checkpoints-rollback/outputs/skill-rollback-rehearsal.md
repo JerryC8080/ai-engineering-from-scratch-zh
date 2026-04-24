@@ -12,7 +12,7 @@ Given a proposed long-horizon autonomous workflow, design a rollback-rehearsal t
 Produce:
 
 1. **Rehearsal script.** Concrete test that (a) starts the workflow, (b) crashes it mid-commit, (c) resumes, (d) asserts the action fires exactly once, (e) injects a verify failure, (f) asserts the rollback fires and state is restored. No production workflow should run without this test having passed at least once.
-2. **Idempotency audit.** Confirm the idempotency key is derived from proposal content (Lesson 15) and the commit writes status before returning. "Mark as done first, then do it" is the pattern that catches the double-execute.
+2. **Idempotency audit.** Confirm the idempotency key is derived from proposal content (Lesson 15) and commit logic uses explicit execution states (`pending` -> `executing` -> `committed`/`failed`). Reserve/lock by idempotency key before the side effect, and mark `committed` only after the side effect has been verified.
 3. **Precondition inventory.** List every precondition the workflow must re-check at commit time. Time-of-check vs time-of-use gaps are the most common production bug; the precondition must be evaluated at commit, not at propose.
 4. **Verify inventory.** For every consequential action, name the specific read that confirms the side effect happened. "Returned 200" is not acceptable.
 5. **Rollback inventory.** For every consequential action, classify the rollback as in-band, compensating transaction, or out-of-band alert. No-op rollbacks ("we cannot undo this") must be named explicitly in the proposal (Lesson 15 metadata).

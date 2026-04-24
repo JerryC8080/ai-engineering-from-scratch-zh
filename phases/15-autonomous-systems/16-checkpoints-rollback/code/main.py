@@ -51,10 +51,18 @@ class Checkpoint:
             return json.load(f)
 
     def save(self, k: str, v: dict) -> None:
+        # Atomic write: serialize to a sibling temp file, fsync, then
+        # rename. If the process crashes mid-write, the original file
+        # is still intact, so the next retry finds the previous
+        # idempotency record rather than a truncated JSON blob.
         data = self.load()
         data[k] = v
-        with open(self.path, "w") as f:
+        tmp_path = f"{self.path}.tmp"
+        with open(tmp_path, "w") as f:
             json.dump(data, f)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp_path, self.path)
 
 
 # ---------- Workflow ----------
@@ -70,9 +78,18 @@ def run_transfer(cp: Checkpoint, txid: str, from_acct: str, to_acct: str,
     k = key(txid)
     record = cp.load().get(k, {"status": "new"})
 
-    # Idempotency: already-committed action does not re-execute.
-    if record["status"] == "committed":
-        return "idempotent-skip"
+    # Idempotency across all terminal states. A retry of the same txid
+    # after ANY terminal verdict — committed, verified, rolled-back,
+    # aborted-precondition — must short-circuit to the original result
+    # instead of re-executing.
+    terminal_results = {
+        "committed": "idempotent-skip",
+        "verified": "ok",
+        "rolled-back": "verify-fail-rolled-back",
+        "aborted-precondition": "aborted-precondition",
+    }
+    if record["status"] in terminal_results:
+        return terminal_results[record["status"]]
 
     # Precondition check: post-transfer balance must remain >= min_balance
     if DB[f"balance_{from_acct}"] - amount < min_balance:
@@ -82,7 +99,10 @@ def run_transfer(cp: Checkpoint, txid: str, from_acct: str, to_acct: str,
     # Capture prior state so rollback can restore exactly (not just invert).
     prior_last_transfer_id = DB["last_transfer_id"]
 
-    # MARK-AS-DONE-FIRST: persist "committed" before executing.
+    # Record intent BEFORE the side effect, so a crash between the
+    # save and persist_transfer leaves a "committed" marker the retry
+    # can detect and short-circuit. We only promote to "verified" once
+    # the post-action read (below) confirms the side effect landed.
     cp.save(k, {"status": "committed", "txid": txid,
                 "from_acct": from_acct, "to_acct": to_acct,
                 "amount": amount,
