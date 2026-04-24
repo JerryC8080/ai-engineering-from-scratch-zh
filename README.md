@@ -658,16 +658,28 @@ Other courses end with *"congratulations, you learned X."* Our lessons end with 
 </details>
 
 <details id="phase-19">
-<summary><b>🏆 Phase 19 — Capstone Projects</b> &nbsp;<code>5 projects</code>&nbsp; <em>Prove everything you learned.</em></summary>
+<summary><b>🏆 Phase 19 — Capstone Projects</b> &nbsp;<code>17 projects</code>&nbsp; <em>2026 end-to-end shippable products, 20-40 hours each.</em></summary>
 <br/>
 
 | # | Project | Combines | Lang |
 |:---:|---------|----------|------|
-| 01 | 🤖 Build a Mini GPT & Chat Interface | Phases 1, 3, 7, 10 | 🐍 🟦 |
-| 02 | 🔍 Build a Multimodal RAG System | Phases 5, 11, 12, 13 | 🐍 🟦 |
-| 03 | 🧪 Build an Autonomous Research Agent | Phases 14, 15, 6 | 🟦 🐍 |
-| 04 | 👥 Build a Multi-Agent Dev Team | Phases 14, 15, 16, 17 | 🟦 🦀 |
-| 05 | 🚀 Build a Production AI Platform | All phases | 🐍 🟦 🦀 |
+| 01 | [Terminal-Native Coding Agent](phases/19-capstone-projects/01-terminal-native-coding-agent/) | P0 P5 P7 P10 P11 P13 P14 P15 P17 P18 | 🟦 🐍 |
+| 02 | [RAG over Codebase (Cross-Repo Semantic Search)](phases/19-capstone-projects/02-rag-over-codebase/) | P5 P7 P11 P13 P17 | 🐍 🟦 |
+| 03 | [Real-Time Voice Assistant (ASR → LLM → TTS)](phases/19-capstone-projects/03-realtime-voice-assistant/) | P6 P7 P11 P13 P14 P17 | 🐍 🟦 |
+| 04 | [Multimodal Document QA (Vision-First)](phases/19-capstone-projects/04-multimodal-document-qa/) | P4 P5 P7 P11 P12 P17 | 🐍 🟦 |
+| 05 | [Autonomous Research Agent (AI-Scientist Class)](phases/19-capstone-projects/05-autonomous-research-agent/) | P0 P2 P3 P7 P10 P14 P15 P16 P18 | 🐍 |
+| 06 | [DevOps Troubleshooting Agent for Kubernetes](phases/19-capstone-projects/06-devops-troubleshooting-agent/) | P11 P13 P14 P15 P17 P18 | 🐍 🟦 |
+| 07 | [End-to-End Fine-Tuning Pipeline](phases/19-capstone-projects/07-end-to-end-fine-tuning-pipeline/) | P2 P3 P7 P10 P11 P17 P18 | 🐍 |
+| 08 | [Production RAG Chatbot (Regulated Vertical)](phases/19-capstone-projects/08-production-rag-chatbot/) | P5 P7 P11 P12 P17 P18 | 🐍 🟦 |
+| 09 | [Code Migration Agent (Repo-Level Upgrade)](phases/19-capstone-projects/09-code-migration-agent/) | P5 P7 P11 P13 P14 P15 P17 | 🐍 🟦 |
+| 10 | [Multi-Agent Software Engineering Team](phases/19-capstone-projects/10-multi-agent-software-team/) | P11 P13 P14 P15 P16 P17 | 🐍 🟦 |
+| 11 | [LLM Observability & Eval Dashboard](phases/19-capstone-projects/11-llm-observability-dashboard/) | P11 P13 P17 P18 | 🟦 🐍 |
+| 12 | [Video Understanding Pipeline (Scene → QA)](phases/19-capstone-projects/12-video-understanding-pipeline/) | P4 P6 P7 P11 P12 P17 | 🐍 🟦 |
+| 13 | [MCP Server with Registry and Governance](phases/19-capstone-projects/13-mcp-server-with-registry/) | P11 P13 P14 P17 P18 | 🐍 🟦 |
+| 14 | [Speculative-Decoding Inference Server](phases/19-capstone-projects/14-speculative-decoding-server/) | P3 P7 P10 P17 | 🐍 |
+| 15 | [Constitutional Safety Harness + Red-Team Range](phases/19-capstone-projects/15-constitutional-safety-harness/) | P10 P11 P13 P14 P18 | 🐍 |
+| 16 | [GitHub Issue-to-PR Autonomous Agent](phases/19-capstone-projects/16-github-issue-to-pr-agent/) | P11 P13 P14 P15 P17 | 🐍 🟦 |
+| 17 | [Personal AI Tutor (Adaptive, Multimodal)](phases/19-capstone-projects/17-personal-ai-tutor/) | P5 P6 P11 P12 P14 P17 P18 | 🐍 🟦 |
 
 </details>
 

@@ -395,18 +395,30 @@ Progress tracking for every phase and lesson.
 | 05 | Privacy — Differential Privacy, Federated Learning | ⬚ | ~45 min |
 | 06 | Interpretability | ⬚ | ~45 min |
 
-## Phase 19: Capstone Projects — ⬚ (~10 hours)
+## Phase 19: Capstone Projects — ✅ (~500 hours)
 
 | # | Project | Status | Est. |
 |---|---------|--------|------|
-| 01 | Build a Mini GPT & Chat Interface | ⬚ | ~120 min |
-| 02 | Build a Multimodal RAG System | ⬚ | ~120 min |
-| 03 | Build an Autonomous Research Agent | ⬚ | ~120 min |
-| 04 | Build a Multi-Agent Development Team | ⬚ | ~120 min |
-| 05 | Build a Production AI Platform | ⬚ | ~120 min |
+| 01 | [Terminal-Native Coding Agent](phases/19-capstone-projects/01-terminal-native-coding-agent) | ✅ | ~35 hr |
+| 02 | [RAG over Codebase (Cross-Repo Semantic Search)](phases/19-capstone-projects/02-rag-over-codebase) | ✅ | ~30 hr |
+| 03 | [Real-Time Voice Assistant (ASR to LLM to TTS)](phases/19-capstone-projects/03-realtime-voice-assistant) | ✅ | ~30 hr |
+| 04 | [Multimodal Document QA (Vision-First)](phases/19-capstone-projects/04-multimodal-document-qa) | ✅ | ~30 hr |
+| 05 | [Autonomous Research Agent (AI-Scientist Class)](phases/19-capstone-projects/05-autonomous-research-agent) | ✅ | ~40 hr |
+| 06 | [DevOps Troubleshooting Agent for Kubernetes](phases/19-capstone-projects/06-devops-troubleshooting-agent) | ✅ | ~30 hr |
+| 07 | [End-to-End Fine-Tuning Pipeline](phases/19-capstone-projects/07-end-to-end-fine-tuning-pipeline) | ✅ | ~35 hr |
+| 08 | [Production RAG Chatbot (Regulated Vertical)](phases/19-capstone-projects/08-production-rag-chatbot) | ✅ | ~30 hr |
+| 09 | [Code Migration Agent (Repo-Level Upgrade)](phases/19-capstone-projects/09-code-migration-agent) | ✅ | ~30 hr |
+| 10 | [Multi-Agent Software Engineering Team](phases/19-capstone-projects/10-multi-agent-software-team) | ✅ | ~40 hr |
+| 11 | [LLM Observability & Eval Dashboard](phases/19-capstone-projects/11-llm-observability-dashboard) | ✅ | ~25 hr |
+| 12 | [Video Understanding Pipeline (Scene to QA)](phases/19-capstone-projects/12-video-understanding-pipeline) | ✅ | ~30 hr |
+| 13 | [MCP Server with Registry and Governance](phases/19-capstone-projects/13-mcp-server-with-registry) | ✅ | ~25 hr |
+| 14 | [Speculative-Decoding Inference Server](phases/19-capstone-projects/14-speculative-decoding-server) | ✅ | ~30 hr |
+| 15 | [Constitutional Safety Harness + Red-Team Range](phases/19-capstone-projects/15-constitutional-safety-harness) | ✅ | ~25 hr |
+| 16 | [GitHub Issue-to-PR Autonomous Agent](phases/19-capstone-projects/16-github-issue-to-pr-agent) | ✅ | ~30 hr |
+| 17 | [Personal AI Tutor (Adaptive, Multimodal)](phases/19-capstone-projects/17-personal-ai-tutor) | ✅ | ~30 hr |
 
 ---
 
-**Total: 20 phases, 300+ lessons | 191 complete | ~340 hours estimated**
+**Total: 20 phases, 300+ lessons | 208 complete | ~840 hours estimated**
 
 Want to help? Pick any ⬚ lesson and submit a PR. See [CONTRIBUTING.md](CONTRIBUTING.md).
