@@ -59,8 +59,7 @@ class Run:
     stopped_by: str = ""
 
 
-def dollars(tokens: int) -> float:
-    return (tokens / 1000.0) * DOLLARS_PER_KTOK * 1000.0 / 1000.0  # simple: ktok * price
+EPSILON_MIN = 1e-9
 
 
 def velocity_exceeded(run: Run, gov: Governor, now_min: float) -> bool:
@@ -70,11 +69,13 @@ def velocity_exceeded(run: Run, gov: Governor, now_min: float) -> bool:
     window = [(t, d) for (t, d) in run.history if t >= cutoff]
     if not window:
         return False
-    spent = run.dollars - window[0][1] + (run.history[0][1] if not window else 0)
-    # Simpler: spend in the window = current dollars - dollars at window start
-    start_dollars = window[0][1]
+    start_min, start_dollars = window[0]
     window_dollars = run.dollars - start_dollars
-    rate = window_dollars / gov.velocity_window_min
+    # Use the actual elapsed time inside the window, not the nominal
+    # window width. During warm-up (now_min < velocity_window_min) this
+    # stops the rate being under-reported.
+    elapsed = max(now_min - start_min, EPSILON_MIN)
+    rate = window_dollars / elapsed
     return rate > gov.velocity_usd_per_min
 
 
