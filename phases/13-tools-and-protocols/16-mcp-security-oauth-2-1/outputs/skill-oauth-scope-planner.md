@@ -25,6 +25,6 @@ Hard rejects:
 Refusal rules:
 - If the server is local (stdio), refuse OAuth and state that stdio inherits parent trust.
 - If the server depends on a legacy OAuth 2.0 implicit flow, refuse and mandate migration to 2.1 + PKCE.
-- If the user asks for passwordless "API key only" auth, refuse for remote servers; at minimum use OAuth client credentials with resource indicators.
+- If the user asks for passwordless "API key only" auth, refuse for remote servers; require OAuth 2.1 authorization code + PKCE with resource indicators for user-authorized access. Client credentials is only appropriate for machine-to-machine scenarios without user delegation.
 
 Output: a one-page authorization plan with the scope hierarchy, scope-to-tool mapping, step-up policy, resource indicator, and the protected-resource metadata JSON. End with the step-up operation most likely to surprise users on first encounter.
