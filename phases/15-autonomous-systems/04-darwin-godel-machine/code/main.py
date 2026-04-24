@@ -106,9 +106,9 @@ def mutate(parent: Agent, hack_allowed: bool) -> Agent:
 
 
 def run_dgm(generations: int, hack_allowed: bool) -> None:
-    archive: dict[int, Agent] = {}
+    archive: dict[tuple[int, float], Agent] = {}
     init = Agent(ops=["nop"])
-    archive[0] = init
+    archive[(len(init.ops), round(reported_score(init, hack_allowed), 2))] = init
 
     best_report, best_true = reported_score(init, hack_allowed), true_score(init)
     print(f"  gen {0:>4}  report {best_report:.2f}  true {best_true:.2f}  "
@@ -120,9 +120,9 @@ def run_dgm(generations: int, hack_allowed: bool) -> None:
         rep = reported_score(child, hack_allowed)
         true_s = true_score(child)
         key = (len(child.ops), round(rep, 2))
-        incumbent = archive.get(hash(key))
+        incumbent = archive.get(key)
         if incumbent is None or rep > reported_score(incumbent, hack_allowed):
-            archive[hash(key)] = child
+            archive[key] = child
         # Track all-time best by reported score (the metric the loop optimizes).
         if rep > best_report:
             best_report = rep
