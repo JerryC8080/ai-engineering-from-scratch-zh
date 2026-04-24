@@ -37,13 +37,16 @@ def gen(n: int) -> list[tuple[list[float], int, int]]:
 def train(data, steps: int = 200, lr: float = 0.1, sample_weights=None) -> list[float]:
     w = [0.0, 0.0, 0.0]
     b = 0.0
+    if sample_weights is None:
+        paired = [(ex, 1.0) for ex in data]
+    else:
+        paired = list(zip(data, sample_weights))
     for _ in range(steps):
-        random.shuffle(data)
-        for idx, (x, y, a) in enumerate(data):
+        random.shuffle(paired)
+        for (x, y, a), wt in paired:
             z = b + sum(wi * xi for wi, xi in zip(w, x))
             p = 1.0 / (1.0 + math.exp(-z))
             err = p - y
-            wt = 1.0 if sample_weights is None else sample_weights[idx]
             for i in range(3):
                 w[i] -= lr * wt * err * x[i]
             b -= lr * wt * err
