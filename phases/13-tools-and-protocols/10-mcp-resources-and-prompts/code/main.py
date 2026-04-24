@@ -41,6 +41,9 @@ def update_note(nid: str, new_body: str) -> None:
         if f"notes://{nid}" in SUBSCRIPTIONS:
             emit_notification("notifications/resources/updated",
                               {"uri": f"notes://{nid}"})
+        if "notes://recent" in SUBSCRIPTIONS:
+            emit_notification("notifications/resources/updated",
+                              {"uri": "notes://recent"})
 
 
 def handle_resources_list(params: dict) -> dict:
