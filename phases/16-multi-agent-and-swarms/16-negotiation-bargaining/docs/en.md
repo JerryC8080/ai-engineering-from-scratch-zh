@@ -106,12 +106,11 @@ If the offer needs to be a number (price, ETA, quantity), generate it determinis
 
 `code/main.py` implements:
 
-- `ContractNet` — manager + bidders, broadcast cfp, collect proposals, award.
-- `Bargainer` — simple Zeuthen-style offer generator (walks price toward a midpoint with concession rate).
-- `LLMNarrator` — scripted; wraps the deterministic offer in natural-language framing.
-- `naive_llm_bargain(state)` — simulates an all-LLM bargainer: randomly picks a price, sometimes outside the ZOPA.
-- `og_narrator_bargain(state)` — OG-Narrator: deterministic price + narration.
-- Measurement: deal rate over 1000 trials for each style.
+- `ContractNetManager`, `ContractNetTask`, `Bid` — manager + bidders, broadcast cfp, collect proposals, award.
+- `og_narrator_bargain(state, rng)` — OG-Narrator buyer: deterministic Zeuthen-style concession toward the midpoint.
+- `seller_response(state, rng)` — deterministic seller counter-offer policy (the structural ground truth for both styles).
+- `naive_llm_bargain(state, rng)` — simulates an all-LLM bargainer: picks prices with high variance, often outside the ZOPA.
+- Measurement: deal rate over 1000 trials with fresh reservation prices sampled per trial.
 
 Run:
 
@@ -119,7 +118,7 @@ Run:
 python3 code/main.py
 ```
 
-Expected output: naive-LLM deal rate ~25-40%; OG-Narrator deal rate ~85-95%; Contract Net task-market allocation example with three bidders and one task.
+Expected output: naive-LLM deal rate ~65-75%; OG-Narrator deal rate ~85-95%; the 15-25 point gap is the structural advantage of decomposing offer-generation from narration. Plus a Contract Net task-market allocation example with three bidders and one task.
 
 ## Use It
 

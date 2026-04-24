@@ -87,7 +87,9 @@ def bench_deal_rate(buyer_fn, label: str, trials: int = 1000) -> None:
     rng = random.Random(42)
     deals = 0
     for _ in range(trials):
-        if simulate_bargain(buyer_fn, rng):
+        seller_min = rng.randint(50, 80)
+        buyer_max = rng.randint(max(seller_min + 5, 75), 115)
+        if simulate_bargain(buyer_fn, rng, buyer_max=buyer_max, seller_min=seller_min):
             deals += 1
     print(f"  {label:20s} deal rate: {deals / trials:.2%}  ({deals}/{trials})")
 
@@ -156,7 +158,7 @@ def demo_contract_net() -> None:
 def main() -> None:
     print("=" * 72)
     print("DEAL RATE — naive LLM bargaining vs OG-Narrator")
-    print("buyer_max=100, seller_min=60 (ZOPA = [60, 100])")
+    print("reservation prices sampled per trial: seller_min in [50,80], buyer_max in [75,115]")
     print("=" * 72)
     bench_deal_rate(naive_llm_bargain, "naive LLM")
     bench_deal_rate(og_narrator_bargain, "OG-Narrator")
