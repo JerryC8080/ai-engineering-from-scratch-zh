@@ -34,4 +34,6 @@ Return a one-page memo with:
 - **Evaluator score** (rigor 1-5 with justification)
 - **Confabulation surface** (top 3, with evaluator coverage)
 - **Reward-hacking surface** (top 3, with mitigations)
+- **Determinism and reproducibility** (score variance vs population variance; seed control; pass/fail)
+- **Deployment readiness** (closed-loop ship allowed y/n; required pre-deployment reviews: security, cost, human)
 - **Recommendation** (proceed / tighten evaluator / choose a different domain)

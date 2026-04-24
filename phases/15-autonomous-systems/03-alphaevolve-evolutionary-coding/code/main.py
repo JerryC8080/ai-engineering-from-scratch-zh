@@ -11,12 +11,14 @@ aggressively; with one the best candidate generalizes.
 
 from __future__ import annotations
 
+import argparse
 import math
 import random
 from dataclasses import dataclass
 
 
-random.seed(1)
+DEFAULT_SEED = 1
+random.seed(DEFAULT_SEED)
 
 
 # Target function the loop tries to rediscover.
@@ -124,14 +126,27 @@ def seed_candidate(test_xs: list[float], train_xs: list[float], gen: int) -> Can
     return Candidate(e, mse(e, train_xs), mse(e, test_xs), gen)
 
 
-def run_loop(generations: int, pop: int, use_holdout: bool) -> tuple[Candidate, list[float], list[float]]:
+def run_loop(
+    generations: int,
+    pop: int,
+    use_holdout: bool,
+    seed: int | None = None,
+) -> tuple[Candidate, list[float], list[float]]:
+    if seed is not None:
+        random.seed(seed)
     train_xs = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0]
     test_xs = [-2.5, -1.5, -0.5, 0.5, 1.5, 2.5, 3.5]
+
+    def signal_of(c: Candidate) -> float:
+        return 0.5 * (c.train_score + c.test_score) if use_holdout else c.train_score
 
     archive: dict[tuple[int, int], Candidate] = {}
     for _ in range(pop):
         c = seed_candidate(test_xs, train_xs, 0)
-        archive[cell_key(c.expr)] = c
+        key = cell_key(c.expr)
+        incumbent = archive.get(key)
+        if incumbent is None or signal_of(c) < signal_of(incumbent):
+            archive[key] = c
 
     best_trace: list[float] = []
     test_trace: list[float] = []
@@ -140,40 +155,53 @@ def run_loop(generations: int, pop: int, use_holdout: bool) -> tuple[Candidate, 
         child_expr = mutate(parent.expr)
         tr = mse(child_expr, train_xs)
         te = mse(child_expr, test_xs)
-        # scoring signal: train-only if no holdout; mean otherwise
-        signal = tr if not use_holdout else 0.5 * (tr + te)
+        child = Candidate(child_expr, tr, te, g)
         key = cell_key(child_expr)
         incumbent = archive.get(key)
-        inc_signal = incumbent.train_score if incumbent and not use_holdout else (
-            0.5 * (incumbent.train_score + incumbent.test_score) if incumbent else float("inf"))
-        if signal < inc_signal:
-            archive[key] = Candidate(child_expr, tr, te, g)
+        if incumbent is None or signal_of(child) < signal_of(incumbent):
+            archive[key] = child
 
         best = min(archive.values(), key=lambda c: c.train_score)
         best_trace.append(best.train_score)
         test_trace.append(best.test_score)
 
-    best = min(archive.values(), key=lambda c: (c.train_score + c.test_score) / 2)
+    # Final selection must use the same signal as the search: using the
+    # held-out test here when use_holdout=False would silently leak the
+    # holdout back into Run B and mask the overfitting the lesson shows.
+    best = min(archive.values(), key=signal_of)
     return best, best_trace, test_trace
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--no-holdout",
+        action="store_true",
+        help="skip the held-out test evaluator (Run B only; forces reward-hacking demo)",
+    )
+    args = parser.parse_args()
+
     print("=" * 70)
     print("ALPHAEVOLVE-STYLE LOOP (Phase 15, Lesson 3)")
     print("=" * 70)
     print("target: 2x^2 + 3x - 1")
 
-    print("\nRun A: held-out test included in evaluator signal")
-    best, train_trace, test_trace = run_loop(generations=1500, pop=20, use_holdout=True)
-    print(f"  best expr : {render(best.expr)}")
-    print(f"  train MSE : {best.train_score:.4f}")
-    print(f"  test  MSE : {best.test_score:.4f}")
-    print(f"  generation: {best.generation}")
-    print("  progress  : gen 100 train={:.3f} gen 500 train={:.3f} gen 1500 train={:.3f}".format(
-        train_trace[99], train_trace[499], train_trace[-1]))
+    if not args.no_holdout:
+        print("\nRun A: held-out test included in evaluator signal")
+        best, train_trace, _ = run_loop(
+            generations=1500, pop=20, use_holdout=True, seed=DEFAULT_SEED
+        )
+        print(f"  best expr : {render(best.expr)}")
+        print(f"  train MSE : {best.train_score:.4f}")
+        print(f"  test  MSE : {best.test_score:.4f}")
+        print(f"  generation: {best.generation}")
+        print("  progress  : gen 100 train={:.3f} gen 500 train={:.3f} gen 1500 train={:.3f}".format(
+            train_trace[99], train_trace[499], train_trace[-1]))
 
     print("\nRun B: no held-out test (train-only evaluator -> reward hacking risk)")
-    best, train_trace, test_trace = run_loop(generations=1500, pop=20, use_holdout=False)
+    best, _train_trace, _test_trace = run_loop(
+        generations=1500, pop=20, use_holdout=False, seed=DEFAULT_SEED
+    )
     print(f"  best expr : {render(best.expr)}")
     print(f"  train MSE : {best.train_score:.4f}")
     print(f"  test  MSE : {best.test_score:.4f}")
