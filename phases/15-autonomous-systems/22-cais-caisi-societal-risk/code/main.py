@@ -88,7 +88,7 @@ def report(d: Deployment) -> None:
             for m in MITIGATIONS[t]:
                 print(f"    - {m}")
     else:
-        print(f"  no tagged risks (check sub-levers manually)")
+        print("  no tagged risks (check sub-levers manually)")
 
 
 def main() -> None:
