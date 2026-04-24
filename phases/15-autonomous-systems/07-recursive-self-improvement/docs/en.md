@@ -71,7 +71,7 @@ The workshop summary (openreview.net/pdf?id=OsPQ6zTQXV) identifies four current 
 
 ## Exercises
 
-1. Run `code/main.py`. With capability rate 1.15 and alignment rate 1.08, how many cycles until the misalignment gap crosses a 2x threshold?
+1. Run `code/main.py`. With capability rate 1.15 and alignment rate 1.08, how many cycles until the misalignment gap `C - A` crosses an absolute threshold of 2.0? (Set `cfg.threshold = 2.0`.)
 
 2. Set both rates equal. Does the gap stay bounded or does noise push it one way? What does this imply for RSI safety?
 

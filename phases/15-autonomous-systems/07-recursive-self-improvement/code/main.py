@@ -9,10 +9,11 @@ threshold.
 from __future__ import annotations
 
 import random
+import statistics
 from dataclasses import dataclass
 
 
-random.seed(11)
+DEFAULT_SEED = 11
 
 
 @dataclass
@@ -38,7 +39,7 @@ def run(cycles: int, cfg: Config) -> list[tuple[int, float, float, float]]:
 
 
 def crossing_cycle(trajectory, threshold: float) -> int:
-    for cyc, c, a, gap in trajectory:
+    for cyc, _c, _a, gap in trajectory:
         if gap >= threshold:
             return cyc
     return -1
@@ -73,13 +74,13 @@ def monte_carlo(cfg: Config, cycles: int, trials: int) -> None:
     print(f"  crossed: {len(crossings)} ({len(crossings)/trials:.0%})")
     if crossings:
         avg = sum(crossings) / len(crossings)
-        crossings.sort()
-        p50 = crossings[len(crossings) // 2]
+        p50 = statistics.median(crossings)
         print(f"  mean crossing cycle: {avg:.1f}")
         print(f"  median crossing cycle: {p50}")
 
 
 def main() -> None:
+    random.seed(DEFAULT_SEED)
     print("=" * 70)
     print("CAPABILITY vs ALIGNMENT RACE (Phase 15, Lesson 7)")
     print("=" * 70)
@@ -117,7 +118,7 @@ def main() -> None:
     print("=" * 70)
     print("HEADLINE: small rate differences compound to safety-threshold crossings")
     print("-" * 70)
-    print("  Scenario A crosses the 1.5x gap in under 10 cycles.")
+    print("  Scenario A crosses the absolute 1.5 gap (C - A) in under 10 cycles.")
     print("  Scenario B stays bounded — same mean rate, noise-only drift.")
     print("  Scenario C: higher alignment mean does NOT save you if")
     print("  capability has big surges. Noise matters as much as drift.")
