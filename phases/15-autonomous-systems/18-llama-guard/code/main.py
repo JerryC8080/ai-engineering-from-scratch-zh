@@ -52,21 +52,38 @@ def classify_raw(text: str) -> list[str]:
 
 
 def normalize(text: str) -> str:
-    # Strip zero-width and variation-selector emoji
-    out = "".join(ch for ch in text if not _is_invisible(ch))
-    # Map homoglyph Cyrillic letters to Latin where possible (lossy)
+    # NFKC first precomposes combining characters and unifies
+    # compatibility forms, then homoglyph-map Cyrillic lookalikes,
+    # then remove only truly-invisible characters (zero-width joiners,
+    # variation selectors, BOMs). This order preserves legitimate
+    # combining marks instead of stripping every Mn category character.
+    out = unicodedata.normalize("NFKC", text)
     out = _homoglyph_map(out)
-    return unicodedata.normalize("NFKC", out)
+    return "".join(ch for ch in out if not _is_invisible(ch))
+
+
+_INVISIBLE_CODEPOINTS = frozenset({
+    0x200B,  # zero-width space
+    0x200C,  # zero-width non-joiner
+    0x200D,  # zero-width joiner
+    0x2060,  # word joiner
+    0xFE0F,  # variation selector-16 (emoji presentation)
+    0xFEFF,  # byte-order mark / zero-width no-break space
+})
 
 
 def _is_invisible(ch: str) -> bool:
-    return unicodedata.category(ch) in ("Cf", "Mn") or ord(ch) in (0x200B, 0x200C, 0x200D, 0xFE0F)
+    return ord(ch) in _INVISIBLE_CODEPOINTS
 
 
 CYRILLIC_TO_LATIN = {
+    # lowercase confusables
     "\u0430": "a", "\u0441": "c", "\u0435": "e", "\u043e": "o",
-    "\u0440": "p", "\u0445": "x", "\u0456": "i", "\u0440": "p",
-    "\u0432": "b", "\u0412": "B",
+    "\u0440": "p", "\u0445": "x", "\u0456": "i", "\u0443": "y",
+    "\u0432": "b",
+    # uppercase confusables (for bypass attempts that target wordlists)
+    "\u0410": "A", "\u0412": "B", "\u0415": "E", "\u041e": "O",
+    "\u0420": "P", "\u0421": "C", "\u0425": "X",
 }
 
 
@@ -127,7 +144,7 @@ def demo_outputs() -> None:
         "here is a benign summary of the docs",
         "token: sk-superlongkeymaterial0123456789",
     ]
-    print(f"\n  output-rail checks")
+    print("\n  output-rail checks")
     print("-" * 80)
     for o in outputs:
         hits = output_rail(o)

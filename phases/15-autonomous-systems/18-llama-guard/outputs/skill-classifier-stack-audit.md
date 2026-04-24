@@ -14,7 +14,7 @@ Produce:
 1. **Model inventory.** List the classifiers in use. Llama Guard 3 (8B / 1B-INT4) vs Llama Guard 4 (multimodal, S1–S14). NeMo Guardrails version. Any custom classifiers. If the deployment accepts images, confirm the classifier is multimodal.
 2. **Taxonomy mapping.** Map declared business categories onto the classifier's taxonomy. Every category the operator cares about must map to a classifier category; unmapped categories are unguarded.
 3. **Rail coverage.** Confirm input rails fire before the model turn and output rails fire before the response ships. Dialog rails (Colang in NeMo) enforce cross-turn constraints. Single-turn classifiers cannot catch multi-turn attacks.
-4. **Normalization.** Confirm inputs are NFKC-normalized and homoglyph-mapped before classification. Raw-byte classification is a 100% ASR target for Emoji Smuggling (Huang et al. 2025).
+4. **Normalization.** Confirm inputs are NFKC-normalized, homoglyph-mapped, and have zero-width / variation-selector characters stripped before classification. Raw-byte classification is a 100% ASR target for Emoji Smuggling (Huang et al. 2025).
 5. **Attack-corpus coverage.** For each documented attack (emoji smuggling, homoglyph, in-context redirection, semantic paraphrase), name the specific defense in the stack. Classifier-only defense fails this audit; layering with Constitution (Lesson 17) and runtime (Lessons 10, 13, 14) is required.
 
 Hard rejects:
