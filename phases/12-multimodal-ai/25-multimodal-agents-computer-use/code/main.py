@@ -79,7 +79,8 @@ def apply_action(state: BrowserState, action: dict) -> BrowserState:
     elif act == "select":
         new.filled["select_idx"] = action.get("option_index", 0)
     elif act == "done":
-        new.page = "done"
+        # terminal signal only; do not overwrite workflow page state
+        pass
     return new
 
 
@@ -89,7 +90,7 @@ def run_task(task: Task) -> dict:
     for step, action in enumerate(task.plan, 1):
         trace.append((step, action["action"], action.get("element_desc", "")))
         state = apply_action(state, action)
-    success = (task.expected_page in {state.page, "done"})
+    success = (state.page == task.expected_page)
     return {"goal": task.goal, "trace": trace, "final_page": state.page,
             "success": success}
 

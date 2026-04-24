@@ -31,13 +31,17 @@ ZOO = [
     ViTConfig("ViT-B/16 @ 224", 224, 16, 768, 12, 12),
     ViTConfig("ViT-L/14 @ 336 (CLIP)", 336, 14, 1024, 24, 16),
     ViTConfig("DINOv2 ViT-g/14 @ 224", 224, 14, 1536, 40, 24, registers=4),
-    ViTConfig("SigLIP SO400m/14 @ 384", 384, 14, 1152, 27, 16, registers=4,
+    ViTConfig("SigLIP SO400m/14 @ 378", 378, 14, 1152, 27, 16, registers=4,
               cls_token=False),
     ViTConfig("Qwen2.5-VL ViT @ 896x896", 896, 14, 1280, 32, 16),
 ]
 
 
 def grid_shape(image_size: int, patch_size: int) -> tuple[int, int]:
+    if image_size <= 0 or patch_size <= 0:
+        raise ValueError(f"image_size and patch_size must be positive, got {image_size=} {patch_size=}")
+    if image_size % patch_size != 0:
+        raise ValueError(f"image_size ({image_size}) must be divisible by patch_size ({patch_size})")
     g = image_size // patch_size
     return (g, g)
 
@@ -128,7 +132,7 @@ def patch_toy_image() -> None:
     for patch in patches:
         emb = []
         for row in fake_W:
-            s = sum(r * v for r, v in zip(row, patch))
+            s = sum(r * v for r, v in zip(row, patch, strict=True))
             emb.append(s)
         embeddings.append(emb)
 

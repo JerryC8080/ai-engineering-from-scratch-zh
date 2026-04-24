@@ -12,7 +12,7 @@ Given a product's expected task distribution — percentages of single-image, mu
 Produce:
 
 1. Per-scenario config. Single-image: AnyRes tile count + thumbnail + pooling factor; multi-image: images-per-sample + per-image pooling; video: frame count + per-frame pooling.
-2. Token budget balance. Each scenario's total tokens should land within ~30% of the target budget; flag any scenario that falls below 30% (under-tokenized) or above 110% (context risk).
+2. Token budget balance. Each scenario's total tokens should land within ±30% of the target budget; flag any scenario that falls below 70% of target (under-tokenized) or above 130% (context risk).
 3. Curriculum plan. Three stages (SI → OV → TT) with data weights. For the TT stage, use the user's product mix.
 4. Expected emergent skills. Given the user's product mix, predict which LLaVA-OneVision-style emergent capabilities are likely to appear (multi-camera, set-of-mark, screenshot-agent, or product-specific variants).
 5. Training-data ballpark. Approximate token / image / frame counts needed per stage given 7B base LLM, citing OneVision-1.5 data scale.

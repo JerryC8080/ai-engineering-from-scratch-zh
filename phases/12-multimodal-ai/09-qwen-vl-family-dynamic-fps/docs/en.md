@@ -42,7 +42,7 @@ Benchmarks at the time: competitive with GPT-4V on English, dominant on Chinese.
 
 Qwen2-VL replaced the fixed-resolution + Q-Former stack with a natively dynamic-resolution ViT encoder. Key changes:
 
-- Native dynamic resolution. The ViT accepts any HxW divisible by 28 (patch 14 with 2x spatial merge). An image at 1280x720 produces 2322 visual tokens. No resize, no tiling, no thumbnail.
+- Native dynamic resolution. The ViT accepts any HxW divisible by 28 (patch 14 with 2x spatial merge). An image at 1120x672 (40x24 merged patches) produces 960 visual tokens. No resize, no tiling, no thumbnail.
 - M-RoPE (Multimodal RoPE). Each token carries a 3D position (t, h, w) instead of 1D. For images t=0, for video t = frame_index. RoPE rotates query/key vectors by a frequency per axis. No positional embedding table.
 - MLP projector. Drop the Q-Former; use a 2-layer MLP on the merged patch tokens.
 - Video with dynamic FPS. Video sampled at 1-2 FPS by default, but the model accepts arbitrary frame counts.

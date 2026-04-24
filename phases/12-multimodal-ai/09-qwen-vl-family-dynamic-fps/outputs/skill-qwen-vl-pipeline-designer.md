@@ -11,7 +11,7 @@ Given a task description (image QA, video action recognition, UI-agent workflow,
 
 Produce:
 
-1. Resolution bounds. `min_pixels` and `max_pixels` picked for the task. Documents and UI: max high (>=2,116,800 = 1344x1344 equivalent). Photos: default. Video frames: lower to preserve frame count.
+1. Resolution bounds. `min_pixels` and `max_pixels` picked for the task. Documents and UI: max high (>=1,806,336 = 1344x1344 equivalent). Photos: default. Video frames: lower to preserve frame count.
 2. FPS policy. Fixed 1 FPS for low-motion; dynamic 2-4 for medium; 4-8 for high. Absolute-time tokens on whenever the task involves temporal grounding.
 3. Frame budget. Total tokens per video = duration * fps * tokens_per_frame. Fit into available context (leave 20% slack for prompt + output).
 4. Window attention. Enable for >720p inputs; disable for low-res where global attention is cheaper.

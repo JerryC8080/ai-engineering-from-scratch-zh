@@ -113,7 +113,7 @@ This lesson produces `outputs/skill-unified-gen-model-picker.md`. Given a produc
 
 3. Cosine schedule vs linear schedule: trace the number of unmasked tokens per step for T=8. Which is more balanced?
 
-4. A 512x512 Show-o image is 1024 tokens. At vocab K=16384, the model emits 1024 * log2(16384) = 14 kB of data. Stable Diffusion outputs 512*512*24 bits = 780 kB pixels. What is the compression ratio and what quality does it buy?
+4. A 512x512 Show-o image is 1024 tokens. At vocab K=16384, the model emits 1024 * log2(16384) = 14,336 bits (~1.75 KiB) of data. Stable Diffusion outputs 512*512*24 bits = 6,291,456 bits (~768 KiB) of raw pixels. What is the compression ratio and what quality does it buy?
 
 5. Read LlamaGen (arXiv:2406.06525). How is LlamaGen's class-conditional autoregressive image model different from Show-o's masked approach?
 
