@@ -45,7 +45,13 @@ class BudgetLedger:
     def permit(self, repo: str, estimated_cost: float) -> tuple[bool, str]:
         if estimated_cost > self.per_task_dollar_cap:
             return False, f"task estimate ${estimated_cost:.2f} > cap ${self.per_task_dollar_cap}"
-        if self.spent_today[repo] + estimated_cost > self.daily_dollar_cap:
+        # Reserve against the worst-case per-task spend, not the estimate. The
+        # agent loop in ``run_agent`` is allowed to run up to ``per_task_dollar_cap``
+        # before tripping ``dollar_cap``, so admitting on ``estimated`` lets a
+        # burst of cap-hitting runs overrun the daily ceiling. ``record`` still
+        # writes the actual spend so unused reservation auto-reconciles.
+        worst_case = self.per_task_dollar_cap
+        if self.spent_today[repo] + worst_case > self.daily_dollar_cap:
             return False, f"daily $ cap for {repo} would be exceeded"
         if self.prs_today[repo] >= self.daily_pr_cap:
             return False, f"daily PR cap ({self.daily_pr_cap}) for {repo} reached"
