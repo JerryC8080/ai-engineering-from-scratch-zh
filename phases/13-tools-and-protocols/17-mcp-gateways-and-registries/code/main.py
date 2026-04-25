@@ -112,7 +112,7 @@ def verify_pinned(server: str, tool_name: str, live_desc: str) -> bool:
 def gateway_tools_list(bearer: str) -> dict:
     user = USERS.get(bearer)
     if not user:
-        return {"error": "unauthenticated"}
+        return {"error": "unauthenticated", "status": 401}
     merged = []
     for server, tools in (("notes", NOTES_TOOLS), ("github", GITHUB_TOOLS)):
         for t in tools:
