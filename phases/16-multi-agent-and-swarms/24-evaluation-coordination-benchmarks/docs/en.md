@@ -1,6 +1,6 @@
 # Evaluation and Coordination Benchmarks
 
-> Five 2025-2026 benchmarks cover the multi-agent evaluation space. **MultiAgentBench / MARBLE** (ACL 2025, arXiv:2503.01935) evaluates star/chain/tree/graph topologies with milestone KPIs; **graph is best for research**, cognitive planning adds ~3% milestone achievement. **COMMA** evaluates multimodal asymmetric-information coordination; state-of-the-art models including GPT-4o struggle to beat a random baseline. **MedAgentBoard** (arXiv:2505.12371) covers four medical task categories and often finds multi-agent does not dominate single-LLM. **AgentArch** (arXiv:2509.10769) benchmarks enterprise agent architectures combining tool-use + memory + orchestration. **SWE-bench Pro** (arXiv:2509.16941) has 1865 problems across 41 repos spanning business apps, B2B services, and developer tools; frontier models score ~23% on Pro vs 70%+ on Verified — a reality check on contamination. Claude Opus 4.7 (April 2026) scores **64.3%** on Pro with explicit agent-teams coordination; Verdent (agent scaffold) hits **76.1% pass@1** on Verified. **AAAI 2026 Bridge Program WMAC** (https://multiagents.org/2026/) is the 2026 community focal point. This lesson builds on MARBLE's metrics, runs a topology-vs-metric sweep, and pins the "just passing SWE-bench Verified is not evidence of generalization" rule.
+> Five 2025-2026 benchmarks cover the multi-agent evaluation space. **MultiAgentBench / MARBLE** (ACL 2025, arXiv:2503.01935) evaluates star/chain/tree/graph topologies with milestone KPIs; **graph is best for research**, cognitive planning adds ~3% milestone achievement. **COMMA** evaluates multimodal asymmetric-information coordination; state-of-the-art models including GPT-4o struggle to beat a random baseline. **MedAgentBoard** (arXiv:2505.12371) covers four medical task categories and often finds multi-agent does not dominate single-LLM. **AgentArch** (arXiv:2509.10769) benchmarks enterprise agent architectures combining tool-use + memory + orchestration. **SWE-bench Pro** ([arXiv:2509.16941](https://arxiv.org/abs/2509.16941)) has 1865 problems across 41 repos spanning business apps, B2B services, and developer tools; frontier models score ~23% on Pro vs 70%+ on Verified — a reality check on contamination. Claude Opus 4.7 (April 2026) is reported at **64.3%** on Pro with explicit agent-teams coordination (no Anthropic primary source published yet — treat as preliminary); Verdent (agent scaffold) hits **76.1% pass@1** on Verified ([Verdent technical report](https://www.verdent.ai/blog/swe-bench-verified-technical-report)). **AAAI 2026 Bridge Program WMAC** (https://multiagents.org/2026/) is the 2026 community focal point. This lesson builds on MARBLE's metrics, runs a topology-vs-metric sweep, and pins the "just passing SWE-bench Verified is not evidence of generalization" rule.
 
 **Type:** Learn
 **Languages:** Python (stdlib)
@@ -56,9 +56,9 @@ Use when: you are designing an enterprise agent stack and need to justify each l
 arXiv:2509.16941. 1865 problems across 41 repositories spanning business apps, B2B services, and developer tools. Designed to be **uncontaminated** with later training cutoffs. Frontier models score ~23% on Pro vs 70%+ on Verified. The gap is the contamination signal.
 
 April 2026 scores:
-- Claude Opus 4.7 on Pro: **64.3%** (using explicit agent-teams coordination).
-- Verdent (agent scaffold) on Verified: **76.1% pass@1**.
-- Frontier raw scores on Pro without agent scaffolding: ~23-35%.
+- Claude Opus 4.7 on Pro: **64.3%** (reported with explicit agent-teams coordination; no Anthropic primary source published yet — treat as preliminary).
+- Verdent (agent scaffold) on Verified: **76.1% pass@1** ([technical report](https://www.verdent.ai/blog/swe-bench-verified-technical-report)).
+- Frontier raw scores on Pro without agent scaffolding: ~23-35% ([SWE-bench Pro paper](https://arxiv.org/abs/2509.16941)).
 
 The takeaway: "we beat SWE-bench Verified" is no longer evidence of capability. Pro is the current gating test. Agent-team scaffolding produces measurable gains on Pro (~30-40 point delta), which is one of the strongest empirical arguments for multi-agent coordination in 2026.
 
@@ -70,7 +70,7 @@ AAAI 2026 Bridge Program — Workshop on Multi-Agent Coordination (https://multi
 
 When someone claims a multi-agent result:
 
-1. **Which benchmark, which split?** SWE-bench Verified vs Pro matters a lot. Filed number on a wrong split is worthless.
+1. **Which benchmark, which split?** SWE-bench Verified vs Pro matters a lot. A number reported on the wrong split is worthless.
 2. **Contamination check.** Was the benchmark released after the model's training cutoff? If not, treat with caution.
 3. **Baseline comparison.** Vs single-LLM baseline, vs random, vs prior multi-agent work. Not "vs untuned version of the same system."
 4. **Statistical significance.** N trials, p-value, confidence interval. Frontier models are high-variance; single runs mislead.
@@ -98,7 +98,7 @@ Building your own internal benchmark for the axis you actually care about is oft
 
 Run:
 
-```
+```bash
 python3 code/main.py
 ```
 
