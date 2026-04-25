@@ -80,7 +80,7 @@ Shape by provider:
 
 ### Partial JSON and the parse-early trap
 
-You cannot parse `arguments` until it is complete. Partial JSON such as `{"city": "Beng` is not valid and will raise. A production tip: accumulate string, check for balanced braces, then parse. A more robust approach uses an incremental JSON parser that yields events as structure completes; OpenAI's streaming guide recommends this for UX that shows a live "thinking" indicator.
+You cannot parse `arguments` until it is complete. Partial JSON such as `{"city": "Beng` is not valid and will raise. The correct gate is the provider's end-of-call signal: OpenAI's `finish_reason = "tool_calls"`, Anthropic's `content_block_stop`, or Gemini's stream-end event. Only then attempt `json.loads`. A more robust approach uses an incremental JSON parser that yields events as structure completes; OpenAI's streaming guide recommends this for UX that shows a live "thinking" indicator. Brace-counting is unreliable as a completeness test (braces inside quoted strings or escaped content cause false positives) and should only be used as an informal debug heuristic.
 
 ### Out-of-order completion
 
@@ -126,7 +126,7 @@ This lesson produces `outputs/skill-parallel-call-safety-check.md`. Given a tool
 
 ## Exercises
 
-1. Run `code/main.py` and vary the simulated latencies. Confirm that the parallel-to-sequential ratio is exactly `max/sum`. At what latency distribution does parallel stop mattering?
+1. Run `code/main.py` and vary the simulated latencies. Confirm that the parallel-to-sequential ratio is approximately `max/sum` (real runs deviate slightly from the ideal because of thread scheduling, serialization, and harness overhead). At what latency distribution does parallel stop mattering?
 
 2. Extend the accumulator to handle a "call was cancelled mid-stream" case by dropping its buffer and emitting a `cancelled` event. What provider documents this case explicitly? Check Anthropic's `content_block_stop` semantics and OpenAI's `finish_reason: "length"` behavior.
 
