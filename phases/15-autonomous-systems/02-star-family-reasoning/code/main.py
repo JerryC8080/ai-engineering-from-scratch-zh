@@ -21,9 +21,6 @@ import random
 from dataclasses import dataclass, field
 
 
-random.seed(42)
-
-
 @dataclass
 class Trace:
     strategy: str  # "sound", "shortcut", "random"
@@ -152,6 +149,7 @@ def vstar_report(model: Model) -> None:
 
 
 def main() -> None:
+    random.seed(42)
     print("=" * 70)
     print("STaR, V-STaR, QUIET-STaR (Phase 15, Lesson 2)")
     print("=" * 70)
