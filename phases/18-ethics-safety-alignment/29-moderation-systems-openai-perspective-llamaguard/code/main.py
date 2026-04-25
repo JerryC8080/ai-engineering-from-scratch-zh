@@ -77,7 +77,7 @@ def run(prompt: str) -> None:
     active_in = [c for c, s in in_scores.items() if s > 0]
     if flagged_in:
         print(f"    [INPUT FLAGGED] categories={active_in}")
-        print(f"    response: refusal")
+        print("    response: refusal")
         return
     # layer 2 (pre): custom domain rules
     custom_flagged, custom_msg = custom_domain_rules(prompt)
@@ -92,7 +92,7 @@ def run(prompt: str) -> None:
     active_out = [c for c, s in out_scores.items() if s > 0]
     if flagged_out:
         print(f"    [OUTPUT FLAGGED] categories={active_out}")
-        print(f"    response: refusal")
+        print("    response: refusal")
         return
     print(f"    response: {output}")
 

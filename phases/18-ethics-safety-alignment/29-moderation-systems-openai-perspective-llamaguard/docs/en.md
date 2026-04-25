@@ -56,7 +56,7 @@ Widely used as a content-moderation research baseline because the API is stable,
 2. **Output moderation.** Classify the model's output before delivery. Replace with a refusal if flagged. Latency: one classifier call after generation.
 3. **Custom moderation.** Domain-specific rules (regex, allowlists, business policy). Runs at either input or output.
 
-Async parallel calls hide latency. Placeholder responses ("one moment, checking...") may be used while classifier results are pending. Flag behaviour is configurable: refuse, sanitize, escalate to human review.
+The three layers are sequential by design: input moderation must complete before generation, and output moderation runs after generation. Parallelism applies within a layer — running multiple classifiers (e.g., OpenAI Moderation + Llama Guard + Perspective) concurrently on the same text hides per-classifier latency. As an optional optimization, a placeholder response ("one moment, checking...") may be shown while input moderation completes and token-1 streaming is deferred. Flag behaviour is configurable: refuse, sanitize, escalate to human review.
 
 ### Failure modes
 
@@ -100,7 +100,7 @@ This lesson produces `outputs/skill-moderation-stack.md`. Given a deployment, it
 |------|-----------------|------------------------|
 | OpenAI Moderation | "omni-moderation-latest" | GPT-4o-based 13-category (text) classifier with partial multimodal support |
 | Perspective API | "Google Jigsaw toxicity" | Pre-LLM-era toxicity scoring baseline |
-| Llama Guard | "MLCommons 14-category" | Meta's 8B/12B multimodal classifier |
+| Llama Guard | "MLCommons 14-category" | Meta's hazard classifier (v3: 8B text, 8 langs; v4: 12B multimodal) |
 | Input moderation | "pre-generation filter" | Classifier on user prompt before model call |
 | Output moderation | "post-generation filter" | Classifier on model output before delivery |
 | Custom moderation | "domain rules" | Deployment-specific rules (regex, allowlist, policy) |
