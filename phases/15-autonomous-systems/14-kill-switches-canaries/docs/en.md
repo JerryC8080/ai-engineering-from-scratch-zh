@@ -1,6 +1,6 @@
 # Kill Switches, Circuit Breakers, and Canary Tokens
 
-> A kill switch is a boolean held outside the agent's edit surface — a Redis key, a feature flag, a signed config — that disables the agent entirely. A circuit breaker is finer-grained: it trips on a specific pattern (five identical tool calls in a row), pauses the offending path, and escalates to a human. A canary token inherits from classical deception: a fake credential or honeypot record an agent has no legitimate reason to touch, whose access triggers an alert. eBPF + Cilium can redirect a quarantined agent's traffic to a forensic honeypot in under 500ms (public Cilium docs). Statistical detectors (EWMA, CUSUM) that adapt to a moving baseline will quietly accept drift — layer them with hard constitutional limits that do not bend.
+> A kill switch is a boolean held outside the agent's edit surface — a Redis key, a feature flag, a signed config — that disables the agent entirely. A circuit breaker is finer-grained: it trips on a specific pattern (five identical tool calls in a row), pauses the offending path, and escalates to a human. A canary token inherits from classical deception: a fake credential or honeypot record an agent has no legitimate reason to touch, whose access triggers an alert. eBPF-based datapaths (e.g. Cilium) can rewrite a quarantined pod's egress to a forensic honeypot at the kernel layer; published Cilium benchmarks report sub-millisecond P99 datapath latency under load (your propagation budget depends on how a policy update reaches the node, not the datapath itself). Statistical detectors (EWMA, CUSUM) that adapt to a moving baseline will quietly accept drift — layer them with hard constitutional limits that do not bend.
 
 **Type:** Learn
 **Languages:** Python (stdlib, three-detector simulator: kill switch, circuit breaker, canary)
@@ -71,9 +71,9 @@ Statistical detectors (EWMA, CUSUM, z-score on tool-call rates) adapt to a movin
 
 Hard constitutional limits (Lesson 17) do not bend. "Never email `secrets@`" as a constitutional rule is simpler, auditable, and not gameable by slow drift. The layering pattern: statistical detectors catch most noise, hard limits catch the attack that walked past the detector.
 
-### The 500ms redirect
+### Quarantine via eBPF datapath redirect
 
-Cilium's eBPF-based network policy can redirect a quarantined pod's egress to a forensic honeypot in under 500ms (public Cilium docs). This gives you two things: the agent does not exfiltrate anything real, and the agent's behavior inside the honeypot is fully observed. Same pattern, different layer, as the canary token: the agent reveals intent by what it tries to do while contained.
+Cilium's eBPF-based network policy can rewrite a quarantined pod's egress to a forensic honeypot at the kernel layer. Cilium's public benchmarks report sub-millisecond P99 datapath latency on TCP_RR; the wall-clock budget for *triggering* a quarantine in your cluster is dominated by how a policy update propagates from your control plane to the node (a few hundred milliseconds is realistic on Kubernetes with the operator pre-loaded; tail latency depends on cluster size and reconcile cadence). This gives you two things: the agent does not exfiltrate anything real, and the agent's behavior inside the honeypot is fully observed. Same pattern, different layer, as the canary token: the agent reveals intent by what it tries to do while contained.
 
 ### What no detector catches
 
@@ -82,7 +82,7 @@ Cilium's eBPF-based network policy can redirect a quarantined pod's egress to a 
 
 ## Use It
 
-`code/main.py` simulates a short agent trajectory through three detectors. A kill switch held in an external dict; a circuit breaker that trips on five identical tool calls; a canary file whose read triggers an alert. Feeds in a synthetic trajectory: legitimate actions, repetitive loop, canary probe, and a kill-switch-enabled scenario.
+`code/main.py` simulates a short agent trajectory through three detectors. A kill switch held in an external dict; a circuit breaker that trips on five identical tool calls; a canary file whose read triggers an alert. Feeds in a synthetic trajectory: legitimate actions, repetitive loop, canary probe, and a kill-switch-triggered scenario where the agent's actions are halted.
 
 ## Ship It
 
@@ -96,7 +96,7 @@ Cilium's eBPF-based network policy can redirect a quarantined pod's egress to a 
 
 3. Design a canary token set for a browser agent (Lesson 11). List at least three canaries and what each would detect.
 
-4. Read the Cilium network-policy docs. Describe the 500ms-redirect flow concretely: which policy selector, which pod, which egress rewrite, which alert.
+4. Read the Cilium network-policy docs. Describe an egress-redirect quarantine flow concretely: which policy selector, which pod, which egress rewrite, which alert. What governs the wall-clock latency from "decide to quarantine" to "first redirected packet"?
 
 5. Define a re-enable procedure for a kill-switched agent. Who can re-enable? What must be documented? What must change about the agent before re-enable?
 
