@@ -1687,6 +1687,84 @@
       }
     }
 
+    .toc-sidebar {
+      position: fixed;
+      top: 64px;
+      right: 0;
+      bottom: 0;
+      width: 240px;
+      background: transparent;
+      overflow-y: auto;
+      z-index: 40;
+      padding: 32px 20px 80px;
+      display: none;
+    }
+
+    .toc-header {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .toc-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toc-item {
+      line-height: 1.3;
+    }
+
+    .toc-h2 {
+      margin-top: 4px;
+    }
+
+    .toc-h3 {
+      padding-left: 12px;
+    }
+
+    .toc-link {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: block;
+      border-left: 2px solid transparent;
+      padding-left: 8px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+    }
+
+    .toc-link:hover {
+      color: var(--text);
+    }
+
+    .toc-link.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      font-weight: 600;
+      background: rgba(255, 107, 107, 0.05);
+      border-radius: 0 4px 4px 0;
+    }
+
+    @media (min-width: 1280px) {
+      .lesson-main {
+        padding-right: 260px;
+      }
+      .toc-sidebar {
+        display: block;
+      }
+    }
+
     @media (min-width: 1440px) {
       .lesson-article {
         max-width: 800px;
@@ -1699,6 +1777,11 @@
 
       .lesson-main {
         margin-left: 300px;
+        padding-right: 320px;
+      }
+
+      .toc-sidebar {
+        width: 300px;
       }
     }
   </style>
@@ -1753,6 +1836,7 @@
         </div>
       </div>
     </main>
+    <aside class="toc-sidebar" id="tocSidebar"></aside>
   </div>
 
   <script src="data.js?v=20260424a"></script>
@@ -1990,6 +2074,7 @@
         initCodeCopy();
         renderMermaidBlocks();
         renderAIPanels();
+        buildTOC();
 
         document.querySelectorAll('a[href^="#"]').forEach(function (link) {
           link.addEventListener('click', function (e) {
@@ -2000,6 +2085,87 @@
             }
           });
         });
+      }
+
+      function buildTOC() {
+        var sidebar = document.getElementById('tocSidebar');
+        if (!sidebar) return;
+        
+        var headings = document.querySelectorAll('.lesson-article h2, .lesson-article h3');
+        if (headings.length === 0) {
+          sidebar.innerHTML = '';
+          return;
+        }
+
+        var html = '<div class="toc-header">On this page</div><ul class="toc-nav">';
+        for (var i = 0; i < headings.length; i++) {
+          var heading = headings[i];
+          var level = heading.tagName.toLowerCase();
+          var id = heading.id;
+          if (!id) continue;
+          var text = heading.textContent.replace('🎯 ', '').replace('💫 ', '').replace('🧪 ', '').trim();
+          html += '<li class="toc-item toc-' + level + '"><a href="#' + id + '" class="toc-link">' + escapeHtml(text) + '</a></li>';
+        }
+        html += '</ul>';
+        sidebar.innerHTML = html;
+
+        initScrollspy(headings);
+      }
+
+      function initScrollspy(headings) {
+        var links = document.querySelectorAll('.toc-link');
+        var sidebar = document.getElementById('tocSidebar');
+        if (!links.length) return;
+
+        function updateSpy() {
+          var scrollPos = window.scrollY || document.documentElement.scrollTop;
+          var activeHeading = null;
+          var offset = 120; // Accounts for sticky header + a bit of buffer
+
+          for (var i = 0; i < headings.length; i++) {
+            if (headings[i].offsetTop - offset <= scrollPos) {
+              activeHeading = headings[i];
+            } else {
+              break;
+            }
+          }
+
+          if (!activeHeading && headings.length > 0 && scrollPos < headings[0].offsetTop) {
+            activeHeading = headings[0];
+          }
+
+          if (activeHeading && window._lastActiveHeading !== activeHeading.id) {
+            window._lastActiveHeading = activeHeading.id;
+            links.forEach(function(link) {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === '#' + activeHeading.id) {
+                link.classList.add('active');
+                if (sidebar) {
+                  var linkRect = link.getBoundingClientRect();
+                  var sidebarRect = sidebar.getBoundingClientRect();
+                  if (linkRect.bottom > sidebarRect.bottom || linkRect.top < sidebarRect.top) {
+                    sidebar.scrollTo({
+                      top: link.offsetTop - sidebar.offsetHeight / 2,
+                      behavior: 'smooth'
+                    });
+                  }
+                }
+              }
+            });
+          }
+        }
+
+        window.addEventListener('scroll', function() {
+          if (!window._spyTicking) {
+            window.requestAnimationFrame(function() {
+              updateSpy();
+              window._spyTicking = false;
+            });
+            window._spyTicking = true;
+          }
+        });
+        
+        updateSpy();
       }
 
       function extractTitle(md) {
