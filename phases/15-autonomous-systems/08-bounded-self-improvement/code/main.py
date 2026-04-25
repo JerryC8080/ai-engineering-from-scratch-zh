@@ -132,10 +132,16 @@ def gate_multi(perf: float, safety: float) -> bool:
     return perf >= 0.25 and safety >= 1.0
 
 
-def gate_regression(history_perf: list[float], perf: float, tol: float = 0.0) -> bool:
+def gate_regression(history_perf: list[float], perf: float, tol: float = 0.2) -> bool:
+    """Reject if `perf` drops more than `tol` below the historical best.
+
+    Default `tol=0.2` matches the slack the lesson uses to demonstrate
+    "reject obvious regressions, accept noise." Pass `tol=0.0` for a
+    strict monotonic gate.
+    """
     if not history_perf:
         return True
-    return perf + tol >= max(history_perf) - 0.2
+    return perf + tol >= max(history_perf)
 
 
 def run(
