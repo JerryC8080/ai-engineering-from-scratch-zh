@@ -113,7 +113,7 @@ This lesson produces `outputs/skill-gateway-bootstrap.md`. Given an enterprise M
 
 2. Add a policy that redacts PII from results before returning to the client. Use a simple regex pass for SSN-shaped strings; note the gap (emails, phone numbers).
 
-3. Extend the audit log to emit OpenTelemetry GenAI spans. Phase 13 · 19 covers the exact attributes.
+3. Extend the audit log to emit OpenTelemetry GenAI spans. Phase 13 · 20 covers the exact attributes.
 
 4. Design an RBAC policy for a 50-developer team with five backends (notes, github, postgres, jira, slack). Who gets read-only on each? Who gets write?
 

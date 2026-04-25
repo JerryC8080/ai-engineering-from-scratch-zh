@@ -25,6 +25,6 @@ Hard rejects:
 Refusal rules:
 - If all capabilities land as tools, refuse and ask whether the server has read-only data that could be a resource.
 - If no capability fits prompts, that is fine; prompts are optional. Do not invent them.
-- If the server's domain is better served by A2A (agent-to-agent collaboration, opaque state), refuse and redirect to Phase 13 · 18.
+- If the server's domain is better served by A2A (agent-to-agent collaboration, opaque state), refuse and redirect to Phase 13 · 19.
 
 Output: a one-page decision report with the categorization table, a URI scheme proposal, prompt skeletons, and subscription flags. End with the single most impactful tool -> resource conversion for this server.

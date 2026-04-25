@@ -1,4 +1,4 @@
-"""Phase 13 Lesson 21 - SKILL.md loader and agent bundle demo.
+"""Phase 13 Lesson 22 - SKILL.md loader and agent bundle demo.
 
 Parses SKILL.md files with a stdlib YAML-frontmatter parser (no pyyaml),
 builds an in-memory skill registry, and simulates an agent loop that loads
