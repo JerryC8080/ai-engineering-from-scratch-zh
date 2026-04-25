@@ -14,6 +14,7 @@
   --secondary: #6ba3ff;
   --complete: #5ab88f;
   --planned: #807060;
+  --warn: #F1C40F;
   --shadow-color: #ff6b6b;
   --shadow-hard: 4px 4px 0 var(--shadow-color);
   --shadow-hard-lg: 6px 6px 0 var(--shadow-color);
@@ -36,6 +37,7 @@
   --secondary: #2d5da1;
   --complete: #2e8b57;
   --planned: #a08060;
+  --warn: #B7791F;
   --shadow-color: #2d2d2d;
   --shadow-hard: 4px 4px 0 var(--shadow-color);
   --shadow-hard-lg: 6px 6px 0 var(--shadow-color);
@@ -928,6 +930,11 @@ a:hover {
 .modal-lesson-type[data-type="Learn"] {
   color: var(--accent);
   border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+
+.modal-lesson-type[data-type="Capstone"] {
+  color: var(--warn);
+  border-color: color-mix(in srgb, var(--warn) 35%, var(--border));
 }
 
 .modal-lesson .modal-lesson-read {
