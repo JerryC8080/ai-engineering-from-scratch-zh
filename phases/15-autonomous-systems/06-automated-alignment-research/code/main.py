@@ -16,9 +16,6 @@ import random
 from dataclasses import dataclass, field
 
 
-random.seed(3)
-
-
 @dataclass
 class ForumRecord:
     author: str
@@ -68,7 +65,7 @@ TASKS = [
 
 
 def solve(agent: str, task: tuple[str, float], regime: str) -> float:
-    name, base = task
+    _name, base = task
     if regime == "fixed":
         # Prescribed workflow: bounded ceiling, lower variance.
         return base + random.random() * 0.25
@@ -109,7 +106,11 @@ def attempt_tamper(forum_records: list[ForumRecord]) -> Forum:
             worst_idx = i
     if worst_idx >= 0:
         # Silent edit (agent rewrites its own score to look better).
-        f.records[worst_idx].result = max(f.records[worst_idx].result, 0.85)
+        # Always overwrite by adding a fixed bump rather than max(..., 0.85),
+        # which would silently no-op whenever the original already exceeded
+        # the floor — breaking the tamper-detection narrative under
+        # different seeds.
+        f.records[worst_idx].result = f.records[worst_idx].result + 0.5
     return f
 
 
@@ -144,6 +145,7 @@ def tamper_demo() -> None:
 
 
 def main() -> None:
+    random.seed(3)
     print("=" * 70)
     print("AUTOMATED ALIGNMENT RESEARCH FORUM (Phase 15, Lesson 6)")
     print("=" * 70)
