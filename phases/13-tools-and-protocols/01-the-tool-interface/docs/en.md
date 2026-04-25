@@ -96,9 +96,9 @@ Phase 14 · 12 covers error recovery and self-healing in depth; Phase 17 covers 
 
 - Lessons 02 through 05 polish the provider-level tool-call surface.
 - Lessons 06 through 14 generalize the loop into MCP.
-- Lessons 15 through 17 defend the loop against hostile servers and adversarial users.
-- Lessons 18 through 21 extend the pattern to agent-to-agent collaboration, observability, routing, and packaging.
-- Lesson 22 ships a complete ecosystem using every primitive.
+- Lessons 15 through 18 defend the loop against hostile servers, adversarial users, and unauthenticated remote auth surfaces.
+- Lessons 19 through 22 extend the pattern to agent-to-agent collaboration, observability, routing, and packaging.
+- Lesson 23 ships a complete ecosystem using every primitive.
 
 Every remaining lesson is an elaboration of this four-step loop. Hold it in mind as the invariant.
 

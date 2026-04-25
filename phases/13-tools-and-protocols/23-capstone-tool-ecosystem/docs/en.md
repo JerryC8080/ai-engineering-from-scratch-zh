@@ -128,7 +128,7 @@ This lesson produces `outputs/skill-ecosystem-blueprint.md`. Given a product nee
 
 2. Extend the demo: add a second backend MCP server (e.g. `bibliography`) and confirm the gateway merges its tools into the same namespace.
 
-3. Replace the fake A2A writer agent with a real one running on a subprocess. Use the Lesson 18 harness.
+3. Replace the fake A2A writer agent with a real one running on a subprocess. Use the Lesson 19 harness.
 
 4. Add a PII redaction step in the routing gateway between the orchestrator and the LLM. Confirm emails in the user query get scrubbed.
 

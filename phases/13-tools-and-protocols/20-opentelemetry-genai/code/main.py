@@ -1,4 +1,4 @@
-"""Phase 13 Lesson 19 - OTel GenAI span emitter, stdlib only.
+"""Phase 13 Lesson 20 - OTel GenAI span emitter, stdlib only.
 
 Emits spans in an OTLP-JSON-like format to stdout for an agent that:
   - invokes an LLM chat (gen_ai.operation.name = "chat")

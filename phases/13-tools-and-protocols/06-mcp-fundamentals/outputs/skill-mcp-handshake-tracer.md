@@ -23,7 +23,7 @@ Hard rejects:
 - Any invocation before `notifications/initialized` arrived.
 
 Refusal rules:
-- If asked to audit a transcript from a non-MCP protocol, refuse and point at the A2A spec (Phase 13 · 18) as the alternative.
+- If asked to audit a transcript from a non-MCP protocol, refuse and point at the A2A spec (Phase 13 · 19) as the alternative.
 - If asked to "fix" the transcript, refuse. This skill annotates; it does not rewrite. Route corrections through the implementing SDK.
 
 Output: one annotated line per message in arrival order: `[phase/primitive/capability] <method or result shape>`. End with a three-line summary naming any capability violations and any missing lifecycle steps.

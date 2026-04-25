@@ -1,4 +1,4 @@
-"""Phase 13 Lesson 18 - A2A agent-to-agent protocol.
+"""Phase 13 Lesson 19 - A2A agent-to-agent protocol.
 
 Research agent calls writer agent via A2A:
   1. Research agent fetches writer's Agent Card

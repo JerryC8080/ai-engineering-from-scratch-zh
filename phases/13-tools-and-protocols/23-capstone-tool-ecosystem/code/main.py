@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 
 
 # ------------------------------------------------------------------
-# OTel GenAI span emitter (condensed from Lesson 19)
+# OTel GenAI span emitter (condensed from Lesson 20)
 # ------------------------------------------------------------------
 
 SPANS: list[dict] = []
