@@ -287,7 +287,7 @@
     .lesson-article h1,
     .lesson-article h2,
     .lesson-article h3 {
-      scroll-margin-top: 92px;
+      scroll-margin-top: var(--header-offset, 92px);
     }
 
     .lesson-article p {
@@ -2208,9 +2208,10 @@
           var level = heading.tagName.toLowerCase();
           var id = ensureHeadingId(heading, i);
           if (!id) continue;
-          var text = (heading.textContent || '').replace('🎯 ', '').replace('💫 ', '').replace('🧪 ', '').trim();
+          var fullText = (heading.textContent || '').trim();
+          var text = fullText.replace(/^[^\p{L}\p{N}]+/u, '').trim();
           if (!text) continue;
-          html += '<li class="toc-item toc-' + level + '"><a href="#' + id + '" class="toc-link" data-toc-id="' + id + '">' + escapeHtml(text) + '</a></li>';
+          html += '<li class="toc-item toc-' + level + '"><a href="#' + id + '" class="toc-link" data-toc-id="' + id + '" title="' + escapeHtml(fullText) + '">' + escapeHtml(text) + '</a></li>';
         }
         html += '</ul></nav>';
         sidebar.innerHTML = html;
@@ -2238,6 +2239,9 @@
 
         var links = sidebar.querySelectorAll('.toc-link');
         if (!links.length || !headings || !headings.length) return;
+
+        var headerOffsetStr = getComputedStyle(document.documentElement).getPropertyValue('--header-offset').trim();
+        var headerOffset = parseInt(headerOffsetStr, 10) || 92;
 
         if (sidebar._tocObserver && sidebar._tocObserver.disconnect) {
           sidebar._tocObserver.disconnect();
@@ -2275,7 +2279,7 @@
         }
 
         function fallbackByScroll() {
-          var y = (window.scrollY || document.documentElement.scrollTop || 0) + 110;
+          var y = (window.scrollY || document.documentElement.scrollTop || 0) + headerOffset + 18;
           var active = '';
           for (var i = 0; i < headings.length; i++) {
             var h = headings[i];
@@ -2289,6 +2293,7 @@
         }
 
         if (typeof IntersectionObserver !== 'undefined') {
+          var marginOffset = headerOffset - 4;
           var obs = new IntersectionObserver(function (entries) {
             var best = null;
             for (var i = 0; i < entries.length; i++) {
@@ -2301,7 +2306,7 @@
           }, {
             root: null,
             threshold: [0.01, 0.1],
-            rootMargin: '-88px 0px -70% 0px'
+            rootMargin: '-' + marginOffset + 'px 0px -70% 0px'
           });
 
           Array.from(headings).forEach(function (h) {
