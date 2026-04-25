@@ -86,13 +86,23 @@ class Handler(BaseHTTPRequestHandler):
             return False
         return True
 
-    def _session_id(self) -> str:
+    def _resolve_session(self, msg: dict) -> str | None:
+        """Return the session id, or None if a 404 was already sent.
+
+        Per the Streamable HTTP spec (2025-11-25), only the `initialize`
+        method may mint a session. Any other method arriving with an
+        unknown or missing `Mcp-Session-Id` MUST be rejected with 404
+        so the client knows to re-initialize.
+        """
         sid = self.headers.get("Mcp-Session-Id")
-        if sid and sid in SESSIONS:
-            return sid
-        new = secrets.token_hex(16)
-        SESSIONS[new] = {"created": time.time()}
-        return new
+        if msg.get("method") == "initialize":
+            new = secrets.token_hex(16)
+            SESSIONS[new] = {"created": time.time()}
+            return new
+        if not sid or sid not in SESSIONS:
+            self._deny(404, "Unknown or expired session; re-initialize")
+            return None
+        return sid
 
     def do_POST(self) -> None:  # noqa: N802
         if self.path != "/mcp":
@@ -105,20 +115,30 @@ class Handler(BaseHTTPRequestHandler):
             msg = json.loads(body)
         except json.JSONDecodeError:
             return self._deny(400, "Invalid JSON")
-        sid = self._session_id()
+        sid = self._resolve_session(msg)
+        if sid is None:
+            return
         resp = dispatch(msg)
+        if resp is None:
+            # JSON-RPC notification or response: ack only.
+            self.send_response(202)
+            self.send_header("Mcp-Session-Id", sid)
+            self.end_headers()
+            return
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.send_header("Mcp-Session-Id", sid)
         self.end_headers()
-        if resp:
-            self.wfile.write(json.dumps(resp).encode() + b"\n")
+        self.wfile.write(json.dumps(resp).encode() + b"\n")
 
     def do_GET(self) -> None:  # noqa: N802
         if self.path != "/mcp":
             return self._deny(404, "Not found")
         if not self._require_origin():
             return
+        accept = self.headers.get("Accept", "")
+        if "text/event-stream" not in accept:
+            return self._deny(405, "GET requires Accept: text/event-stream")
         sid = self.headers.get("Mcp-Session-Id")
         if not sid or sid not in SESSIONS:
             return self._deny(404, "Unknown session")
@@ -201,7 +221,9 @@ def probe() -> None:
 
     print("\n5) next request with dead session is refused")
     req = urllib.request.Request("http://127.0.0.1:8017/mcp",
-                                 headers={"Origin": "http://localhost", "Mcp-Session-Id": sid},
+                                 headers={"Origin": "http://localhost",
+                                          "Mcp-Session-Id": sid,
+                                          "Accept": "text/event-stream"},
                                  method="GET")
     try:
         with urllib.request.urlopen(req) as resp:
