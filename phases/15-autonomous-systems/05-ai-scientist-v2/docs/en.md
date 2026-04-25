@@ -79,7 +79,7 @@ v2 has the weakest automatic evaluator of the three, the widest output surface, 
 
 1. Run `code/main.py` with default parameters. What fraction of loop runs produce a "clean" paper? What fraction produce a paper with an experiment-failure flaw the figure critique polished over?
 
-2. Adjust the experiment-failure rate to Beel et al.'s 42% and the novelty mislabeling rate to 25%. Re-run. How does this shift the distribution of outputs?
+2. The defaults already use Beel et al.'s 42% / 25%. Re-run with `--experiment-failure 0.20 --novelty-mislabel 0.10` and then with `--experiment-failure 0.60 --novelty-mislabel 0.40`. How does the polished-but-flawed share shift between the two runs?
 
 3. Read Sakana's AI Scientist v2 repo README on sandbox requirements. Name two additional restrictions (beyond Docker) you would apply for a multi-day autonomous run.
 

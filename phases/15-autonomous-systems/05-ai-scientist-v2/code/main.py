@@ -9,6 +9,7 @@ experiment" class.
 
 from __future__ import annotations
 
+import argparse
 import random
 from dataclasses import dataclass
 
@@ -98,12 +99,11 @@ def run_one(cfg: LoopConfig) -> Outcome:
         )
 
     polished_ok = not has_experiment_flaw and not has_novelty_flaw
-    polished_but_flawed = (
-        (has_experiment_flaw and polished_hides_weakness)
-        or has_novelty_flaw
-    )
-    # polished_but_flawed can never be true when polished_ok is true, so
-    # the old "and not polished_but_flawed" guard is redundant.
+    # Any submitted paper with a flaw counts as polished_but_flawed: the
+    # weak internal reviewer let it through whether or not the polish
+    # stage hid it. This makes the two buckets exhaustive over submitted
+    # papers (polished_ok + polished_but_flawed == len(submitted)).
+    polished_but_flawed = has_experiment_flaw or has_novelty_flaw
     return Outcome(
         submitted=True,
         has_novelty_flaw=has_novelty_flaw,
@@ -151,14 +151,31 @@ def report(n: int, cfg: LoopConfig) -> None:
 
 
 def main() -> None:
-    random.seed(DEFAULT_SEED)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--experiment-failure", type=float, default=None,
+                        help="override LoopConfig.experiment_failure for the baseline run")
+    parser.add_argument("--novelty-mislabel", type=float, default=None,
+                        help="override LoopConfig.novelty_mislabel for the baseline run")
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEED,
+                        help="RNG seed (default: %(default)s)")
+    args = parser.parse_args()
+
+    random.seed(args.seed)
     print("=" * 70)
     print("AI SCIENTIST V2 LOOP SIMULATOR (Phase 15, Lesson 5)")
     print("=" * 70)
 
-    print("\nBaseline (Beel-style numbers)")
+    overrides = {}
+    if args.experiment_failure is not None:
+        overrides["experiment_failure"] = args.experiment_failure
+    if args.novelty_mislabel is not None:
+        overrides["novelty_mislabel"] = args.novelty_mislabel
+    baseline_cfg = LoopConfig(**overrides)
+
+    label = "Baseline (Beel-style numbers)" if not overrides else "Baseline (overridden)"
+    print(f"\n{label}")
     print("-" * 70)
-    report(1000, LoopConfig())
+    report(1000, baseline_cfg)
 
     print("\nOptimistic scenario (tighter numbers)")
     print("-" * 70)
