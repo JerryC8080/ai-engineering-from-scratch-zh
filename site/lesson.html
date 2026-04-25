@@ -2173,17 +2173,14 @@
         }
 
         var used = Object.create(null);
-        for (var u = 0; u < headings.length; u++) {
-          var hh = headings[u];
-          if (hh && hh.id) used[hh.id] = true;
-        }
 
         function ensureHeadingId(heading, idx) {
           if (!heading) return '';
-          if (heading.id) return heading.id;
 
           var base = '';
-          if (typeof slugify === 'function') {
+          if (heading.id) {
+            base = heading.id;
+          } else if (typeof slugify === 'function') {
             base = slugify(heading.textContent || '');
           } else {
             base = String(heading.textContent || '').toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
@@ -2192,10 +2189,12 @@
 
           var candidate = base;
           var n = 2;
-          while (document.getElementById(candidate) || used[candidate]) {
+
+          while (used[candidate] || (document.getElementById(candidate) && document.getElementById(candidate) !== heading)) {
             candidate = base + '-' + n;
             n++;
           }
+          
           used[candidate] = true;
           heading.id = candidate;
           return candidate;
@@ -2227,6 +2226,14 @@
             e.preventDefault();
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             history.replaceState(null, '', '#' + id);
+            if (!target.hasAttribute('tabindex')) {
+              target.setAttribute('tabindex', '-1');
+              target.addEventListener('blur', function blurHandler() {
+                target.removeAttribute('tabindex');
+                target.removeEventListener('blur', blurHandler);
+              });
+            }
+            target.focus({ preventScroll: true });
           });
         });
 
