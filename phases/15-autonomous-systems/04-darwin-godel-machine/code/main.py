@@ -17,9 +17,6 @@ import sys
 from dataclasses import dataclass, field
 
 
-random.seed(7)
-
-
 # Tool library the agent composes from.
 TOOLS = [
     ("upper", lambda s: s.upper()),
@@ -105,7 +102,9 @@ def mutate(parent: Agent, hack_allowed: bool) -> Agent:
     return Agent(ops=ops, hack_bonus=bonus)
 
 
-def run_dgm(generations: int, hack_allowed: bool) -> None:
+def run_dgm(generations: int, hack_allowed: bool, seed: int | None = None) -> None:
+    if seed is not None:
+        random.seed(seed)
     archive: dict[tuple[int, float], Agent] = {}
     init = Agent(ops=["nop"])
     archive[(len(init.ops), round(reported_score(init, hack_allowed), 2))] = init
@@ -149,7 +148,7 @@ def main() -> None:
 
     print("\nRun")
     print("-" * 70)
-    run_dgm(generations=200, hack_allowed=hack_allowed)
+    run_dgm(generations=200, hack_allowed=hack_allowed, seed=7)
 
     print()
     print("=" * 70)
