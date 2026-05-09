@@ -305,11 +305,15 @@
 
     .colophon-grid {
       display: grid;
-      grid-template-columns: 200px 1fr;
+      grid-template-columns: 200px minmax(0, 1fr);
       gap: 48px;
       font-family: var(--font-body);
       font-size: 0.96rem;
       color: var(--ink-soft);
+    }
+
+    .colophon-grid > div {
+      min-width: 0;
     }
 
     .colophon-eyebrow {
@@ -321,7 +325,7 @@
     }
 
     .colophon-cmd {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 12px;
       margin-top: 16px;
@@ -331,10 +335,21 @@
       font-family: var(--font-mono);
       font-size: 0.85rem;
       color: var(--blueprint);
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .colophon-cmd code {
       white-space: nowrap;
+    }
+
+    .colophon-cmd .copy-btn {
+      flex-shrink: 0;
+      position: sticky;
+      right: 0;
+      background: var(--code-bg);
+      padding-left: 8px;
     }
 
     @media (max-width: 900px) {
@@ -349,17 +364,17 @@
       }
 
       .stat-row {
-        grid-template-columns: 140px 1fr 70px;
-        gap: 10px;
+        grid-template-columns: 160px minmax(0, 1fr) 92px;
+        gap: 12px;
         font-size: 0.82rem;
       }
 
-      .stat-row-bar {
-        font-size: 0.76rem;
+      .toc-row {
+        grid-template-columns: 36px 1fr auto;
       }
 
-      .toc-row {
-        grid-template-columns: 40px 1fr auto;
+      .toc-row .toc-meta + .toc-meta {
+        display: none;
       }
 
       .toc-leader {
@@ -368,6 +383,54 @@
 
       .toc-name {
         font-size: 1.1rem;
+      }
+
+      .colophon-cmd {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .manual-title {
+        font-size: clamp(2.4rem, 14vw, 3.6rem);
+        line-height: 0.92;
+      }
+
+      .stat-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        padding: 6px 0;
+      }
+
+      .stat-row-bar {
+        order: 3;
+      }
+
+      .stat-row-value {
+        order: 2;
+        text-align: left;
+      }
+
+      .toc-row {
+        grid-template-columns: 30px 1fr auto;
+        gap: 10px;
+        padding: 12px 0;
+      }
+
+      .toc-name {
+        font-size: 0.96rem;
+        white-space: normal;
+      }
+
+      .toc-num {
+        font-size: 0.7rem;
+      }
+
+      .manual-meta-row {
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
       }
     }
   </style>
