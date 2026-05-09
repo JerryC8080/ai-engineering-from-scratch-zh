@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Engineering from Scratch</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23fafaf5'/><rect x='2' y='2' width='28' height='28' fill='none' stroke='%233553ff' stroke-width='1.2'/><text x='6' y='22' font-size='14' font-family='monospace' fill='%233553ff'>AI</text></svg>">
-  <meta name="description" content="A reference manual for people who want to learn AI engineering from first principles. 299 lessons across 20 phases.">
+  <meta name="description" content="299 lessons. 20 phases. Build the math, the model, the trainer, the tokenizer, and the agent loop. Once, by hand.">
   <meta property="og:title" content="AI Engineering from Scratch">
   <meta property="og:description" content="299 lessons. 20 phases. Build neural networks, transformers, and LLMs from first principles. Python, TypeScript, Rust, Julia.">
   <meta property="og:image" content="https://aiengineeringfromscratch.com/og-image.png">
@@ -555,23 +555,22 @@
 
     <section class="manual-masthead container">
       <div class="manual-meta-row">
-        <span>FIG_000 &middot; Reference Manual v1.0</span>
-        <span class="right">© 2026 — open source · MIT license</span>
+        <span>FIG_000 &middot; curriculum v1.0 · 2026</span>
+        <span class="right">open source · MIT</span>
       </div>
-      <h1 class="manual-title">AI Engineering<br>from Scratch.</h1>
-      <p class="manual-tagline reveal">A reference manual for people who want to design and build AI systems from first principles.</p>
-      <p class="manual-attribution reveal" style="--stagger-delay: 80ms;">Written and maintained by Rohit Ghumare and contributors.</p>
+      <h1 class="manual-title">AI Engineering<br>from Scratch</h1>
+      <p class="manual-tagline reveal">299 lessons. 20 phases. Every algorithm built from raw math before a single framework gets imported.</p>
+      <p class="manual-attribution reveal" style="--stagger-delay: 80ms;">Maintained by Rohit Ghumare and contributors. Run on your own machine.</p>
       <div class="ascii-rule" style="margin-top:48px;"></div>
     </section>
 
     <section class="preface container">
       <div class="preface-grid">
-        <div class="preface-eyebrow reveal reveal--left">Preface</div>
+        <div class="preface-eyebrow reveal reveal--left">How this works</div>
         <div class="preface-body reveal" style="--stagger-delay: 120ms;">
-          <p>Have you ever wondered how a transformer actually pays attention? Or what backpropagation is doing under the hood when your loss curve drops? Or why a tokenizer ends up splitting "playing" into three pieces?</p>
-          <p>If you have, this is for you. This isn't a tutorial. It's a reference manual that explains how the things you use every day — from gradient descent to retrieval-augmented generation to multi-agent orchestration — actually work.</p>
-          <p>It won't make you a better ML engineer tomorrow. There's nothing actionable in here you can paste into a Jupyter cell. But knowing how things work comes in handy when you're debugging a model that loses signal halfway through training, or you're trying to figure out why your agent keeps hallucinating tool calls.</p>
-          <p>You don't need to be a researcher to read this. You just need to be curious and willing to write the code yourself. Every algorithm in here gets implemented from raw math. No magic wrappers. You write the backprop, the tokenizer, the attention mechanism, the agent loop.</p>
+          <p>Most AI material teaches in scattered pieces. A paper here, a fine-tuning post there, a flashy agent demo somewhere else. The pieces rarely line up. You ship a chatbot but can't explain its loss curve. You hook a function to an agent but can't say what attention does inside the model that's calling it.</p>
+          <p>This curriculum is the spine. 20 phases, 299 lessons, four languages: Python, TypeScript, Rust, Julia. Linear algebra at one end, autonomous swarms at the other. Every algorithm gets built from raw math first. Backprop. Tokenizer. Attention. Agent loop. By the time PyTorch shows up, you already know what it's doing under the hood.</p>
+          <p>Each lesson runs the same loop: read the problem, derive the math, write the code, run the test, keep the artifact. No five-minute videos, no copy-paste deploys, no hand-holding. Free, open source, and built to run on your own laptop.</p>
         </div>
       </div>
     </section>
@@ -604,8 +603,8 @@
     </section>
 
     <section class="toc container" id="contents">
-      <div class="toc-title reveal reveal--left">Table of Contents · v1.0</div>
-      <div class="toc-subtitle reveal" style="--stagger-delay: 80ms;">Twenty phases. Click any phase to see its lessons.</div>
+      <div class="toc-title reveal reveal--left">Curriculum · 20 phases · 299 lessons</div>
+      <div class="toc-subtitle reveal" style="--stagger-delay: 80ms;">Tap a phase to expand its lessons. Each one ships when its math, code, and test are all written.</div>
       <div class="toc-list" id="phasesGrid"></div>
       <div class="legend">
         <span class="legend-item"><span class="toc-status complete"></span> Complete</span>
