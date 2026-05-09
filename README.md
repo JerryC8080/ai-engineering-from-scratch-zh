@@ -17,32 +17,26 @@
 > **84% of students already use AI tools. Only 18% feel prepared to use them
 > professionally.** This curriculum closes that gap.
 >
-> A reference manual for people who want to design and build AI systems from first principles.
-> Twenty phases. 280+ lessons. ~320 hours. Python, TypeScript, Rust, Julia. Every lesson
-> produces something reusable: prompts, skills, agents, MCP servers. Free, open source,
-> MIT licensed.
+> 299 lessons. 20 phases. ~320 hours. Python, TypeScript, Rust, Julia. Every lesson ships
+> a reusable artifact: a prompt, a skill, an agent, an MCP server. Free, open source, MIT.
 >
-> You don't just learn AI. You learn AI **with** AI. Then you build real things. Then you
-> ship tools others can use.
+> You don't just learn AI. You build it. End-to-end. By hand.
 
-## Preface
+## How this works
 
-Have you ever wondered how a transformer actually pays attention? Or what backpropagation is doing
-under the hood when your loss curve drops? Or why a tokenizer ends up splitting *playing* into
-three pieces?
+Most AI material teaches in scattered pieces. A paper here, a fine-tuning post there, a
+flashy agent demo somewhere else. The pieces rarely line up. You ship a chatbot but can't
+explain its loss curve. You hook a function to an agent but can't say what attention does
+inside the model that's calling it.
 
-If you have, this is for you. This isn't a tutorial. It's a manual that explains how the things you
-use every day — gradient descent, attention, retrieval-augmented generation, multi-agent
-orchestration — actually work. Every algorithm gets implemented from raw math. No magic wrappers.
-You write the backprop, the tokenizer, the attention mechanism, the agent loop.
+This curriculum is the spine. 20 phases, 299 lessons, four languages: Python, TypeScript,
+Rust, Julia. Linear algebra at one end, autonomous swarms at the other. Every algorithm
+gets built from raw math first. Backprop. Tokenizer. Attention. Agent loop. By the time
+PyTorch shows up, you already know what it's doing under the hood.
 
-It won't make you a better ML engineer tomorrow. There's nothing actionable in here you can paste
-into a Jupyter cell. But knowing how things work comes in handy when you're debugging a model that
-loses signal halfway through training, or you're trying to figure out why your agent keeps
-hallucinating tool calls.
-
-You don't need to be a researcher to read this. You just need to be curious and willing to write
-the code yourself.
+Each lesson runs the same loop: read the problem, derive the math, write the code, run
+the test, keep the artifact. No five-minute videos, no copy-paste deploys, no hand-holding.
+Free, open source, and built to run on your own laptop.
 
 ```
 ░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒

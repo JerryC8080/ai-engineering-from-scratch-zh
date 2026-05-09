@@ -14,10 +14,12 @@
     initThemeToggle();
     populateStats();
     renderPhases();
+    initStaggerIndex();
     initModal();
     initCopyButton();
     initSmoothScroll();
     initFadeObserver();
+    initScrollExplode();
   });
 
   function updateThemeIcon() {
@@ -73,7 +75,12 @@
     var el = document.querySelector(selector);
     if (!el) return;
     var clamped = Math.max(0, Math.min(100, pct));
-    el.style.setProperty('--bar-pct', clamped.toFixed(1) + '%');
+    el.setAttribute('data-target-pct', clamped.toFixed(1));
+    if (el.classList.contains('in-view') || !window.IntersectionObserver) {
+      el.style.setProperty('--bar-pct', clamped.toFixed(1) + '%');
+    } else {
+      el.style.setProperty('--bar-pct', '0%');
+    }
   }
 
   function populateStats() {
@@ -313,18 +320,109 @@
   }
 
   function initFadeObserver() {
-    var els = document.querySelectorAll('.fade-in');
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!window.IntersectionObserver || prefersReduced) {
+      document.querySelectorAll('.reveal, .fade-in, .stat-row-bar').forEach(function (el) {
+        el.classList.add('in-view', 'visible');
+        var target = el.getAttribute('data-target-pct');
+        if (target !== null) el.style.setProperty('--bar-pct', target + '%');
+      });
+      return;
+    }
+
+    document.body.classList.add('js-anim');
+
+    var els = document.querySelectorAll('.reveal, .fade-in, .stat-row-bar, .ascii-rule, .toc-row');
     if (!els.length) return;
     var observer = new IntersectionObserver(function (entries) {
       for (var i = 0; i < entries.length; i++) {
         if (entries[i].isIntersecting) {
-          entries[i].target.classList.add('visible');
-          observer.unobserve(entries[i].target);
+          var el = entries[i].target;
+          el.classList.add('in-view', 'visible');
+          var target = el.getAttribute('data-target-pct');
+          if (target !== null) {
+            el.style.setProperty('--bar-pct', target + '%');
+          }
+          observer.unobserve(el);
         }
       }
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     for (var i = 0; i < els.length; i++) {
       observer.observe(els[i]);
+    }
+  }
+
+  function initStaggerIndex() {
+    var rows = document.querySelectorAll('.toc-list .toc-row');
+    for (var i = 0; i < rows.length; i++) {
+      rows[i].style.setProperty('--stagger-delay', (i * 30) + 'ms');
+    }
+  }
+
+  function initScrollExplode() {
+    var containers = document.querySelectorAll('[data-svg-explode]');
+    if (!containers.length) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      for (var c = 0; c < containers.length; c++) applyExplode(containers[c], 1);
+      return;
+    }
+
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      for (var i = 0; i < containers.length; i++) {
+        var rect = containers[i].getBoundingClientRect();
+        var startEdge = vh;
+        var endEdge = vh * 0.35;
+        var raw = (startEdge - rect.top) / (startEdge - endEdge);
+        var progress = Math.max(0, Math.min(1, raw));
+        progress = 1 - Math.pow(1 - progress, 3);
+        applyExplode(containers[i], progress);
+      }
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+
+  function applyExplode(container, progress) {
+    // Each layer / label animates over its own window in [stagger_start, stagger_start + window].
+    // Sequential reveal: layer N waits for layer N-1 to mostly settle before starting.
+    var STAGGER_DENOM = 720; // higher → wider gaps between layer entrances
+    var WINDOW = 0.55;       // each layer's local animation duration as fraction of global progress
+
+    function localProgress(staggerAttr) {
+      var stagger = parseFloat(staggerAttr) || 0;
+      var start = stagger / STAGGER_DENOM;
+      var local = (progress - start) / WINDOW;
+      if (local < 0) local = 0;
+      if (local > 1) local = 1;
+      // ease-out cubic on the local segment
+      return 1 - Math.pow(1 - local, 3);
+    }
+
+    var layers = container.querySelectorAll('.explode-layer');
+    for (var i = 0; i < layers.length; i++) {
+      var final = parseFloat(layers[i].getAttribute('data-final')) || 0;
+      var lp = localProgress(layers[i].getAttribute('data-stagger'));
+      var dy = -final * lp;
+      layers[i].setAttribute('transform', 'translate(0, ' + dy.toFixed(2) + ')');
+      layers[i].setAttribute('opacity', lp.toFixed(3));
+    }
+    var labels = container.querySelectorAll('.explode-label');
+    for (var j = 0; j < labels.length; j++) {
+      var final2 = parseFloat(labels[j].getAttribute('data-final')) || 0;
+      var lp2 = localProgress(labels[j].getAttribute('data-stagger'));
+      var dy2 = -final2 * lp2;
+      labels[j].setAttribute('transform', 'translate(0, ' + dy2.toFixed(2) + ')');
+      labels[j].setAttribute('opacity', lp2.toFixed(3));
     }
   }
 
