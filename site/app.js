@@ -320,7 +320,9 @@
   }
 
   function initFadeObserver() {
-    if (!window.IntersectionObserver) {
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!window.IntersectionObserver || prefersReduced) {
       document.querySelectorAll('.reveal, .fade-in, .stat-row-bar').forEach(function (el) {
         el.classList.add('in-view', 'visible');
         var target = el.getAttribute('data-target-pct');
@@ -328,6 +330,8 @@
       });
       return;
     }
+
+    document.body.classList.add('js-anim');
 
     var els = document.querySelectorAll('.reveal, .fade-in, .stat-row-bar, .ascii-rule, .toc-row');
     if (!els.length) return;
@@ -389,21 +393,36 @@
   }
 
   function applyExplode(container, progress) {
+    // Each layer / label animates over its own window in [stagger_start, stagger_start + window].
+    // Sequential reveal: layer N waits for layer N-1 to mostly settle before starting.
+    var STAGGER_DENOM = 720; // higher → wider gaps between layer entrances
+    var WINDOW = 0.55;       // each layer's local animation duration as fraction of global progress
+
+    function localProgress(staggerAttr) {
+      var stagger = parseFloat(staggerAttr) || 0;
+      var start = stagger / STAGGER_DENOM;
+      var local = (progress - start) / WINDOW;
+      if (local < 0) local = 0;
+      if (local > 1) local = 1;
+      // ease-out cubic on the local segment
+      return 1 - Math.pow(1 - local, 3);
+    }
+
     var layers = container.querySelectorAll('.explode-layer');
     for (var i = 0; i < layers.length; i++) {
       var final = parseFloat(layers[i].getAttribute('data-final')) || 0;
-      var dy = -final * progress;
+      var lp = localProgress(layers[i].getAttribute('data-stagger'));
+      var dy = -final * lp;
       layers[i].setAttribute('transform', 'translate(0, ' + dy.toFixed(2) + ')');
+      layers[i].setAttribute('opacity', lp.toFixed(3));
     }
     var labels = container.querySelectorAll('.explode-label');
     for (var j = 0; j < labels.length; j++) {
       var final2 = parseFloat(labels[j].getAttribute('data-final')) || 0;
-      var stagger = parseFloat(labels[j].getAttribute('data-stagger')) || 0;
-      var dy2 = -final2 * progress;
+      var lp2 = localProgress(labels[j].getAttribute('data-stagger'));
+      var dy2 = -final2 * lp2;
       labels[j].setAttribute('transform', 'translate(0, ' + dy2.toFixed(2) + ')');
-      var labelStart = stagger / 540;
-      var labelProgress = Math.max(0, Math.min(1, (progress - labelStart) / Math.max(0.001, 1 - labelStart)));
-      labels[j].setAttribute('opacity', labelProgress.toFixed(3));
+      labels[j].setAttribute('opacity', lp2.toFixed(3));
     }
   }
 

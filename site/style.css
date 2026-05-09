@@ -789,43 +789,51 @@ p.dropcap::first-letter {
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(20px);
   transition:
     opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--stagger-delay, 0ms),
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--stagger-delay, 0ms);
   will-change: opacity, transform;
 }
 
-.reveal.in-view {
+body.js-anim .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+body.js-anim .reveal--left {
+  transform: translateX(-20px);
+}
+
+body.js-anim .reveal.in-view {
   opacity: 1;
   transform: none;
 }
 
-.reveal--left {
-  transform: translateX(-20px);
-}
-.reveal--left.in-view {
-  transform: none;
-}
-
 .ascii-rule {
-  clip-path: inset(0 100% 0 0);
   transition: clip-path 1.1s cubic-bezier(0.22, 1, 0.36, 1) var(--stagger-delay, 0ms);
 }
-.ascii-rule.in-view {
+
+body.js-anim .ascii-rule {
+  clip-path: inset(0 100% 0 0);
+}
+
+body.js-anim .ascii-rule.in-view {
   clip-path: inset(0 0 0 0);
 }
 
 .toc-row {
-  opacity: 0;
-  transform: translateY(8px);
   transition:
     opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1) var(--stagger-delay, 0ms),
     transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) var(--stagger-delay, 0ms),
     background 0.15s;
 }
-.toc-row.in-view {
+
+body.js-anim .toc-row {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+body.js-anim .toc-row.in-view {
   opacity: 1;
   transform: none;
 }

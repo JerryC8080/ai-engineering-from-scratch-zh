@@ -70,7 +70,7 @@
     }
 
     .preface {
-      padding: 56px 0;
+      padding: 48px 0 32px;
       border-bottom: 1px solid var(--rule-soft);
     }
 
@@ -114,7 +114,7 @@
     }
 
     .figure-demo {
-      padding: 56px 0;
+      padding: 24px 0 0;
       border-bottom: 1px solid var(--rule-soft);
     }
 
@@ -124,21 +124,21 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--blueprint);
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
 
     .figure-demo-caption {
       max-width: 640px;
       font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.6;
+      font-size: 0.96rem;
+      line-height: 1.5;
       color: var(--ink-soft);
-      margin-bottom: 32px;
+      margin-bottom: 0;
     }
 
     .figure-demo-svg {
       width: 100%;
-      max-width: 920px;
+      max-width: 760px;
       margin: 0 auto;
     }
 
@@ -148,8 +148,12 @@
       display: block;
     }
 
+    @media (max-width: 768px) {
+      .figure-demo { padding: 16px 0 0; }
+    }
+
     .stat-block {
-      padding: 56px 0;
+      padding: 32px 0 40px;
       border-bottom: 1px solid var(--rule-soft);
     }
 
@@ -570,85 +574,8 @@
           <p>You don't need to be a researcher to read this. You just need to be curious and willing to write the code yourself. Every algorithm in here gets implemented from raw math. No magic wrappers. You write the backprop, the tokenizer, the attention mechanism, the agent loop.</p>
         </div>
       </div>
-      <div class="ascii-rule"></div>
     </section>
 
-    <section class="figure-demo container">
-      <div class="figure-demo-eyebrow reveal reveal--left">FIG_001 · Curriculum Stack</div>
-      <p class="figure-demo-caption reveal" style="--stagger-delay: 80ms;">Twenty phases stack on top of each other. Math is the floor; agents and production are the roof. Scroll to see how the stack assembles.</p>
-      <div class="figure-demo-svg reveal" style="--stagger-delay: 120ms;" data-svg-explode>
-        <svg viewBox="0 0 760 520" role="img" aria-label="FIG_001 — animated curriculum stack" preserveAspectRatio="xMidYMid meet">
-          <defs>
-            <pattern id="fdPaper" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
-              <circle cx="0" cy="0" r="0.9" fill="currentColor" fill-opacity="0.08"/>
-            </pattern>
-          </defs>
-          <g style="color: var(--ink);">
-            <rect width="760" height="520" fill="url(#fdPaper)" opacity="0.5"/>
-          </g>
-
-          <!-- Stack: 7 panels. Each panel has a `data-base-y` attribute (final position) and starts collapsed at the same y as panel 7 (bottom). Scroll progress 0..1 lerps from collapsed → exploded. -->
-          <g transform="translate(140, 80)">
-            <g class="explode-layer" data-rest="0"   data-final="0">
-              <polygon points="0,260 132,234 332,247 200,273" fill="rgba(53, 83, 255, 0.06)" stroke="#3553ff" stroke-width="1.2" stroke-linejoin="miter"/>
-            </g>
-            <g class="explode-layer" data-rest="0"   data-final="36">
-              <polygon points="0,260 132,234 332,247 200,273" fill="rgba(53, 83, 255, 0.06)" stroke="#3553ff" stroke-width="1.2" stroke-linejoin="miter"/>
-            </g>
-            <g class="explode-layer" data-rest="0"   data-final="72">
-              <polygon points="0,260 132,234 332,247 200,273" fill="rgba(53, 83, 255, 0.06)" stroke="#3553ff" stroke-width="1.2" stroke-linejoin="miter"/>
-            </g>
-            <g class="explode-layer" data-rest="0"   data-final="108">
-              <polygon points="0,260 132,234 332,247 200,273" fill="rgba(53, 83, 255, 0.06)" stroke="#3553ff" stroke-width="1.2" stroke-linejoin="miter"/>
-            </g>
-            <g class="explode-layer" data-rest="0"   data-final="144">
-              <polygon points="0,260 132,234 332,247 200,273" fill="rgba(53, 83, 255, 0.06)" stroke="#3553ff" stroke-width="1.2" stroke-linejoin="miter"/>
-            </g>
-            <g class="explode-layer" data-rest="0"   data-final="180">
-              <polygon points="0,260 132,234 332,247 200,273" fill="rgba(53, 83, 255, 0.06)" stroke="#3553ff" stroke-width="1.2" stroke-linejoin="miter"/>
-            </g>
-            <g class="explode-layer" data-rest="0"   data-final="216">
-              <polygon points="0,260 132,234 332,247 200,273" fill="rgba(53, 83, 255, 0.18)" stroke="#3553ff" stroke-width="1.4" stroke-linejoin="miter"/>
-            </g>
-
-            <!-- Leader lines + labels (right column), revealed as progress passes -->
-            <g class="explode-labels" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" letter-spacing="1.6" fill="#3553ff">
-              <g class="explode-label" data-final="0"   data-stagger="0">
-                <line x1="340" y1="247" x2="416" y2="247" stroke="#3553ff" stroke-width="0.8" stroke-dasharray="3 3"/>
-                <text x="424" y="251">SETUP &amp; TOOLING</text>
-              </g>
-              <g class="explode-label" data-final="36"  data-stagger="60">
-                <line x1="340" y1="247" x2="416" y2="247" stroke="#3553ff" stroke-width="0.8" stroke-dasharray="3 3"/>
-                <text x="424" y="251">MATH FOUNDATIONS</text>
-              </g>
-              <g class="explode-label" data-final="72"  data-stagger="120">
-                <line x1="340" y1="247" x2="416" y2="247" stroke="#3553ff" stroke-width="0.8" stroke-dasharray="3 3"/>
-                <text x="424" y="251">ML FUNDAMENTALS</text>
-              </g>
-              <g class="explode-label" data-final="108" data-stagger="180">
-                <line x1="340" y1="247" x2="416" y2="247" stroke="#3553ff" stroke-width="0.8" stroke-dasharray="3 3"/>
-                <text x="424" y="251">DEEP LEARNING · RL</text>
-              </g>
-              <g class="explode-label" data-final="144" data-stagger="240">
-                <line x1="340" y1="247" x2="416" y2="247" stroke="#3553ff" stroke-width="0.8" stroke-dasharray="3 3"/>
-                <text x="424" y="251">VISION · SPEECH · NLP</text>
-              </g>
-              <g class="explode-label" data-final="180" data-stagger="300">
-                <line x1="340" y1="247" x2="416" y2="247" stroke="#3553ff" stroke-width="0.8" stroke-dasharray="3 3"/>
-                <text x="424" y="251">LLMS · TRANSFORMERS</text>
-              </g>
-              <g class="explode-label" data-final="216" data-stagger="360">
-                <line x1="340" y1="247" x2="416" y2="247" stroke="#3553ff" stroke-width="0.8" stroke-dasharray="3 3"/>
-                <text x="424" y="251">AGENTS · SWARMS · PROD</text>
-              </g>
-            </g>
-          </g>
-
-          <text x="40" y="36" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" letter-spacing="2" fill="#3553ff">FIG_001 — SCROLL TO ASSEMBLE</text>
-        </svg>
-      </div>
-      <div class="ascii-rule"></div>
-    </section>
 
     <section class="stat-block container">
       <div class="stat-block-title reveal reveal--left">Current Progress</div>
@@ -674,7 +601,6 @@
           <span class="stat-row-value" data-stat="glossary-count">—</span>
         </div>
       </div>
-      <div class="ascii-rule"></div>
     </section>
 
     <section class="toc container" id="contents">
