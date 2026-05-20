@@ -611,6 +611,42 @@
     @media (max-width: 800px) {
       .ecosystem-grid { grid-template-columns: 1fr; }
     }
+
+    /* Figure card (makingsoftware aesthetic) */
+    .figure-card {
+      border: 1px solid var(--rule-soft);
+      background: var(--bg);
+      padding: 0;
+      margin: 24px 0 36px;
+      background-image: radial-gradient(circle at 4px 4px, rgba(0,0,0,0.05) 1px, transparent 1.5px);
+      background-size: 16px 16px;
+    }
+    .figure-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--rule-soft);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .figure-head .left { color: var(--blueprint); }
+    .figure-head .right { color: var(--ink-mute); }
+    .figure-body {
+      padding: 32px 24px;
+      overflow-x: auto;
+    }
+    .figure-body svg { display: block; width: 100%; height: auto; max-width: 1100px; margin: 0 auto; }
+    .figure-foot {
+      padding: 14px 24px;
+      border-top: 1px solid var(--rule-soft);
+      font-family: var(--font-body);
+      font-size: 0.96rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -729,6 +765,96 @@
       <div class="ecosystem-eyebrow reveal reveal--left">From the same author</div>
       <h2 class="ecosystem-title reveal" style="--stagger-delay: 60ms;">Memory + reasoning + knowledge protocol</h2>
       <p class="ecosystem-lede reveal" style="--stagger-delay: 120ms;">Three open-source repositories that compose into a full agent stack. The curriculum teaches the primitives; these tools ship them in production.</p>
+
+      <figure class="figure-card reveal" style="--stagger-delay: 160ms;">
+        <div class="figure-head">
+          <span class="left">FIG_006 · the agent stack</span>
+          <span class="right">memory · reasoning · knowledge</span>
+        </div>
+        <div class="figure-body">
+          <svg viewBox="0 0 1100 460" xmlns="http://www.w3.org/2000/svg"
+               fill="none" stroke="currentColor" stroke-width="1.5"
+               role="img" aria-labelledby="figAgentStackTitle">
+            <title id="figAgentStackTitle">Three repositories — agentmemory, agentbrain, akbp — composing into the agent stack the curriculum teaches.</title>
+            <style>
+              .bp-fill { fill: #3553ff; }
+              .bp-tint { fill: rgba(53, 83, 255, 0.08); }
+              .bp-tint-strong { fill: rgba(53, 83, 255, 0.16); }
+              .ink { fill: #1a1a1a; }
+              .ink-mute { fill: #7a7a78; }
+              .mono { font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; }
+              .serif { font-family: 'Source Serif 4', Georgia, serif; }
+              .leader { stroke: #3553ff; stroke-opacity: 0.35; stroke-width: 1; }
+              .flow { stroke: #3553ff; stroke-width: 1.6; }
+              .anchor { fill: #3553ff; }
+            </style>
+
+            <!-- Center: AGENT block (what the curriculum builds) -->
+            <g transform="translate(440, 170)">
+              <rect width="220" height="120" class="bp-tint-strong" stroke="#3553ff" stroke-width="1.5"/>
+              <text x="110" y="34" text-anchor="middle" class="mono ink" font-size="12" letter-spacing="2.4">AGENT LOOP</text>
+              <line x1="20" y1="46" x2="200" y2="46" stroke="#3553ff" stroke-opacity="0.3" stroke-width="0.8"/>
+              <text x="110" y="70" text-anchor="middle" class="serif ink" font-size="14" font-style="italic">function · worker · trigger</text>
+              <text x="110" y="92" text-anchor="middle" class="serif ink-mute" font-size="13">you build this in Phase 14</text>
+              <text x="110" y="110" text-anchor="middle" class="mono ink-mute" font-size="10" letter-spacing="2">FROM THE CURRICULUM</text>
+            </g>
+
+            <!-- Left module: agentmemory -->
+            <g transform="translate(60, 180)">
+              <rect width="220" height="100" class="bp-tint" stroke="#3553ff" stroke-width="1.5"/>
+              <text x="14" y="28" class="mono bp-fill" font-size="9" letter-spacing="1.6">REPO · MEMORY SURFACE</text>
+              <text x="14" y="56" class="mono ink" font-size="18" font-weight="500">agentmemory</text>
+              <text x="14" y="78" class="serif ink-mute" font-size="13">persistent memory for AI coding agents.</text>
+              <text x="206" y="94" text-anchor="end" class="mono bp-fill" font-size="11" data-eco-svg-stars="agentmemory">★ ...</text>
+            </g>
+
+            <!-- Top module: agentbrain -->
+            <g transform="translate(440, 30)">
+              <rect width="220" height="100" class="bp-tint" stroke="#3553ff" stroke-width="1.5"/>
+              <text x="14" y="28" class="mono bp-fill" font-size="9" letter-spacing="1.6">REPO · REASONING SURFACE</text>
+              <text x="14" y="56" class="mono ink" font-size="18" font-weight="500">agentbrain</text>
+              <text x="14" y="78" class="serif ink-mute" font-size="13">evidence-first operating system for agents.</text>
+              <text x="206" y="94" text-anchor="end" class="mono bp-fill" font-size="11" data-eco-svg-stars="agentbrain">★ ...</text>
+            </g>
+
+            <!-- Right module: akbp -->
+            <g transform="translate(820, 180)">
+              <rect width="220" height="100" class="bp-tint" stroke="#3553ff" stroke-width="1.5"/>
+              <text x="14" y="28" class="mono bp-fill" font-size="9" letter-spacing="1.6">REPO · KNOWLEDGE SURFACE</text>
+              <text x="14" y="56" class="mono ink" font-size="18" font-weight="500">akbp</text>
+              <text x="14" y="78" class="serif ink-mute" font-size="13">agent knowledge base protocol.</text>
+              <text x="206" y="94" text-anchor="end" class="mono bp-fill" font-size="11" data-eco-svg-stars="akbp">★ ...</text>
+            </g>
+
+            <!-- Flow: agentmemory <-> AGENT (one label, two arrowheads) -->
+            <line x1="280" y1="230" x2="440" y2="230" class="flow"/>
+            <polyline points="434,225 440,230 434,235" class="flow"/>
+            <polyline points="286,225 280,230 286,235" class="flow"/>
+            <text x="360" y="222" text-anchor="middle" class="mono bp-fill" font-size="10" letter-spacing="1.6">READ / WRITE STATE</text>
+
+            <!-- Flow: agentbrain → AGENT (top) -->
+            <line x1="550" y1="130" x2="550" y2="170" class="flow"/>
+            <polyline points="545,164 550,170 555,164" class="flow"/>
+            <text x="565" y="155" class="mono bp-fill" font-size="10" letter-spacing="1.6">STEERS</text>
+
+            <!-- Flow: akbp <-> AGENT (one label, two arrowheads) -->
+            <line x1="820" y1="230" x2="660" y2="230" class="flow"/>
+            <polyline points="666,225 660,230 666,235" class="flow"/>
+            <polyline points="814,225 820,230 814,235" class="flow"/>
+            <text x="740" y="222" text-anchor="middle" class="mono bp-fill" font-size="10" letter-spacing="1.6">ANSWERS QUERIES</text>
+
+            <!-- Footer rule + caption inside SVG -->
+            <line x1="60" y1="340" x2="1040" y2="340" stroke="#3553ff" stroke-opacity="0.25" stroke-width="0.6"/>
+            <text x="60" y="372" class="mono bp-fill" font-size="10" letter-spacing="1.8">EIGHT PRIMITIVES</text>
+            <text x="60" y="396" class="serif ink" font-size="14">function · worker · trigger · runtime · HTTP/RPC · queue · session persistence · authorization policy</text>
+            <text x="60" y="424" class="serif ink-mute" font-size="13" font-style="italic">Phase 14 teaches the primitives. The three repos above are the same primitives, shipped.</text>
+          </svg>
+        </div>
+        <figcaption class="figure-foot">
+          Three repositories, one stack: <strong>agentmemory</strong> writes durable state, <strong>agentbrain</strong> steers the loop from evidence, <strong>akbp</strong> answers knowledge queries between sessions and across agents.
+        </figcaption>
+      </figure>
+
       <div class="ecosystem-grid">
         <a class="ecosystem-card reveal" style="--stagger-delay: 180ms;" href="https://github.com/rohitg00/agentmemory" target="_blank" rel="noopener">
           <div class="ecosystem-card-head">
@@ -813,9 +939,23 @@
           return r.json();
         }).then(function (data) {
           try { localStorage.setItem(key, JSON.stringify({ count: data.stargazers_count, ts: Date.now() })); } catch (e) {}
-          var el = document.querySelector('[data-eco-repo="' + repo + '"]');
-          if (el) el.textContent = fmt(data.stargazers_count);
+          paint(repo, fmt(data.stargazers_count));
         }).catch(function () {});
+      });
+
+      function paint(repo, text) {
+        document.querySelectorAll('[data-eco-repo="' + repo + '"], [data-eco-svg-stars="' + repo + '"]').forEach(function (el) {
+          el.textContent = text;
+        });
+      }
+
+      // Re-run paint for any cache hits set above (only the card was updated in the inline path).
+      ECO_REPOS.forEach(function (repo) {
+        var key = 'aifs:stars:' + repo;
+        try {
+          var cached = JSON.parse(localStorage.getItem(key));
+          if (cached && Date.now() - cached.ts < 6 * 3600 * 1000) paint(repo, fmt(cached.count));
+        } catch (e) {}
       });
     })();
   </script>
