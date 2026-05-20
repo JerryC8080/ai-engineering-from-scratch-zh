@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Build a machine-readable catalog of the entire curriculum.
 
+Requires Python 3.10+ (PEP 604 union types, Path.is_relative_to).
+
 Walks every `phases/NN-slug/MM-slug/` lesson directory on disk and emits a
 single JSON document with the truth of what exists in the repo: phases,
 lessons, code files, outputs (skills / prompts / agents), and totals.
