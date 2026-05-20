@@ -44,7 +44,7 @@ PHASES_DIR = ROOT / "phases"
 
 PHASE_DIR_RE = re.compile(r"^([0-9]{2})-[a-z0-9][a-z0-9-]*$")
 LESSON_DIR_RE = re.compile(r"^([0-9]{2})-[a-z0-9][a-z0-9-]*$")
-REQUIRES_RE = re.compile(r"^#\s*requires:\s*(.+?)\s*$", re.MULTILINE)
+REQUIRES_RE = re.compile(r"^\s*#\s*requires:\s*(.+?)\s*$")
 
 EXECUTE_TIMEOUT_SEC = 10
 
@@ -94,11 +94,17 @@ def read_requires(path: Path) -> list[str]:
         text = path.read_text(encoding="utf-8")
     except (UnicodeDecodeError, OSError):
         return []
-    match = REQUIRES_RE.search(text)
-    if not match:
-        return []
-    deps = [d.strip() for d in match.group(1).split(",")]
-    return [d for d in deps if d]
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if not stripped.startswith("#"):
+            break
+        match = REQUIRES_RE.match(line)
+        if match:
+            deps = [d.strip() for d in match.group(1).split(",")]
+            return [d for d in deps if d]
+    return []
 
 
 def syntax_check(py_files: list[Path]) -> tuple[bool, str]:
@@ -115,9 +121,11 @@ def execute_lesson(entry: Path) -> tuple[bool, str]:
         proc = subprocess.run(
             [sys.executable, str(entry)],
             cwd=str(entry.parent),
-            capture_output=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
             timeout=EXECUTE_TIMEOUT_SEC,
             check=False,
+            text=True,
         )
     except subprocess.TimeoutExpired:
         return False, f"timeout after {EXECUTE_TIMEOUT_SEC}s"
@@ -125,7 +133,7 @@ def execute_lesson(entry: Path) -> tuple[bool, str]:
         return False, f"failed to launch interpreter: {exc}"
     if proc.returncode == 0:
         return True, ""
-    stderr = proc.stderr.decode("utf-8", errors="replace").strip()
+    stderr = (proc.stderr or "").strip()
     last_line = stderr.splitlines()[-1] if stderr else f"exit {proc.returncode}"
     return False, f"exit {proc.returncode}: {last_line}"
 
