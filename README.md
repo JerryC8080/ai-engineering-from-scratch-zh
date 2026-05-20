@@ -675,6 +675,8 @@ Twenty phases. Click any phase to expand its lesson list.
 | 41 | [The Workbench on a Real Repo](phases/14-agent-engineering/41-workbench-for-real-repos/) | Build | Python |
 | 42 | [Capstone: Ship a Reusable Agent Workbench Pack](phases/14-agent-engineering/42-agent-workbench-capstone/) | Build | Python |
 
+Each Phase 14 workbench lesson (31-42) ships a `mission.md` briefing the agent before it opens the full lesson docs.
+
 </details>
 
 <details id="phase-15">
