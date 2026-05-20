@@ -108,9 +108,7 @@ def apply_action(action: Action) -> None:
         shutil.copy2(action.source, action.target)
         return
     if action.kind == "tree":
-        if action.target.exists():
-            shutil.rmtree(action.target)
-        shutil.copytree(action.source, action.target)
+        shutil.copytree(action.source, action.target, dirs_exist_ok=True)
         return
     if action.kind == "version":
         action.target.parent.mkdir(parents=True, exist_ok=True)
