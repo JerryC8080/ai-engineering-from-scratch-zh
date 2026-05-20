@@ -953,6 +953,21 @@ Sign up via [GitHub Sponsors](https://github.com/sponsors/rohitg00).
 ░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒
 ```
 
+## From the same author
+
+The curriculum teaches the primitives. These three repositories ship them in production —
+memory, reasoning, and a knowledge-base protocol — and compose into a full agent stack.
+
+| Repo | Stars | What it is |
+|---|---|---|
+| [agentmemory](https://github.com/rohitg00/agentmemory) | ![stars](https://img.shields.io/github/stars/rohitg00/agentmemory?style=flat-square&label=%E2%98%85&color=3553ff&labelColor=fafaf5) | Persistent memory for AI coding agents. The state surface from Phase 14, productionized. |
+| [agentbrain](https://github.com/rohitg00/agentbrain) | ![stars](https://img.shields.io/github/stars/rohitg00/agentbrain?style=flat-square&label=%E2%98%85&color=3553ff&labelColor=fafaf5) | Evidence-first operating system for agents. Reasoning + verification surfaces, end-to-end. |
+| [akbp](https://github.com/rohitg00/akbp) | ![stars](https://img.shields.io/github/stars/rohitg00/akbp?style=flat-square&label=%E2%98%85&color=3553ff&labelColor=fafaf5) | Agent Knowledge Base Protocol. Handoff + knowledge layer between sessions and across agents. |
+
+```
+░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒░░░▒▒▒
+```
+
 ## Star history
 
 <a href="https://star-history.com/#rohitg00/ai-engineering-from-scratch&Date">
