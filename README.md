@@ -932,6 +932,26 @@ any lesson, run `python3 scripts/build_catalog.py` and commit the result, or
 CI will reject the PR. The same workflow runs `audit_lessons.py` in
 warn-only mode (so existing drift does not block contributors).
 
+### Smoke-check every lesson's Python code
+
+`scripts/lesson_run.py` byte-compiles every `.py` file under each lesson's
+`code/` directory. Default mode is syntax-check only — no execution, no API
+keys, no heavy ML deps required. Catches the regressions contributors
+introduce most often (bad indentation, broken f-strings, stray edits).
+
+```bash
+python3 scripts/lesson_run.py                  # syntax-check the whole curriculum
+python3 scripts/lesson_run.py --phase 14       # one phase only
+python3 scripts/lesson_run.py --json           # JSON report on stdout
+python3 scripts/lesson_run.py --strict         # exit 1 if any lesson fails
+python3 scripts/lesson_run.py --execute        # actually run, 10s timeout per lesson
+```
+
+`--execute` runs each lesson's `code/main.py` (or the first `.py` file) with a
+10-second timeout. Lessons whose entry file starts with a `# requires: pkg1,
+pkg2` comment listing non-stdlib deps are skipped with reason `needs <deps>`.
+The script is opt-in and not wired into CI.
+
 ## Where to start
 
 | Background | Start at | Estimated time |
