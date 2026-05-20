@@ -932,6 +932,29 @@ any lesson, run `python3 scripts/build_catalog.py` and commit the result, or
 CI will reject the PR. The same workflow runs `audit_lessons.py` in
 warn-only mode (so existing drift does not block contributors).
 
+### Check external links
+
+`scripts/link_check.py` walks every markdown file in the repo, extracts every
+`https?://` URL (from `[text](url)` syntax and bare URLs), deduplicates, and
+validates each one via HEAD request (falling back to GET on 405/501). Results
+are cached for 7 days at `.link-cache.json` (gitignored) so re-runs do not
+hammer external services. Companion to `audit_lessons.py` rule L010, which
+covers *internal* relative links.
+
+```bash
+python3 scripts/link_check.py                          # walk every *.md
+python3 scripts/link_check.py --phase 14               # one phase
+python3 scripts/link_check.py --path README.md         # one file
+python3 scripts/link_check.py --strict                 # exit 1 on any broken link
+python3 scripts/link_check.py --json                   # machine-readable report
+python3 scripts/link_check.py --cache 0                # bypass cache for this run
+```
+
+Stdlib only, Python 3.10+. Set `LINK_CHECK_SKIP=domain1,domain2` to override
+the default skip-list (`twitter.com`, `x.com`, `linkedin.com`,
+`instagram.com`, `medium.com` — domains that aggressively block automated
+HEAD/GET).
+
 ## Where to start
 
 | Background | Start at | Estimated time |
