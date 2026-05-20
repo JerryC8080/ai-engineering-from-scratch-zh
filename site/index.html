@@ -526,6 +526,91 @@
         font-size: 0.7rem;
       }
     }
+
+    .ecosystem {
+      padding: 64px 0;
+      border-top: 1px solid var(--rule-soft);
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .ecosystem-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      margin-bottom: 12px;
+    }
+    .ecosystem-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .ecosystem-lede {
+      font-family: var(--font-body);
+      font-size: 1.06rem;
+      color: var(--ink-soft);
+      max-width: 720px;
+      line-height: 1.55;
+      margin-bottom: 36px;
+    }
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .ecosystem-card {
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      border: 1px solid var(--rule-soft);
+      background: var(--bg-surface);
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .ecosystem-card:hover {
+      border-color: var(--blueprint);
+      background: var(--bg);
+    }
+    .ecosystem-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+    .ecosystem-card-name {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .ecosystem-card-stars {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--ink-mute);
+      white-space: nowrap;
+    }
+    .ecosystem-card-desc {
+      font-family: var(--font-body);
+      font-size: 0.96rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+      flex: 1;
+    }
+    .ecosystem-card-cta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      margin-top: 16px;
+    }
+    @media (max-width: 800px) {
+      .ecosystem-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -640,6 +725,38 @@
       </div>
     </div>
 
+    <section class="ecosystem container" id="ecosystem">
+      <div class="ecosystem-eyebrow reveal reveal--left">From the same author</div>
+      <h2 class="ecosystem-title reveal" style="--stagger-delay: 60ms;">Memory + reasoning + knowledge protocol</h2>
+      <p class="ecosystem-lede reveal" style="--stagger-delay: 120ms;">Three open-source repositories that compose into a full agent stack. The curriculum teaches the primitives; these tools ship them in production.</p>
+      <div class="ecosystem-grid">
+        <a class="ecosystem-card reveal" style="--stagger-delay: 180ms;" href="https://github.com/rohitg00/agentmemory" target="_blank" rel="noopener">
+          <div class="ecosystem-card-head">
+            <span class="ecosystem-card-name">agentmemory</span>
+            <span class="ecosystem-card-stars" data-eco-repo="agentmemory"></span>
+          </div>
+          <p class="ecosystem-card-desc">Persistent memory for AI coding agents. The state surface from Phase 14, productionized.</p>
+          <span class="ecosystem-card-cta">View on GitHub →</span>
+        </a>
+        <a class="ecosystem-card reveal" style="--stagger-delay: 240ms;" href="https://github.com/rohitg00/agentbrain" target="_blank" rel="noopener">
+          <div class="ecosystem-card-head">
+            <span class="ecosystem-card-name">agentbrain</span>
+            <span class="ecosystem-card-stars" data-eco-repo="agentbrain"></span>
+          </div>
+          <p class="ecosystem-card-desc">Evidence-first operating system for agents. The reasoning + verification surfaces, wired end-to-end.</p>
+          <span class="ecosystem-card-cta">View on GitHub →</span>
+        </a>
+        <a class="ecosystem-card reveal" style="--stagger-delay: 300ms;" href="https://github.com/rohitg00/akbp" target="_blank" rel="noopener">
+          <div class="ecosystem-card-head">
+            <span class="ecosystem-card-name">akbp</span>
+            <span class="ecosystem-card-stars" data-eco-repo="akbp"></span>
+          </div>
+          <p class="ecosystem-card-desc">Agent Knowledge Base Protocol. The handoff + knowledge layer between sessions and across agents.</p>
+          <span class="ecosystem-card-cta">View on GitHub →</span>
+        </a>
+      </div>
+    </section>
+
     <section class="colophon container">
       <div class="colophon-grid">
         <div class="colophon-eyebrow reveal reveal--left">Colophon</div>
@@ -673,5 +790,34 @@
   <script src="cmdpalette.js?v=20260508a" defer></script>
   <script src="app.js?v=20260508a"></script>
   <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
+  <script>
+    (function () {
+      var ECO_REPOS = ['agentmemory', 'agentbrain', 'akbp'];
+      function fmt(n) {
+        if (typeof n !== 'number') return '';
+        if (n >= 1000) return '★ ' + (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+        return '★ ' + String(n);
+      }
+      ECO_REPOS.forEach(function (repo) {
+        var key = 'aifs:stars:' + repo;
+        try {
+          var cached = JSON.parse(localStorage.getItem(key));
+          if (cached && Date.now() - cached.ts < 6 * 3600 * 1000) {
+            var el = document.querySelector('[data-eco-repo="' + repo + '"]');
+            if (el) el.textContent = fmt(cached.count);
+            return;
+          }
+        } catch (e) {}
+        fetch('https://api.github.com/repos/rohitg00/' + repo).then(function (r) {
+          if (!r.ok) throw 0;
+          return r.json();
+        }).then(function (data) {
+          try { localStorage.setItem(key, JSON.stringify({ count: data.stargazers_count, ts: Date.now() })); } catch (e) {}
+          var el = document.querySelector('[data-eco-repo="' + repo + '"]');
+          if (el) el.textContent = fmt(data.stargazers_count);
+        }).catch(function () {});
+      });
+    })();
+  </script>
 </body>
 </html>
