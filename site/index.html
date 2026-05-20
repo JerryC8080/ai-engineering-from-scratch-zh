@@ -69,6 +69,50 @@
       font-style: italic;
     }
 
+    .manual-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .manual-hero-left { min-width: 0; }
+
+    .manual-hero-stack {
+      border: 1px solid var(--rule-soft);
+      background-color: var(--bg);
+      background-image: radial-gradient(circle at 4px 4px, rgba(0,0,0,0.05) 1px, transparent 1.5px);
+      background-size: 16px 16px;
+      padding: 14px 16px 16px;
+    }
+
+    .hero-stack-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--rule-soft);
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .hero-stack-eyebrow { color: var(--blueprint); }
+    .hero-stack-tag { color: var(--ink-mute); }
+
+    .manual-hero-stack svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 1024px) {
+      .manual-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .manual-hero-stack { max-width: 420px; }
+    }
+
     .preface {
       padding: 48px 0 32px;
       border-bottom: 1px solid var(--rule-soft);
@@ -688,9 +732,90 @@
         <span>FIG_000 &middot; curriculum v1.0 · 2026</span>
         <span class="right">open source · MIT</span>
       </div>
-      <h1 class="manual-title">AI Engineering<br>from Scratch</h1>
-      <p class="manual-tagline reveal">416 lessons. 20 phases. Every algorithm built from raw math before a single framework gets imported.</p>
-      <p class="manual-attribution reveal" style="--stagger-delay: 80ms;">Maintained by Rohit Ghumare and contributors. Run on your own machine.</p>
+      <div class="manual-hero-grid">
+        <div class="manual-hero-left">
+          <h1 class="manual-title">AI Engineering<br>from Scratch</h1>
+          <p class="manual-tagline reveal">416 lessons. 20 phases. Every algorithm built from raw math before a single framework gets imported.</p>
+          <p class="manual-attribution reveal" style="--stagger-delay: 80ms;">Maintained by Rohit Ghumare and contributors. Run on your own machine.</p>
+        </div>
+        <aside class="manual-hero-stack reveal" style="--stagger-delay: 120ms;" aria-labelledby="heroStackTitle">
+          <div class="hero-stack-head">
+            <span class="hero-stack-eyebrow">FIG_006 · the stack</span>
+            <span class="hero-stack-tag">memory · reasoning · kb</span>
+          </div>
+          <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg"
+               fill="none" stroke="currentColor" stroke-width="1.5" role="img" aria-labelledby="heroStackTitle">
+            <title id="heroStackTitle">Three repos compose into the agent stack the curriculum teaches.</title>
+            <style>
+              .hbp-fill { fill: #3553ff; }
+              .hbp-tint { fill: rgba(53, 83, 255, 0.08); }
+              .hbp-tint-strong { fill: rgba(53, 83, 255, 0.16); }
+              .hink { fill: #1a1a1a; }
+              .hink-mute { fill: #7a7a78; }
+              .hmono { font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; }
+              .hflow { stroke: #3553ff; stroke-width: 1.4; }
+            </style>
+
+            <!-- agentbrain (top) -->
+            <g transform="translate(60, 16)">
+              <rect width="200" height="56" class="hbp-tint" stroke="#3553ff"/>
+              <text x="12" y="20" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">REPO · REASONING</text>
+              <text x="12" y="40" class="hmono hink" font-size="14" font-weight="500">agentbrain</text>
+              <text x="188" y="50" text-anchor="end" class="hmono hbp-fill" font-size="10" data-eco-svg-stars="agentbrain">★ ...</text>
+            </g>
+
+            <!-- arrow brain -> agent -->
+            <line x1="160" y1="72" x2="160" y2="118" class="hflow"/>
+            <polyline points="155,112 160,118 165,112" class="hflow"/>
+            <text x="170" y="100" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">STEERS</text>
+
+            <!-- AGENT center -->
+            <g transform="translate(60, 122)">
+              <rect width="200" height="92" class="hbp-tint-strong" stroke="#3553ff"/>
+              <text x="100" y="22" text-anchor="middle" class="hmono hink" font-size="10" letter-spacing="2">AGENT LOOP</text>
+              <line x1="14" y1="32" x2="186" y2="32" stroke="#3553ff" stroke-opacity="0.25"/>
+              <text x="100" y="52" text-anchor="middle" class="hmono hink" font-size="10">function · worker · trigger</text>
+              <text x="100" y="68" text-anchor="middle" class="hmono hink-mute" font-size="9">+ queue · persistence · authz</text>
+              <text x="100" y="84" text-anchor="middle" class="hmono hbp-fill" font-size="8" letter-spacing="1.6">FROM THE CURRICULUM</text>
+            </g>
+
+            <!-- arrow agent -> memory -->
+            <line x1="100" y1="214" x2="100" y2="258" class="hflow"/>
+            <polyline points="95,252 100,258 105,252" class="hflow"/>
+            <line x1="86" y1="214" x2="86" y2="258" class="hflow"/>
+            <polyline points="81,220 86,214 91,220" class="hflow"/>
+            <text x="115" y="240" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">READ / WRITE</text>
+
+            <!-- agentmemory -->
+            <g transform="translate(0, 262)">
+              <rect width="148" height="56" class="hbp-tint" stroke="#3553ff"/>
+              <text x="12" y="20" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">REPO · MEMORY</text>
+              <text x="12" y="40" class="hmono hink" font-size="14" font-weight="500">agentmemory</text>
+              <text x="136" y="50" text-anchor="end" class="hmono hbp-fill" font-size="10" data-eco-svg-stars="agentmemory">★ ...</text>
+            </g>
+
+            <!-- arrow agent -> akbp -->
+            <line x1="220" y1="214" x2="220" y2="258" class="hflow"/>
+            <polyline points="215,252 220,258 225,252" class="hflow"/>
+            <text x="270" y="240" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">ANSWERS</text>
+            <line x1="234" y1="214" x2="234" y2="258" class="hflow"/>
+            <polyline points="229,220 234,214 239,220" class="hflow"/>
+
+            <!-- akbp -->
+            <g transform="translate(172, 262)">
+              <rect width="148" height="56" class="hbp-tint" stroke="#3553ff"/>
+              <text x="12" y="20" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">REPO · KNOWLEDGE</text>
+              <text x="12" y="40" class="hmono hink" font-size="14" font-weight="500">akbp</text>
+              <text x="136" y="50" text-anchor="end" class="hmono hbp-fill" font-size="10" data-eco-svg-stars="akbp">★ ...</text>
+            </g>
+
+            <!-- divider -->
+            <line x1="0" y1="338" x2="320" y2="338" stroke="#3553ff" stroke-opacity="0.25" stroke-width="0.6"/>
+            <text x="160" y="358" text-anchor="middle" class="hmono hbp-fill" font-size="9" letter-spacing="2">SAME AUTHOR · OPEN SOURCE</text>
+            <text x="160" y="374" text-anchor="middle" class="hmono hink-mute" font-size="8" letter-spacing="1.4">FULL STACK BELOW · SCROLL TO FIG_006</text>
+          </svg>
+        </aside>
+      </div>
       <div class="ascii-rule" style="margin-top:48px;"></div>
     </section>
 
