@@ -109,7 +109,8 @@
       color: var(--blueprint);
     }
 
-    .hero-repo-link { cursor: pointer; }
+    .hero-repo-link { cursor: pointer; font-weight: 400; text-decoration: none; }
+    .hero-repo-link text { font-weight: 400; }
     .hero-repo-link .hrepo-rect { transition: fill 0.15s, stroke-width 0.15s; }
     .hero-repo-link:hover .hrepo-rect { fill: var(--blueprint-tint-strong); }
     .hero-repo-link:focus { outline: none; }
@@ -757,12 +758,14 @@
                fill="none" stroke="currentColor" stroke-width="1.5" role="img" aria-labelledby="heroStackTitle">
             <title id="heroStackTitle">Three repos compose into the agent stack the curriculum teaches.</title>
             <style>
+              text { font-weight: 400; }
               .hbp-fill { fill: var(--blueprint); }
               .hbp-tint { fill: var(--blueprint-tint); }
               .hbp-tint-strong { fill: var(--blueprint-tint-strong); }
               .hink { fill: var(--ink); }
               .hink-mute { fill: var(--ink-mute); }
-              .hmono { font-family: var(--font-mono); }
+              .hmono { font-family: var(--font-mono); font-weight: 400; }
+              .hserif { font-family: var(--font-body); font-weight: 400; }
               .hflow { stroke: var(--blueprint); stroke-width: 1.4; }
             </style>
 
@@ -771,7 +774,7 @@
               <g transform="translate(60, 16)">
                 <rect width="200" height="56" class="hbp-tint hrepo-rect" stroke="currentColor"/>
                 <text x="12" y="20" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">REPO · REASONING</text>
-                <text x="12" y="40" class="hmono hink" font-size="13">agentbrain</text>
+                <text x="12" y="42" class="hserif hink" font-size="16" font-style="italic">agentbrain</text>
                 <text x="188" y="50" text-anchor="end" class="hmono hbp-fill" font-size="10" data-eco-svg-stars="agentbrain">★ ...</text>
               </g>
             </a>
@@ -803,7 +806,7 @@
               <g transform="translate(0, 262)">
                 <rect width="148" height="56" class="hbp-tint hrepo-rect" stroke="currentColor"/>
                 <text x="12" y="20" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">REPO · MEMORY</text>
-                <text x="12" y="40" class="hmono hink" font-size="13">agentmemory</text>
+                <text x="12" y="42" class="hserif hink" font-size="16" font-style="italic">agentmemory</text>
                 <text x="136" y="50" text-anchor="end" class="hmono hbp-fill" font-size="10" data-eco-svg-stars="agentmemory">★ ...</text>
               </g>
             </a>
@@ -820,7 +823,7 @@
               <g transform="translate(172, 262)">
                 <rect width="148" height="56" class="hbp-tint hrepo-rect" stroke="currentColor"/>
                 <text x="12" y="20" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">REPO · KNOWLEDGE</text>
-                <text x="12" y="40" class="hmono hink" font-size="13">akbp</text>
+                <text x="12" y="42" class="hserif hink" font-size="16" font-style="italic">akbp</text>
                 <text x="136" y="50" text-anchor="end" class="hmono hbp-fill" font-size="10" data-eco-svg-stars="akbp">★ ...</text>
               </g>
             </a>
@@ -918,13 +921,14 @@
                role="img" aria-labelledby="figAgentStackTitle">
             <title id="figAgentStackTitle">Three repositories — agentmemory, agentbrain, akbp — composing into the agent stack the curriculum teaches.</title>
             <style>
+              text { font-weight: 400; }
               .bp-fill { fill: var(--blueprint); }
               .bp-tint { fill: var(--blueprint-tint); }
               .bp-tint-strong { fill: var(--blueprint-tint-strong); }
               .ink { fill: var(--ink); }
               .ink-mute { fill: var(--ink-mute); }
-              .mono { font-family: var(--font-mono); }
-              .serif { font-family: var(--font-body); }
+              .mono { font-family: var(--font-mono); font-weight: 400; }
+              .serif { font-family: var(--font-body); font-weight: 400; }
               .leader { stroke: var(--blueprint); stroke-opacity: 0.35; stroke-width: 1; }
               .flow { stroke: var(--blueprint); stroke-width: 1.6; }
               .anchor { fill: var(--blueprint); }
@@ -945,8 +949,8 @@
               <g transform="translate(60, 180)">
                 <rect width="220" height="100" class="bp-tint hrepo-rect" stroke="currentColor" stroke-width="1.5"/>
                 <text x="14" y="28" class="mono bp-fill" font-size="9" letter-spacing="1.6">REPO · MEMORY SURFACE</text>
-                <text x="14" y="56" class="mono ink" font-size="17">agentmemory</text>
-                <text x="14" y="78" class="serif ink-mute" font-size="13">persistent memory for AI coding agents.</text>
+                <text x="14" y="58" class="serif ink" font-size="22" font-style="italic">agentmemory</text>
+                <text x="14" y="80" class="serif ink-mute" font-size="13">persistent memory for AI coding agents.</text>
                 <text x="206" y="94" text-anchor="end" class="mono bp-fill" font-size="11" data-eco-svg-stars="agentmemory">★ ...</text>
               </g>
             </a>
@@ -956,8 +960,8 @@
               <g transform="translate(440, 30)">
                 <rect width="220" height="100" class="bp-tint hrepo-rect" stroke="currentColor" stroke-width="1.5"/>
                 <text x="14" y="28" class="mono bp-fill" font-size="9" letter-spacing="1.6">REPO · REASONING SURFACE</text>
-                <text x="14" y="56" class="mono ink" font-size="17">agentbrain</text>
-                <text x="14" y="78" class="serif ink-mute" font-size="13">evidence-first operating system for agents.</text>
+                <text x="14" y="58" class="serif ink" font-size="22" font-style="italic">agentbrain</text>
+                <text x="14" y="80" class="serif ink-mute" font-size="13">evidence-first operating system for agents.</text>
                 <text x="206" y="94" text-anchor="end" class="mono bp-fill" font-size="11" data-eco-svg-stars="agentbrain">★ ...</text>
               </g>
             </a>
@@ -967,8 +971,8 @@
               <g transform="translate(820, 180)">
                 <rect width="220" height="100" class="bp-tint hrepo-rect" stroke="currentColor" stroke-width="1.5"/>
                 <text x="14" y="28" class="mono bp-fill" font-size="9" letter-spacing="1.6">REPO · KNOWLEDGE SURFACE</text>
-                <text x="14" y="56" class="mono ink" font-size="17">akbp</text>
-                <text x="14" y="78" class="serif ink-mute" font-size="13">agent knowledge base protocol.</text>
+                <text x="14" y="58" class="serif ink" font-size="22" font-style="italic">akbp</text>
+                <text x="14" y="80" class="serif ink-mute" font-size="13">agent knowledge base protocol.</text>
                 <text x="206" y="94" text-anchor="end" class="mono bp-fill" font-size="11" data-eco-svg-stars="akbp">★ ...</text>
               </g>
             </a>
