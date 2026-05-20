@@ -106,13 +106,17 @@
       display: block;
       width: 100%;
       height: auto;
+      color: var(--blueprint);
     }
 
     .hero-repo-link { cursor: pointer; }
-    .hero-repo-link .hrepo-rect { transition: fill 0.15s; }
-    .hero-repo-link:hover .hrepo-rect { fill: rgba(53, 83, 255, 0.18); }
+    .hero-repo-link .hrepo-rect { transition: fill 0.15s, stroke-width 0.15s; }
+    .hero-repo-link:hover .hrepo-rect { fill: var(--blueprint-tint-strong); }
     .hero-repo-link:focus { outline: none; }
-    .hero-repo-link:focus .hrepo-rect { stroke-width: 2; }
+    .hero-repo-link:focus-visible .hrepo-rect {
+      fill: var(--blueprint-tint-strong);
+      stroke-width: 2.5;
+    }
 
     @media (max-width: 1024px) {
       .manual-hero-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -688,7 +692,7 @@
       padding: 32px 24px;
       overflow-x: auto;
     }
-    .figure-body svg { display: block; width: 100%; height: auto; max-width: 1100px; margin: 0 auto; }
+    .figure-body svg { display: block; width: 100%; height: auto; max-width: 1100px; margin: 0 auto; color: var(--blueprint); }
     .figure-foot {
       padding: 14px 24px;
       border-top: 1px solid var(--rule-soft);
@@ -753,19 +757,19 @@
                fill="none" stroke="currentColor" stroke-width="1.5" role="img" aria-labelledby="heroStackTitle">
             <title id="heroStackTitle">Three repos compose into the agent stack the curriculum teaches.</title>
             <style>
-              .hbp-fill { fill: #3553ff; }
-              .hbp-tint { fill: rgba(53, 83, 255, 0.08); }
-              .hbp-tint-strong { fill: rgba(53, 83, 255, 0.16); }
-              .hink { fill: #1a1a1a; }
-              .hink-mute { fill: #7a7a78; }
-              .hmono { font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; }
-              .hflow { stroke: #3553ff; stroke-width: 1.4; }
+              .hbp-fill { fill: var(--blueprint); }
+              .hbp-tint { fill: var(--blueprint-tint); }
+              .hbp-tint-strong { fill: var(--blueprint-tint-strong); }
+              .hink { fill: var(--ink); }
+              .hink-mute { fill: var(--ink-mute); }
+              .hmono { font-family: var(--font-mono); }
+              .hflow { stroke: var(--blueprint); stroke-width: 1.4; }
             </style>
 
             <!-- agentbrain (top) -->
             <a href="https://github.com/rohitg00/agentbrain" target="_blank" rel="noopener" class="hero-repo-link">
               <g transform="translate(60, 16)">
-                <rect width="200" height="56" class="hbp-tint hrepo-rect" stroke="#3553ff"/>
+                <rect width="200" height="56" class="hbp-tint hrepo-rect" stroke="currentColor"/>
                 <text x="12" y="20" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">REPO · REASONING</text>
                 <text x="12" y="40" class="hmono hink" font-size="13">agentbrain</text>
                 <text x="188" y="50" text-anchor="end" class="hmono hbp-fill" font-size="10" data-eco-svg-stars="agentbrain">★ ...</text>
@@ -779,9 +783,9 @@
 
             <!-- AGENT center -->
             <g transform="translate(60, 122)">
-              <rect width="200" height="92" class="hbp-tint-strong" stroke="#3553ff"/>
+              <rect width="200" height="92" class="hbp-tint-strong" stroke="currentColor"/>
               <text x="100" y="22" text-anchor="middle" class="hmono hink" font-size="10" letter-spacing="2">AGENT LOOP</text>
-              <line x1="14" y1="32" x2="186" y2="32" stroke="#3553ff" stroke-opacity="0.25"/>
+              <line x1="14" y1="32" x2="186" y2="32" stroke="currentColor" stroke-opacity="0.25"/>
               <text x="100" y="52" text-anchor="middle" class="hmono hink" font-size="10">function · worker · trigger</text>
               <text x="100" y="68" text-anchor="middle" class="hmono hink-mute" font-size="9">+ queue · persistence · authz</text>
               <text x="100" y="84" text-anchor="middle" class="hmono hbp-fill" font-size="8" letter-spacing="1.6">FROM THE CURRICULUM</text>
@@ -797,7 +801,7 @@
             <!-- agentmemory -->
             <a href="https://github.com/rohitg00/agentmemory" target="_blank" rel="noopener" class="hero-repo-link">
               <g transform="translate(0, 262)">
-                <rect width="148" height="56" class="hbp-tint hrepo-rect" stroke="#3553ff"/>
+                <rect width="148" height="56" class="hbp-tint hrepo-rect" stroke="currentColor"/>
                 <text x="12" y="20" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">REPO · MEMORY</text>
                 <text x="12" y="40" class="hmono hink" font-size="13">agentmemory</text>
                 <text x="136" y="50" text-anchor="end" class="hmono hbp-fill" font-size="10" data-eco-svg-stars="agentmemory">★ ...</text>
@@ -814,7 +818,7 @@
             <!-- akbp -->
             <a href="https://github.com/rohitg00/akbp" target="_blank" rel="noopener" class="hero-repo-link">
               <g transform="translate(172, 262)">
-                <rect width="148" height="56" class="hbp-tint hrepo-rect" stroke="#3553ff"/>
+                <rect width="148" height="56" class="hbp-tint hrepo-rect" stroke="currentColor"/>
                 <text x="12" y="20" class="hmono hbp-fill" font-size="8" letter-spacing="1.4">REPO · KNOWLEDGE</text>
                 <text x="12" y="40" class="hmono hink" font-size="13">akbp</text>
                 <text x="136" y="50" text-anchor="end" class="hmono hbp-fill" font-size="10" data-eco-svg-stars="akbp">★ ...</text>
@@ -822,7 +826,7 @@
             </a>
 
             <!-- divider -->
-            <line x1="0" y1="338" x2="320" y2="338" stroke="#3553ff" stroke-opacity="0.25" stroke-width="0.6"/>
+            <line x1="0" y1="338" x2="320" y2="338" stroke="currentColor" stroke-opacity="0.25" stroke-width="0.6"/>
             <text x="160" y="358" text-anchor="middle" class="hmono hbp-fill" font-size="9" letter-spacing="2">SAME AUTHOR · OPEN SOURCE</text>
             <text x="160" y="374" text-anchor="middle" class="hmono hink-mute" font-size="8" letter-spacing="1.4">FULL STACK BELOW · SCROLL TO FIG_006</text>
           </svg>
@@ -914,23 +918,23 @@
                role="img" aria-labelledby="figAgentStackTitle">
             <title id="figAgentStackTitle">Three repositories — agentmemory, agentbrain, akbp — composing into the agent stack the curriculum teaches.</title>
             <style>
-              .bp-fill { fill: #3553ff; }
-              .bp-tint { fill: rgba(53, 83, 255, 0.08); }
-              .bp-tint-strong { fill: rgba(53, 83, 255, 0.16); }
-              .ink { fill: #1a1a1a; }
-              .ink-mute { fill: #7a7a78; }
-              .mono { font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; }
-              .serif { font-family: 'Source Serif 4', Georgia, serif; }
-              .leader { stroke: #3553ff; stroke-opacity: 0.35; stroke-width: 1; }
-              .flow { stroke: #3553ff; stroke-width: 1.6; }
-              .anchor { fill: #3553ff; }
+              .bp-fill { fill: var(--blueprint); }
+              .bp-tint { fill: var(--blueprint-tint); }
+              .bp-tint-strong { fill: var(--blueprint-tint-strong); }
+              .ink { fill: var(--ink); }
+              .ink-mute { fill: var(--ink-mute); }
+              .mono { font-family: var(--font-mono); }
+              .serif { font-family: var(--font-body); }
+              .leader { stroke: var(--blueprint); stroke-opacity: 0.35; stroke-width: 1; }
+              .flow { stroke: var(--blueprint); stroke-width: 1.6; }
+              .anchor { fill: var(--blueprint); }
             </style>
 
             <!-- Center: AGENT block (what the curriculum builds) -->
             <g transform="translate(440, 170)">
-              <rect width="220" height="120" class="bp-tint-strong" stroke="#3553ff" stroke-width="1.5"/>
+              <rect width="220" height="120" class="bp-tint-strong" stroke="currentColor" stroke-width="1.5"/>
               <text x="110" y="34" text-anchor="middle" class="mono ink" font-size="12" letter-spacing="2.4">AGENT LOOP</text>
-              <line x1="20" y1="46" x2="200" y2="46" stroke="#3553ff" stroke-opacity="0.3" stroke-width="0.8"/>
+              <line x1="20" y1="46" x2="200" y2="46" stroke="currentColor" stroke-opacity="0.3" stroke-width="0.8"/>
               <text x="110" y="70" text-anchor="middle" class="serif ink" font-size="14" font-style="italic">function · worker · trigger</text>
               <text x="110" y="92" text-anchor="middle" class="serif ink-mute" font-size="13">you build this in Phase 14</text>
               <text x="110" y="110" text-anchor="middle" class="mono ink-mute" font-size="10" letter-spacing="2">FROM THE CURRICULUM</text>
@@ -939,7 +943,7 @@
             <!-- Left module: agentmemory -->
             <a href="https://github.com/rohitg00/agentmemory" target="_blank" rel="noopener" class="hero-repo-link">
               <g transform="translate(60, 180)">
-                <rect width="220" height="100" class="bp-tint hrepo-rect" stroke="#3553ff" stroke-width="1.5"/>
+                <rect width="220" height="100" class="bp-tint hrepo-rect" stroke="currentColor" stroke-width="1.5"/>
                 <text x="14" y="28" class="mono bp-fill" font-size="9" letter-spacing="1.6">REPO · MEMORY SURFACE</text>
                 <text x="14" y="56" class="mono ink" font-size="17">agentmemory</text>
                 <text x="14" y="78" class="serif ink-mute" font-size="13">persistent memory for AI coding agents.</text>
@@ -950,7 +954,7 @@
             <!-- Top module: agentbrain -->
             <a href="https://github.com/rohitg00/agentbrain" target="_blank" rel="noopener" class="hero-repo-link">
               <g transform="translate(440, 30)">
-                <rect width="220" height="100" class="bp-tint hrepo-rect" stroke="#3553ff" stroke-width="1.5"/>
+                <rect width="220" height="100" class="bp-tint hrepo-rect" stroke="currentColor" stroke-width="1.5"/>
                 <text x="14" y="28" class="mono bp-fill" font-size="9" letter-spacing="1.6">REPO · REASONING SURFACE</text>
                 <text x="14" y="56" class="mono ink" font-size="17">agentbrain</text>
                 <text x="14" y="78" class="serif ink-mute" font-size="13">evidence-first operating system for agents.</text>
@@ -961,7 +965,7 @@
             <!-- Right module: akbp -->
             <a href="https://github.com/rohitg00/akbp" target="_blank" rel="noopener" class="hero-repo-link">
               <g transform="translate(820, 180)">
-                <rect width="220" height="100" class="bp-tint hrepo-rect" stroke="#3553ff" stroke-width="1.5"/>
+                <rect width="220" height="100" class="bp-tint hrepo-rect" stroke="currentColor" stroke-width="1.5"/>
                 <text x="14" y="28" class="mono bp-fill" font-size="9" letter-spacing="1.6">REPO · KNOWLEDGE SURFACE</text>
                 <text x="14" y="56" class="mono ink" font-size="17">akbp</text>
                 <text x="14" y="78" class="serif ink-mute" font-size="13">agent knowledge base protocol.</text>
@@ -987,7 +991,7 @@
             <text x="740" y="222" text-anchor="middle" class="mono bp-fill" font-size="10" letter-spacing="1.6">ANSWERS QUERIES</text>
 
             <!-- Footer rule + caption inside SVG -->
-            <line x1="60" y1="340" x2="1040" y2="340" stroke="#3553ff" stroke-opacity="0.25" stroke-width="0.6"/>
+            <line x1="60" y1="340" x2="1040" y2="340" stroke="currentColor" stroke-opacity="0.25" stroke-width="0.6"/>
             <text x="60" y="372" class="mono bp-fill" font-size="10" letter-spacing="1.8">EIGHT PRIMITIVES</text>
             <text x="60" y="396" class="serif ink" font-size="14">function · worker · trigger · runtime · HTTP/RPC · queue · session persistence · authorization policy</text>
             <text x="60" y="424" class="serif ink-mute" font-size="13" font-style="italic">Phase 14 teaches the primitives. The three repos above are the same primitives, shipped.</text>
