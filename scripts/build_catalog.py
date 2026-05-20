@@ -13,7 +13,6 @@ Usage:
 Output shape (schema_version 1):
     {
       "schema_version": 1,
-      "generated_at": "2026-05-20T...",
       "totals": {"phases": ..., "lessons": ..., "skills": ..., "prompts": ..., "agents": ..., "code_files": ...},
       "phases": [
         {
@@ -48,7 +47,6 @@ install_skills.py but inlined to keep the script self-contained.
 from __future__ import annotations
 
 import argparse
-import datetime as dt
 import json
 import re
 import sys
@@ -267,7 +265,6 @@ def build_catalog() -> dict[str, object]:
     phases = [build_phase_entry(p) for p in iter_phase_dirs()]
     catalog = {
         "schema_version": 1,
-        "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "totals": compute_totals(phases),
         "phases": phases,
     }

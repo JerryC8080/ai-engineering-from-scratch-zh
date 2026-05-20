@@ -1,0 +1,53 @@
+name: curriculum
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "phases/**"
+      - "scripts/audit_lessons.py"
+      - "scripts/build_catalog.py"
+      - "catalog.json"
+      - ".github/workflows/curriculum.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "phases/**"
+      - "scripts/audit_lessons.py"
+      - "scripts/build_catalog.py"
+      - "catalog.json"
+      - ".github/workflows/curriculum.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: invariant checks (warn-only)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: run scripts/audit_lessons.py
+        run: python3 scripts/audit_lessons.py
+
+  catalog-drift:
+    name: catalog.json drift check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: rebuild catalog
+        run: python3 scripts/build_catalog.py --out /tmp/catalog.fresh.json
+      - name: diff against committed catalog.json
+        run: |
+          if ! diff -u catalog.json /tmp/catalog.fresh.json; then
+            echo "::error::catalog.json is stale. Run 'python3 scripts/build_catalog.py' and commit the result."
+            exit 1
+          fi
+          echo "catalog.json matches filesystem"
