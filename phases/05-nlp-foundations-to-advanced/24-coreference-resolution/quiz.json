@@ -1,0 +1,102 @@
+{
+  "lesson": "24-coreference-resolution",
+  "title": "Coreference Resolution",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "What is the goal of coreference resolution?",
+      "options": [
+        "Translate pronouns to nouns",
+        "Cluster all mentions (named, nominal, pronominal) that refer to the same real-world entity",
+        "Tag parts of speech",
+        "Extract relations"
+      ],
+      "correct": 1,
+      "explanation": "Coref clusters mention spans that all refer to the same entity."
+    },
+    {
+      "stage": "pre",
+      "question": "Which type of expression is a 'nominal' mention?",
+      "options": [
+        "A pronoun like 'she'",
+        "A noun phrase such as 'the CEO' or 'the company'",
+        "A proper noun only",
+        "A verb"
+      ],
+      "correct": 1,
+      "explanation": "Nominal mentions are noun phrases like 'the company'; pronominal mentions are pronouns."
+    },
+    {
+      "stage": "check",
+      "question": "What is the modern (Lee et al., 2017) coref architecture?",
+      "options": [
+        "Rule-based syntactic parsing only",
+        "End-to-end span-based: enumerate spans, score mentions, then score antecedent probabilities and cluster greedily",
+        "BM25 retrieval",
+        "Decision trees"
+      ],
+      "correct": 1,
+      "explanation": "End-to-end neural coref enumerates spans and learns mention + antecedent scoring jointly."
+    },
+    {
+      "stage": "check",
+      "question": "What does CoNLL F1 average?",
+      "options": [
+        "Precision and recall",
+        "MUC, B-cubed, and CEAF-phi4 F1 scores",
+        "F1 across languages",
+        "Token and span F1"
+      ],
+      "correct": 1,
+      "explanation": "CoNLL F1 is the mean of MUC, B-cubed, and CEAF-phi4 metrics."
+    },
+    {
+      "stage": "check",
+      "question": "What is bridging anaphora?",
+      "options": [
+        "A pronoun before its referent",
+        "An implicit reference like 'the wheels' implying the wheels of a previously mentioned car",
+        "A mistranslation",
+        "A pronoun without an antecedent"
+      ],
+      "correct": 1,
+      "explanation": "Bridging links a mention to a part-of or related entity that was implied but not explicitly stated."
+    },
+    {
+      "stage": "post",
+      "question": "Why is LLM-only coref unreliable on long documents?",
+      "options": [
+        "LLMs cannot read text",
+        "Single-call LLMs over-merge or silently drop mentions across 50+ paragraphs; require sliding-window plus merge",
+        "Tokenizers fail",
+        "Coref requires a CFG"
+      ],
+      "correct": 1,
+      "explanation": "Long-doc LLM coref degrades; sliding-window with cross-window merging mitigates."
+    },
+    {
+      "stage": "post",
+      "question": "Why merge coref clusters into NER results before downstream tasks?",
+      "options": [
+        "Lower latency",
+        "So downstream tasks see one entity per cluster rather than one per surface mention, dramatically improving coverage",
+        "To increase token count",
+        "Required by Wikidata"
+      ],
+      "correct": 1,
+      "explanation": "Without merging, NER counts each surface form separately and misses 60-80% of entity mentions."
+    },
+    {
+      "stage": "post",
+      "question": "Why are hard-coded gender rules a fragility in coref systems?",
+      "options": [
+        "They run too fast",
+        "They break on non-binary referents, organizations, and animals; learned scoring is more robust",
+        "They require GPU",
+        "They cannot use POS tags"
+      ],
+      "correct": 1,
+      "explanation": "Gender heuristics fail in demographically diverse text; learned models are preferred."
+    }
+  ]
+}
