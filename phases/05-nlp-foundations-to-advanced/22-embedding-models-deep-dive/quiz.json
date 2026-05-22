@@ -1,0 +1,102 @@
+{
+  "lesson": "22-embedding-models-deep-dive",
+  "title": "Embedding Models — The 2026 Deep Dive",
+  "questions": [
+    {
+      "stage": "pre",
+      "question": "What is a dense embedding?",
+      "options": [
+        "A sparse weight per vocab token",
+        "One fixed-size vector per text where cosine similarity ranks passages by semantic proximity",
+        "A graph over documents",
+        "A token-level alignment matrix"
+      ],
+      "correct": 1,
+      "explanation": "Dense embeddings give one vector per text (typically 384-3072 dim); cosine ranks similarity."
+    },
+    {
+      "stage": "pre",
+      "question": "What does Matryoshka Representation Learning enable?",
+      "options": [
+        "Faster softmax",
+        "Truncating a trained embedding to its first N dimensions and getting a still-useful smaller embedding",
+        "Multilingual training",
+        "Cross-encoder rescoring"
+      ],
+      "correct": 1,
+      "explanation": "Matryoshka training makes the first N dims of the vector standalone-useful, enabling cheap truncation."
+    },
+    {
+      "stage": "check",
+      "question": "How do multi-vector (ColBERT) embeddings score query-doc pairs?",
+      "options": [
+        "Cosine of mean-pooled token vectors",
+        "MaxSim: for each query token find the most similar document token, then sum the maxima",
+        "Cross-entropy",
+        "Earth-mover's distance"
+      ],
+      "correct": 1,
+      "explanation": "ColBERT-style late interaction uses MaxSim across per-token vectors."
+    },
+    {
+      "stage": "check",
+      "question": "What does BGE-M3 output simultaneously?",
+      "options": [
+        "Only a dense vector",
+        "Dense, sparse, and multi-vector (colbert) representations from one model in a single inference",
+        "Only a sparse vector",
+        "Only a colbert vector"
+      ],
+      "correct": 1,
+      "explanation": "BGE-M3 emits three retrieval modes from one model, useful for fused hybrid scoring."
+    },
+    {
+      "stage": "check",
+      "question": "Why must you re-normalize a Matryoshka-truncated vector before cosine similarity?",
+      "options": [
+        "Cosine ignores normalization",
+        "Truncation changes the vector norm; without re-normalizing, dot product no longer equals cosine",
+        "Required by FAISS only",
+        "Truncation breaks training"
+      ],
+      "correct": 1,
+      "explanation": "Re-normalizing after truncation restores unit norm so dot product equals cosine again."
+    },
+    {
+      "stage": "post",
+      "question": "Why do BGE models often need a query-side prefix string?",
+      "options": [
+        "To compress queries",
+        "BGE was trained with an explicit query prompt; omitting it costs 3-5 points recall",
+        "Required by FAISS",
+        "Prefixes change tokenizer behavior"
+      ],
+      "correct": 1,
+      "explanation": "BGE models expect a 'Represent this sentence for searching...' prefix on queries."
+    },
+    {
+      "stage": "post",
+      "question": "Why is MTEB necessary but not sufficient for picking an embedding model?",
+      "options": [
+        "MTEB only covers English",
+        "Leaderboard ranks are average across many tasks; your specific domain may differ, so always benchmark on your data",
+        "MTEB ignores latency",
+        "MTEB rewards bigger models"
+      ],
+      "correct": 1,
+      "explanation": "MTEB averages across tasks; domain-specific eval can flip the ranking."
+    },
+    {
+      "stage": "post",
+      "question": "When should you add SPLADE sparse retrieval alongside dense embeddings?",
+      "options": [
+        "On small corpora only",
+        "When queries are keyword-heavy or contain identifiers/codes that dense embeddings blur",
+        "Whenever the encoder is multilingual",
+        "Whenever Matryoshka is used"
+      ],
+      "correct": 1,
+      "explanation": "SPLADE captures lexical/keyword matches that dense models can miss; fuse with dense via RRF."
+    }
+  ]
+}
