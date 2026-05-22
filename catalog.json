@@ -12264,7 +12264,7 @@
           "path": "phases/19-capstone-projects/01-terminal-native-coding-agent",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12295,7 +12295,7 @@
           "path": "phases/19-capstone-projects/02-rag-over-codebase",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12326,7 +12326,7 @@
           "path": "phases/19-capstone-projects/03-realtime-voice-assistant",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12358,7 +12358,7 @@
           "path": "phases/19-capstone-projects/04-multimodal-document-qa",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12389,7 +12389,7 @@
           "path": "phases/19-capstone-projects/05-autonomous-research-agent",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12420,7 +12420,7 @@
           "path": "phases/19-capstone-projects/06-devops-troubleshooting-agent",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12451,7 +12451,7 @@
           "path": "phases/19-capstone-projects/07-end-to-end-fine-tuning-pipeline",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12484,7 +12484,7 @@
           "path": "phases/19-capstone-projects/08-production-rag-chatbot",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12516,7 +12516,7 @@
           "path": "phases/19-capstone-projects/09-code-migration-agent",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12547,7 +12547,7 @@
           "path": "phases/19-capstone-projects/10-multi-agent-software-team",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12578,7 +12578,7 @@
           "path": "phases/19-capstone-projects/11-llm-observability-dashboard",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12610,7 +12610,7 @@
           "path": "phases/19-capstone-projects/12-video-understanding-pipeline",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12642,7 +12642,7 @@
           "path": "phases/19-capstone-projects/13-mcp-server-with-registry",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12674,7 +12674,7 @@
           "path": "phases/19-capstone-projects/14-speculative-decoding-server",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12707,7 +12707,7 @@
           "path": "phases/19-capstone-projects/15-constitutional-safety-harness",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12739,7 +12739,7 @@
           "path": "phases/19-capstone-projects/16-github-issue-to-pr-agent",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -12771,7 +12771,7 @@
           "path": "phases/19-capstone-projects/17-personal-ai-tutor",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
