@@ -10501,7 +10501,7 @@
           "path": "phases/17-infrastructure-and-production/01-managed-llm-platforms",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10531,7 +10531,7 @@
           "path": "phases/17-infrastructure-and-production/02-inference-platform-economics",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10563,7 +10563,7 @@
           "path": "phases/17-infrastructure-and-production/03-gpu-autoscaling-kubernetes",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10595,7 +10595,7 @@
           "path": "phases/17-infrastructure-and-production/04-vllm-serving-internals",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10625,7 +10625,7 @@
           "path": "phases/17-infrastructure-and-production/05-eagle3-speculative-decoding",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10654,7 +10654,7 @@
           "path": "phases/17-infrastructure-and-production/06-sglang-radixattention",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10683,7 +10683,7 @@
           "path": "phases/17-infrastructure-and-production/07-tensorrt-llm-blackwell",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10714,7 +10714,7 @@
           "path": "phases/17-infrastructure-and-production/08-inference-metrics-goodput",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10745,7 +10745,7 @@
           "path": "phases/17-infrastructure-and-production/09-production-quantization",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10776,7 +10776,7 @@
           "path": "phases/17-infrastructure-and-production/10-cold-start-mitigation",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10807,7 +10807,7 @@
           "path": "phases/17-infrastructure-and-production/11-multi-region-kv-locality",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10839,7 +10839,7 @@
           "path": "phases/17-infrastructure-and-production/12-edge-inference",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10872,7 +10872,7 @@
           "path": "phases/17-infrastructure-and-production/13-llm-observability",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10905,7 +10905,7 @@
           "path": "phases/17-infrastructure-and-production/14-prompt-semantic-caching",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10936,7 +10936,7 @@
           "path": "phases/17-infrastructure-and-production/15-batch-apis",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10966,7 +10966,7 @@
           "path": "phases/17-infrastructure-and-production/16-model-routing",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -10996,7 +10996,7 @@
           "path": "phases/17-infrastructure-and-production/17-disaggregated-prefill-decode",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11026,7 +11026,7 @@
           "path": "phases/17-infrastructure-and-production/18-vllm-production-stack-lmcache",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11055,7 +11055,7 @@
           "path": "phases/17-infrastructure-and-production/19-ai-gateways",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11089,7 +11089,7 @@
           "path": "phases/17-infrastructure-and-production/20-shadow-canary-progressive",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11121,7 +11121,7 @@
           "path": "phases/17-infrastructure-and-production/21-ab-testing-llm-features",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11152,7 +11152,7 @@
           "path": "phases/17-infrastructure-and-production/22-load-testing-llm-apis",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11183,7 +11183,7 @@
           "path": "phases/17-infrastructure-and-production/23-sre-for-ai",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11215,7 +11215,7 @@
           "path": "phases/17-infrastructure-and-production/24-chaos-engineering-llm",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11245,7 +11245,7 @@
           "path": "phases/17-infrastructure-and-production/25-security-secrets-audit",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11279,7 +11279,7 @@
           "path": "phases/17-infrastructure-and-production/26-compliance-frameworks",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11312,7 +11312,7 @@
           "path": "phases/17-infrastructure-and-production/27-finops-llms",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -11342,7 +11342,7 @@
           "path": "phases/17-infrastructure-and-production/28-self-hosted-serving-selection",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
