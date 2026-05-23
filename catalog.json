@@ -2636,7 +2636,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/01-text-processing",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2659,7 +2659,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2682,7 +2682,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/03-word-embeddings-word2vec",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2709,7 +2709,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/04-glove-fasttext-subword",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2736,7 +2736,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/05-sentiment-analysis",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2759,7 +2759,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/06-named-entity-recognition",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2786,7 +2786,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/07-pos-tagging-parsing",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2813,7 +2813,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/08-cnns-rnns-for-text",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2836,7 +2836,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/09-sequence-to-sequence",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2859,7 +2859,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/10-attention-mechanism",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2882,7 +2882,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/11-machine-translation",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2909,7 +2909,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/12-text-summarization",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2935,7 +2935,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/13-question-answering",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2962,7 +2962,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/14-information-retrieval-search",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -2990,7 +2990,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/15-topic-modeling",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3016,7 +3016,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3039,7 +3039,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3066,7 +3066,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/18-multilingual-nlp",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3093,7 +3093,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/19-subword-tokenization",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3119,7 +3119,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/20-structured-outputs-constrained-decoding",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3146,7 +3146,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/21-nli-textual-entailment",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3173,7 +3173,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/22-embedding-models-deep-dive",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3200,7 +3200,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/23-chunking-strategies-rag",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3227,7 +3227,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/24-coreference-resolution",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3254,7 +3254,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/25-entity-linking",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3281,7 +3281,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/26-relation-extraction-kg",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3308,7 +3308,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/27-llm-evaluation-frameworks",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3335,7 +3335,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/28-long-context-evaluation",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
@@ -3362,7 +3362,7 @@
           "path": "phases/05-nlp-foundations-to-advanced/29-dialogue-state-tracking",
           "has_docs": true,
           "has_code": true,
-          "has_quiz": false,
+          "has_quiz": true,
           "has_notebook": true,
           "code_files": [
             "main.py"
