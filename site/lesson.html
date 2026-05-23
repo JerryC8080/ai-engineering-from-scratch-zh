@@ -2640,9 +2640,10 @@
         var keyTermsH2 = article.querySelector('#key-terms');
 
         var preQuizHtml = buildQuizHtml(questions.filter(function (q) { return q.stage === 'pre'; }), 'pre', 'Pre-Lesson Check');
+        var checkQuizHtml = buildQuizHtml(questions.filter(function (q) { return q.stage === 'check'; }), 'check', 'Mid-Lesson Check');
         var postQuizHtml = buildQuizHtml(questions.filter(function (q) { return q.stage === 'post'; }), 'post', 'Post-Lesson Quiz');
 
-        if (!preQuizHtml && !postQuizHtml) {
+        if (!preQuizHtml && !checkQuizHtml && !postQuizHtml) {
           var allHtml = buildQuizHtml(questions, 'all', 'Quiz');
           if (allHtml && keyTermsH2) {
             keyTermsH2.insertAdjacentHTML('beforebegin', allHtml);
@@ -2657,6 +2658,20 @@
           conceptH2.insertAdjacentHTML('beforebegin', preQuizHtml);
         } else if (preQuizHtml && buildH2) {
           buildH2.insertAdjacentHTML('beforebegin', preQuizHtml);
+        }
+
+        // Mid-lesson check: land between Build It and Use It if possible,
+        // otherwise fall back to before Use It / Ship It / Key Terms.
+        var useH2 = article.querySelector('#use-it, #use');
+        var shipH2 = article.querySelector('#ship-it, #ship');
+        if (checkQuizHtml && useH2) {
+          useH2.insertAdjacentHTML('beforebegin', checkQuizHtml);
+        } else if (checkQuizHtml && shipH2) {
+          shipH2.insertAdjacentHTML('beforebegin', checkQuizHtml);
+        } else if (checkQuizHtml && keyTermsH2) {
+          keyTermsH2.insertAdjacentHTML('beforebegin', checkQuizHtml);
+        } else if (checkQuizHtml) {
+          article.insertAdjacentHTML('beforeend', checkQuizHtml);
         }
 
         if (postQuizHtml && keyTermsH2) {
