@@ -18,33 +18,33 @@
       "stage": "pre",
       "question": "What goes into the cache header versus the uncached suffix of each request?",
       "options": [
-        "User question first, system prompt last",
-        "System prompt and static policies in the cache header, reranked context as cache extension, user question as the uncached suffix",
         "Random text padding to hit cache size",
-        "Only the retrieved documents"
+        "Only the retrieved documents",
+        "User question first, system prompt last",
+        "System prompt and static policies in the cache header, reranked context as cache extension, user question as the uncached suffix"
       ],
-      "correct": 1,
+      "correct": 3,
       "explanation": ""
     },
     {
       "stage": "check",
       "question": "How does the retrieval layer respect jurisdiction tags like GDPR or HIPAA?",
       "options": [
-        "It rewrites the user question per region",
-        "Role and jurisdiction filters apply before the hybrid search merge so chunks outside the user's scope are never reranked",
         "It runs a separate index per country",
-        "It blocks the response after generation only"
+        "It blocks the response after generation only",
+        "It rewrites the user question per region",
+        "Role and jurisdiction filters apply before the hybrid search merge so chunks outside the user's scope are never reranked"
       ],
-      "correct": 1,
+      "correct": 3,
       "explanation": ""
     },
     {
       "stage": "check",
       "question": "Which layered guardrail combination does the synthesis stage pass output through?",
       "options": [
-        "Just an output PII regex",
-        "Llama Guard 4, NeMo Guardrails policy rails, and Presidio PII scrub, plus citation enforcement",
         "Only Llama Guard 4 on input",
+        "Llama Guard 4, NeMo Guardrails policy rails, and Presidio PII scrub, plus citation enforcement",
+        "Just an output PII regex",
         "A single LLM-judge faithfulness check"
       ],
       "correct": 1,
@@ -54,22 +54,22 @@
       "stage": "check",
       "question": "What does the drift dashboard alert on?",
       "options": [
-        "Any new document added to the index",
-        "A retrieval-quality drop, for example a 5% week-over-week dip in nDCG or citation score",
         "A change in the underlying LLM provider",
-        "Latency above 200ms"
+        "Latency above 200ms",
+        "A retrieval-quality drop, for example a 5% week-over-week dip in nDCG or citation score",
+        "Any new document added to the index"
       ],
-      "correct": 1,
+      "correct": 2,
       "explanation": ""
     },
     {
       "stage": "post",
       "question": "How big is the golden set used to gate the deliverable's correctness rubric?",
       "options": [
-        "20 questions",
+        "5 demo queries",
         "200 expert-labeled question/answer pairs with citations",
-        "2000 synthetic questions",
-        "5 demo queries"
+        "20 questions",
+        "2000 synthetic questions"
       ],
       "correct": 1,
       "explanation": ""
@@ -79,11 +79,11 @@
       "question": "Which RAGAS scores are tracked online per turn?",
       "options": [
         "Throughput, GPU utilization, and queue depth",
+        "BLEU, ROUGE, and METEOR",
         "Faithfulness, answer relevance, and context precision",
-        "Token count and dollar cost",
-        "BLEU, ROUGE, and METEOR"
+        "Token count and dollar cost"
       ],
-      "correct": 1,
+      "correct": 2,
       "explanation": ""
     }
   ]

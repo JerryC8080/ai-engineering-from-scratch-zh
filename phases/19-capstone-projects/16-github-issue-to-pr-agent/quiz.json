@@ -18,45 +18,45 @@
       "stage": "pre",
       "question": "Why must the agent run with a short-lived GitHub App installation token rather than a personal access token?",
       "options": [
+        "Apps avoid GitHub rate limits entirely",
         "App tokens grant fine-grained, scoped, short-lived credentials suited for per-task workers",
         "Personal access tokens cannot open PRs",
-        "Apps avoid GitHub rate limits entirely",
         "Apps require less code than PATs"
       ],
-      "correct": 0,
+      "correct": 1,
       "explanation": ""
     },
     {
       "stage": "check",
       "question": "Which two protections prevent the agent from clobbering main?",
       "options": [
+        "Requiring a captcha per push",
         "Branch protection enforcing no direct push or force-push to main, with the app not on the bypass list",
-        "Disabling git on the worker",
         "Encrypting the repo before clone",
-        "Requiring a captcha per push"
+        "Disabling git on the worker"
       ],
-      "correct": 0,
+      "correct": 1,
       "explanation": ""
     },
     {
       "stage": "check",
       "question": "Why is path-scoped protection for .github/workflows enforced at the worker rather than as a GitHub App permission?",
       "options": [
-        "GitHub App permissions are not path-scoped, so the worker's allow-list check on the proposed diff is the right place to enforce it",
         "Workflows are stored outside the repo",
-        ".github/workflows is a virtual path",
-        "Path scoping is impossible in any form"
+        "Path scoping is impossible in any form",
+        "GitHub App permissions are not path-scoped, so the worker's allow-list check on the proposed diff is the right place to enforce it",
+        ".github/workflows is a virtual path"
       ],
-      "correct": 0,
+      "correct": 2,
       "explanation": ""
     },
     {
       "stage": "check",
       "question": "What gating happens after the agent loop concludes, before opening a PR?",
       "options": [
-        "The PR opens immediately with no checks",
-        "Full CI runs in the sandbox; coverage delta is computed; PRs with a regression beyond a threshold are labeled needs-review",
         "The reviewer model rewrites the diff",
+        "Full CI runs in the sandbox; coverage delta is computed; PRs with a regression beyond a threshold are labeled needs-review",
+        "The PR opens immediately with no checks",
         "The repo is force-pushed to main"
       ],
       "correct": 1,
@@ -66,12 +66,12 @@
       "stage": "post",
       "question": "Which budget knobs does the dispatcher enforce per repo per day?",
       "options": [
+        "Only a wall-clock cap",
         "Unlimited PRs and unlimited cost",
         "A dollar ceiling per PR plus a maximum number of PRs per repo per day",
-        "Only a wall-clock cap",
         "Only a turn cap"
       ],
-      "correct": 1,
+      "correct": 2,
       "explanation": ""
     },
     {
