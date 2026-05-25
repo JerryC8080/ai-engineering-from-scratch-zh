@@ -161,6 +161,8 @@ mutable struct LossNetwork
 end
 
 function LossNetwork(loss_type::Symbol; hidden_size::Int=8, lr::Float64=0.1, seed::Int=0)
+    loss_type in (:mse, :bce) ||
+        throw(ArgumentError("LossNetwork: loss_type must be :mse or :bce, got :$loss_type"))
     rng = MersenneTwister(seed)
     return LossNetwork(
         loss_type, lr, hidden_size,
