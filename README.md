@@ -873,7 +873,8 @@ copies the matching files into a target directory in the layout your agent
 expects.
 
 ```bash
-python3 scripts/install_skills.py ~/.claude/skills                 # every skill, nested layout
+python3 scripts/install_skills.py ~/.claude/skills                 # every skill, default --layout skills (nested)
+python3 scripts/install_skills.py ~/.claude/skills --layout skills # same as above, explicit
 python3 scripts/install_skills.py ./out --type all                 # skills + prompts + agents
 python3 scripts/install_skills.py ./out --phase 14                 # one phase only
 python3 scripts/install_skills.py ./out --tag rag                  # filter by tag
