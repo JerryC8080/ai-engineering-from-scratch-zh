@@ -68,7 +68,9 @@ end
 
 
 function MultiHeadSelfAttention(d_model::Int, n_heads::Int; seed::Int=42)
-    @assert d_model % n_heads == 0
+    @assert n_heads > 0 "n_heads must be > 0"
+    @assert d_model > 0 "d_model must be > 0"
+    @assert d_model % n_heads == 0 "d_model must be divisible by n_heads"
     dk = d_model ÷ n_heads
     dv = d_model ÷ n_heads
     heads = [SelfAttention(d_model, dk, dv; seed=seed + i) for i in 1:n_heads]
