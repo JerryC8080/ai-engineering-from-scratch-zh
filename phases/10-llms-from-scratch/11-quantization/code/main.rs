@@ -159,7 +159,7 @@ fn main() {
         let r = quantize_symmetric(&weights, bits);
         let er = error_report(&weights, &r.reconstructed);
         let ratio = 32.0 / bits as f64;
-        let levels = 1u64 << bits;
+        let levels = (r.qmax - r.qmin + 1) as u64;
         println!("  {:>5}  {:>10}  {:>14.10}  {:>10.2}  {:>12.6}  {:>9.1}x",
                  bits, levels, er.mse, er.snr_db, er.max_abs_error, ratio);
     }
