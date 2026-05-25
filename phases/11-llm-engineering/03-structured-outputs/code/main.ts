@@ -99,6 +99,9 @@ class ArraySchema<T> implements Schema<T[]> {
     if (this.opts.minItems !== undefined && input.length < this.opts.minItems) {
       return fail([{ path, message: `array length ${input.length} < ${this.opts.minItems}` }]);
     }
+    if (this.opts.maxItems !== undefined && input.length > this.opts.maxItems) {
+      return fail([{ path, message: `array length ${input.length} > ${this.opts.maxItems}` }]);
+    }
     const issues: ValidationIssue[] = [];
     const out: T[] = [];
     for (let i = 0; i < input.length; i += 1) {
@@ -111,6 +114,7 @@ class ArraySchema<T> implements Schema<T[]> {
   toJSONSchema() {
     const out: Record<string, unknown> = { type: "array", items: this.item.toJSONSchema() };
     if (this.opts.minItems !== undefined) out.minItems = this.opts.minItems;
+    if (this.opts.maxItems !== undefined) out.maxItems = this.opts.maxItems;
     return out;
   }
 }
