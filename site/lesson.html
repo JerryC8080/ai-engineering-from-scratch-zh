@@ -2914,7 +2914,7 @@
               installHint = 'Paste into Claude, Cursor, Codex, OpenClaw, Hermes, or any agent that reads prompts';
             } else if (type === 'skill') {
               var skillName = file.name.replace(/\.md$/, '').replace(/^skill-/, '');
-              installHint = 'npx skills add ' + skillName;
+              installHint = 'npx skills add rohitg00/ai-engineering-from-scratch --skill ' + skillName;
             }
 
             html += '<div class="output-card">';
