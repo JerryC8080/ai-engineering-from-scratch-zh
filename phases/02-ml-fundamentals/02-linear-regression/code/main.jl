@@ -65,6 +65,9 @@ function r_squared(ys::Vector{Float64}, preds::Vector{Float64})
     y_mean = mean(ys)
     ss_res = sum((ys .- preds) .^ 2)
     ss_tot = sum((ys .- y_mean) .^ 2)
+    if ss_tot == 0.0
+        return ss_res == 0.0 ? 1.0 : 0.0
+    end
     return 1.0 - ss_res / ss_tot
 end
 
@@ -74,6 +77,9 @@ function fit_normal_equation(xs::Vector{Float64}, ys::Vector{Float64})
     y_mean = mean(ys)
     num = sum((xs .- x_mean) .* (ys .- y_mean))
     den = sum((xs .- x_mean) .^ 2)
+    if den == 0.0
+        return 0.0, y_mean
+    end
     w = num / den
     b = y_mean - w * x_mean
     return w, b
