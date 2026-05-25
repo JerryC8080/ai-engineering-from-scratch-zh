@@ -77,7 +77,10 @@ impl KVCache {
     // Write new K/V slices of shape [n_new, num_heads, head_dim] for one layer.
     fn update(&mut self, layer: usize, new_k: &[f32], new_v: &[f32], n_new: usize) {
         assert_eq!(new_k.len(), n_new * self.num_heads * self.head_dim);
+        assert_eq!(new_v.len(), n_new * self.num_heads * self.head_dim);
+        assert!(layer < self.num_layers, "layer index out of range");
         let start = self.seq_len;
+        assert!(start + n_new <= self.max_seq_len, "KV cache capacity exceeded");
         for t in 0..n_new {
             for h in 0..self.num_heads {
                 for d in 0..self.head_dim {
@@ -319,6 +322,7 @@ fn speculative_decode(
 
         let mut accepted = 0usize;
         for &tok in &draft_tokens {
+            if total_tokens >= max_tokens { break; }
             let r = rng.uniform();
             if r < draft.acceptance_rate {
                 accepted += 1;
@@ -334,7 +338,7 @@ fn speculative_decode(
         }
         accepted_counts.push(accepted);
 
-        if accepted == num_spec {
+        if accepted == num_spec && total_tokens < max_tokens {
             // Bonus token from target's free-standing prediction.
             let probs = target.uniform_probs();
             let bonus = rng.choice(&probs);
