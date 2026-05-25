@@ -18,6 +18,7 @@ end
 
 
 function attention_style(xs::Vector{Float64})::Float64
+    isempty(xs) && throw(ArgumentError("xs must be non-empty"))
     return sum(xs) / length(xs)
 end
 
@@ -50,6 +51,7 @@ end
 
 
 function benchmark_pair(n::Int; reps::Int=3)
+    n > 0 || throw(ArgumentError("n must be > 0"))
     xs = [0.001 * mod(i, 17) for i in 0:(n - 1)]
     best_rnn = Inf
     for _ in 1:reps
@@ -68,6 +70,7 @@ end
 
 
 function depth_counts(n::Int)
+    n > 0 || throw(ArgumentError("n must be > 0"))
     rnn_depth = n
     attn_depth = max(1, Int(ceil(log2(n))))
     return rnn_depth, attn_depth
