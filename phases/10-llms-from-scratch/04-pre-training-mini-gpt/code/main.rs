@@ -323,21 +323,26 @@ impl MiniGPT {
 fn cross_entropy_loss(logits: &Mat, targets: &[usize]) -> f32 {
     let n = logits.rows;
     let v = logits.cols;
+    assert_eq!(targets.len(), n, "targets length must equal logits rows");
     let mut total = 0.0f32;
     for i in 0..n {
         let row = &logits.data[i * v..(i + 1) * v];
+        let t = targets[i];
+        assert!(t < v, "target index out of range for logits cols");
         let mut m = f32::NEG_INFINITY;
         for &x in row { if x > m { m = x; } }
         let mut s = 0.0f32;
         for &x in row { s += (x - m).exp(); }
         let log_sum = s.ln();
-        let log_softmax_t = row[targets[i]] - m - log_sum;
+        let log_softmax_t = row[t] - m - log_sum;
         total += -log_softmax_t;
     }
     total / n as f32
 }
 
 fn generate(model: &MiniGPT, prompt: &[usize], max_new: usize, temperature: f32, rng: &mut Rng) -> Vec<usize> {
+    assert!(!prompt.is_empty(), "prompt must be non-empty");
+    assert!(temperature > 0.0, "temperature must be > 0");
     let mut tokens: Vec<usize> = prompt.to_vec();
     let max_seq = model.max_seq;
     for _ in 0..max_new {
