@@ -139,11 +139,13 @@ function multi_head_attention(X::Matrix{Float64},
                              Wv::Matrix{Float64}, Wo::Matrix{Float64};
                              n_heads::Int=1, causal::Bool=false,
                              kv_source::Union{Nothing, Matrix{Float64}}=nothing)
+    @assert n_heads > 0 "n_heads must be > 0"
     Q = X * Wq
     kv_input = kv_source === nothing ? X : kv_source
     K = kv_input * Wk
     V = kv_input * Wv
     d_total = size(Q, 2)
+    @assert d_total % n_heads == 0 "projected dimension must be divisible by n_heads"
     d_head = d_total ÷ n_heads
     head_outs = Matrix{Float64}[]
     for h in 1:n_heads
@@ -178,6 +180,8 @@ end
 
 function BlockParams(d::Int, n_heads::Int, ffn_expansion::Float64,
                     rng::AbstractRNG; use_swiglu::Bool=true)
+    @assert n_heads > 0 "n_heads must be > 0"
+    @assert d % n_heads == 0 "d must be divisible by n_heads"
     h = Int(round(d * ffn_expansion))
     Wq = randn_matrix(rng, d, d)
     Wk = randn_matrix(rng, d, d)
