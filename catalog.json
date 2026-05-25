@@ -6,7 +6,7 @@
     "skills": 378,
     "prompts": 99,
     "agents": 0,
-    "code_files": 443
+    "code_files": 455
   },
   "phases": [
     {
@@ -25,6 +25,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.rs",
             "verify.py"
           ],
           "outputs": [
@@ -306,7 +307,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "derivatives.py"
+            "derivatives.py",
+            "main.jl"
           ],
           "outputs": [
             {
@@ -333,7 +335,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "autodiff.py"
+            "autodiff.py",
+            "main.jl"
           ],
           "outputs": [
             {
@@ -356,6 +359,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.jl",
             "probability.py"
           ],
           "outputs": [
@@ -406,6 +410,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.jl",
             "optimizers.py"
           ],
           "outputs": [
@@ -1265,6 +1270,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.jl",
             "perceptron.py"
           ],
           "outputs": [
@@ -1316,6 +1322,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.jl",
             "main.py"
           ],
           "outputs": [
@@ -1339,6 +1346,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.jl",
             "main.py"
           ],
           "outputs": [
@@ -1362,6 +1370,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.jl",
             "main.py"
           ],
           "outputs": [
@@ -2130,7 +2139,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.rs"
           ],
           "outputs": [
             {
@@ -3686,7 +3696,8 @@
           "has_quiz": false,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.rs"
           ],
           "outputs": [
             {
@@ -5438,7 +5449,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.rs"
           ],
           "outputs": [
             {
