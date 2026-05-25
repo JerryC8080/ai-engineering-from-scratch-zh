@@ -10,6 +10,9 @@ using Printf
 
 
 function sinusoidal_pe(n::Int, d::Int; base::Float64=10000.0)::Matrix{Float64}
+    n > 0 || throw(ArgumentError("n must be > 0"))
+    d > 0 || throw(ArgumentError("d must be > 0"))
+    iseven(d) || throw(ArgumentError("d must be even for sinusoidal sin/cos pairs"))
     pe = zeros(n, d)
     for pos in 0:(n - 1)
         for i in 0:(d ÷ 2 - 1)
@@ -24,6 +27,7 @@ end
 
 function apply_rope(x::Vector{Float64}, pos::Int; base::Float64=10000.0)::Vector{Float64}
     d = length(x)
+    iseven(d) || throw(ArgumentError("RoPE requires an even embedding dimension"))
     out = copy(x)
     for i in 0:(d ÷ 2 - 1)
         theta = pos / (base ^ (2 * i / d))
@@ -44,6 +48,7 @@ end
 
 
 function alibi_slopes(n_heads::Int)::Vector{Float64}
+    n_heads > 0 || throw(ArgumentError("n_heads must be > 0"))
     return [2.0 ^ (-8.0 * (h) / n_heads) for h in 1:n_heads]
 end
 
