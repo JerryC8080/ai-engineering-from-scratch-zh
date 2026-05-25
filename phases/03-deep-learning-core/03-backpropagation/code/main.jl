@@ -85,7 +85,7 @@ end
 
 
 mse_loss(pred::Vector{Float64}, target::Vector{Float64})::Float64 =
-    sum((pred .- target) .^ 2)
+    0.5 * sum((pred .- target) .^ 2)
 
 
 function train_xor!()
@@ -213,10 +213,10 @@ function gradient_check_demo()
     loss_minus = mse_loss(net.a2, y)
     net.w1[i, j] = saved
     numerical = (loss_plus - loss_minus) / (2h)
-    analytical = 2 * dw1[i, j]  # mse here is sum of squares, gradient of (a-y)^2 is 2(a-y); our backward used err, so multiply by 2 to match.
+    analytical = dw1[i, j]  # mse_loss is 0.5*sum((a-y)^2); backward uses err=a-y, so dw1 matches directly.
     @printf("  w1[%d,%d]: analytical=%.6f  numerical=%.6f  diff=%.2e\n",
             i, j, analytical, numerical, abs(analytical - numerical))
-    println("  (Note: backward() uses err=a-y, so the analytical grad of sum((a-y)^2) is 2*dw1.)")
+    println("  (backward() uses err=a-y, matching the 0.5*sum((a-y)^2) convention; grads align directly.)")
 end
 
 
