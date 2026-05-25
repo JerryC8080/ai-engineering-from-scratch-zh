@@ -17,7 +17,6 @@ type NodeFn = (state: State) => Update;
 type Router = (state: State) => string;
 type Predicate = (state: State) => boolean;
 
-const START = "__start__";
 const END = "__end__";
 
 type Edge = {
@@ -188,8 +187,6 @@ function main(): void {
   console.log("=".repeat(70));
   console.log("LANGGRAPH STATE MACHINE — Phase 14, Lesson 13 (TypeScript port)");
   console.log("=".repeat(70));
-
-  void START;
 
   const graph = buildGraph();
   const ckpt = new InMemoryCheckpointer();
