@@ -177,27 +177,41 @@ type RetryConfig = {
   sleep: (ms: number) => Promise<void>;
 };
 
+type RetryOutcome = {
+  response: ProviderResponse;
+  // Wall-clock spent across all retry attempts + backoff sleeps for this
+  // single provider. Equals response.latencyMs when the first attempt
+  // succeeds with no backoff.
+  totalLatencyMs: number;
+};
+
 async function callWithRetry(
   provider: Provider,
   prompt: string,
   cfg: RetryConfig,
-): Promise<ProviderResponse> {
+): Promise<RetryOutcome> {
   let lastErr: ProviderError | undefined;
+  let totalLatencyMs = 0;
   for (let attempt = 1; attempt <= cfg.maxAttempts; attempt++) {
     try {
       const r = await provider.call(prompt);
+      totalLatencyMs += r.latencyMs;
       return {
-        provider: provider.name,
-        text: r.text,
-        latencyMs: r.latencyMs,
-        attempt,
+        response: {
+          provider: provider.name,
+          text: r.text,
+          latencyMs: r.latencyMs,
+          attempt,
+        },
+        totalLatencyMs,
       };
     } catch (raw) {
       const err = raw as ProviderError;
       lastErr = err;
       if (!err.retryable || attempt === cfg.maxAttempts) break;
-      const sleep = cfg.baseBackoffMs * 2 ** (attempt - 1) * cfg.jitter();
-      await cfg.sleep(sleep);
+      const backoffMs = cfg.baseBackoffMs * 2 ** (attempt - 1) * cfg.jitter();
+      totalLatencyMs += backoffMs;
+      await cfg.sleep(backoffMs);
     }
   }
   // Surface the last error to the fallback layer.
@@ -208,14 +222,16 @@ async function callWithFallback(
   chain: readonly Provider[],
   prompt: string,
   cfg: RetryConfig,
-): Promise<{ response: ProviderResponse; fallbackHits: number }> {
+): Promise<{ response: ProviderResponse; fallbackHits: number; totalLatencyMs: number }> {
   let fallbackHits = 0;
+  let totalLatencyMs = 0;
   let lastErr: ProviderError | undefined;
   for (let i = 0; i < chain.length; i++) {
     if (i > 0) fallbackHits++;
     try {
-      const response = await callWithRetry(chain[i], prompt, cfg);
-      return { response, fallbackHits };
+      const outcome = await callWithRetry(chain[i], prompt, cfg);
+      totalLatencyMs += outcome.totalLatencyMs;
+      return { response: outcome.response, fallbackHits, totalLatencyMs };
     } catch (err) {
       lastErr = err as ProviderError;
     }
@@ -247,7 +263,7 @@ class AIGateway {
       return { ok: false, status: 429, reason: "rate limit exceeded" };
     }
     try {
-      const { response, fallbackHits } = await callWithFallback(
+      const { response, fallbackHits, totalLatencyMs } = await callWithFallback(
         this.chain,
         prompt,
         this.retry,
@@ -255,7 +271,10 @@ class AIGateway {
       return {
         ok: true,
         response,
-        totalLatencyMs: response.latencyMs + this.overheadMs,
+        // End-to-end wall clock: gateway overhead + every retry attempt +
+        // every backoff sleep + every failed-provider latency leading to the
+        // winning provider.
+        totalLatencyMs: totalLatencyMs + this.overheadMs,
         fallbackHits,
       };
     } catch (err) {
@@ -297,7 +316,9 @@ type SimRow = {
   gateway: string;
   successRate: number;
   meanLatency: number;
-  retries: number;
+  // Each inner iteration tries one provider exactly once before falling
+  // back, so this counts failed provider attempts, not in-provider retries.
+  providerFailures: number;
   fallbackHits: number;
 };
 
@@ -305,7 +326,7 @@ function simulateFallback(gateway: string, n = 1000, seed = 7): SimRow {
   const rng = makeRng(seed);
   let success = 0;
   let totalLatency = 0;
-  let retries = 0;
+  let providerFailures = 0;
   let fallbackHits = 0;
   const gwOverhead = GATEWAY_OVERHEAD[gateway];
 
@@ -322,7 +343,7 @@ function simulateFallback(gateway: string, n = 1000, seed = 7): SimRow {
         done = true;
         break;
       }
-      retries++;
+      providerFailures++;
     }
     void done;
     totalLatency += reqLatency;
@@ -332,7 +353,7 @@ function simulateFallback(gateway: string, n = 1000, seed = 7): SimRow {
     gateway,
     successRate: success / n,
     meanLatency: totalLatency / n,
-    retries,
+    providerFailures,
     fallbackHits,
   };
 }
@@ -342,7 +363,7 @@ function reportRow(r: SimRow): void {
     `${r.gateway.padEnd(12)}  ` +
       `success=${(r.successRate * 100).toFixed(1).padStart(5)}%  ` +
       `mean_latency=${r.meanLatency.toFixed(0).padStart(6)}ms  ` +
-      `retries=${String(r.retries).padStart(4)}  ` +
+      `prov_fails=${String(r.providerFailures).padStart(4)}  ` +
       `fallbacks=${String(r.fallbackHits).padStart(4)}`,
   );
 }
@@ -417,7 +438,7 @@ function simulatorDemo(): void {
   console.log("=".repeat(80));
   const header =
     `${"Gateway".padEnd(12)}  ` +
-    `${"Success".padStart(7)}         ${"mean latency".padStart(12)}  retries  fallbacks`;
+    `${"Success".padStart(7)}         ${"mean latency".padStart(12)}  prov_fails  fallbacks`;
   console.log(header);
   console.log("-".repeat(header.length));
   for (const gw of ["LiteLLM", "Portkey", "Kong", "Cloudflare"]) {
