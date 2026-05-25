@@ -121,7 +121,7 @@ function writerTasksSend(skillId: string, message: Message): Task {
       parts: [
         {
           kind: "text",
-          payload: { text: "Please specify target_length as a data part." },
+          payload: { text: "Please specify targetLength as a data part." },
         },
       ],
     });
