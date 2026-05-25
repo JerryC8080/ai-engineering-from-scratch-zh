@@ -9,7 +9,7 @@
         "A jailbreak via long-context shot stuffing",
         "A supply-chain attack on PyPI",
         "A hardware vulnerability in NPUs",
-        "The first publicly documented zero-click prompt injection in Microsoft 365 Copilot (CVSS 9.3), exfiltrating sensitive data via a Microsoft-signed CSP-approved domain"
+        "A zero-click AI command-injection flaw in Microsoft 365 Copilot (CVE-2025-32711, CVSS 9.3) causing unauthorized network information disclosure, with exfiltration via a CSP allowlisted/trusted Microsoft domain"
       ],
       "correct": 3,
       "explanation": ""
@@ -66,7 +66,7 @@
       "stage": "post",
       "question": "Where do NIST and OWASP rank prompt injection as of 2024/2025?",
       "options": [
-        "NIST AI SPD 2024: 'generative AI's greatest security flaw'; OWASP 2025: LLM01 (top application-layer threat)",
+        "NIST AI SPD 2024 frames prompt injection as a major information-security risk for generative AI; OWASP 2025 ranks it LLM01 (top application-layer threat)",
         "NIST: outside scope; OWASP: not listed",
         "NIST: minor; OWASP: bottom of list",
         "Both call it a Tier-2 risk only"

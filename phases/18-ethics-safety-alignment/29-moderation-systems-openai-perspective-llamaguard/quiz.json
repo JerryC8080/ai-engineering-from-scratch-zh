@@ -66,7 +66,7 @@
       "stage": "post",
       "question": "What is the Azure Content Moderator deprecation and migration target?",
       "options": [
-        "Deprecated February 2024, retired February 2027; migration target is Azure AI Content Safety (LLM-based, integrated with Azure OpenAI)",
+        "Deprecated February 2024, retired March 15, 2027; migration target is Azure AI Content Safety (LLM-based, integrated with Azure OpenAI)",
         "Replaced by Perspective API",
         "Merged into Llama Guard 4",
         "Deprecated immediately with no replacement"

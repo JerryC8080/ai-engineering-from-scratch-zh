@@ -54,7 +54,7 @@
       "stage": "post",
       "question": "What did Liang et al. (2024) report about model-card detail and Hugging Face download rate?",
       "options": [
-        "Detailed model cards correlate with up to 29% higher download rates on HF; adoption pressure is now market-driven, not only compliance-driven",
+        "Detailed model cards drive a +29.0% weekly download lift on HF for the treatment group vs control (diff-in-diff); adoption pressure is now market-driven, not only compliance-driven",
         "Only ethical-considerations sections affected downloads",
         "Detail had no effect on downloads",
         "Detail decreased download rates"
