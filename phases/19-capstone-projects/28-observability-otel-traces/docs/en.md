@@ -29,38 +29,14 @@ The OpenTelemetry GenAI semantic conventions exist exactly for this. They define
 
 ## The Concept
 
-```
-   tool call / model call / gate decision
-                  |
-                  v
-        +-------------------+
-        |  SpanBuilder.span()|---context manager
-        +-------------------+
-                  |
-                  v
-        +-------------------+
-        |  GenAISpan        |
-        |   trace_id         |
-        |   span_id          |
-        |   name              |
-        |   attributes        |
-        |     gen_ai.system    |
-        |     gen_ai.request.* |
-        |     gen_ai.usage.*   |
-        |   start, end         |
-        |   status            |
-        +-------------------+
-                  |
-       +----------+-----------+
-       v                      v
-+------+------+        +------+----------+
-| JSONLWriter |        | MetricsRegistry |
-+-------------+        +-----------------+
-       |                      |
-       v                      v
-+-------------+        +-----------------+
-| traces.jsonl|        | /metrics text    |
-+-------------+        +-----------------+
+```mermaid
+flowchart TD
+  Call[tool call / model call / gate decision] --> Span["SpanBuilder.span()<br/>context manager"]
+  Span --> GenAI[GenAISpan<br/>trace_id / span_id / name<br/>attributes:<br/>gen_ai.system<br/>gen_ai.request.*<br/>gen_ai.usage.*<br/>start, end, status]
+  GenAI --> Writer[JSONLWriter]
+  GenAI --> Metrics[MetricsRegistry]
+  Writer --> Traces[traces.jsonl]
+  Metrics --> Prom[/metrics text/]
 ```
 
 Every operation in the harness produces a span. A span has a trace id (the whole agent invocation), a span id (this one operation), a name (e.g. `gen_ai.chat`, `gen_ai.tool.execution`), attributes that follow the GenAI conventions, a start and end time, and a status.
@@ -73,21 +49,12 @@ Metrics live next to traces. A counter increments on each tool call: `tools_call
 
 ## Architecture
 
-```
-+--------------+        +----------------+        +------------------+
-| AgentHarness |------->| SpanBuilder    |------->| JSONLExporter    |
-| (lessons 25-27)       |                |        |  traces.jsonl    |
-+--------------+        |  context mgr   |        +------------------+
-                        |  attrs         |
-                        |  status        |
-                        +-------+--------+
-                                |
-                                v
-                        +----------------+        +------------------+
-                        | MetricsRegistry|------->| Prometheus text  |
-                        |  counters      |        | exposition       |
-                        |  histograms    |        +------------------+
-                        +----------------+
+```mermaid
+flowchart LR
+  Harness[AgentHarness<br/>lessons 25-27] --> Span[SpanBuilder<br/>context mgr / attrs / status]
+  Span --> Exporter[JSONLExporter<br/>traces.jsonl]
+  Span --> Metrics[MetricsRegistry<br/>counters / histograms]
+  Metrics --> Prom[Prometheus text<br/>exposition]
 ```
 
 The span builder is a small class with a `span(name, attrs)` method that returns a context manager. The context manager records start time on enter, records end time on exit, attaches an exception if one was raised, and pushes the finalised span to the exporter.
