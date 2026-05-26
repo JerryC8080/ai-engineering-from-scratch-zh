@@ -6,7 +6,7 @@
     "skills": 378,
     "prompts": 99,
     "agents": 0,
-    "code_files": 470
+    "code_files": 478
   },
   "phases": [
     {
@@ -812,7 +812,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "linear_regression.py"
+            "linear_regression.py",
+            "main.jl"
           ],
           "outputs": [
             {
@@ -841,7 +842,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "logistic_regression.py"
+            "logistic_regression.py",
+            "main.jl"
           ],
           "outputs": [
             {
@@ -892,6 +894,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.jl",
             "svm.py"
           ],
           "outputs": [
@@ -996,7 +999,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "evaluation.py"
+            "evaluation.py",
+            "main.jl"
           ],
           "outputs": [
             {
@@ -3914,6 +3918,7 @@
           "has_quiz": false,
           "has_notebook": true,
           "code_files": [
+            "main.jl",
             "main.py"
           ],
           "outputs": [
@@ -3942,6 +3947,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.jl",
             "main.rs",
             "self_attention.py"
           ],
@@ -3995,6 +4001,7 @@
           "has_quiz": false,
           "has_notebook": true,
           "code_files": [
+            "main.jl",
             "main.py",
             "main.rs"
           ],
@@ -4024,6 +4031,7 @@
           "has_quiz": false,
           "has_notebook": true,
           "code_files": [
+            "main.jl",
             "main.py"
           ],
           "outputs": [
