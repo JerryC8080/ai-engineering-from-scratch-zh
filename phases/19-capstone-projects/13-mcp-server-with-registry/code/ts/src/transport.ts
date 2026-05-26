@@ -9,10 +9,11 @@ export function processLine(state: ProtocolState, line: string, sink: LineSink):
   if (!trimmed) return;
   const parsed = parseRpc(trimmed);
   if (!parsed.ok) {
+    const message = parsed.code === -32600 ? "Invalid Request" : "Parse error";
     const err: JsonRpcResponse = {
       jsonrpc: "2.0",
       id: null,
-      error: { code: -32700, message: "Parse error", data: parsed.err },
+      error: { code: parsed.code, message, data: parsed.err },
     };
     sink(JSON.stringify(err));
     return;

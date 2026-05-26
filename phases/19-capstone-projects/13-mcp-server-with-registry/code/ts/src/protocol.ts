@@ -84,14 +84,16 @@ export function dispatch(state: ProtocolState, msg: JsonRpcRequest): JsonRpcResp
 
 export function parseRpc(
   line: string,
-): { ok: true; msg: JsonRpcRequest } | { ok: false; err: string } {
+): { ok: true; msg: JsonRpcRequest } | { ok: false; err: string; code: number } {
+  let raw: unknown;
   try {
-    const m = JSON.parse(line) as JsonRpcRequest;
-    if (m.jsonrpc !== "2.0" || typeof m.method !== "string") {
-      return { ok: false, err: "invalid JSON-RPC envelope" };
-    }
-    return { ok: true, msg: m };
+    raw = JSON.parse(line);
   } catch (err) {
-    return { ok: false, err: String(err) };
+    return { ok: false, err: String(err), code: -32700 };
   }
+  const m = raw as JsonRpcRequest;
+  if (!m || typeof m !== "object" || m.jsonrpc !== "2.0" || typeof m.method !== "string") {
+    return { ok: false, err: "invalid JSON-RPC envelope", code: -32600 };
+  }
+  return { ok: true, msg: m };
 }

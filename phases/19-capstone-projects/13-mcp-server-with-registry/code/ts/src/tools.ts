@@ -38,7 +38,7 @@ export const TOOL_DESCRIPTORS: ToolDescriptor[] = [
       properties: { id: { type: "string" } },
       required: ["id"],
     },
-    annotations: { destructiveHint: false, readOnlyHint: false },
+    annotations: { destructiveHint: true, readOnlyHint: false },
   },
 ];
 
