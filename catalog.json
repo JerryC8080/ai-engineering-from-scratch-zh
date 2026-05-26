@@ -2,11 +2,11 @@
   "schema_version": 1,
   "totals": {
     "phases": 20,
-    "lessons": 435,
+    "lessons": 439,
     "skills": 378,
     "prompts": 99,
     "agents": 0,
-    "code_files": 487
+    "code_files": 517
   },
   "phases": [
     {
@@ -12304,7 +12304,7 @@
       "num": 19,
       "slug": "19-capstone-projects",
       "title": "Capstone Projects",
-      "lesson_count": 17,
+      "lesson_count": 21,
       "lessons": [
         {
           "num": 1,
@@ -12568,8 +12568,14 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "dashboard.ts",
-            "main.py"
+            "main.py",
+            "ts/src/cost.ts",
+            "ts/src/index.ts",
+            "ts/src/migrations.ts",
+            "ts/src/server.ts",
+            "ts/src/types.ts",
+            "ts/tests/cost.test.ts",
+            "ts/tests/migrations.test.ts"
           ],
           "outputs": [
             {
@@ -12601,7 +12607,14 @@
           "has_notebook": true,
           "code_files": [
             "main.py",
-            "team.ts"
+            "ts/src/agent.ts",
+            "ts/src/coordinator.ts",
+            "ts/src/index.ts",
+            "ts/src/runtime.ts",
+            "ts/src/types.ts",
+            "ts/src/workspace.ts",
+            "ts/tests/coordinator.test.ts",
+            "ts/tests/runtime.test.ts"
           ],
           "outputs": [
             {
@@ -12633,7 +12646,14 @@
           "has_notebook": true,
           "code_files": [
             "main.py",
-            "server.ts"
+            "ts/src/index.ts",
+            "ts/src/pricing.ts",
+            "ts/src/rollup.ts",
+            "ts/src/server.ts",
+            "ts/src/spans.ts",
+            "ts/src/types.ts",
+            "ts/tests/rollup.test.ts",
+            "ts/tests/spans.test.ts"
           ],
           "outputs": [
             {
@@ -12847,6 +12867,68 @@
               ]
             }
           ]
+        },
+        {
+          "num": 50,
+          "slug": "50-hypothesis-generator",
+          "title": "Hypothesis Generator",
+          "path": "phases/19-capstone-projects/50-hypothesis-generator",
+          "has_docs": true,
+          "has_code": true,
+          "has_quiz": true,
+          "has_notebook": false,
+          "code_files": [
+            "main.py",
+            "tests/test_generator.py"
+          ],
+          "outputs": []
+        },
+        {
+          "num": 51,
+          "slug": "51-literature-retrieval",
+          "title": "Literature Retrieval",
+          "path": "phases/19-capstone-projects/51-literature-retrieval",
+          "has_docs": true,
+          "has_code": true,
+          "has_quiz": true,
+          "has_notebook": false,
+          "code_files": [
+            "main.py",
+            "tests/test_retrieval.py"
+          ],
+          "outputs": []
+        },
+        {
+          "num": 52,
+          "slug": "52-experiment-runner",
+          "title": "Experiment Runner",
+          "path": "phases/19-capstone-projects/52-experiment-runner",
+          "has_docs": true,
+          "has_code": true,
+          "has_quiz": true,
+          "has_notebook": false,
+          "code_files": [
+            "experiments/crashing_experiment.py",
+            "experiments/sparsity_experiment.py",
+            "main.py",
+            "tests/test_runner.py"
+          ],
+          "outputs": []
+        },
+        {
+          "num": 53,
+          "slug": "53-result-evaluator",
+          "title": "Result Evaluator",
+          "path": "phases/19-capstone-projects/53-result-evaluator",
+          "has_docs": true,
+          "has_code": true,
+          "has_quiz": true,
+          "has_notebook": false,
+          "code_files": [
+            "main.py",
+            "tests/test_evaluator.py"
+          ],
+          "outputs": []
         }
       ]
     }
