@@ -5,7 +5,11 @@ import { runQuery } from "./retrieval.ts";
 import { SAMPLE_CORPUS } from "./corpus.ts";
 
 export const QueryBody = z.object({
-  q: z.string().min(1),
+  q: z
+    .string()
+    .refine((s) => s.trim().length > 0, {
+      message: "query must not be empty or whitespace",
+    }),
   topK: z.number().int().positive().max(50).optional(),
 });
 
@@ -16,7 +20,9 @@ export function buildApp(dense: DenseIndex, bm25: BM25Index): Hono {
 
   app.get("/query", (c) => {
     const q = c.req.query("q");
-    if (!q) return c.json({ error: "missing 'q' query parameter" }, 400);
+    if (!q || q.trim().length === 0) {
+      return c.json({ error: "query must not be empty or whitespace" }, 400);
+    }
     return c.json(runQuery(q, dense, bm25));
   });
 

@@ -6,7 +6,7 @@ node:http behind a hono fetch handler.
 
 ## Layout
 
-```
+```text
 src/
   index.ts        entry point; boots node:http + self-probe + exits 0
   server.ts       hono routes (/healthz, /query) with zod-validated POST body
@@ -22,7 +22,7 @@ tests/
 
 ## Run
 
-```
+```bash
 npm install
 npm start                # boots api, probes three queries, exits 0
 npm start -- --serve     # keep server up; ctrl-c to stop

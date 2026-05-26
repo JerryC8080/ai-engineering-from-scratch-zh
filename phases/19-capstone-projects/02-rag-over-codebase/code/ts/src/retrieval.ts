@@ -38,7 +38,7 @@ export function runQuery(
     query: q,
     denseTop: d.slice(0, 3).map((r) => anchor(r.chunk)),
     sparseTop: s.slice(0, 3).map((r) => anchor(r.chunk)),
-    fusedTop: fused.slice(0, 5).map((r) => anchor(r.chunk)),
+    fusedTop: fused.slice(0, topK).map((r) => anchor(r.chunk)),
     citations: top.map((r) => ({ anchor: anchor(r.chunk), score: r.score })),
   };
 }

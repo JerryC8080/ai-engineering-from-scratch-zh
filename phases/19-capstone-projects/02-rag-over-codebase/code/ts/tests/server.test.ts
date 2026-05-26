@@ -55,6 +55,24 @@ test("POST /query: returns parsed response on valid body", async () => {
   assert.ok(body.citations.length <= 3);
 });
 
+test("GET /query?q=%20: rejects whitespace-only query with 400", async () => {
+  const res = await app().fetch(
+    new Request("http://x/query?q=" + encodeURIComponent("   ")),
+  );
+  assert.equal(res.status, 400);
+});
+
+test("POST /query: rejects whitespace-only q with 400", async () => {
+  const res = await app().fetch(
+    new Request("http://x/query", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ q: "   " }),
+    }),
+  );
+  assert.equal(res.status, 400);
+});
+
 test("unknown path: returns 404 json", async () => {
   const res = await app().fetch(new Request("http://x/missing"));
   assert.equal(res.status, 404);

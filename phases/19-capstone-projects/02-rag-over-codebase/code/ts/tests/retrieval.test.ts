@@ -48,3 +48,10 @@ test("runQuery: top citation for auth query lands in auth repo", () => {
   const r = runQuery("authorization check_permission", dense, bm25);
   assert.ok(r.citations[0].anchor.startsWith("auth/"));
 });
+
+test("runQuery: fusedTop honours topK parameter", () => {
+  const { dense, bm25 } = buildIndices();
+  const r = runQuery("authorization", dense, bm25, 2);
+  assert.ok(r.fusedTop.length <= 2);
+  assert.ok(r.citations.length <= 2);
+});
