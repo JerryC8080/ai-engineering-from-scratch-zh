@@ -179,13 +179,19 @@ def _pair_by_seed(
         seed = r.metrics.get("seed")
         if seed is None:
             raise PairingError(f"candidate {r.spec_id} missing seed")
-        cand_map[int(seed)] = float(r.metrics[metric])
+        seed_i = int(seed)
+        if seed_i in cand_map:
+            raise PairingError(f"duplicate candidate seed {seed_i} (spec {r.spec_id})")
+        cand_map[seed_i] = float(r.metrics[metric])
     base_map: dict[int, float] = {}
     for r in baselines:
         seed = r.metrics.get("seed")
         if seed is None:
             raise PairingError(f"baseline {r.spec_id} missing seed")
-        base_map[int(seed)] = float(r.metrics[metric])
+        seed_i = int(seed)
+        if seed_i in base_map:
+            raise PairingError(f"duplicate baseline seed {seed_i} (spec {r.spec_id})")
+        base_map[seed_i] = float(r.metrics[metric])
     shared = sorted(set(cand_map.keys()) & set(base_map.keys()))
     if not shared:
         raise PairingError("no shared seeds between candidate and baseline")
@@ -231,7 +237,7 @@ class Evaluator:
         baselines: list[ExperimentResultLike],
     ) -> Verdict:
         metric_spec.validate()
-        bad = [c for c in candidates if c.terminal != "ok"]
+        bad = [r for r in [*candidates, *baselines] if r.terminal != "ok"]
         if bad:
             return self._failed_verdict(hypothesis_id, metric_spec, bad)
         cand_vals, base_vals = _pair_by_seed(candidates, baselines, metric_spec.name)
@@ -263,7 +269,7 @@ class Evaluator:
         self, hypothesis_id: int, metric_spec: MetricSpec, bad: list[ExperimentResultLike]
     ) -> Verdict:
         terminals = sorted({r.terminal for r in bad})
-        rationale = f"candidate runs failed with terminals {terminals}"
+        rationale = f"runs failed with terminals {terminals}"
         return Verdict(
             hypothesis_id=hypothesis_id,
             metric=metric_spec.name,

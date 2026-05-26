@@ -133,7 +133,8 @@ for hypothesis in queue:
         continue
     candidates = runner.run_all(specs_for(hypothesis))
     baselines  = runner.run_all(baseline_specs_for(hypothesis))
-    verdict = evaluator.evaluate(hypothesis, candidates, baselines)
+    metric_spec = MetricSpec("perplexity", direction=LOWER, scale=LOG)
+    verdict = evaluator.evaluate(hypothesis.id, metric_spec, candidates, baselines)
     attach(hypothesis, verdict)
 ```
 
