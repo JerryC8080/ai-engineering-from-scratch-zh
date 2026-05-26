@@ -173,13 +173,17 @@ def neighbour_cosine_curve(table: torch.Tensor, max_offset: int = 8) -> list[flo
     """
     if table.dim() != 2:
         raise ValueError("table must be (L, D)")
+    if max_offset < 1:
+        raise ValueError(f"max_offset must be >= 1, got {max_offset}")
+    if max_offset >= table.shape[0]:
+        raise ValueError(
+            f"max_offset {max_offset} must be < number of rows {table.shape[0]}"
+        )
     rows = table.detach().to(torch.float32)
     norms = rows.norm(dim=1, keepdim=True).clamp(min=1e-8)
     unit = rows / norms
     result: list[float] = []
     for k in range(1, max_offset + 1):
-        if k >= rows.shape[0]:
-            break
         a = unit[:-k]
         b = unit[k:]
         dot = (a * b).sum(dim=1).mean().item()

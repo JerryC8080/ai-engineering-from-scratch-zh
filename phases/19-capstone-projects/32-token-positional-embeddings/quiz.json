@@ -47,8 +47,8 @@
         "Both",
         "Neither"
       ],
-      "correct": 1,
-      "explanation": "The learned variant has one row per position up to its limit. Past the limit there is no row to index. The sinusoidal variant can extend its formula but is still tied to its prebuilt table here."
+      "correct": 2,
+      "explanation": "In this lesson implementation, both classes enforce max_context_length at forward time. Learned is inherently table-bounded; sinusoidal here is also bounded because it uses a prebuilt table."
     },
     {
       "stage": "post",
