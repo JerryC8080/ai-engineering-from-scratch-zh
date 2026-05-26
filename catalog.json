@@ -6,7 +6,7 @@
     "skills": 378,
     "prompts": 99,
     "agents": 0,
-    "code_files": 484
+    "code_files": 487
   },
   "phases": [
     {
@@ -12410,7 +12410,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -12472,7 +12473,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -12536,7 +12538,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
