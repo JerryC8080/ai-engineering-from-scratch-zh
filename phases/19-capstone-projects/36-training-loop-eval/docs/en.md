@@ -79,7 +79,7 @@ A model whose training loss drops nicely but whose generated samples are all the
 
 Run it:
 
-```
+```bash
 python3 code/main.py
 ```
 
@@ -88,7 +88,7 @@ Output: per step loss line, eval loss every probe step, a generated sample every
 ## Stack
 
 - `torch` for autograd, optimizer, and modules.
-- The model class from lesson 35 is reimported inside `main.py` as a small library.
+- `main.py` reimplements the lesson 35 `GPTModel` and supporting modules locally.
 
 ## Production patterns in the wild
 

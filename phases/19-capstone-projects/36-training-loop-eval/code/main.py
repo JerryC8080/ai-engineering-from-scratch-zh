@@ -191,7 +191,7 @@ def make_batches(
     """
     if token_ids.dim() != 1:
         raise ValueError("token_ids must be a 1D tensor")
-    if token_ids.numel() <= context_length + 1:
+    if token_ids.numel() < context_length + 1:
         raise ValueError("token_ids too short for the requested context_length")
 
     generator = torch.Generator().manual_seed(seed)
@@ -251,7 +251,7 @@ def generate_and_print_sample(
     seed: int = 0,
 ) -> list[int]:
     """Print a short generated continuation from a fixed prompt and return the tokens."""
-    torch.manual_seed(seed)
+    sample_gen = torch.Generator(device=prompt.device).manual_seed(seed)
     was_training = model.training
     model.eval()
     tokens = prompt.clone()
@@ -267,7 +267,7 @@ def generate_and_print_sample(
                 next_logits < threshold, torch.full_like(next_logits, float("-inf")), next_logits
             )
         probs = F.softmax(next_logits, dim=-1)
-        next_token = torch.multinomial(probs, num_samples=1)
+        next_token = torch.multinomial(probs, num_samples=1, generator=sample_gen)
         tokens = torch.cat([tokens, next_token], dim=1)
     if was_training:
         model.train()
