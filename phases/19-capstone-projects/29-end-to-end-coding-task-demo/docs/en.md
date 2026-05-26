@@ -25,27 +25,12 @@ This lesson is the integration test for the whole track. The agent has to do fou
 
 ## The Concept
 
-```
-                                  +-----------------------+
-                                  | Repo fixture           |
-                                  |  src/fizz.py (buggy)   |
-                                  |  tests/test_fizz.py    |
-                                  +-----------------------+
-                                              |
-                                              v
-+----------------+   tool call    +----------------------+
-| Policy         |--------------->| Harness              |
-|  (deterministic|                 |  gate chain          |
-|   stand-in for |  observation    |  sandbox             |
-|   the model)   |<----------------|  span builder        |
-+----------------+                 |  observation ledger  |
-                                  +----------+-----------+
-                                              |
-                                              v
-                                  +-----------------------+
-                                  | EvalReport + JSONL    |
-                                  | + Prometheus exposition|
-                                  +-----------------------+
+```mermaid
+flowchart TD
+  Repo[Repo fixture<br/>src/fizz.py buggy<br/>tests/test_fizz.py] --> Harness
+  Policy[Policy<br/>deterministic stand-in<br/>for the model] -->|tool call| Harness
+  Harness[Harness<br/>gate chain / sandbox<br/>span builder / observation ledger] -->|observation| Policy
+  Harness --> Out[EvalReport + JSONL<br/>+ Prometheus exposition]
 ```
 
 The agent's policy is a state machine. Five states.
@@ -66,41 +51,18 @@ The fixture bug is an off-by-one in `fizz.py`. The deterministic policy detects 
 
 ## Architecture
 
-```
-+--------------+   step    +----------------+
-| Policy       |---------->| StepDispatcher |
-+--------------+           +-------+--------+
-                                   |
-                                   v
-                          +---------------------+
-                          | GateChain.evaluate  |
-                          +----------+----------+
-                                     |
-                          +----------+----------+
-                          v                     v
-                     ALLOW                    DENY
-                          |                     |
-                          v                     v
-                    +----------+         +-------------+
-                    | Sandbox  |         | refuse note |
-                    +----+-----+         +------+------+
-                         |                      |
-                         v                      |
-                    +-----------+               |
-                    | Observation                |
-                    | append to ledger          |
-                    +-----------+               |
-                         |                      |
-                         v                      v
-                    +-----------+         +-------------+
-                    | Span      |<--------| Span (ERROR)|
-                    +-----------+         +-------------+
-                         |
-                         v
-                    +-----------+
-                    | back to   |
-                    | Policy    |
-                    +-----------+
+```mermaid
+flowchart TD
+  Policy -->|step| Dispatcher[StepDispatcher]
+  Dispatcher --> Gate[GateChain.evaluate]
+  Gate -->|ALLOW| Sandbox
+  Gate -->|DENY| Refuse[refuse note]
+  Sandbox --> Obs[Observation<br/>append to ledger]
+  Obs --> Span
+  Refuse --> SpanErr[Span ERROR]
+  Span --> Back[back to Policy]
+  SpanErr --> Back
+  Back --> Policy
 ```
 
 The lesson is self-contained. Each prior-lesson primitive is reimplemented at minimal scale in `main.py` (gate, sandbox, ledger, span) so the lesson runs without importing siblings. The names match lessons 25-28 exactly so the conceptual mapping is unambiguous.
