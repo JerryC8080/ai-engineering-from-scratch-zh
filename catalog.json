@@ -6,7 +6,7 @@
     "skills": 378,
     "prompts": 99,
     "agents": 0,
-    "code_files": 487
+    "code_files": 509
   },
   "phases": [
     {
@@ -12411,7 +12411,14 @@
           "has_notebook": true,
           "code_files": [
             "main.py",
-            "main.ts"
+            "ts/src/fixtures.ts",
+            "ts/src/index.ts",
+            "ts/src/render.ts",
+            "ts/src/server.ts",
+            "ts/src/types.ts",
+            "ts/tests/fixtures.test.ts",
+            "ts/tests/render.test.ts",
+            "ts/tests/server.test.ts"
           ],
           "outputs": [
             {
@@ -12474,7 +12481,15 @@
           "has_notebook": true,
           "code_files": [
             "main.py",
-            "main.ts"
+            "ts/src/agent.ts",
+            "ts/src/blocks.ts",
+            "ts/src/index.ts",
+            "ts/src/server.ts",
+            "ts/src/slack_verify.ts",
+            "ts/src/types.ts",
+            "ts/tests/agent.test.ts",
+            "ts/tests/server.test.ts",
+            "ts/tests/slack_verify.test.ts"
           ],
           "outputs": [
             {
@@ -12539,7 +12554,14 @@
           "has_notebook": true,
           "code_files": [
             "main.py",
-            "main.ts"
+            "ts/src/index.ts",
+            "ts/src/server.ts",
+            "ts/src/session.ts",
+            "ts/src/stream.ts",
+            "ts/src/types.ts",
+            "ts/tests/server.test.ts",
+            "ts/tests/session.test.ts",
+            "ts/tests/stream.test.ts"
           ],
           "outputs": [
             {
