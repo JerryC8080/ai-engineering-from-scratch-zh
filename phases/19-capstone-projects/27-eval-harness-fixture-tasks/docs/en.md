@@ -29,26 +29,12 @@ The harness is the program that turns these failures into facts. It runs every f
 
 ## The Concept
 
-```
-fixtures/                     +-----------+
-  task_001/                   |           |
-    task.json     -+--------->| Harness    |
-    expected/      |          |            |
-  task_002/        |          |  for task:  |
-    ...            |          |    setup    |
-                   +--------->|    run agent (k samples)
-                              |    verify each sample
-                              |    record latency, cost
-                              |
-                              v
-                       +--------------+
-                       | EvalReport   |
-                       |  pass@1      |
-                       |  pass@k      |
-                       |  mean ms     |
-                       |  p95 ms      |
-                       |  mean cost   |
-                       +--------------+
+```mermaid
+flowchart LR
+  F1[fixtures/task_001/<br/>task.json + expected/] --> Harness
+  F2[fixtures/task_002/<br/>...] --> Harness
+  Harness[Harness<br/>for each task:<br/>setup / run agent k samples /<br/>verify each sample /<br/>record latency, cost]
+  Harness --> Report[EvalReport<br/>pass@1 / pass@k<br/>mean ms / p95 ms<br/>mean cost]
 ```
 
 A `FixtureTask` is a small JSON file plus an optional `expected/` directory. The JSON declares an `id`, a `goal` (the prompt fed to the agent), a `setup` block (files to drop into the scratch dir), and a `verifier` block. The verifier block names a function in the harness's verifier registry and supplies its arguments.
@@ -65,40 +51,12 @@ The harness runs each task `k` times. Pass@k is `1 - (1 - p)^k` where p is the e
 
 ## Architecture
 
-```
-+------------+        +---------------+
-| EvalHarness|------->| FixtureTask   |
-|            |  load  |  goal         |
-|            |        |  setup        |
-|            |        |  verifier     |
-+------+-----+        +---------------+
-       |
-       | for each task:
-       |   prepare scratch dir from setup
-       |   for sample in range(k):
-       |     run candidate(task, scratch_dir) -> SampleResult
-       |     verify(sample, task) -> bool
-       |   record per-task aggregate
-       v
-+----------------+
-| TaskReport     |
-|  task_id       |
-|  k             |
-|  passes        |
-|  pass_rate     |
-|  mean_latency  |
-|  mean_cost     |
-+----------------+
-       |
-       | aggregate
-       v
-+----------------+
-| EvalReport     |
-|  total tasks   |
-|  pass@1        |
-|  pass@k        |
-|  p95 latency   |
-+----------------+
+```mermaid
+flowchart TD
+  Harness[EvalHarness] -->|load| Task[FixtureTask<br/>goal / setup / verifier]
+  Harness --> Loop[for each task:<br/>prepare scratch dir from setup<br/>for sample in range k:<br/>run candidate task, scratch_dir -> SampleResult<br/>verify sample, task -> bool<br/>record per-task aggregate]
+  Loop --> TaskReport[TaskReport<br/>task_id / k / passes / pass_rate<br/>mean_latency / mean_cost]
+  TaskReport -->|aggregate| EvalReport[EvalReport<br/>total tasks / pass@1 / pass@k / p95 latency]
 ```
 
 The candidate is a callable: `Callable[[FixtureTask, ScratchDir], SampleResult]`. The harness does not care how the candidate works. The candidate could be a deterministic patch applier (useful for harness self-tests), a real LLM agent, a fuzzer. The contract is the SampleResult.
