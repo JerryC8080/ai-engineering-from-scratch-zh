@@ -65,6 +65,11 @@ export function runSession(frames: AudioChunk[], opts: SessionOptions): Metrics 
       m.bargeIns += 1;
       log(`${f.tMs}ms BARGE-IN: cancel TTS, re-arm ASR`);
       state = "LISTENING";
+      silenceRunMs = 0;
+      finalPartial = "";
+      toolPhase = "none";
+      toolStartedAt = -1;
+      fillerEmitted = false;
       ttsStartedAt = -1;
       llmStartedAt = -1;
       continue;

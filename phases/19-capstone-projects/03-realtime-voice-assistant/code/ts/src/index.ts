@@ -19,11 +19,31 @@ import { decodeFrame } from "./protocol.ts";
 import { buildServer } from "./server.ts";
 import type { Frame } from "./protocol.ts";
 
-async function probeWs(port: number): Promise<{ events: number; gotSummary: boolean }> {
+async function probeWs(
+  port: number,
+  timeoutMs = 3000,
+): Promise<{ events: number; gotSummary: boolean }> {
   return await new Promise<{ events: number; gotSummary: boolean }>((resolve, reject) => {
     const ws = new WebSocket(`ws://127.0.0.1:${port}`);
     let events = 0;
     let gotSummary = false;
+    let settled = false;
+    const finish = (val: { events: number; gotSummary: boolean }): void => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      resolve(val);
+    };
+    const timer = setTimeout(() => {
+      if (settled) return;
+      ws.removeAllListeners();
+      try {
+        ws.close();
+      } catch {
+        // already closing
+      }
+      finish({ events, gotSummary });
+    }, timeoutMs);
     ws.on("message", (raw) => {
       try {
         const f: Frame = decodeFrame(raw.toString("utf8"));
@@ -33,8 +53,13 @@ async function probeWs(port: number): Promise<{ events: number; gotSummary: bool
         // ignore malformed frames in the probe
       }
     });
-    ws.on("close", () => resolve({ events, gotSummary }));
-    ws.on("error", reject);
+    ws.on("close", () => finish({ events, gotSummary }));
+    ws.on("error", (err) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      reject(err);
+    });
   });
 }
 
@@ -50,8 +75,13 @@ async function main(): Promise<void> {
   }
 
   const bargeFrames = synthCall("tell me a long story about");
+  if (bargeFrames.length === 0) {
+    throw new Error("synthCall returned no frames");
+  }
+  const anchorIdx = Math.max(0, bargeFrames.length - 20);
+  const anchorFrame = bargeFrames[anchorIdx] ?? bargeFrames[bargeFrames.length - 1];
   for (let i = 0; i < 8; i++) {
-    const idx = bargeFrames.length - 20 + i;
+    const idx = anchorIdx + i;
     if (idx >= 0 && idx < bargeFrames.length) {
       bargeFrames[idx] = {
         tMs: bargeFrames[idx].tMs,
@@ -62,7 +92,7 @@ async function main(): Promise<void> {
   }
   const bargeIn = runSession(bargeFrames, {
     useTool: false,
-    bargeInAtMs: bargeFrames[bargeFrames.length - 20].tMs - 60,
+    bargeInAtMs: anchorFrame.tMs - 60,
   });
   renderToConsole("session 2: user barges in mid-response", bargeIn);
   if (bargeIn.bargeIns === 0) {

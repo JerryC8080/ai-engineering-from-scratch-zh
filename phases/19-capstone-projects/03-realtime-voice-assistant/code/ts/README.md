@@ -6,7 +6,7 @@ WebSocket server backed by the `ws` package.
 
 ## Layout
 
-```
+```text
 src/
   index.ts        entry point; runs two offline sessions, probes the live ws, exits 0
   server.ts       hono /healthz + ws upgrade via WebSocketServer
@@ -22,7 +22,7 @@ tests/
 
 ## Run
 
-```
+```bash
 npm install
 npm start                # runs two offline sessions + ws self-probe, exits 0
 npm start -- --serve     # keep ws server up; ctrl-c to stop

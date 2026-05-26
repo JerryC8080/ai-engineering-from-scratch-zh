@@ -14,7 +14,7 @@ export function turnCompletionScore(partial: string): number {
 export function synthCall(script: string, startMs = 0, noise = 0): AudioChunk[] {
   // Generate 20ms-frame "audio" with a leading silence, then per-word speech,
   // then a long trailing silence so the state machine can run end to end.
-  const words = script.split(" ");
+  const words = script.trim().split(/\s+/).filter(Boolean);
   const frames: AudioChunk[] = [];
   let t = startMs;
   for (let i = 0; i < 6; i++) {
