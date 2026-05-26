@@ -40,7 +40,7 @@ flowchart TD
 
 ### Warmup formula
 
-For `step` in `[0, warmup_steps]` the learning rate is `lr_max * step / max(1, warmup_steps)`. The `max(1, ...)` guards the degenerate `warmup_steps = 0` case. At step zero the learning rate is exactly zero, not `lr_max * 0 / 0`. This matters because some test harnesses pass `warmup_steps = 0` to check the schedule still produces a usable curve.
+For `step` in `[0, warmup_steps]` with `warmup_steps > 0`, the learning rate is `lr_max * step / warmup_steps`. The degenerate `warmup_steps = 0` case is treated as "no warmup": the schedule starts directly at `lr_max` at step zero and immediately enters cosine decay. Some test harnesses pass `warmup_steps = 0` to check the schedule still produces a usable curve.
 
 ### Cosine formula
 
@@ -62,7 +62,7 @@ The schedule is half of training health. The gradient norm is the other half. Th
 
 - `CosineWithWarmup` - a stateless function `lr(step) -> float` over the configured schedule.
 - `TrainState` - wraps a model, an `AdamW` optimizer, and the schedule into a single step function.
-- `train_one_step` - runs one forward pass, one backward pass, logs gradient L2 norm, and applies `lr(step)` to the optimizer.
+- `TrainState.step` - runs one forward pass, one backward pass, logs gradient L2 norm, and applies `lr(step)` to the optimizer.
 - `plot_schedule_ascii` - renders the schedule as a text plot the eye can read.
 - `write_schedule_csv` - emits one row per step with the learning rate.
 

@@ -56,8 +56,8 @@ class CosineWithWarmup:
             raise ValueError("warmup_steps must be non-negative")
         if self.total_steps <= 0:
             raise ValueError("total_steps must be positive")
-        if self.warmup_steps > self.total_steps:
-            raise ValueError("warmup_steps must not exceed total_steps")
+        if self.warmup_steps >= self.total_steps:
+            raise ValueError("warmup_steps must be less than total_steps")
         if self.lr_max <= 0:
             raise ValueError("lr_max must be positive")
         if self.lr_min < 0:
