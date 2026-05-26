@@ -38,7 +38,7 @@ export function renderDashboardHtml(migrations: Migration[]): string {
   const rows = migrations
     .map((m) => {
       const passedFiles = m.files.filter((f) => f.status === "passed").length;
-      const pct = Math.round((passedFiles / m.files.length) * 100);
+      const pct = m.files.length === 0 ? 0 : Math.round((passedFiles / m.files.length) * 100);
       return [
         "<tr>",
         `<td><a href="/migrations/${m.id}">${m.repo}</a></td>`,

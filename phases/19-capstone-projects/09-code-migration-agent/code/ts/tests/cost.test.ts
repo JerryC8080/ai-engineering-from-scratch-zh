@@ -37,4 +37,5 @@ test("chargeTurn upper bound stays inside budget per turn", () => {
   const m = defaultSeed()[0]!;
   for (let i = 0; i < MAX_TURNS; i++) chargeTurn(m, () => 1);
   assert.equal(m.turns, MAX_TURNS);
+  assert.ok(m.spentUsd <= BUDGET_USD, `spent ${m.spentUsd} exceeds budget ${BUDGET_USD}`);
 });
