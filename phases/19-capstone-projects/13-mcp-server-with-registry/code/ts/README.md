@@ -7,7 +7,7 @@ newline-delimited JSON-RPC 2.0 over stdio with three mock incident tools. No
 
 ## Layout
 
-```
+```text
 src/
   index.ts      entry: fixture demo (default) or stdio loop (--serve)
   transport.ts  stdin readline + fixture replay
