@@ -24,23 +24,16 @@ This lesson builds the stdio variant. Newline-delimited JSON. Each request is on
 
 Four envelope shapes exist. Two are spoken by the client. Two are spoken by the server.
 
-```
-client -> server                     server -> client
-+---------------------+              +---------------------+
-| request             |              | response (success)  |
-|   jsonrpc: "2.0"    |              |   jsonrpc: "2.0"    |
-|   id: 7             |              |   id: 7             |
-|   method: "foo"     |              |   result: { ... }   |
-|   params: { ... }   |              +---------------------+
-+---------------------+              +---------------------+
-| notification        |              | response (error)    |
-|   jsonrpc: "2.0"    |              |   jsonrpc: "2.0"    |
-|   method: "bar"     |              |   id: 7  | null     |
-|   params: { ... }   |              |   error: {          |
-|   (no id)           |              |     code, message,  |
-+---------------------+              |     data?           |
-                                     |   }                 |
-                                     +---------------------+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Server
+    Client->>Server: request {jsonrpc:"2.0", id:7, method:"foo", params:{...}}
+    Server-->>Client: success {jsonrpc:"2.0", id:7, result:{...}}
+    Client->>Server: notification {jsonrpc:"2.0", method:"bar", params:{...}} (no id)
+    Note over Server: no response for notifications
+    Client->>Server: request that fails
+    Server-->>Client: error {jsonrpc:"2.0", id:7 or null, error:{code, message, data?}}
 ```
 
 A notification has no `id`. The server must not respond to it. If a server returns a response to a notification, the client has no way to attach it to a call site. That single rule keeps the framing math simple.
@@ -49,7 +42,7 @@ A batch is a JSON array of requests or notifications. The server replies with an
 
 ## The five error codes
 
-```
+```text
 -32700  Parse error      JSON could not be parsed
 -32600  Invalid Request  Envelope shape is wrong
 -32601  Method not found
@@ -71,7 +64,7 @@ For the lesson we wrap an `io.BytesIO` pair as stdin and stdout. The server read
 
 The transport does not know which methods exist. It hands off to a callable `handler(method, params)` that the harness supplies. The handler returns a result or raises. Three exception classes surface specific codes.
 
-```
+```text
 MethodNotFound -> -32601
 InvalidParams  -> -32602
 Anything else  -> -32603 with exception name in data
@@ -81,7 +74,7 @@ The transport never sees a tool registry. The registry sits behind the handler. 
 
 ## Stream behavior on errors
 
-```
+```text
 client writes              server reads             server writes
 ---------------            -----------              -------------
 {...valid request...}      parses ok                {...response, id matches...}
@@ -100,7 +93,7 @@ The lesson implements one outbound notification helper, `write_notification`. Th
 
 ## How to read the code
 
-`code/main.py` defines `StdioTransport`, the four message helpers (`read_request`, `write_response`, `write_error`, `write_notification`), and the dispatch loop `serve`. The error code constants live at module scope.
+`code/main.py` defines `StdioTransport`, the parse helper (`parse_request`), the three write helpers (`write_response`, `write_error`, `write_notification`), and the dispatch loop `serve`. The error code constants live at module scope.
 
 `code/tests/test_transport.py` covers the five error codes, notifications (no response written), batches (array in, array out, notifications skipped), broken JSON (parse error then continue), and the asymmetric flow where a handler writes a notification mid-call.
 

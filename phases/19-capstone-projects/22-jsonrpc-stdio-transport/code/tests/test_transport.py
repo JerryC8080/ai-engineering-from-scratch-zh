@@ -80,6 +80,12 @@ class TestErrorCodes(unittest.TestCase):
         self.assertEqual(out[0]["error"]["code"], ERR_INTERNAL)
         self.assertEqual(out[0]["error"]["data"]["exception"], "ValueError")
 
+    def test_boolean_id_rejected(self) -> None:
+        out_true = _drive([{"jsonrpc": "2.0", "id": True, "method": "echo"}], echo_handler)
+        self.assertEqual(out_true[0]["error"]["code"], ERR_INVALID_REQUEST)
+        out_false = _drive([{"jsonrpc": "2.0", "id": False, "method": "echo"}], echo_handler)
+        self.assertEqual(out_false[0]["error"]["code"], ERR_INVALID_REQUEST)
+
 
 class TestNotifications(unittest.TestCase):
     def test_notification_no_response(self) -> None:
@@ -127,7 +133,7 @@ class TestStreamDoesNotPoison(unittest.TestCase):
         transport = StdioTransport(stdin, stdout)
         serve(echo_handler, transport)
         stdout.seek(0)
-        lines = [json.loads(l) for l in stdout.read().decode("utf-8").splitlines() if l.strip()]
+        lines = [json.loads(line) for line in stdout.read().decode("utf-8").splitlines() if line.strip()]
         self.assertEqual(lines[0]["error"]["code"], ERR_PARSE)
         self.assertEqual(lines[1]["result"], {"v": "ok"})
 
@@ -137,7 +143,7 @@ class TestStreamDoesNotPoison(unittest.TestCase):
         transport = StdioTransport(stdin, stdout)
         serve(echo_handler, transport)
         stdout.seek(0)
-        lines = [json.loads(l) for l in stdout.read().decode("utf-8").splitlines() if l.strip()]
+        lines = [json.loads(line) for line in stdout.read().decode("utf-8").splitlines() if line.strip()]
         self.assertEqual(len(lines), 1)
         self.assertEqual(lines[0]["result"], {"n": 5})
 

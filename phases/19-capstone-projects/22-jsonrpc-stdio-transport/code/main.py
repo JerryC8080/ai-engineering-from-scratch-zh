@@ -14,7 +14,7 @@ import io
 import json
 import sys
 from dataclasses import dataclass
-from typing import Any, Callable, Iterable
+from typing import Any, BinaryIO, Callable, Iterable
 
 
 ERR_PARSE = -32700
@@ -58,8 +58,12 @@ def _is_valid_envelope(msg: Any) -> bool:
         return False
     if "params" in msg and not isinstance(msg["params"], (dict, list)):
         return False
-    if "id" in msg and not isinstance(msg["id"], (int, str, type(None))):
-        return False
+    if "id" in msg:
+        rid = msg["id"]
+        if isinstance(rid, bool):
+            return False
+        if not isinstance(rid, (int, str, type(None))):
+            return False
     return True
 
 
@@ -105,9 +109,9 @@ def _notification_envelope(method: str, params: Any | None) -> dict:
 class StdioTransport:
     """Newline-delimited JSON-RPC 2.0 over a pair of byte streams."""
 
-    def __init__(self, stdin: io.IOBase, stdout: io.IOBase) -> None:
-        self._in = stdin
-        self._out = stdout
+    def __init__(self, stdin: BinaryIO, stdout: BinaryIO) -> None:
+        self._in: BinaryIO = stdin
+        self._out: BinaryIO = stdout
 
     def read_line(self) -> bytes | None:
         line = self._in.readline()
