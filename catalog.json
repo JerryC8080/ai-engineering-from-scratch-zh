@@ -6,7 +6,7 @@
     "skills": 378,
     "prompts": 99,
     "agents": 0,
-    "code_files": 453
+    "code_files": 471
   },
   "phases": [
     {
@@ -3108,7 +3108,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -3215,7 +3216,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -5882,6 +5884,7 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
+            "main.ts",
             "prompt_engineering.py"
           ],
           "outputs": [
@@ -5999,7 +6002,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "embeddings.py"
+            "embeddings.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -6189,7 +6193,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "function_calling.py"
+            "function_calling.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -6304,7 +6309,8 @@
           "has_quiz": true,
           "has_notebook": false,
           "code_files": [
-            "guardrails.py"
+            "guardrails.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -7245,7 +7251,8 @@
           "has_quiz": false,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -7415,7 +7422,8 @@
           "has_quiz": false,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -7764,7 +7772,8 @@
           "has_quiz": false,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -7916,7 +7925,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -8061,7 +8071,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -8267,7 +8278,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -10893,7 +10905,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -10926,7 +10939,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -10957,7 +10971,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -10987,7 +11002,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -11076,7 +11092,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
@@ -11110,7 +11127,8 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "main.ts"
           ],
           "outputs": [
             {
