@@ -5,7 +5,7 @@ Multi-file TypeScript harness for the plan/act/observe loop described in
 
 ## Layout
 
-```
+```text
 src/
   index.ts     entry point; runs a scripted demo and the eval, then exits 0
   repl.ts      interactive command parser (run / eval / help / quit)
@@ -23,7 +23,7 @@ tests/
 
 ## Run
 
-```
+```bash
 npm install
 npm start                # runs the scripted demo + offline eval, exits 0
 npm start -- --repl      # opens the interactive harness REPL

@@ -10,7 +10,7 @@ export class PlanState {
   }
 
   rewrite(items: TodoItem[]): void {
-    this.items = items;
+    this.items = items.map((it) => ({ ...it }));
   }
 
   summary(): string {
@@ -37,6 +37,9 @@ export class Budget {
   dollarsUsed = 0;
 
   step(tokens: number, dollars: number): void {
+    if (tokens < 0 || dollars < 0) {
+      throw new RangeError("Budget.step requires non-negative tokens and dollars");
+    }
     this.turnsUsed += 1;
     this.tokensUsed += tokens;
     this.dollarsUsed += dollars;

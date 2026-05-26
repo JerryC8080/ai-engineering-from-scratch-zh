@@ -43,6 +43,13 @@ export function runAgent(task: string, sandbox: string): RunResult {
     plan.rewrite(step.plan);
     budget.step(step.tokens, step.cost);
 
+    const postStepLimit = budget.exceeded();
+    if (postStepLimit) {
+      hooks.fire("Stop", { reason: "budget", turn });
+      completed = true;
+      break;
+    }
+
     if (step.tool === null) {
       hooks.fire("Stop", { reason: "complete", turn });
       completed = true;

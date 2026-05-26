@@ -31,10 +31,16 @@ export class HookBus {
   }
 }
 
+const DESTRUCTIVE_PATTERNS = [/\brm\s+-rf\b/, /\bshutdown\b/];
+
 export function destructiveGuard(payload: HookPayload): HookPayload {
-  const args = (payload.args ?? {}) as ToolArgs;
-  const cmd = args.cmd ?? "";
-  if (cmd.includes("rm -rf") || cmd.includes("shutdown")) {
+  const rawArgs = payload.args;
+  const args =
+    rawArgs && typeof rawArgs === "object" ? (rawArgs as ToolArgs) : ({} as ToolArgs);
+  const rawCmd = args.cmd;
+  if (typeof rawCmd !== "string") return payload;
+  const cmd = rawCmd.trim().toLowerCase();
+  if (DESTRUCTIVE_PATTERNS.some((re) => re.test(cmd))) {
     return {
       ...payload,
       blocked: true,
