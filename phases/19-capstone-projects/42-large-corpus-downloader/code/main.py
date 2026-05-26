@@ -296,7 +296,7 @@ class StreamingDownloader:
         if not shard_path.exists():
             return False
         actual_size = shard_path.stat().st_size
-        if actual_size < state.verified_bytes:
+        if actual_size != state.verified_bytes:
             return False
         hasher = hashlib.sha256()
         with shard_path.open("rb") as fh:
@@ -310,6 +310,11 @@ class StreamingDownloader:
         return hasher.hexdigest() == state.sha256_prefix_hex
 
     def download(self, plan: ShardPlan) -> ShardResult:
+        parsed = urllib.parse.urlparse(plan.url)
+        if parsed.scheme not in {"http", "https", "file"}:
+            raise ValueError(
+                f"unsupported URL scheme {parsed.scheme!r} for shard {plan.shard_id}"
+            )
         shard_path, checkpoint_path = self._paths_for(plan.shard_id)
         state = self._read_checkpoint(checkpoint_path)
         resume_from = 0
@@ -335,6 +340,19 @@ class StreamingDownloader:
             request.add_header("Range", f"bytes={resume_from}-")
         response = self._opener(request)
         try:
+            if resume_from > 0:
+                status = int(getattr(response, "status", 0) or 0)
+                headers = getattr(response, "headers", None)
+                content_range = ""
+                if headers is not None:
+                    content_range = str(headers.get("Content-Range", "") or "")
+                if status != 206 or not content_range.startswith(f"bytes {resume_from}-"):
+                    resume_from = 0
+                    rolling = hashlib.sha256()
+                    if shard_path.exists():
+                        shard_path.unlink()
+                    if checkpoint_path.exists():
+                        checkpoint_path.unlink()
             mode = "ab" if resume_from > 0 else "wb"
             with shard_path.open(mode) as out:
                 while True:
@@ -342,16 +360,17 @@ class StreamingDownloader:
                     if not buf:
                         break
                     rolling.update(buf)
-                    out.write(buf)
-                    out.flush()
-                    resume_from += len(buf)
+                    next_verified = resume_from + len(buf)
                     new_state = CheckpointState(
                         url=plan.url,
-                        verified_bytes=resume_from,
+                        verified_bytes=next_verified,
                         expected_size=plan.expected_size,
                         sha256_prefix_hex=rolling.hexdigest(),
                     )
                     self._write_checkpoint(checkpoint_path, new_state)
+                    out.write(buf)
+                    out.flush()
+                    resume_from = next_verified
         finally:
             close = getattr(response, "close", None)
             if callable(close):
