@@ -22,9 +22,9 @@ The mistake we are avoiding is shipping handlers without schemas, or shipping sc
 
 ## What a tool record looks like
 
-```
+```text
 ToolRecord
-  name        : str          (unique, kebab.dot.case)
+  name        : str          (unique, lowercase alphanumeric and underscore segments separated by dots, e.g., snake_case.segment.case)
   description : str          (one line, shown to the model)
   schema      : dict         (JSON Schema 2020-12 subset)
   handler     : Callable     (async or sync, returns Any)
@@ -38,7 +38,7 @@ The schema is the only field the validator touches. The handler is opaque to it.
 
 The full 2020-12 spec is a paper. We need eight keywords.
 
-```
+```text
 type           string / number / integer / boolean / object / array / null
 properties     map of property name -> schema
 required       list of property names
@@ -55,7 +55,7 @@ That is enough to cover what a tool API actually needs. The keywords we are not 
 
 When validation fails, the validator returns a list of errors. Each error carries a json-pointer path into the input. A pointer is a slash-prefixed sequence of property names and array indices.
 
-```
+```text
 {"a": {"b": [1, 2, "x"]}}
                     ^
                     /a/b/2
@@ -67,7 +67,7 @@ The model reads error paths better than it reads sentences. If a schema requires
 
 `register(name, schema, handler, **opts)` rejects re-registration by default. The caller has to pass `override=True` to replace. This is operational hygiene. Two parts of the codebase silently registering the same tool name is the kind of bug that takes a week to find in production.
 
-The registry exposes three read methods. `get(name)` returns the record or raises. `validate(name, args)` returns an `Ok` or a list of errors. `list()` returns the tool names in registration order.
+The registry exposes three read methods. `get(name)` returns the record or raises. `validate(name, args)` returns an `Ok` or a list of errors. `names()` returns the tool names in registration order.
 
 ## What the validator is and is not
 
@@ -75,20 +75,15 @@ It is a single pass over the schema tree, recursive. It is pure. It does not cal
 
 It is not a security boundary. A malicious handler can still misbehave after validation passes. The dispatcher in lesson twenty-three adds timeout and sandbox layers. The registry adds shape.
 
-## ASCII shape
+## Shape
 
-```
-            ToolRegistry
-            +-----------+
-            | name      |
-            | schema    |---- validate(args) ----> Ok | [errors]
-            | handler   |
-            | timeout   |
-            +-----------+
-                  ^
-                  | register(name, schema, handler)
-                  |
-              your code
+```mermaid
+flowchart TD
+    code[your code]
+    reg[ToolRegistry<br/>name<br/>schema<br/>handler<br/>timeout]
+    out[Ok or list of errors]
+    code -->|register name, schema, handler| reg
+    reg -->|validate args| out
 ```
 
 ## How to read the code

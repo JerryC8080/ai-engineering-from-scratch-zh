@@ -15,18 +15,6 @@
       "explanation": "Keeping the schema as data and the handler as code lets the validator be a pure function over the schema tree."
     },
     {
-      "stage": "pre",
-      "question": "What does a JSON pointer error path give the model that a sentence does not?",
-      "options": [
-        "A larger context window",
-        "An unambiguous coordinate into the failing argument structure",
-        "Faster decoding",
-        "Free retries"
-      ],
-      "correct": 1,
-      "explanation": "/user/email is exact. The model fixes the right field in one round trip without parsing prose."
-    },
-    {
       "stage": "check",
       "question": "Which keywords are intentionally outside the subset this lesson implements?",
       "options": [
