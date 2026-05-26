@@ -6,7 +6,7 @@
     "skills": 378,
     "prompts": 99,
     "agents": 0,
-    "code_files": 4832
+    "code_files": 4886
   },
   "phases": [
     {
@@ -12316,7 +12316,18 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "ts/src/eval.ts",
+            "ts/src/harness.ts",
+            "ts/src/hooks.ts",
+            "ts/src/index.ts",
+            "ts/src/model.ts",
+            "ts/src/plan.ts",
+            "ts/src/repl.ts",
+            "ts/src/tools.ts",
+            "ts/src/types.ts",
+            "ts/tests/harness.test.ts",
+            "ts/tests/tools.test.ts"
           ],
           "outputs": [
             {
@@ -12347,7 +12358,16 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "ts/src/corpus.ts",
+            "ts/src/index.ts",
+            "ts/src/index_store.ts",
+            "ts/src/retrieval.ts",
+            "ts/src/server.ts",
+            "ts/src/types.ts",
+            "ts/tests/index_store.test.ts",
+            "ts/tests/retrieval.test.ts",
+            "ts/tests/server.test.ts"
           ],
           "outputs": [
             {
@@ -12378,7 +12398,16 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "ts/src/index.ts",
+            "ts/src/orchestrator.ts",
+            "ts/src/protocol.ts",
+            "ts/src/server.ts",
+            "ts/src/types.ts",
+            "ts/src/vad.ts",
+            "ts/tests/orchestrator.test.ts",
+            "ts/tests/protocol.test.ts",
+            "ts/tests/vad.test.ts"
           ],
           "outputs": [
             {
@@ -12410,7 +12439,15 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "ts/src/fixtures.ts",
+            "ts/src/index.ts",
+            "ts/src/render.ts",
+            "ts/src/server.ts",
+            "ts/src/types.ts",
+            "ts/tests/fixtures.test.ts",
+            "ts/tests/render.test.ts",
+            "ts/tests/server.test.ts"
           ],
           "outputs": [
             {
@@ -12472,7 +12509,16 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "ts/src/agent.ts",
+            "ts/src/blocks.ts",
+            "ts/src/index.ts",
+            "ts/src/server.ts",
+            "ts/src/slack_verify.ts",
+            "ts/src/types.ts",
+            "ts/tests/agent.test.ts",
+            "ts/tests/server.test.ts",
+            "ts/tests/slack_verify.test.ts"
           ],
           "outputs": [
             {
@@ -12536,7 +12582,15 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "main.py"
+            "main.py",
+            "ts/src/index.ts",
+            "ts/src/server.ts",
+            "ts/src/session.ts",
+            "ts/src/stream.ts",
+            "ts/src/types.ts",
+            "ts/tests/server.test.ts",
+            "ts/tests/session.test.ts",
+            "ts/tests/stream.test.ts"
           ],
           "outputs": [
             {
