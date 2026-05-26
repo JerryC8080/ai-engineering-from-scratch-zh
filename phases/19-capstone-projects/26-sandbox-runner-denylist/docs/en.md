@@ -31,22 +31,15 @@ The sandbox is not a security boundary in the operating system sense. A determin
 
 ## The Concept
 
-```
-   ToolCall (already passed gate chain)
-        |
-        v
-+----------------+
-| Sandbox.run()  |
-+--------+-------+
-         |
-         | 1. resolve executable against denylist (rm, sudo, mkfs, ...)
-         | 2. inspect argv (interpreter -c, shell metachars when shell=False)
-         | 3. resolve path-like arguments against project_root via realpath
-         | 4. spawn subprocess with capture, wall-clock timeout, env scrub
-         | 5. truncate stdout/stderr to max_output_bytes
-         |
-         v
-   SandboxResult { exit_code, stdout, stderr, truncated, timed_out, denied, reason }
+```mermaid
+flowchart TD
+  Call[ToolCall<br/>already passed gate chain] --> Run["Sandbox.run()"]
+  Run --> S1[1. resolve executable against denylist<br/>rm, sudo, mkfs, ...]
+  S1 --> S2[2. inspect argv<br/>interpreter -c, shell metachars when shell=False]
+  S2 --> S3[3. resolve path-like arguments<br/>against project_root via realpath]
+  S3 --> S4[4. spawn subprocess<br/>capture, wall-clock timeout, env scrub]
+  S4 --> S5[5. truncate stdout/stderr to max_output_bytes]
+  S5 --> Result[SandboxResult<br/>exit_code, stdout, stderr,<br/>truncated, timed_out, denied, reason]
 ```
 
 The sandbox has four refusal axes: name, argv, path, structure. Each axis is a pure function of the call, no subprocess yet. The subprocess only spawns after every axis has passed.
@@ -55,21 +48,11 @@ The `SandboxResult` exit codes are the conventional ones: 0 success, non-zero fa
 
 ## Architecture
 
-```
-+----------------+        +----------------+        +------------------+
-| AgentHarness   |------->| Sandbox        |------->| subprocess.Popen |
-| (lesson 20-25) |  call  |                |  exec  |                  |
-+----------------+        |  denylist      |        +------------------+
-                          |  path jail     |
-                          |  argv inspect  |
-                          |  timeout       |
-                          |  truncation    |
-                          +-------+--------+
-                                  |
-                                  v
-                          +----------------+
-                          | SandboxResult  |
-                          +----------------+
+```mermaid
+flowchart LR
+  Harness[AgentHarness<br/>lesson 20-25] -->|call| Sandbox[Sandbox<br/>denylist<br/>path jail<br/>argv inspect<br/>timeout<br/>truncation]
+  Sandbox -->|exec| Popen[subprocess.Popen]
+  Sandbox --> Result[SandboxResult]
 ```
 
 The denylist is a frozenset of executable basenames. Aliases (`/bin/rm`, `/usr/bin/rm`) all resolve to the same basename. The argv inspector knows the interpreter shape: any argv where argv[0] is an interpreter and any later arg starts with `-c` or `-e` is denied. Shell metacharacters (`;`, `|`, `&`, `>`, `<`, backticks, `$()`) cause refusal when the call did not explicitly request a shell.
