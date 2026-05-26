@@ -8,11 +8,15 @@ export class Coordinator {
   private rotationIndex = 0;
 
   constructor(agents?: Agent[]) {
-    this.agents = agents ?? [
+    const resolved = agents ?? [
       new PlannerAgent(),
       new CoderAgent(),
       new ReviewerAgent(),
     ];
+    if (resolved.length === 0) {
+      throw new Error("Coordinator: agents must not be empty");
+    }
+    this.agents = resolved;
   }
 
   private routeTo(agent: Agent, msg: Message): boolean {

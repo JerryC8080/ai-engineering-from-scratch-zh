@@ -63,3 +63,17 @@ test("denylist is non-empty and contains expected commands", () => {
   assert.ok(COMMAND_DENYLIST.has("sudo"));
   assert.ok(COMMAND_DENYLIST.has("dd"));
 });
+
+test("path-qualified denylisted command is refused via basename", () => {
+  const reason = refuseReason({ branch: "x", command: "/bin/rm", argv: ["-rf", "/"] });
+  assert.match(String(reason), /denylisted/);
+});
+
+test("interpreter -lc invoking denylisted command is refused", () => {
+  const reason = refuseReason({
+    branch: "x",
+    command: "bash",
+    argv: ["-lc", "rm -rf /"],
+  });
+  assert.match(String(reason), /denylisted|metacharacters/);
+});
