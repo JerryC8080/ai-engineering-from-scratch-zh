@@ -2,6 +2,15 @@ import { Hono } from "hono";
 import { rollUpByModel } from "./rollup.js";
 import type { ObservabilityStore } from "./spans.js";
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export function buildApp(store: ObservabilityStore): Hono {
   const app = new Hono();
 
@@ -38,7 +47,7 @@ export function renderDashboardHtml(store: ObservabilityStore): string {
   const rows = rollups
     .map(
       (r) =>
-        `<tr><td>${r.model}</td><td>${r.count}</td><td>${r.errors}</td>` +
+        `<tr><td>${escapeHtml(r.model)}</td><td>${r.count}</td><td>${r.errors}</td>` +
         `<td>${r.inputTokens}</td><td>${r.outputTokens}</td>` +
         `<td>$${r.costUsd.toFixed(4)}</td>` +
         `<td>${r.p50LatencyMs}</td><td>${r.p95LatencyMs}</td><td>${r.p99LatencyMs}</td></tr>`,

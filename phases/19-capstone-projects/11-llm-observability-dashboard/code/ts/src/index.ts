@@ -25,10 +25,14 @@ type SyntheticConfig = {
 };
 
 export function generateSyntheticSpans(cfg: SyntheticConfig): GenAISpan[] {
+  if (cfg.models.length === 0) {
+    throw new Error("generateSyntheticSpans: cfg.models must not be empty");
+  }
   const now = Date.now() * 1e6;
   const out: GenAISpan[] = [];
   for (let i = 0; i < cfg.spans; i++) {
     const model = cfg.models[i % cfg.models.length]!;
+    if (!model) continue;
     const baseLatencyMs = 400 + ((i * 31) % 1800);
     const inputTokens = 200 + ((i * 17) % 4000);
     const outputTokens = 120 + ((i * 23) % 800);

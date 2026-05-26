@@ -1,5 +1,38 @@
-import { randomUUID } from "node:crypto";
+import { randomBytes } from "node:crypto";
 import type { Counters, GenAISpan } from "./types.js";
+
+const TRACE_ID_RE = /^[0-9a-f]{32}$/;
+const SPAN_ID_RE = /^[0-9a-f]{16}$/;
+
+function canonicalTraceId(s: unknown): string {
+  if (typeof s === "string") {
+    const norm = s.replace(/-/g, "").toLowerCase();
+    if (TRACE_ID_RE.test(norm)) return norm;
+  }
+  return randomBytes(16).toString("hex");
+}
+
+function canonicalSpanId(s: unknown): string {
+  if (typeof s === "string") {
+    const norm = s.replace(/-/g, "").toLowerCase();
+    if (SPAN_ID_RE.test(norm)) return norm;
+  }
+  return randomBytes(8).toString("hex");
+}
+
+function validTokenField(v: unknown): boolean {
+  if (v === undefined || v === null) return true;
+  const n = Number(v);
+  return Number.isFinite(n) && Number.isInteger(n) && n >= 0;
+}
+
+const TOKEN_KEYS = [
+  "gen_ai.request.prompt_tokens",
+  "gen_ai.usage.input_tokens",
+  "gen_ai.request.completion_tokens",
+  "gen_ai.usage.output_tokens",
+  "gen_ai.usage.total_tokens",
+];
 
 export class RingBuffer<T> {
   private readonly capacity: number;
@@ -45,12 +78,13 @@ export function normaliseSpan(raw: unknown): GenAISpan | null {
   const start = Number(r["start_time_unix_nano"] ?? 0);
   const end = Number(r["end_time_unix_nano"] ?? start);
   if (!Number.isFinite(start) || !Number.isFinite(end)) return null;
+  if (end < start) return null;
+  for (const key of TOKEN_KEYS) {
+    if (!validTokenField(attrs[key])) return null;
+  }
   const span: GenAISpan = {
-    trace_id: typeof r["trace_id"] === "string" ? r["trace_id"] : randomUUID(),
-    span_id:
-      typeof r["span_id"] === "string"
-        ? r["span_id"]
-        : randomUUID().slice(0, 16),
+    trace_id: canonicalTraceId(r["trace_id"]),
+    span_id: canonicalSpanId(r["span_id"]),
     name: typeof r["name"] === "string" ? r["name"] : "chat.completion",
     start_time_unix_nano: start,
     end_time_unix_nano: end,
@@ -58,7 +92,8 @@ export function normaliseSpan(raw: unknown): GenAISpan | null {
     attributes: attrs as GenAISpan["attributes"],
   };
   if (typeof r["parent_span_id"] === "string") {
-    span.parent_span_id = r["parent_span_id"];
+    const pid = canonicalSpanId(r["parent_span_id"]);
+    span.parent_span_id = pid;
   }
   return span;
 }
