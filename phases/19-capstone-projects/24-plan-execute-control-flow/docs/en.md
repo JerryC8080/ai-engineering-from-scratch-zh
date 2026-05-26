@@ -20,7 +20,7 @@ A chain-of-thought agent emits tokens and lets the loop guess where the tool cal
 
 Two pieces. A planner that produces a plan. An executor that runs the plan. The interesting work is what happens when the executor hits a failure. Three options:
 
-```
+```text
 1. Abort         (return failed, surface the error)
 2. Skip          (mark step failed, continue with the rest)
 3. Replan        (hand the error to the planner, get a new plan from the cursor)
@@ -30,7 +30,7 @@ Replan is the one that turns a script into an agent.
 
 ## The Step shape
 
-```
+```text
 Step
   id              : int           (monotonic within a plan revision)
   tool_name       : str
@@ -44,7 +44,7 @@ Step
 
 ## The planner shape
 
-```
+```python
 def planner(goal: str, history: list[Step], last_error: str | None) -> list[Step]:
     ...
 ```
@@ -57,31 +57,24 @@ The planner does not know about the executor. It does not know about retries. It
 
 The executor is a small state machine. Each step runs through the dispatcher. The outcome is one of three things: success, failure-replannable, failure-fatal. Replannable failures hand back to the planner. Fatal failures (budget exceeded, replan ceiling hit) return a `FAILED` session result.
 
-```
-+---------+    success   +---------+
-| EXEC    | -----------> | NEXT    |
-| step n  |              | step+1  |
-+---+-----+              +---+-----+
-    |                        |
-    | failure                | n+1 < len(plan)
-    v                        v
-+---------+              +---------+
-| REPLAN  | ---new plan- | EXEC    |
-|         |              | step n+1|
-+---------+              +---------+
-    |
-    | replans_used >= max_replans
-    v
-+---------+
-| FAILED  |
-+---------+
+```mermaid
+stateDiagram-v2
+    [*] --> EXEC
+    EXEC --> NEXT: success
+    NEXT --> EXEC: n+1 < len(plan)
+    NEXT --> DONE: n+1 == len(plan)
+    EXEC --> REPLAN: failure
+    REPLAN --> EXEC: new plan, replans_used < max_replans
+    REPLAN --> FAILED: replans_used >= max_replans
+    FAILED --> [*]
+    DONE --> [*]
 ```
 
 ## Plan diffs on revision
 
 When the planner returns a new plan after a failure, the executor emits a `plan.diff` event with three fields.
 
-```
+```text
 removed: list of step ids that were in the old plan and are not in the new
 added  : list of step ids in the new plan that were not in the old
 revised: list of step ids whose tool_name or args changed
@@ -99,7 +92,7 @@ A tracer or UI can render this as a strikethrough on the removed steps and a hig
 
 We do not call a model in this lesson. The lesson ships a deterministic planner that picks a plan based on `last_error`.
 
-```
+```text
 last_error is None    -> emit a four-step plan
 last_error matches X  -> emit a three-step plan that routes around X
 last_error matches Y  -> emit a two-step plan that gives up gracefully
@@ -110,7 +103,7 @@ This is enough to test the executor's behavior on every transition path: success
 
 ## Result shape
 
-```
+```text
 SessionResult
   status      : "completed" | "failed"
   reason      : str     ("goal_met" | "step_budget" | "replan_budget" | "no_plan")

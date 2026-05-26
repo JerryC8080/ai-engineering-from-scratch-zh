@@ -49,6 +49,7 @@ class PlanDiff:
 class Event:
     type: str
     payload: dict
+    ts: float = field(default_factory=time.time)
 
 
 @dataclass
@@ -69,7 +70,7 @@ class SessionResult:
                 for s in self.history
             ],
             "revisions": [r.to_dict() for r in self.revisions],
-            "events": [{"type": e.type, "payload": e.payload} for e in self.events],
+            "events": [{"type": e.type, "payload": e.payload, "ts": e.ts} for e in self.events],
         }
 
 
@@ -195,16 +196,27 @@ def _summarize(plan: list[Step]) -> list[dict]:
 
 
 def make_deterministic_planner(fail_step_id: int | None, recovery: str = "route_around") -> Planner:
-    """Planner used in the demo and tests."""
+    """Planner used in the demo and tests.
+
+    When ``fail_step_id`` is given, the planner inserts a ``_force_fail`` marker
+    into that step's args on the initial plan. Executors that honor the marker
+    raise on that step, exercising the replan path. The marker is removed on the
+    revised plan so the route-around can succeed.
+    """
 
     def planner(goal: str, history: list[Step], last_error: str | None) -> list[Step]:
         if last_error is None:
-            return [
+            initial = [
                 Step(1, "fetch", {"key": "input"}, "loaded user input"),
                 Step(2, "transform", {"mode": "v1"}, "computed v1 form"),
                 Step(3, "render", {}, "rendered output"),
                 Step(4, "submit", {}, "submitted to backend"),
             ]
+            if fail_step_id is not None:
+                for s in initial:
+                    if s.id == fail_step_id:
+                        s.args = {**s.args, "_force_fail": True}
+            return initial
         if recovery == "route_around" and "transform" in last_error:
             return [
                 Step(2, "transform", {"mode": "v2"}, "computed via fallback"),
@@ -225,6 +237,9 @@ def _demo() -> None:
     counters = {"transform_v1_calls": 0}
 
     def executor(tool: str, args: dict) -> Any:
+        if args.get("_force_fail"):
+            counters["transform_v1_calls"] += 1
+            raise ToolFailure(f"{tool} marker-forced failure")
         if tool == "fetch":
             return {"k": "v"}
         if tool == "transform":
