@@ -211,6 +211,10 @@ class RetrievalConfig:
     w_graph: float = 0.3
     w_recency: float = 0.2
 
+    def __post_init__(self) -> None:
+        if self.max_hops > 2:
+            self.max_hops = 2
+
 
 @dataclass
 class RankedPaper:
