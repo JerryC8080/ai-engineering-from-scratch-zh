@@ -23,7 +23,8 @@ export class JobStore {
     return j;
   }
 
-  list(): Job[] {
+  list(now: number = Date.now()): Job[] {
+    for (const j of this.jobs.values()) advanceJob(j, now);
     return [...this.jobs.values()].sort((a, b) => b.created_at - a.created_at);
   }
 
@@ -34,16 +35,13 @@ export class JobStore {
     created_at: number;
     overall: ReturnType<typeof overallStatus>;
   }> {
-    return this.list().map((j) => {
-      advanceJob(j);
-      return {
-        id: j.id,
-        video_url: j.video_url,
-        question: j.question,
-        created_at: j.created_at,
-        overall: overallStatus(j),
-      };
-    });
+    return this.list().map((j) => ({
+      id: j.id,
+      video_url: j.video_url,
+      question: j.question,
+      created_at: j.created_at,
+      overall: overallStatus(j),
+    }));
   }
 
   detail(id: string): {

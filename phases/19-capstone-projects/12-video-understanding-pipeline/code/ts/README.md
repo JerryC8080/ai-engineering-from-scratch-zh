@@ -6,7 +6,7 @@ half: a Hono app over the four pipeline stages (chunk, embed, index, qa).
 
 ## Layout
 
-```
+```text
 src/
   index.ts     entry: demo (default) or HTTP server (--serve)
   server.ts    Hono routes (/, /jobs, /job/:id) + HTML index
