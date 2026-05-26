@@ -342,6 +342,11 @@ def deterministic_reviser(paper: MiniPaper, suggestions: list[Suggestion]) -> Mi
                     id="related-work", title="Related Work",
                     body="We survey adjacent work. " + ("x" * 200),
                 ))
+            else:
+                for sec in paper.sections:
+                    if sec.title.lower() == "related work" and not sec.body:
+                        sec.body = "We survey adjacent work. " + ("x" * 200)
+                        break
     return paper
 
 

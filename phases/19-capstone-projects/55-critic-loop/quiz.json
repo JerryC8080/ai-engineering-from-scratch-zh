@@ -43,12 +43,12 @@
       "question": "What does the reviser receive as input each round?",
       "options": [
         "The full Critique object including scores",
-        "Only the list of Suggestion records",
+        "The paper and the list of Suggestion records",
         "A model-generated paragraph",
         "The raw LaTeX source"
       ],
       "correct": 1,
-      "explanation": "The reviser receives only Suggestion records. Each Suggestion carries a dimension, target section, and an edit instruction. The reviser does not see scores. That separation lets either side be swapped without touching the other."
+      "explanation": "Reviser.__call__ takes (paper, suggestions). Each Suggestion carries a dimension, target section, and an edit instruction. The reviser does not see scores. That separation lets either side be swapped without touching the other."
     },
     {
       "stage": "post",

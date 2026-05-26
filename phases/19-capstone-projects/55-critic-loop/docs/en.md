@@ -54,7 +54,7 @@ The critic loop terminates when any one of three conditions fires.
 
 ```mermaid
 flowchart TB
-    Start[Round n complete] --> A{Mean score ge target?}
+    Start[Round n complete] --> A{All five dimensions ge target?}
     A -- yes --> Stop1[converged: target]
     A -- no --> B{Plateau detected?}
     B -- yes --> Stop2[converged: plateau]
@@ -63,7 +63,7 @@ flowchart TB
     C -- no --> Next[Run round n plus 1]
 ```
 
-The target is the easiest case: every dimension hits `>= target_score` (default `8.0`) and the loop returns success. Plateau detection compares the current round's mean to the previous round's mean. If the improvement is below `plateau_epsilon` (default `0.1`) for two consecutive rounds, the loop exits with `plateau`. The budget is a hard cap on rounds (default `5`) and exits with `budget`.
+The target is the strictest case: every one of the five dimensions (clarity, novelty, evidence, methodology, related_work) must hit `>= target_score` (default `8.0`) before the loop returns success. A high mean with one weak dimension is not enough. Plateau detection compares the current round's mean to the previous round's mean. If the improvement is below `plateau_epsilon` (default `0.1`) for two consecutive rounds, the loop exits with `plateau`. The budget is a hard cap on rounds (default `5`) and exits with `budget`.
 
 The order matters. Target wins over plateau wins over budget. If round three hits the target on the same iteration that would also trigger a plateau, the result is `target`, not `plateau`.
 
@@ -73,10 +73,10 @@ A one-round plateau is noise. A real critic returns a slightly different score e
 
 ## The deterministic critic in this lesson
 
-The lesson does not call a model. The shipped critic is a callable that scores a draft based on three signals: section count (clarity, related-work), figure count and citation count (evidence), and an `originality_tag` field on the paper metadata (novelty). The reviser knows how to push each score upward.
+The lesson does not call a model. The shipped critic is a callable that scores a draft based on three signals: average section body length (clarity), figure count and citation count (evidence), and an `originality_tag` field on the paper metadata (novelty). The reviser knows how to push each score upward.
 
 ```text
-clarity      grows when a section's body length crosses a threshold
+clarity      grows when the average section body length increases
 novelty      grows when originality_tag is set to "high"
 evidence     grows when a section's figure_refs is non-empty
 methodology  grows when a section titled "Method" exists with body
