@@ -85,7 +85,11 @@ def _validate(paper: Paper) -> None:
             raise PaperValidationError(f"duplicate figure id: {fig.id}")
         fig_ids.add(fig.id)
 
-    bib_keys = {b.key for b in paper.bibliography}
+    bib_keys: set[str] = set()
+    for b in paper.bibliography:
+        if b.key in bib_keys:
+            raise PaperValidationError(f"duplicate bibliography key: {b.key}")
+        bib_keys.add(b.key)
     for sec in paper.sections:
         for key in sec.cites:
             if key not in bib_keys:
