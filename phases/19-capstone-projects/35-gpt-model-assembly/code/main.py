@@ -207,18 +207,22 @@ def generate(
     if seed is not None:
         torch.manual_seed(seed)
 
+    was_training = model.training
     model.eval()
     tokens = prompt.clone()
-    with torch.no_grad():
-        for _ in range(max_new_tokens):
-            window = tokens[:, -model.cfg.context_length:]
-            logits = model(window)
-            next_logits = logits[:, -1, :] / temperature
-            next_logits = top_k_filter(next_logits, top_k)
-            probs = F.softmax(next_logits, dim=-1)
-            next_token = torch.multinomial(probs, num_samples=1)
-            tokens = torch.cat([tokens, next_token], dim=1)
-    return tokens
+    try:
+        with torch.no_grad():
+            for _ in range(max_new_tokens):
+                window = tokens[:, -model.cfg.context_length:]
+                logits = model(window)
+                next_logits = logits[:, -1, :] / temperature
+                next_logits = top_k_filter(next_logits, top_k)
+                probs = F.softmax(next_logits, dim=-1)
+                next_token = torch.multinomial(probs, num_samples=1)
+                tokens = torch.cat([tokens, next_token], dim=1)
+        return tokens
+    finally:
+        model.train(was_training)
 
 
 def demo() -> None:

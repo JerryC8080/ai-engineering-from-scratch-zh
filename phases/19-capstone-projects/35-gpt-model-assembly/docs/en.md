@@ -81,7 +81,7 @@ Three knobs, three different behaviors. Temperature near zero collapses to greed
 
 Run it:
 
-```
+```bash
 python3 code/main.py
 ```
 
@@ -92,7 +92,7 @@ To keep the demo fast, the script also runs a tiny config (`d_model=64`, `num_la
 ## Stack
 
 - `torch` for the tensor math, autograd, and module plumbing.
-- The transformer block from lesson 34 is reimported as a small library inside `code/main.py`.
+- `code/main.py` reimplements the same block pattern from lesson 34 locally.
 
 ## Production patterns in the wild
 
