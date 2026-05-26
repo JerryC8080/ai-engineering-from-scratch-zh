@@ -29,7 +29,7 @@ export const KB: KbEntry[] = [
 
 export function retrieve(query: string, jurisdiction: string, k: number): Citation[] {
   const tokens = new Set(query.toLowerCase().split(/\W+/).filter(Boolean));
-  const scored = KB.map((doc) => {
+  let scored = KB.map((doc) => {
     const docTokens = doc.text.toLowerCase().split(/\W+/);
     let overlap = 0;
     for (const t of docTokens) if (tokens.has(t)) overlap += 1;
@@ -42,9 +42,11 @@ export function retrieve(query: string, jurisdiction: string, k: number): Citati
         snippet: doc.text,
         score,
       },
+      overlap,
       score,
     };
   });
+  scored = scored.filter((s) => s.overlap > 0);
   scored.sort((a, b) => b.score - a.score);
   return scored.slice(0, k).map((s) => s.citation);
 }

@@ -124,7 +124,7 @@ function startServer(): void {
 }
 
 async function main(): Promise<void> {
-  if (process.argv.includes("--demo") || !process.stdout.isTTY) {
+  if (process.argv.includes("--demo")) {
     await runDemo();
     return;
   }
