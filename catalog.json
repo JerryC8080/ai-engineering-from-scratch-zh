@@ -2,11 +2,11 @@
   "schema_version": 1,
   "totals": {
     "phases": 20,
-    "lessons": 435,
+    "lessons": 439,
     "skills": 378,
     "prompts": 99,
     "agents": 0,
-    "code_files": 487
+    "code_files": 515
   },
   "phases": [
     {
@@ -12304,7 +12304,7 @@
       "num": 19,
       "slug": "19-capstone-projects",
       "title": "Capstone Projects",
-      "lesson_count": 17,
+      "lesson_count": 21,
       "lessons": [
         {
           "num": 1,
@@ -12568,8 +12568,14 @@
           "has_quiz": true,
           "has_notebook": true,
           "code_files": [
-            "dashboard.ts",
-            "main.py"
+            "main.py",
+            "ts/src/cost.ts",
+            "ts/src/index.ts",
+            "ts/src/migrations.ts",
+            "ts/src/server.ts",
+            "ts/src/types.ts",
+            "ts/tests/cost.test.ts",
+            "ts/tests/migrations.test.ts"
           ],
           "outputs": [
             {
@@ -12601,7 +12607,14 @@
           "has_notebook": true,
           "code_files": [
             "main.py",
-            "team.ts"
+            "ts/src/agent.ts",
+            "ts/src/coordinator.ts",
+            "ts/src/index.ts",
+            "ts/src/runtime.ts",
+            "ts/src/types.ts",
+            "ts/src/workspace.ts",
+            "ts/tests/coordinator.test.ts",
+            "ts/tests/runtime.test.ts"
           ],
           "outputs": [
             {
@@ -12633,7 +12646,14 @@
           "has_notebook": true,
           "code_files": [
             "main.py",
-            "server.ts"
+            "ts/src/index.ts",
+            "ts/src/pricing.ts",
+            "ts/src/rollup.ts",
+            "ts/src/server.ts",
+            "ts/src/spans.ts",
+            "ts/src/types.ts",
+            "ts/tests/rollup.test.ts",
+            "ts/tests/spans.test.ts"
           ],
           "outputs": [
             {
@@ -12847,6 +12867,66 @@
               ]
             }
           ]
+        },
+        {
+          "num": 30,
+          "slug": "30-bpe-tokenizer-from-scratch",
+          "title": "BPE Tokenizer From Scratch",
+          "path": "phases/19-capstone-projects/30-bpe-tokenizer-from-scratch",
+          "has_docs": true,
+          "has_code": true,
+          "has_quiz": true,
+          "has_notebook": false,
+          "code_files": [
+            "main.py",
+            "tests/test_bpe.py"
+          ],
+          "outputs": []
+        },
+        {
+          "num": 31,
+          "slug": "31-tokenized-dataset-sliding-window",
+          "title": "Tokenized Dataset with Sliding Window",
+          "path": "phases/19-capstone-projects/31-tokenized-dataset-sliding-window",
+          "has_docs": true,
+          "has_code": true,
+          "has_quiz": true,
+          "has_notebook": false,
+          "code_files": [
+            "main.py",
+            "tests/test_dataset.py"
+          ],
+          "outputs": []
+        },
+        {
+          "num": 32,
+          "slug": "32-token-positional-embeddings",
+          "title": "Token and Positional Embeddings",
+          "path": "phases/19-capstone-projects/32-token-positional-embeddings",
+          "has_docs": true,
+          "has_code": true,
+          "has_quiz": true,
+          "has_notebook": false,
+          "code_files": [
+            "main.py",
+            "tests/test_embeddings.py"
+          ],
+          "outputs": []
+        },
+        {
+          "num": 33,
+          "slug": "33-multihead-self-attention",
+          "title": "Multi-Head Self-Attention",
+          "path": "phases/19-capstone-projects/33-multihead-self-attention",
+          "has_docs": true,
+          "has_code": true,
+          "has_quiz": true,
+          "has_notebook": false,
+          "code_files": [
+            "main.py",
+            "tests/test_attention.py"
+          ],
+          "outputs": []
         }
       ]
     }
