@@ -56,7 +56,7 @@ class CollateTests(unittest.TestCase):
         tok = InstructionTokenizer()
         ids1, rs1 = tok.encode_pair("ab", "cd", max_len=32)
         ids2, rs2 = tok.encode_pair("a", "bcdefg", max_len=32)
-        input_ids, labels, attn_mask = sft_collate([(ids1, rs1), (ids2, rs2)])
+        input_ids, labels, _attn_mask = sft_collate([(ids1, rs1), (ids2, rs2)])
         # Padded to same length.
         self.assertEqual(input_ids.shape, labels.shape)
         self.assertEqual(input_ids.shape[0], 2)
@@ -93,7 +93,7 @@ class DatasetTests(unittest.TestCase):
 
     def test_split_is_stratified(self) -> None:
         pairs, cats = make_dataset(seed=0)
-        tr, tr_c, te, te_c = split_dataset(pairs, cats, test_frac=0.2, seed=0)
+        tr, _tr_c, te, te_c = split_dataset(pairs, cats, test_frac=0.2, seed=0)
         self.assertEqual(len(tr) + len(te), 200)
         # Every category appears in the test split.
         self.assertEqual(set(te_c), set(cats))

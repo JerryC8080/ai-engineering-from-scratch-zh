@@ -44,23 +44,28 @@ class InstructionTokenizer:
     IGNORE_INDEX = -100
 
     def encode_pair(self, instruction: str, response: str, max_len: int) -> Tuple[List[int], int]:
-        """Return (token_ids, response_start_index). Truncates to max_len if needed."""
-        ids = [self.INST_ID]
-        ids.extend(instruction.encode("utf-8", errors="ignore"))
-        ids.append(self.RESP_ID)
-        resp_start = len(ids)  # first response token sits at this index
-        ids.extend(response.encode("utf-8", errors="ignore"))
-        if len(ids) > max_len:
-            ids = ids[:max_len]
+        """Return (token_ids, response_start_index). Truncates to max_len if
+        needed but always keeps the RESP marker plus at least one response
+        token so SFT collation never produces fully-masked labels."""
+        if max_len < 3:
+            raise ValueError("max_len must be >= 3 to fit INST, RESP, and one response token")
+        inst_bytes = list(instruction.encode("utf-8", errors="ignore"))
+        resp_bytes = list(response.encode("utf-8", errors="ignore"))
+        # Reserve 2 control tokens + at least 1 response byte.
+        max_inst = max_len - 3
+        inst_bytes = inst_bytes[:max_inst]
+        ids = [self.INST_ID] + inst_bytes + [self.RESP_ID]
+        resp_start = len(ids)
+        ids.extend(resp_bytes[: max_len - len(ids)])
         return ids, resp_start
 
     def encode_prefix(self, instruction: str, max_len: int) -> List[int]:
-        """Encode just the instruction prefix for generation."""
-        ids = [self.INST_ID]
-        ids.extend(instruction.encode("utf-8", errors="ignore"))
-        ids.append(self.RESP_ID)
-        if len(ids) > max_len:
-            ids = ids[:max_len]
+        """Encode just the instruction prefix for generation. Always keeps the
+        RESP marker so the model sees the same boundary as during training."""
+        if max_len < 2:
+            raise ValueError("max_len must be >= 2 to fit INST and RESP")
+        inst_bytes = list(instruction.encode("utf-8", errors="ignore"))[: max_len - 2]
+        ids = [self.INST_ID] + inst_bytes + [self.RESP_ID]
         return ids
 
     def decode_response(self, ids: Sequence[int]) -> str:
