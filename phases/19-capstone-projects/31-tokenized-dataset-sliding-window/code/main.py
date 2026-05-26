@@ -94,6 +94,11 @@ def _apply_merge_to_corpus(
 
 
 def train_bpe(tokenizer: MiniBPE, corpus: str, target_vocab_size: int) -> None:
+    min_vocab_size = BYTE_ALPHABET_SIZE + len(DEFAULT_SPECIALS)
+    if target_vocab_size < min_vocab_size:
+        raise ValueError(
+            f"target_vocab_size must be >= {min_vocab_size}, got {target_vocab_size}"
+        )
     tokenizer.initialize(DEFAULT_SPECIALS)
     chunks = _pretokenize(corpus)
     units: dict[tuple[int, ...], int] = {}
