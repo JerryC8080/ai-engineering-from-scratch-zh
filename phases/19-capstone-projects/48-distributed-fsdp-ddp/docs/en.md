@@ -18,9 +18,9 @@
 
 The model fits on one device. The dataset does not. The optimization budget says you want to see N times the examples per wallclock second. The first lever is data parallel: each rank runs the same model on a different slice of the batch, then averages gradients before the optimizer step. The second lever is FSDP: the model does not fit on one device either, so each rank holds a fraction of every parameter and reconstructs the full tensors layer by layer during the forward pass.
 
-The pain is the bookkeeping. If parameters drift across ranks the run is silently corrupt. If you average gradients but not the loss the dashboard lies. If the collective backend cannot agree on a topology the run hangs forever. The fix is to write the collectives by hand once, see what each one does, and never trust a wrapper you cannot reproduce.
+The pain is the bookkeeping. If parameters drift across ranks the run is silently corrupt. If you average gradients but not the loss the dashboard lies. If the collective backend cannot agree on a topology the run hangs forever. The fix is to write the collectives by hand once and never trust a wrapper you cannot reproduce.
 
-This lesson runs on CPU. CUDA is not assumed. The `gloo` backend ships with every PyTorch build and accepts `torch.multiprocessing` workers; the same code switches to `nccl` on a multi-GPU node and a different `device` tag without changing the structure.
+This lesson runs on CPU. CUDA is not assumed. The `gloo` backend ships with every PyTorch build and accepts `torch.multiprocessing` workers; the same code switches to `nccl` on a multi-GPU node without changing structure.
 
 ## The Concept
 
@@ -123,17 +123,9 @@ Default world size is 2. Two CPU processes spawn, talk to each other through `gl
 
 ## Use It
 
-Production training stacks call the same primitives. PyTorch's `DistributedDataParallel` adds:
+Production training stacks call the same primitives. PyTorch's `DistributedDataParallel` adds: post-backward gradient hooks that overlap all-reduce with backward, bucketed all-reduce that combines several small gradients into one collective, and the `no_sync` context lesson 46 used.
 
-- A post-backward gradient hook that overlaps the all-reduce with the rest of the backward pass.
-- Bucketed all-reduce so several small parameter gradients are combined into one collective.
-- A `no_sync` context that lets gradient accumulation skip the all-reduce on non-final micros (the lesson 46 trick).
-
-PyTorch's FSDP adds:
-
-- A flat parameter view per layer so each rank actually holds one contiguous buffer.
-- Overlap of the next layer's unshard with the current layer's compute.
-- Optional CPU offload for the parameter shards.
+PyTorch's FSDP adds: a flat parameter view per layer so each rank holds one contiguous buffer, overlap of the next layer's unshard with the current layer's compute, and optional CPU offload for the shards.
 
 The shape stays the same: broadcast at startup, reduce after backward, shard parameters when they no longer fit.
 
