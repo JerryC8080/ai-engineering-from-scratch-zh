@@ -7,7 +7,7 @@ a stub agent for `issues.opened`.
 
 ## Layout
 
-```
+```text
 src/
   index.ts    entry: demo (default) or HTTP server (--serve)
   server.ts   Hono webhook receiver (POST /webhook)
