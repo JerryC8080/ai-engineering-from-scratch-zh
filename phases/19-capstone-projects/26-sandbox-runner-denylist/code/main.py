@@ -81,7 +81,7 @@ INTERPRETER_FLAG_PATTERNS: tuple[re.Pattern[str], ...] = (
     re.compile(r"^-ce$"),
 )
 
-SHELL_METACHARS: tuple[str, ...] = (";", "|", "&", ">", "<", "`", "$(", "$(", ")")
+SHELL_METACHARS: tuple[str, ...] = (";", "|", "&", ">", "<", "`", "$(", "${", ")")
 
 DEFAULT_MAX_OUTPUT_BYTES: int = 64 * 1024
 DEFAULT_TIMEOUT_SECONDS: float = 30.0
