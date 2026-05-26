@@ -65,11 +65,28 @@ function runServer(port: number): void {
   });
 }
 
+const DEFAULT_PORT = 8123;
+
+function parsePort(argv: string[], defaultPort: number): number {
+  const portFlag = argv.indexOf("--port");
+  if (portFlag < 0) return defaultPort;
+  const raw = argv[portFlag + 1];
+  if (raw === undefined) {
+    process.stderr.write("--port requires a value\n");
+    process.exit(2);
+  }
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 1 || n > 65535) {
+    process.stderr.write(`invalid --port ${raw}: must be integer in 1..65535\n`);
+    process.exit(2);
+  }
+  return n;
+}
+
 function main(): void {
   const argv = process.argv.slice(2);
   if (argv.includes("--serve")) {
-    const portFlag = argv.indexOf("--port");
-    const port = portFlag >= 0 ? Number(argv[portFlag + 1]) : 8123;
+    const port = parsePort(argv, DEFAULT_PORT);
     runServer(port);
     return;
   }

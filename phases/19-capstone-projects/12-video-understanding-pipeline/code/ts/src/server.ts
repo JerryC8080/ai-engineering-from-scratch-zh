@@ -1,14 +1,14 @@
 import { Hono } from "hono";
 import type { JobStore } from "./jobs.js";
-import { overallStatus } from "./stages.js";
+import { advanceJob, overallStatus } from "./stages.js";
 
 export function renderIndexHtml(store: JobStore): string {
   const rows = store
     .list()
-    .map(
-      (j) =>
-        `<tr><td>${j.id}</td><td>${j.video_url}</td><td>${j.question}</td><td>${overallStatus(j)}</td></tr>`,
-    )
+    .map((j) => {
+      advanceJob(j);
+      return `<tr><td>${j.id}</td><td>${j.video_url}</td><td>${j.question}</td><td>${overallStatus(j)}</td></tr>`;
+    })
     .join("");
   return `<!doctype html><meta charset="utf-8"><title>video jobs</title>
 <style>body{font-family:system-ui;margin:2rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.4rem .6rem;text-align:left}</style>

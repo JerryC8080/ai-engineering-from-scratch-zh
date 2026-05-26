@@ -34,13 +34,16 @@ export class JobStore {
     created_at: number;
     overall: ReturnType<typeof overallStatus>;
   }> {
-    return this.list().map((j) => ({
-      id: j.id,
-      video_url: j.video_url,
-      question: j.question,
-      created_at: j.created_at,
-      overall: overallStatus(j),
-    }));
+    return this.list().map((j) => {
+      advanceJob(j);
+      return {
+        id: j.id,
+        video_url: j.video_url,
+        question: j.question,
+        created_at: j.created_at,
+        overall: overallStatus(j),
+      };
+    });
   }
 
   detail(id: string): {
