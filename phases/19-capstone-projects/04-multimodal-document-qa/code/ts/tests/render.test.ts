@@ -46,4 +46,19 @@ describe("renderDocument", () => {
     assert.ok(!html.includes("<script>alert(1)</script>"));
     assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
   });
+
+  it("escapes hostile content in query field", () => {
+    const html = renderDocument({
+      id: "y",
+      title: "ok",
+      pageWidth: 100,
+      pageHeight: 100,
+      pageImageUrl: "/static/y.png",
+      query: "<script>alert(2)</script>",
+      answer: "a.",
+      evidence: [],
+    });
+    assert.ok(!html.includes("<script>alert(2)</script>"));
+    assert.match(html, /&lt;script&gt;alert\(2\)&lt;\/script&gt;/);
+  });
 });
