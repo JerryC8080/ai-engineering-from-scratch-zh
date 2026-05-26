@@ -216,6 +216,7 @@ class MarginTableTests(unittest.TestCase):
 
 class TrainingTests(unittest.TestCase):
     def test_train_dpo_decreases_loss(self) -> None:
+        torch.manual_seed(0)
         cfg = DPOConfig(
             hidden=32,
             heads=2,
@@ -229,15 +230,21 @@ class TrainingTests(unittest.TestCase):
         reference, policy = build_models(cfg)
         tok = InstructionTokenizer()
         triples = make_preferences()[:6]
+        # Unfreeze reference so warmup actually trains it (build_models freezes by default).
+        for p in reference.parameters():
+            p.requires_grad = True
+        reference.train()
         warmup_pretrain(reference, tok, triples, epochs=cfg.warmup_epochs, seed=cfg.seed)
         policy.load_state_dict(reference.state_dict())
         for p in reference.parameters():
             p.requires_grad = False
+        reference.eval()
         report = train_dpo(policy, reference, tok, triples, cfg, log=lambda s: None)
         self.assertEqual(len(report.losses), cfg.epochs)
         self.assertLess(report.losses[-1], report.losses[0])
 
     def test_train_dpo_increases_chosen_margin(self) -> None:
+        torch.manual_seed(0)
         cfg = DPOConfig(
             hidden=32,
             heads=2,
@@ -251,10 +258,14 @@ class TrainingTests(unittest.TestCase):
         reference, policy = build_models(cfg)
         tok = InstructionTokenizer()
         triples = make_preferences()[:6]
+        for p in reference.parameters():
+            p.requires_grad = True
+        reference.train()
         warmup_pretrain(reference, tok, triples, epochs=cfg.warmup_epochs, seed=cfg.seed)
         policy.load_state_dict(reference.state_dict())
         for p in reference.parameters():
             p.requires_grad = False
+        reference.eval()
         report = train_dpo(policy, reference, tok, triples, cfg, log=lambda s: None)
         self.assertGreater(report.final_margin, report.initial_margin)
 

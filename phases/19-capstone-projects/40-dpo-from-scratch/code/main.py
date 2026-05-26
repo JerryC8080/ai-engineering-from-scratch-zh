@@ -514,6 +514,11 @@ def run_demo(cfg: Optional[DPOConfig] = None) -> int:
     reference, policy = build_models(cfg)
 
     print(f"[warmup] short pretrain on chosen completions ({cfg.warmup_epochs} epochs)...")
+    # build_models() freezes the reference so the DPO loop cannot accidentally
+    # update it. Unfreeze it just for warmup, then re-freeze before training.
+    for p in reference.parameters():
+        p.requires_grad = True
+    reference.train()
     warm_losses = warmup_pretrain(
         reference,
         tok,
