@@ -1,6 +1,6 @@
 # Voice Cloning & Voice Conversion
 
-> Voice cloning reads your text in someone else's voice. Voice conversion rewrites your voice into someone else's while preserving what you said. Both hang on the same primitive: separate speaker identity from content.
+> Voice cloning reads your text in someone else's voice. Voice conversion rewrites your voice into someone else's while preserving what you said. Both hang on the same decomposition: separate speaker identity from content.
 
 **Type:** Build
 **Languages:** Python
