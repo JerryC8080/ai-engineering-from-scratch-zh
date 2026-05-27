@@ -823,7 +823,7 @@ Each Phase 14 workbench lesson (31-42) ships a `mission.md` briefing the agent b
 </details>
 
 <details id="phase-19">
-<summary><b>Phase 19 — Capstone Projects</b> &nbsp;<code>55 lessons</code>&nbsp; <em>17 end-to-end products + 9 deep-build tracks. 20-40 hours per project; 4-12 lessons per track.</em></summary>
+<summary><b>Phase 19 — Capstone Projects</b> &nbsp;<code>55 lessons</code>&nbsp; <em>17 end-to-end products + 4 deep-build tracks. 20-40 hours per project; 4-12 lessons per track.</em></summary>
 <br/>
 
 | # | Project | Combines | Lang |
