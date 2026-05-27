@@ -347,12 +347,20 @@ class StreamingDownloader:
                 if headers is not None:
                     content_range = str(headers.get("Content-Range", "") or "")
                 if status != 206 or not content_range.startswith(f"bytes {resume_from}-"):
+                    # Server ignored or misreported the Range header.
+                    # Close the partial response and reissue a full GET
+                    # before touching the shard or reading the body.
+                    try:
+                        response.close()
+                    except Exception:
+                        pass
                     resume_from = 0
                     rolling = hashlib.sha256()
                     if shard_path.exists():
                         shard_path.unlink()
                     if checkpoint_path.exists():
                         checkpoint_path.unlink()
+                    response = self._opener(urllib.request.Request(plan.url))
             mode = "ab" if resume_from > 0 else "wb"
             with shard_path.open(mode) as out:
                 while True:
