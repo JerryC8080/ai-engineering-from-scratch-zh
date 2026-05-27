@@ -265,9 +265,11 @@ class MmapTokenStore:
             raise ValueError("at least one shard entry is required")
         self._entries = shard_entries
         self._files: list[h5py.File] = []
+        self._datasets: list[h5py.Dataset] = []
         try:
             for entry in shard_entries:
                 self._files.append(h5py.File(entry.path, "r", swmr=True))
+            self._datasets = [f["tokens"] for f in self._files]
         except Exception:
             for opened in self._files:
                 try:
@@ -275,8 +277,8 @@ class MmapTokenStore:
                 except Exception:
                     pass
             self._files = []
+            self._datasets = []
             raise
-        self._datasets: list[h5py.Dataset] = [f["tokens"] for f in self._files]
         self._total_tokens = sum(entry.token_count for entry in shard_entries)
 
     @property
