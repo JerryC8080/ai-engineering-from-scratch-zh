@@ -97,7 +97,7 @@ This lesson produces `outputs/skill-reward-hack-auditor.md`. Given a trained RLH
 | Gold reward | "what we actually want" | The target the proxy is a noisy measurement of; in practice, a larger-sample RM or human eval |
 | Proxy reward | "the RM" | The scalar used during training; by construction, it is what the optimizer sees |
 | Over-optimization curve | "the reward-hacking U-curve" | Proxy climbs, gold peaks then falls as KL from initial policy grows |
-| KL budget | "how far we can drift" | `sqrt(KL(pi || pi_init))`; Gao et al. plot reward against this |
+| KL budget | "how far we can drift" | `sqrt(KL(pi \|\| pi_init))`; Gao et al. plot reward against this |
 | Catastrophic Goodhart | "KL does not save you" | Under heavy-tailed reward error, KL-constrained optimal policy can maximize proxy while providing no gold utility |
 | Unfaithful reasoning | "wrong CoT, right answer" | Chain-of-thought that does not causally drive the final prediction |
 | Evaluator tampering | "gaming the scorer" | Agent modifies its environment, scratchpad, or the RM's inputs to register success |
