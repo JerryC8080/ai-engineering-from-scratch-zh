@@ -136,7 +136,7 @@ This lesson produces `outputs/skill-primitive-splitter.md`. Given a proposed MCP
 | Prompt | "Slash-command template" | Named multi-message template with argument slots |
 | Prompt arguments | "Template inputs" | Typed parameters the host collects before rendering |
 | `prompts/get` | "Render template" | Server returns the filled-in message list |
-| Content block | "Typed chunk" | `{type: text | image | resource | ui_resource}` |
+| Content block | "Typed chunk" | `{type: text \| image \| resource \| ui_resource}` |
 | Slash-command UX | "User shortcut" | Host surfaces prompts as commands starting with `/` |
 
 ## Further Reading
