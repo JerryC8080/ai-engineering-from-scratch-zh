@@ -171,7 +171,7 @@ Save as `outputs/skill-whisper-tuner.md`. Design a Whisper fine-tune or inferenc
 | Term | What people say | What it actually means |
 |------|-----------------|-----------------------|
 | 30-sec window | Whisper's limit | Hard input cap; chunk longer audio. |
-| SOT | Start-of-transcript | `<|startoftranscript|>` kicks off the decoder prompt. |
+| SOT | Start-of-transcript | `<\|startoftranscript\|>` kicks off the decoder prompt. |
 | Timestamps token | Temporal alignment | Every 0.02 s offset is a special token in the 51k vocab. |
 | Turbo | The fast variant | 4-decoder layers, 8× faster, <1% WER regression. |
 | WhisperX | The long-form wrapper | VAD + Whisper + wav2vec alignment + diarization. |

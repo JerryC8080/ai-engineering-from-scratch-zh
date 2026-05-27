@@ -128,7 +128,7 @@ Skill takes: dataset profile + latent-dim target + downstream use (reconstructio
 |------|-----------------|-----------------------|
 | Autoencoder | Encode-decode network | `x → z → x̂`, learn MSE. Not generative. |
 | VAE | AE with a sampler | Encoder outputs a distribution, KL penalty shapes code space. |
-| ELBO | Evidence lower bound | `log p(x) ≥ recon - KL[q(z|x) \|\| p(z)]`; tight when `q = p(z|x)`. |
+| ELBO | Evidence lower bound | `log p(x) ≥ recon - KL[q(z\|x) \|\| p(z)]`; tight when `q = p(z\|x)`. |
 | Reparameterization | `z = μ + σ·ε` | Rewrites stochastic node as deterministic + pure noise. Enables backprop through sampling. |
 | Prior | `p(z)` | Target distribution for the latent, typically `N(0, I)`. |
 | Posterior collapse | "KL term wins" | Encoder ignores `x`, outputs the prior; decoder must hallucinate. |

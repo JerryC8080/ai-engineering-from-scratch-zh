@@ -172,7 +172,7 @@ Refuse to ship any MDP where the state is non-Markovian without explicit mention
 |------|-----------------|-----------------------|
 | MDP | "Reinforcement learning setup" | Tuple `(S, A, P, R, γ)` satisfying the Markov property. |
 | State | "What the agent sees" | Sufficient statistic for future dynamics under the chosen policy class. |
-| Policy | "Agent's behavior" | Conditional distribution `π(a | s)` or deterministic map `s → a`. |
+| Policy | "Agent's behavior" | Conditional distribution `π(a \| s)` or deterministic map `s → a`. |
 | Return | "Total reward" | Discounted sum `Σ γ^t r_t` from the current step. |
 | Value | "How good a state is" | Expected return under `π` starting from `s`. |
 | Q-value | "How good an action is" | Expected return under `π` starting from `s` with first action `a`. |
