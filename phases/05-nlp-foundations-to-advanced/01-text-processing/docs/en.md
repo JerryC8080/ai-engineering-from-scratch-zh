@@ -15,7 +15,7 @@ Every NLP system opens with the same three questions. Where does a word start. W
 
 Get tokenization wrong and the model learns from garbage. If your tokenizer treats `don't` as one token but `do n't` as two, the training distribution splits. If your stemmer collapses `organization` and `organ` to the same stem, topic modeling dies. If your lemmatizer needs part-of-speech context but you don't pass it, verbs get treated as nouns.
 
-This lesson builds the three preprocessing primitives from scratch, then shows how NLTK and spaCy do the same work so you can see the tradeoffs.
+This lesson builds the three preprocessing steps from scratch, then shows how NLTK and spaCy do the same work so you can see the tradeoffs.
 
 ## The Concept
 
