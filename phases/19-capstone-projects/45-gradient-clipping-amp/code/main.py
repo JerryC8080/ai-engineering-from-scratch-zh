@@ -211,10 +211,14 @@ class AmpTrainState:
             loss = self._loss_fn(predictions, targets)
 
         if not torch.isfinite(loss).all().item():
+            # Skip without touching scaler.update(): we never called
+            # scaler.scale(loss).backward() for this step, so calling update()
+            # here would violate GradScaler's required call ordering.
             return self._record_skip(
                 loss_value=float(loss.detach().cpu().item()),
                 reason="non_finite_loss",
                 pre_clip=0.0,
+                update_scaler=False,
             )
 
         self.scaler.scale(loss).backward()
@@ -266,7 +270,13 @@ class AmpTrainState:
         self.global_step += 1
         return record
 
-    def _record_skip(self, loss_value: float, reason: str, pre_clip: float) -> StepLog:
+    def _record_skip(
+        self,
+        loss_value: float,
+        reason: str,
+        pre_clip: float,
+        update_scaler: bool = True,
+    ) -> StepLog:
         record = StepLog(
             step=self.global_step,
             lr=self._current_lr(),
@@ -288,7 +298,8 @@ class AmpTrainState:
             )
         )
         self.global_step += 1
-        self.scaler.update()
+        if update_scaler:
+            self.scaler.update()
         return record
 
 
