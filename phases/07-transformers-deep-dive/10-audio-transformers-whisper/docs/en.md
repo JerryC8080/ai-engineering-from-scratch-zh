@@ -176,7 +176,7 @@ See `outputs/skill-asr-configurator.md`. The skill picks an ASR model, decoding 
 | Mel spectrogram | "Audio image" | 2D representation: frequency bins on one axis, time frames on the other; log-scaled energy per cell. |
 | Log-mel | "What Whisper sees" | Mel spectrogram passed through log; approximates human perception of loudness. |
 | Frame | "One time slice" | A 25 ms window of samples; overlapping at 10 ms stride. |
-| Task token | "Prompt prefix for speech" | Special tokens like `<|transcribe|>` / `<|translate|>` in the decoder prompt. |
+| Task token | "Prompt prefix for speech" | Special tokens like `<\|transcribe\|>` / `<\|translate\|>` in the decoder prompt. |
 | Voice activity detection (VAD) | "Find the speech" | Gate that removes silence before ASR; cuts cost massively. |
 | CTC | "Connectionist Temporal Classification" | Classic ASR loss for alignment-free training; Whisper does NOT use it. |
 | Whisper-turbo | "Small decoder, full encoder" | large-v3 encoder + 4-layer decoder; 8× faster decoding. |
