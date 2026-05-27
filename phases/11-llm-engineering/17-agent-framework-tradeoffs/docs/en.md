@@ -11,7 +11,7 @@
 
 You have a task that needs more than one LLM call. Maybe it is a research workflow (plan, search, summarize, cite). Maybe it is a code-review pipeline (parse diff, critique, patch, validate). Maybe it is a multi-turn assistant that books flights, writes emails, and files expense reports. You pick a framework.
 
-Three days later, you discover the framework's abstractions leak. CrewAI gives you roles but fights you when the "researcher" needs to hand a structured plan to the "writer." AutoGen gives you chat between agents but has no first-class state so your checkpoint is a pickle of a conversation log. LangGraph gives you a state graph but forces you to name every transition before you know what the agent will do. Agno gives you a single-agent primitive that screams when you try to fan out to three concurrent workers.
+Three days later, you discover the framework's abstractions leak. CrewAI gives you roles but fights you when the "researcher" needs to hand a structured plan to the "writer." AutoGen gives you chat between agents but has no first-class state so your checkpoint is a pickle of a conversation log. LangGraph gives you a state graph but forces you to name every transition before you know what the agent will do. Agno gives you a single-agent abstraction that screams when you try to fan out to three concurrent workers.
 
 The fix is not "pick the best framework." It is to match the framework's core abstraction to the shape of your problem. This lesson draws that map.
 
@@ -97,7 +97,7 @@ Refuse to reach for a framework before you can draw the graph, the org chart, th
 | Research / writing pipeline with distinct roles | CrewAI (sequential) or LangGraph subgraphs | Role-per-task is cheap to express in CrewAI; scale up with LangGraph when branching gets complex. |
 | Proposer-critic or teacher-student dialogue | AutoGen | Two-agent chat is its native shape. |
 | Single agent with tools, sessions, memory | Agno | Thinnest setup, built-in storage and memory. |
-| Thousands of parallel fanouts with reducers | LangGraph + `Send` | The only one with a first-class parallel dispatch primitive. |
+| Thousands of parallel fanouts with reducers | LangGraph + `Send` | The only one with a first-class parallel-dispatch API. |
 | Quick prototype, no framework commitment | Plain Python + provider SDK | No framework is the fastest framework. |
 
 ## Exercises
@@ -117,7 +117,7 @@ Refuse to reach for a framework before you can draw the graph, the org chart, th
 | Crew | "A CrewAI team" | Roles + tasks + process (sequential or hierarchical) bound into a single runnable. |
 | GroupChat | "AutoGen's multi-agent chat" | A managed conversation between N agents with a speaker selector. |
 | Team (Agno) | "Multi-agent Agno" | Route / coordinate / collaborate mode over a set of agents. |
-| StateGraph | "LangGraph's graph" | Typed-state, node, conditional-edge, checkpointer primitive. |
+| StateGraph | "LangGraph's graph" | Typed-state, node, conditional-edge, checkpointer abstraction. |
 
 ## Further Reading
 
@@ -126,7 +126,7 @@ Refuse to reach for a framework before you can draw the graph, the org chart, th
 - [AutoGen documentation](https://microsoft.github.io/autogen/) — ConversableAgent, GroupChat, teams, tools.
 - [Agno documentation](https://docs.agno.com/) — Agent, Team, Workflow, storage, memory.
 - [Anthropic — Building effective agents (Dec 2024)](https://www.anthropic.com/research/building-effective-agents) — pattern library (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer) framework-agnostic.
-- [Yao et al., "ReAct: Synergizing Reasoning and Acting" (ICLR 2023)](https://arxiv.org/abs/2210.03629) — the primitive every framework dresses up.
+- [Yao et al., "ReAct: Synergizing Reasoning and Acting" (ICLR 2023)](https://arxiv.org/abs/2210.03629) — the loop every framework dresses up.
 - [Wu et al., "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation" (2023)](https://arxiv.org/abs/2308.08155) — AutoGen's design paper.
 - [Park et al., "Generative Agents: Interactive Simulacra of Human Behavior" (UIST 2023)](https://arxiv.org/abs/2304.03442) — role-play foundation that CrewAI-style persona stacks build on.
 - Phase 11 · 16 (LangGraph) — the framework this lesson benchmarks against.
