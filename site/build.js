@@ -235,12 +235,17 @@ function parseReadme(content, roadmapStatuses) {
   return phases;
 }
 
-// ─── Extract lesson summary + keywords from docs/en.md ───────────────
+// ─── Extract lesson summary + keywords from a lesson doc ─────────────
 /**
- * Single-pass read of a lesson's docs/en.md.
+ * Single-pass read of a lesson's localized doc.
+ *
+ * `lang` selects the source file: 'zh' reads docs/zh.md, anything else
+ * reads docs/en.md.
  *
  * Returns:
  *   summary  — first `> blockquote` line (the lesson's one-liner motto).
+ *              For zh, a leading `> 译注…` (translator note) blockquote
+ *              is skipped so the real motto is used.
  *   keywords — all `### H3` heading texts joined by ' · '.
  *              H3 headings are the densest vocabulary in a lesson doc
  *              (e.g. "Scaled dot-product · Causal masking · KV cache"),
@@ -484,4 +489,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = { extractLessonMetaForLang, extractLessonMeta };
 }
 
-build();
+// 仅在直接运行(node build.js)时执行;被 import 时不触发,避免测试副作用重写 data.js
+if (require.main === module) {
+  build();
+}
