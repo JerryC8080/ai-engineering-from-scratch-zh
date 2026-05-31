@@ -320,10 +320,10 @@
 ## 14-agent-engineering
 
 - [ ] `01-the-agent-loop`
-- [ ] `02-rewoo-plan-and-execute`
+- [x] `02-rewoo-plan-and-execute`
 - [ ] `03-reflexion-verbal-rl`
 - [ ] `04-tree-of-thoughts-lats`
-- [ ] `05-self-refine-and-critic`
+- [x] `05-self-refine-and-critic`
 - [ ] `06-tool-use-and-function-calling`
 - [ ] `07-memory-virtual-context-memgpt`
 - [ ] `08-memory-blocks-sleep-time-compute`
@@ -339,14 +339,14 @@
 - [ ] `18-agno-and-mastra-runtimes`
 - [ ] `19-benchmarks-swebench-gaia`
 - [ ] `20-benchmarks-webarena-osworld`
-- [ ] `21-computer-use-agents`
+- [x] `21-computer-use-agents`
 - [ ] `22-voice-agents-pipecat-livekit`
 - [ ] `23-otel-genai-conventions`
 - [ ] `24-agent-observability-platforms`
 - [ ] `25-multi-agent-debate`
 - [ ] `26-failure-modes-agentic`
 - [ ] `27-prompt-injection-defense`
-- [ ] `28-orchestration-patterns`
+- [x] `28-orchestration-patterns`
 - [ ] `29-production-runtimes`
 - [ ] `30-eval-driven-agent-development`
 - [ ] `31-agent-workbench-why-models-fail`
@@ -358,7 +358,7 @@
 - [ ] `37-runtime-feedback-loops`
 - [ ] `38-verification-gates`
 - [ ] `39-reviewer-agent`
-- [ ] `40-multi-session-handoff`
+- [x] `40-multi-session-handoff`
 - [ ] `41-workbench-for-real-repos`
 - [ ] `42-agent-workbench-capstone`
 
