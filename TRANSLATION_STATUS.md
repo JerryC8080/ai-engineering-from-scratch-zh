@@ -218,104 +218,104 @@
 
 ## 10-llms-from-scratch
 
-- [ ] `01-tokenizers`
-- [ ] `02-building-a-tokenizer`
-- [ ] `03-data-pipelines`
-- [ ] `04-pre-training-mini-gpt`
-- [ ] `05-scaling-distributed`
-- [ ] `06-instruction-tuning-sft`
-- [ ] `07-rlhf`
-- [ ] `08-dpo`
-- [ ] `09-constitutional-ai-self-improvement`
-- [ ] `10-evaluation`
-- [ ] `11-quantization`
-- [ ] `12-inference-optimization`
-- [ ] `13-building-complete-llm-pipeline`
-- [ ] `14-open-models-architecture-walkthroughs`
-- [ ] `15-speculative-decoding-eagle3`
-- [ ] `16-differential-attention-v2`
-- [ ] `17-native-sparse-attention`
-- [ ] `18-multi-token-prediction`
-- [ ] `19-dualpipe-parallelism`
-- [ ] `20-deepseek-v3-walkthrough`
-- [ ] `21-jamba-hybrid-ssm-transformer`
-- [ ] `22-async-hogwild-inference`
-- [ ] `25-speculative-decoding`
-- [ ] `34-gradient-checkpointing`
+- [x] `01-tokenizers`
+- [x] `02-building-a-tokenizer`
+- [x] `03-data-pipelines`
+- [x] `04-pre-training-mini-gpt`
+- [x] `05-scaling-distributed`
+- [x] `06-instruction-tuning-sft`
+- [x] `07-rlhf`
+- [x] `08-dpo`
+- [x] `09-constitutional-ai-self-improvement`
+- [x] `10-evaluation`
+- [x] `11-quantization`
+- [x] `12-inference-optimization`
+- [x] `13-building-complete-llm-pipeline`
+- [x] `14-open-models-architecture-walkthroughs`
+- [x] `15-speculative-decoding-eagle3`
+- [x] `16-differential-attention-v2`
+- [x] `17-native-sparse-attention`
+- [x] `18-multi-token-prediction`
+- [x] `19-dualpipe-parallelism`
+- [x] `20-deepseek-v3-walkthrough`
+- [x] `21-jamba-hybrid-ssm-transformer`
+- [x] `22-async-hogwild-inference`
+- [x] `25-speculative-decoding`
+- [x] `34-gradient-checkpointing`
 
 ## 11-llm-engineering
 
-- [ ] `01-prompt-engineering`
-- [ ] `02-few-shot-cot`
-- [ ] `03-structured-outputs`
-- [ ] `04-embeddings`
-- [ ] `05-context-engineering`
-- [ ] `06-rag`
-- [ ] `07-advanced-rag`
-- [ ] `08-fine-tuning-lora`
-- [ ] `09-function-calling`
-- [ ] `10-evaluation`
-- [ ] `11-caching-cost`
-- [ ] `12-guardrails`
-- [ ] `13-production-app`
-- [ ] `14-model-context-protocol`
-- [ ] `15-prompt-caching`
-- [ ] `16-langgraph-state-machines`
-- [ ] `17-agent-framework-tradeoffs`
+- [x] `01-prompt-engineering`
+- [x] `02-few-shot-cot`
+- [x] `03-structured-outputs`
+- [x] `04-embeddings`
+- [x] `05-context-engineering`
+- [x] `06-rag`
+- [x] `07-advanced-rag`
+- [x] `08-fine-tuning-lora`
+- [x] `09-function-calling`
+- [x] `10-evaluation`
+- [x] `11-caching-cost`
+- [x] `12-guardrails`
+- [x] `13-production-app`
+- [x] `14-model-context-protocol`
+- [x] `15-prompt-caching`
+- [x] `16-langgraph-state-machines`
+- [x] `17-agent-framework-tradeoffs`
 
 ## 12-multimodal-ai
 
-- [ ] `01-vision-transformer-patch-tokens`
-- [ ] `02-clip-contrastive-pretraining`
-- [ ] `03-blip2-qformer-bridge`
-- [ ] `04-flamingo-gated-cross-attention`
-- [ ] `05-llava-visual-instruction-tuning`
-- [ ] `06-any-resolution-patch-n-pack`
-- [ ] `07-open-weight-vlm-recipes`
-- [ ] `08-llava-onevision-single-multi-video`
-- [ ] `09-qwen-vl-family-dynamic-fps`
-- [ ] `10-internvl3-native-multimodal`
-- [ ] `11-chameleon-early-fusion-tokens`
-- [ ] `12-emu3-next-token-for-generation`
-- [ ] `13-transfusion-autoregressive-diffusion`
-- [ ] `14-show-o-discrete-diffusion-unified`
-- [ ] `15-janus-pro-decoupled-encoders`
-- [ ] `16-mio-any-to-any-streaming`
-- [ ] `17-video-language-temporal-grounding`
-- [ ] `18-long-video-million-token`
-- [ ] `19-audio-language-whisper-to-af3`
-- [ ] `20-omni-models-thinker-talker`
-- [ ] `21-embodied-vlas-openvla-pi0-groot`
-- [ ] `22-document-diagram-understanding`
-- [ ] `23-colpali-vision-native-rag`
-- [ ] `24-multimodal-rag-cross-modal`
-- [ ] `25-multimodal-agents-computer-use`
+- [x] `01-vision-transformer-patch-tokens`
+- [x] `02-clip-contrastive-pretraining`
+- [x] `03-blip2-qformer-bridge`
+- [x] `04-flamingo-gated-cross-attention`
+- [x] `05-llava-visual-instruction-tuning`
+- [x] `06-any-resolution-patch-n-pack`
+- [x] `07-open-weight-vlm-recipes`
+- [x] `08-llava-onevision-single-multi-video`
+- [x] `09-qwen-vl-family-dynamic-fps`
+- [x] `10-internvl3-native-multimodal`
+- [x] `11-chameleon-early-fusion-tokens`
+- [x] `12-emu3-next-token-for-generation`
+- [x] `13-transfusion-autoregressive-diffusion`
+- [x] `14-show-o-discrete-diffusion-unified`
+- [x] `15-janus-pro-decoupled-encoders`
+- [x] `16-mio-any-to-any-streaming`
+- [x] `17-video-language-temporal-grounding`
+- [x] `18-long-video-million-token`
+- [x] `19-audio-language-whisper-to-af3`
+- [x] `20-omni-models-thinker-talker`
+- [x] `21-embodied-vlas-openvla-pi0-groot`
+- [x] `22-document-diagram-understanding`
+- [x] `23-colpali-vision-native-rag`
+- [x] `24-multimodal-rag-cross-modal`
+- [x] `25-multimodal-agents-computer-use`
 
 ## 13-tools-and-protocols
 
-- [ ] `01-the-tool-interface`
-- [ ] `02-function-calling-deep-dive`
-- [ ] `03-parallel-and-streaming-tool-calls`
-- [ ] `04-structured-output`
-- [ ] `05-tool-schema-design`
-- [ ] `06-mcp-fundamentals`
-- [ ] `07-building-an-mcp-server`
-- [ ] `08-building-an-mcp-client`
-- [ ] `09-mcp-transports`
-- [ ] `10-mcp-resources-and-prompts`
-- [ ] `11-mcp-sampling`
-- [ ] `12-mcp-roots-and-elicitation`
-- [ ] `13-mcp-async-tasks`
-- [ ] `14-mcp-apps`
-- [ ] `15-mcp-security-tool-poisoning`
-- [ ] `16-mcp-security-oauth-2-1`
-- [ ] `17-mcp-gateways-and-registries`
-- [ ] `18-mcp-auth-production`
-- [ ] `19-a2a-protocol`
-- [ ] `20-opentelemetry-genai`
-- [ ] `21-llm-routing-layer`
-- [ ] `22-skills-and-agent-sdks`
-- [ ] `23-capstone-tool-ecosystem`
+- [x] `01-the-tool-interface`
+- [x] `02-function-calling-deep-dive`
+- [x] `03-parallel-and-streaming-tool-calls`
+- [x] `04-structured-output`
+- [x] `05-tool-schema-design`
+- [x] `06-mcp-fundamentals`
+- [x] `07-building-an-mcp-server`
+- [x] `08-building-an-mcp-client`
+- [x] `09-mcp-transports`
+- [x] `10-mcp-resources-and-prompts`
+- [x] `11-mcp-sampling`
+- [x] `12-mcp-roots-and-elicitation`
+- [x] `13-mcp-async-tasks`
+- [x] `14-mcp-apps`
+- [x] `15-mcp-security-tool-poisoning`
+- [x] `16-mcp-security-oauth-2-1`
+- [x] `17-mcp-gateways-and-registries`
+- [x] `18-mcp-auth-production`
+- [x] `19-a2a-protocol`
+- [x] `20-opentelemetry-genai`
+- [x] `21-llm-routing-layer`
+- [x] `22-skills-and-agent-sdks`
+- [x] `23-capstone-tool-ecosystem`
 
 ## 14-agent-engineering
 
