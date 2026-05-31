@@ -17,6 +17,19 @@ const ROADMAP_PATH = path.join(REPO_ROOT, 'ROADMAP.md');
 const GLOSSARY_PATH = path.join(REPO_ROOT, 'glossary', 'terms.md');
 const OUTPUT_PATH = path.join(__dirname, 'data.js');
 
+const I18N_ZH_DIR = path.join(REPO_ROOT, 'i18n', 'zh');
+
+// Load a sparse zh-overlay JSON; return {} if absent/unreadable so the
+// build degrades gracefully to English-only.
+function loadOverlay(name) {
+  try {
+    const p = path.join(I18N_ZH_DIR, name);
+    return JSON.parse(fs.readFileSync(p, 'utf8'));
+  } catch (_) {
+    return {};
+  }
+}
+
 const GITHUB_BASE = 'https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/';
 
 // ─── Parse ROADMAP.md for lesson statuses ────────────────────────────
@@ -392,6 +405,11 @@ function discoverArtifacts() {
 // ─── Main build ──────────────────────────────────────────────────────
 function build() {
   console.log('📖 Reading source files...');
+
+  const zhPhases    = loadOverlay('phases.json');
+  const zhLessons   = loadOverlay('lessons.json');
+  const zhGlossary  = loadOverlay('glossary.json');
+  const zhArtifacts = loadOverlay('artifacts.json');
 
   const readme = fs.readFileSync(README_PATH, 'utf8');
   const roadmap = fs.readFileSync(ROADMAP_PATH, 'utf8');
