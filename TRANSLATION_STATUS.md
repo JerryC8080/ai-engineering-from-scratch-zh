@@ -83,138 +83,138 @@
 
 ## 04-computer-vision
 
-- [ ] `01-image-fundamentals`
-- [ ] `02-convolutions-from-scratch`
-- [ ] `03-cnns-lenet-to-resnet`
-- [ ] `04-image-classification`
-- [ ] `05-transfer-learning`
-- [ ] `06-object-detection-yolo`
-- [ ] `07-semantic-segmentation-unet`
-- [ ] `08-instance-segmentation-mask-rcnn`
-- [ ] `09-image-generation-gans`
-- [ ] `10-image-generation-diffusion`
-- [ ] `11-stable-diffusion`
-- [ ] `12-video-understanding`
-- [ ] `13-3d-vision-nerf`
-- [ ] `14-vision-transformers`
-- [ ] `15-real-time-edge`
-- [ ] `16-vision-pipeline-capstone`
-- [ ] `17-self-supervised-vision`
-- [ ] `18-open-vocab-clip`
-- [ ] `19-ocr-document-understanding`
-- [ ] `20-image-retrieval-metric`
-- [ ] `21-keypoint-pose`
-- [ ] `22-3d-gaussian-splatting`
-- [ ] `23-diffusion-transformers-rectified-flow`
-- [ ] `24-sam3-open-vocab-segmentation`
-- [ ] `25-vision-language-models`
-- [ ] `26-monocular-depth`
-- [ ] `27-multi-object-tracking`
-- [ ] `28-world-models-video-diffusion`
+- [x] `01-image-fundamentals`
+- [x] `02-convolutions-from-scratch`
+- [x] `03-cnns-lenet-to-resnet`
+- [x] `04-image-classification`
+- [x] `05-transfer-learning`
+- [x] `06-object-detection-yolo`
+- [x] `07-semantic-segmentation-unet`
+- [x] `08-instance-segmentation-mask-rcnn`
+- [x] `09-image-generation-gans`
+- [x] `10-image-generation-diffusion`
+- [x] `11-stable-diffusion`
+- [x] `12-video-understanding`
+- [x] `13-3d-vision-nerf`
+- [x] `14-vision-transformers`
+- [x] `15-real-time-edge`
+- [x] `16-vision-pipeline-capstone`
+- [x] `17-self-supervised-vision`
+- [x] `18-open-vocab-clip`
+- [x] `19-ocr-document-understanding`
+- [x] `20-image-retrieval-metric`
+- [x] `21-keypoint-pose`
+- [x] `22-3d-gaussian-splatting`
+- [x] `23-diffusion-transformers-rectified-flow`
+- [x] `24-sam3-open-vocab-segmentation`
+- [x] `25-vision-language-models`
+- [x] `26-monocular-depth`
+- [x] `27-multi-object-tracking`
+- [x] `28-world-models-video-diffusion`
 
 ## 05-nlp-foundations-to-advanced
 
-- [ ] `01-text-processing`
-- [ ] `02-bag-of-words-tfidf`
-- [ ] `03-word-embeddings-word2vec`
-- [ ] `04-glove-fasttext-subword`
-- [ ] `05-sentiment-analysis`
-- [ ] `06-named-entity-recognition`
-- [ ] `07-pos-tagging-parsing`
-- [ ] `08-cnns-rnns-for-text`
-- [ ] `09-sequence-to-sequence`
-- [ ] `10-attention-mechanism`
-- [ ] `11-machine-translation`
-- [ ] `12-text-summarization`
-- [ ] `13-question-answering`
-- [ ] `14-information-retrieval-search`
-- [ ] `15-topic-modeling`
-- [ ] `16-text-generation-pre-transformer`
-- [ ] `17-chatbots-rule-to-neural`
-- [ ] `18-multilingual-nlp`
-- [ ] `19-subword-tokenization`
-- [ ] `20-structured-outputs-constrained-decoding`
-- [ ] `21-nli-textual-entailment`
-- [ ] `22-embedding-models-deep-dive`
-- [ ] `23-chunking-strategies-rag`
-- [ ] `24-coreference-resolution`
-- [ ] `25-entity-linking`
-- [ ] `26-relation-extraction-kg`
-- [ ] `27-llm-evaluation-frameworks`
-- [ ] `28-long-context-evaluation`
-- [ ] `29-dialogue-state-tracking`
+- [x] `01-text-processing`
+- [x] `02-bag-of-words-tfidf`
+- [x] `03-word-embeddings-word2vec`
+- [x] `04-glove-fasttext-subword`
+- [x] `05-sentiment-analysis`
+- [x] `06-named-entity-recognition`
+- [x] `07-pos-tagging-parsing`
+- [x] `08-cnns-rnns-for-text`
+- [x] `09-sequence-to-sequence`
+- [x] `10-attention-mechanism`
+- [x] `11-machine-translation`
+- [x] `12-text-summarization`
+- [x] `13-question-answering`
+- [x] `14-information-retrieval-search`
+- [x] `15-topic-modeling`
+- [x] `16-text-generation-pre-transformer`
+- [x] `17-chatbots-rule-to-neural`
+- [x] `18-multilingual-nlp`
+- [x] `19-subword-tokenization`
+- [x] `20-structured-outputs-constrained-decoding`
+- [x] `21-nli-textual-entailment`
+- [x] `22-embedding-models-deep-dive`
+- [x] `23-chunking-strategies-rag`
+- [x] `24-coreference-resolution`
+- [x] `25-entity-linking`
+- [x] `26-relation-extraction-kg`
+- [x] `27-llm-evaluation-frameworks`
+- [x] `28-long-context-evaluation`
+- [x] `29-dialogue-state-tracking`
 
 ## 06-speech-and-audio
 
-- [ ] `01-audio-fundamentals`
-- [ ] `02-spectrograms-mel-features`
-- [ ] `03-audio-classification`
-- [ ] `04-speech-recognition-asr`
-- [ ] `05-whisper-architecture-finetuning`
-- [ ] `06-speaker-recognition-verification`
-- [ ] `07-text-to-speech`
-- [ ] `08-voice-cloning-conversion`
-- [ ] `09-music-generation`
-- [ ] `10-audio-language-models`
-- [ ] `11-real-time-audio-processing`
-- [ ] `12-voice-assistant-pipeline`
-- [ ] `13-neural-audio-codecs`
-- [ ] `14-voice-activity-detection-turn-taking`
-- [ ] `15-streaming-speech-to-speech-moshi-hibiki`
-- [ ] `16-anti-spoofing-audio-watermarking`
-- [ ] `17-audio-evaluation-metrics`
+- [x] `01-audio-fundamentals`
+- [x] `02-spectrograms-mel-features`
+- [x] `03-audio-classification`
+- [x] `04-speech-recognition-asr`
+- [x] `05-whisper-architecture-finetuning`
+- [x] `06-speaker-recognition-verification`
+- [x] `07-text-to-speech`
+- [x] `08-voice-cloning-conversion`
+- [x] `09-music-generation`
+- [x] `10-audio-language-models`
+- [x] `11-real-time-audio-processing`
+- [x] `12-voice-assistant-pipeline`
+- [x] `13-neural-audio-codecs`
+- [x] `14-voice-activity-detection-turn-taking`
+- [x] `15-streaming-speech-to-speech-moshi-hibiki`
+- [x] `16-anti-spoofing-audio-watermarking`
+- [x] `17-audio-evaluation-metrics`
 
 ## 07-transformers-deep-dive
 
-- [ ] `01-why-transformers`
-- [ ] `02-self-attention-from-scratch`
-- [ ] `03-multi-head-attention`
-- [ ] `04-positional-encoding`
-- [ ] `05-full-transformer`
-- [ ] `06-bert-masked-language-modeling`
-- [ ] `07-gpt-causal-language-modeling`
-- [ ] `08-t5-bart-encoder-decoder`
-- [ ] `09-vision-transformers`
-- [ ] `10-audio-transformers-whisper`
-- [ ] `11-mixture-of-experts`
-- [ ] `12-kv-cache-flash-attention`
-- [ ] `13-scaling-laws`
-- [ ] `14-build-a-transformer-capstone`
-- [ ] `15-attention-variants`
-- [ ] `16-speculative-decoding`
+- [x] `01-why-transformers`
+- [x] `02-self-attention-from-scratch`
+- [x] `03-multi-head-attention`
+- [x] `04-positional-encoding`
+- [x] `05-full-transformer`
+- [x] `06-bert-masked-language-modeling`
+- [x] `07-gpt-causal-language-modeling`
+- [x] `08-t5-bart-encoder-decoder`
+- [x] `09-vision-transformers`
+- [x] `10-audio-transformers-whisper`
+- [x] `11-mixture-of-experts`
+- [x] `12-kv-cache-flash-attention`
+- [x] `13-scaling-laws`
+- [x] `14-build-a-transformer-capstone`
+- [x] `15-attention-variants`
+- [x] `16-speculative-decoding`
 
 ## 08-generative-ai
 
-- [ ] `01-generative-models-taxonomy-history`
-- [ ] `02-autoencoders-vae`
-- [ ] `03-gans-generator-discriminator`
-- [ ] `04-conditional-gans-pix2pix`
-- [ ] `05-stylegan`
-- [ ] `06-diffusion-ddpm-from-scratch`
-- [ ] `07-latent-diffusion-stable-diffusion`
-- [ ] `08-controlnet-lora-conditioning`
-- [ ] `09-inpainting-outpainting-editing`
-- [ ] `10-video-generation`
-- [ ] `11-audio-generation`
-- [ ] `12-3d-generation`
-- [ ] `13-flow-matching-rectified-flows`
-- [ ] `14-evaluation-fid-clip-score`
-- [ ] `19-visual-autoregressive-var`
+- [x] `01-generative-models-taxonomy-history`
+- [x] `02-autoencoders-vae`
+- [x] `03-gans-generator-discriminator`
+- [x] `04-conditional-gans-pix2pix`
+- [x] `05-stylegan`
+- [x] `06-diffusion-ddpm-from-scratch`
+- [x] `07-latent-diffusion-stable-diffusion`
+- [x] `08-controlnet-lora-conditioning`
+- [x] `09-inpainting-outpainting-editing`
+- [x] `10-video-generation`
+- [x] `11-audio-generation`
+- [x] `12-3d-generation`
+- [x] `13-flow-matching-rectified-flows`
+- [x] `14-evaluation-fid-clip-score`
+- [x] `19-visual-autoregressive-var`
 
 ## 09-reinforcement-learning
 
-- [ ] `01-mdps-states-actions-rewards`
-- [ ] `02-dynamic-programming`
-- [ ] `03-monte-carlo-methods`
-- [ ] `04-q-learning-sarsa`
-- [ ] `05-dqn`
-- [ ] `06-policy-gradients-reinforce`
-- [ ] `07-actor-critic-a2c-a3c`
-- [ ] `08-ppo`
-- [ ] `09-reward-modeling-rlhf`
-- [ ] `10-multi-agent-rl`
-- [ ] `11-sim-to-real-transfer`
-- [ ] `12-rl-for-games`
+- [x] `01-mdps-states-actions-rewards`
+- [x] `02-dynamic-programming`
+- [x] `03-monte-carlo-methods`
+- [x] `04-q-learning-sarsa`
+- [x] `05-dqn`
+- [x] `06-policy-gradients-reinforce`
+- [x] `07-actor-critic-a2c-a3c`
+- [x] `08-ppo`
+- [x] `09-reward-modeling-rlhf`
+- [x] `10-multi-agent-rl`
+- [x] `11-sim-to-real-transfer`
+- [x] `12-rl-for-games`
 
 ## 10-llms-from-scratch
 
