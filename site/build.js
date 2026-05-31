@@ -249,8 +249,9 @@ function parseReadme(content, roadmapStatuses) {
  * Both fields are empty strings when the file is absent or has no
  * matching content — expected for planned lessons with no docs yet.
  */
-function extractLessonMeta(relPath) {
-  const docPath = path.join(REPO_ROOT, relPath, 'docs', 'en.md');
+function extractLessonMetaForLang(relPath, lang) {
+  const file = lang === 'zh' ? 'zh.md' : 'en.md';
+  const docPath = path.join(REPO_ROOT, relPath, 'docs', file);
   const result = { summary: '', keywords: '' };
   try {
     const lines = fs.readFileSync(docPath, 'utf8').split(/\r?\n/);
@@ -259,6 +260,8 @@ function extractLessonMeta(relPath) {
       const line = raw.trim();
       if (!result.summary && line.startsWith('> ') && line.length > 3) {
         const s = line.slice(2).trim();
+        // zh.md 首个引用常是译注("译注：本文译自…"),跳过它,取下一条
+        if (lang === 'zh' && s.startsWith('译注')) continue;
         result.summary = s.length > 180 ? s.slice(0, 177) + '…' : s;
       }
       if (line.startsWith('### ')) {
@@ -268,9 +271,14 @@ function extractLessonMeta(relPath) {
     }
     if (h3s.length) result.keywords = h3s.join(' · ');
   } catch (_) {
-    // File absent or unreadable — expected for planned lessons.
+    // 文件缺失或不可读 —— planned 课程或未翻译的 zh.md,预期内
   }
   return result;
+}
+
+// 向后兼容:保留原签名(英文)供现有调用使用
+function extractLessonMeta(relPath) {
+  return extractLessonMetaForLang(relPath, 'en');
 }
 
 // ─── Parse glossary/terms.md ──────────────────────────────────────────
@@ -469,6 +477,11 @@ const ARTIFACTS = ${JSON.stringify(artifacts, null, 2)};
 
   fs.writeFileSync(OUTPUT_PATH, output, 'utf8');
   console.log(`\n✅ Generated ${OUTPUT_PATH}`);
+}
+
+// 供测试脚本 import;直接 `node build.js` 运行时不受影响
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { extractLessonMetaForLang, extractLessonMeta };
 }
 
 build();
