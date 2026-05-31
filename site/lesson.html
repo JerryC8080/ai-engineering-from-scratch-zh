@@ -1411,6 +1411,12 @@
       padding: 16px 0;
     }
 
+    .lang-toggle {
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+
     .panel-fallback a {
       color: var(--blueprint);
       text-decoration: none;
@@ -1592,6 +1598,9 @@
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
       </button>
+      <button class="theme-toggle lang-toggle" id="langToggle" aria-label="切换语言 / Toggle language" type="button">
+        <span id="langLabel">中</span>
+      </button>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button">
         <span class="theme-icon" id="themeIcon">N</span>
       </button>
@@ -1734,7 +1743,26 @@
       buildSidebar();
       initSidebarToggle();
       initScrollProgress();
+      initLangToggle();
       fetchLesson(lessonPath);
+
+      function initLangToggle() {
+        var btn = document.getElementById('langToggle');
+        var label = document.getElementById('langLabel');
+        if (!btn || !label) return;
+        function paint() {
+          var lang = getLang();
+          // button shows the language you'll switch TO
+          label.textContent = lang === 'zh' ? 'EN' : '中';
+          try { document.documentElement.setAttribute('lang', lang); } catch (e) {}
+        }
+        paint();
+        btn.addEventListener('click', function () {
+          setLang(getLang() === 'zh' ? 'en' : 'zh');
+          paint();
+          fetchLesson(lessonPath);
+        });
+      }
 
       function extractPhaseSlug(phase, index) {
         if (phase.url) {
@@ -1834,33 +1862,91 @@
         }, { passive: true });
       }
 
-      function fetchLesson(path) {
-        var rawUrl = 'https://raw.githubusercontent.com/rohitg00/ai-engineering-from-scratch/main/' + path + '/docs/en.md';
-        var quizUrl = 'https://raw.githubusercontent.com/rohitg00/ai-engineering-from-scratch/main/' + path + '/quiz.json';
+      var LANG_KEY = 'aiefs:lang';
+      var ZH_REPO = 'JerryC8080/ai-engineering-from-scratch';
+      var EN_REPO = 'rohitg00/ai-engineering-from-scratch';
+      function getLang() {
+        try { return localStorage.getItem(LANG_KEY) === 'zh' ? 'zh' : 'en'; }
+        catch (e) { return 'en'; }
+      }
+      function setLang(l) {
+        try { localStorage.setItem(LANG_KEY, l === 'zh' ? 'zh' : 'en'); } catch (e) {}
+      }
 
-        fetch(rawUrl)
-          .then(function (res) {
-            if (!res.ok) throw new Error('fetch-failed');
-            return res.text();
-          })
-          .then(function (md) {
-            try {
-              renderLesson(md);
-            } catch (err) {
-              console.error('renderLesson failed', err);
-              showError('Render error', 'Loaded the lesson markdown but failed to render it. Details in the browser console.');
+      function docFile(lang) {
+        return lang === 'zh' ? 'zh.md' : 'en.md';
+      }
+      function rawDocUrl(path, lang) {
+        var repo = lang === 'zh' ? ZH_REPO : EN_REPO;
+        return 'https://raw.githubusercontent.com/' + repo + '/main/' + path + '/docs/' + docFile(lang);
+      }
+      // Local-first: when served from the repo root the markdown lives next to
+      // the lesson under ../<path>/docs/. Falls back to GitHub raw (e.g. on Vercel
+      // where only site/ is deployed, or if the local file is missing).
+      function docCandidates(path, lang) {
+        return ['../' + path + '/docs/' + docFile(lang), rawDocUrl(path, lang)];
+      }
+
+      // Try each URL in order; resolve with the first body that loads, else reject.
+      function fetchFirst(urls) {
+        var i = 0;
+        function next() {
+          if (i >= urls.length) return Promise.reject(new Error('all-failed'));
+          var url = urls[i++];
+          return fetch(url)
+            .then(function (res) {
+              if (!res.ok) throw new Error('fetch-failed');
+              return res.text();
+            })
+            .catch(function () { return next(); });
+        }
+        return next();
+      }
+
+      function fetchLesson(path) {
+        // quiz is not translated — always load English; local-first then upstream.
+        var quizUrls = ['../' + path + '/quiz.json',
+          'https://raw.githubusercontent.com/' + EN_REPO + '/main/' + path + '/quiz.json'];
+        var lang = getLang();
+
+        function loadQuiz() {
+          fetchFirst(quizUrls)
+            .then(function (txt) { return JSON.parse(txt); })
+            .catch(function () { return null; })
+            .then(function (data) {
+              if (!data) return;
+              try { renderQuiz(data); }
+              catch (err) { console.error('renderQuiz failed', err); }
+            });
+        }
+
+        function onMarkdown(md) {
+          try {
+            renderLesson(md);
+          } catch (err) {
+            console.error('renderLesson failed', err);
+            showError('Render error', 'Loaded the lesson markdown but failed to render it. Details in the browser console.');
+            return;
+          }
+          loadQuiz();
+        }
+
+        function tryFetch(useLang) {
+          return fetchFirst(docCandidates(path, useLang));
+        }
+
+        tryFetch(lang)
+          .then(onMarkdown)
+          .catch(function () {
+            // zh.md may be missing for some lessons — fall back to upstream English
+            if (lang === 'zh') {
+              tryFetch('en')
+                .then(onMarkdown)
+                .catch(function () {
+                  showError('Lesson not found', 'Could not fetch the lesson at <code>' + escapeHtml(path) + '</code>. It may not have been written yet.');
+                });
               return;
             }
-            fetch(quizUrl)
-              .then(function (res) { return res.ok ? res.json() : null; })
-              .catch(function () { return null; })
-              .then(function (data) {
-                if (!data) return;
-                try { renderQuiz(data); }
-                catch (err) { console.error('renderQuiz failed', err); }
-              });
-          })
-          .catch(function () {
             showError('Lesson not found', 'Could not fetch the lesson at <code>' + escapeHtml(path) + '</code>. It may not have been written yet.');
           });
       }
