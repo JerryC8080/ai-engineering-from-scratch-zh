@@ -6,18 +6,18 @@
 
 ## 00-setup-and-tooling
 
-- [ ] `01-dev-environment`
-- [ ] `02-git-and-collaboration`
-- [ ] `03-gpu-setup-and-cloud`
-- [ ] `04-apis-and-keys`
-- [ ] `05-jupyter-notebooks`
-- [ ] `06-python-environments`
-- [ ] `07-docker-for-ai`
-- [ ] `08-editor-setup`
-- [ ] `09-data-management`
-- [ ] `10-terminal-and-shell`
-- [ ] `11-linux-for-ai`
-- [ ] `12-debugging-and-profiling`
+- [x] `01-dev-environment`
+- [x] `02-git-and-collaboration`
+- [x] `03-gpu-setup-and-cloud`
+- [x] `04-apis-and-keys`
+- [x] `05-jupyter-notebooks`
+- [x] `06-python-environments`
+- [x] `07-docker-for-ai`
+- [x] `08-editor-setup`
+- [x] `09-data-management`
+- [x] `10-terminal-and-shell`
+- [x] `11-linux-for-ai`
+- [x] `12-debugging-and-profiling`
 
 ## 01-math-foundations
 
