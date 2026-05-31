@@ -321,6 +321,7 @@
   function closeModal() {
     document.getElementById('modalOverlay').classList.remove('open');
     document.body.style.overflow = '';
+    currentPhaseIdx = -1;  // forget selection so lang-switch / progress repaints skip the hidden modal
   }
 
   function initCopyButton() {
