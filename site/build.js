@@ -30,7 +30,7 @@ function loadOverlay(name) {
   }
 }
 
-const GITHUB_BASE = 'https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/';
+const GITHUB_BASE = 'https://github.com/JerryC8080/ai-engineering-from-scratch-zh/tree/main/';
 
 // ─── Parse ROADMAP.md for lesson statuses ────────────────────────────
 function parseRoadmap(content) {
