@@ -10,8 +10,10 @@
   var LANG_KEY = 'aiefs:lang';
 
   function getLang() {
-    try { return localStorage.getItem(LANG_KEY) === 'zh' ? 'zh' : 'en'; }
-    catch (e) { return 'en'; }
+    // Default to Chinese on this fork. Only an explicit stored 'en'
+    // (user toggled to English) yields English; first visit / no choice → zh.
+    try { return localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'zh'; }
+    catch (e) { return 'zh'; }
   }
   function setLang(l) {
     try { localStorage.setItem(LANG_KEY, l === 'zh' ? 'zh' : 'en'); } catch (e) {}
